@@ -1,3 +1,3 @@
 abstract class ExternalFunctionService {
-  Future<List<int>> getSynthesizedAudio(String text);
+  Future<List<int>> synthesize(String text);
 }

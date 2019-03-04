@@ -106,18 +106,21 @@ class _TextSynthesization extends TextSynthesization {
     @required ExternalFunctionService externalFunctionService,
   })  : assert(dataPersistentService != null),
         assert(externalFunctionService != null) {
-    externalFunctionService.getSynthesizedAudio(text).then((audio) async {
-      _isFetching = false;
-      _isStoring = true;
+    dataPersistentService.getCachedSynthesizationFile(text).then((file) async {
+      if (!await file.exists()) {
+        _isFetching = true;
+        _onChange.add(this);
 
-      _onChange.add(this);
+        final audio = await externalFunctionService.synthesize(text);
 
-      this._file = await dataPersistentService.getReference(text);
+        await file.writeAsBytes(audio);
 
-      await _file.writeAsBytes(audio);
+        _isFetching = false;
+        _onChange.add(this);
+      }
 
-      _isStoring = false;
-
+      _isCached = true;
+      this._file = file;
       _onChange.add(this);
     });
   }
@@ -126,15 +129,12 @@ class _TextSynthesization extends TextSynthesization {
 
   final _onChange = StreamController<TextSynthesization>.broadcast();
 
-  bool _isFetching = true;
+  bool _isCached = false;
+
+  bool _isFetching = false;
 
   @override
-  bool get isFetching => _isFetching;
-
-  bool _isStoring = false;
-
-  @override
-  bool get isStoring => _isStoring;
+  bool get isReadyToPlay => _isCached && !_isFetching;
 
   @override
   Stream<TextSynthesization> get onChange => _onChange.stream;

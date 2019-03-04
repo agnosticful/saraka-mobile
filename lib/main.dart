@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -17,7 +18,9 @@ void main() {
 
   final newCardUsecase = NewCardUsecase(
     dataPersistentService: ApplicationStorageService(),
-    externalFunctionService: FirebaseFunctionService(),
+    externalFunctionService: FirebaseFunctionService(
+      functions: CloudFunctions.instance,
+    ),
   );
 
   runApp(
