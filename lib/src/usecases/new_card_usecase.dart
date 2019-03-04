@@ -10,33 +10,50 @@ class NewCardUsecase {
   NewCardUsecase({
     @required DataPersistentService dataPersistentService,
     @required ExternalFunctionService externalFunctionService,
+    @required RepositoryService repositoryService,
   })  : assert(dataPersistentService != null),
-        _dataPersistentService = dataPersistentService,
         assert(externalFunctionService != null),
-        _externalFunctionService = externalFunctionService;
+        assert(repositoryService != null),
+        _dataPersistentService = dataPersistentService,
+        _externalFunctionService = externalFunctionService,
+        _repositoryService = repositoryService;
 
   final DataPersistentService _dataPersistentService;
 
   final ExternalFunctionService _externalFunctionService;
 
-  NewCard call() => _NewCard(
+  final RepositoryService _repositoryService;
+
+  NewCard call(User user) => _NewCard(
+        user: user,
         dataPersistentService: _dataPersistentService,
         externalFunctionService: _externalFunctionService,
+        repositoryService: _repositoryService,
       );
 }
 
 class _NewCard extends NewCard {
   _NewCard({
+    @required User user,
     @required DataPersistentService dataPersistentService,
     @required ExternalFunctionService externalFunctionService,
-  })  : assert(dataPersistentService != null),
-        _dataPersistentService = dataPersistentService,
+    @required RepositoryService repositoryService,
+  })  : assert(user != null),
+        assert(dataPersistentService != null),
         assert(externalFunctionService != null),
-        _externalFunctionService = externalFunctionService;
+        assert(repositoryService != null),
+        _user = user,
+        _dataPersistentService = dataPersistentService,
+        _externalFunctionService = externalFunctionService,
+        _repositoryService = repositoryService;
+
+  final User _user;
 
   final DataPersistentService _dataPersistentService;
 
   final ExternalFunctionService _externalFunctionService;
+
+  final RepositoryService _repositoryService;
 
   final _onChange = StreamController<NewCard>.broadcast();
 
@@ -53,9 +70,7 @@ class _NewCard extends NewCard {
 
     final previousTextSynthesization = _textSynthesization;
 
-    if (text.length == 0) {
-      _textSynthesization = null;
-    } else {
+    if (isTextValid) {
       final textSynthesization = _TextSynthesization(
         text,
         dataPersistentService: _dataPersistentService,
@@ -67,6 +82,8 @@ class _NewCard extends NewCard {
       });
 
       _textSynthesization = textSynthesization;
+    } else {
+      _textSynthesization = null;
     }
 
     if (previousTextSynthesization != null) {
@@ -92,7 +109,11 @@ class _NewCard extends NewCard {
 
   @override
   Future<void> save() async {
-    print(_text);
+    try {
+      await _repositoryService.addNewCard(user: _user, text: _text);
+    } on CardDuplicationException catch (error) {
+      throw NewCardDuplicationException();
+    }
   }
 
   @override
@@ -106,18 +127,21 @@ class _TextSynthesization extends TextSynthesization {
     @required ExternalFunctionService externalFunctionService,
   })  : assert(dataPersistentService != null),
         assert(externalFunctionService != null) {
-    externalFunctionService.getSynthesizedAudio(text).then((audio) async {
-      _isFetching = false;
-      _isStoring = true;
+    dataPersistentService.getCachedSynthesizationFile(text).then((file) async {
+      if (!await file.exists()) {
+        _isFetching = true;
+        _onChange.add(this);
 
-      _onChange.add(this);
+        final audio = await externalFunctionService.synthesize(text);
 
-      this._file = await dataPersistentService.getReference(text);
+        await file.writeAsBytes(audio);
 
-      await _file.writeAsBytes(audio);
+        _isFetching = false;
+        _onChange.add(this);
+      }
 
-      _isStoring = false;
-
+      _isCached = true;
+      this._file = file;
       _onChange.add(this);
     });
   }
@@ -126,15 +150,12 @@ class _TextSynthesization extends TextSynthesization {
 
   final _onChange = StreamController<TextSynthesization>.broadcast();
 
-  bool _isFetching = true;
+  bool _isCached = false;
+
+  bool _isFetching = false;
 
   @override
-  bool get isFetching => _isFetching;
-
-  bool _isStoring = false;
-
-  @override
-  bool get isStoring => _isStoring;
+  bool get isReadyToPlay => _isCached && !_isFetching;
 
   @override
   Stream<TextSynthesization> get onChange => _onChange.stream;

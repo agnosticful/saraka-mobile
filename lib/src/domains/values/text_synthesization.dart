@@ -1,9 +1,5 @@
 abstract class TextSynthesization {
-  bool get isFetching;
-
-  bool get isStoring;
-
-  bool get isReadyToPlay => isFetching == false && isStoring == false;
+  bool get isReadyToPlay;
 
   Stream<TextSynthesization> get onChange;
 

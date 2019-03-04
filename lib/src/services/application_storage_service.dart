@@ -1,14 +1,17 @@
+import 'dart:convert';
 import 'dart:io' show File;
+import 'package:crypto/crypto.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:saraka/services.dart';
-import 'package:uuid/uuid.dart';
 
 class ApplicationStorageService implements DataPersistentService {
-  Future<File> getReference(String key) async {
-    final documentDirectory = await getApplicationDocumentsDirectory();
-    final filename = Uuid().v5(Uuid.NAMESPACE_NIL, key);
-    final path = join(documentDirectory.path, '$filename');
+  Future<File> getCachedSynthesizationFile(String text) async {
+    final cacheDirectory = await getTemporaryDirectory();
+    final path = join(
+      cacheDirectory.path,
+      sha256.convert(utf8.encode(text)).toString(),
+    );
 
     return File(path);
   }

@@ -54,15 +54,11 @@ class _AuthenticationManagerState extends State<_AuthenticationManager> {
 
     _subscription = widget.authentication.onUserChange.listen((user) {
       if (_user == null && user != null) {
-        print('sign in');
-
         widget.navigatorKey.currentState
             .pushNamedAndRemoveUntil('/signed_in', (_) => false);
       }
 
       if ((isInitialized == false || _user != null) && user == null) {
-        print('sign out');
-
         widget.navigatorKey.currentState
             .pushNamedAndRemoveUntil('/signed_out', (_) => false);
       }

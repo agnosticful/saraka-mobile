@@ -1,5 +1,5 @@
 import 'dart:io';
 
 abstract class DataPersistentService {
-  Future<File> getReference(String key);
+  Future<File> getCachedSynthesizationFile(String text);
 }

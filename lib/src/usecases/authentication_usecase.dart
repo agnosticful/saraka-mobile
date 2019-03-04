@@ -17,7 +17,11 @@ class AuthenticationUsecase {
 
 class _Authentication extends Authentication {
   _Authentication(this._authenticationService)
-      : assert(_authenticationService != null);
+      : assert(_authenticationService != null) {
+    _authenticationService.onUserChange.listen((user) {
+      _user = user;
+    });
+  }
 
   final AuthenticationService _authenticationService;
 
@@ -30,14 +34,8 @@ class _Authentication extends Authentication {
   Stream<User> get onUserChange => _authenticationService.onUserChange;
 
   @override
-  Future<void> signIn() async {
-    _user = await _authenticationService.signIn();
-  }
+  Future<void> signIn() async => _authenticationService.signIn();
 
   @override
-  Future<void> signOut() async {
-    await _authenticationService.signOut();
-
-    _user = null;
-  }
+  Future<void> signOut() async => _authenticationService.signOut();
 }

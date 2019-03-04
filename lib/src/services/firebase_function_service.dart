@@ -1,22 +1,20 @@
-import 'dart:convert' show json;
-import 'package:http/http.dart' as http;
+import 'dart:convert' show base64;
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:meta/meta.dart';
 import 'package:saraka/services.dart';
 
 class FirebaseFunctionService implements ExternalFunctionService {
-  Future<List<int>> getSynthesizedAudio(String text) async {
-    final response = await http.post(
-      new Uri.https(
-        'us-central1-whitfield-io.cloudfunctions.net',
-        '/synthesize',
-      ),
-      headers: {"content-type": "application/json"},
-      body: json.encode({
-        "data": {
-          "text": text,
-        },
-      }),
-    );
+  FirebaseFunctionService({@required CloudFunctions functions})
+      : assert(functions != null),
+        _functions = functions;
 
-    return UriData.parse(json.decode(response.body)['result']).contentAsBytes();
+  final CloudFunctions _functions;
+
+  Future<List<int>> synthesize(String text) async {
+    final audioBase64 = await _functions
+        .call(functionName: 'synthesize', parameters: {"text": text});
+    final audio = base64.decode(audioBase64);
+
+    return audio;
   }
 }

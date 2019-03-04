@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/domains.dart';
 import './add_button.dart';
@@ -13,13 +13,10 @@ class NewCardDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Container(
-          decoration: ShapeDecoration(
-            color: SarakaColors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-          ),
+        child: Material(
+          shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+          color: SarakaColors.white,
+          elevation: 6,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
