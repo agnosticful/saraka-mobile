@@ -27,15 +27,15 @@ void main() {
     ),
   );
 
+  final authentication = authenticationUsecase();
+
   runApp(
     MultiProvider(
       providers: [
-        StatefulProvider<Authentication>(
-          valueBuilder: (context) => authenticationUsecase(),
-        ),
+        Provider<Authentication>(value: authentication),
         Provider<NewCardUsecase>(value: newCardUsecase),
       ],
-      child: Application(),
+      child: Application(authentication: authentication),
     ),
   );
 }
