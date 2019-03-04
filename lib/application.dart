@@ -1,11 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/domains.dart';
 import 'package:saraka/routes.dart';
 
 class Application extends StatefulWidget {
+  Application({
+    @required this.authentication,
+    Key key,
+  })  : assert(authentication != null),
+        super(key: key);
+
+  final Authentication authentication;
+
   @override
   State<StatefulWidget> createState() => _ApplicationState();
 }
@@ -13,33 +20,6 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
-  @override
-  Widget build(BuildContext context) => WidgetsApp(
-        builder: (context, _) => _AuthenticationManager(
-              navigatorKey: _navigatorKey,
-              authentication: Provider.of<Authentication>(context),
-            ),
-        color: SarakaColors.darkCyan,
-      );
-}
-
-class _AuthenticationManager extends StatefulWidget {
-  _AuthenticationManager({
-    Key key,
-    @required this.navigatorKey,
-    @required this.authentication,
-  })  : assert(navigatorKey != null),
-        assert(authentication != null),
-        super(key: key);
-
-  final GlobalKey<NavigatorState> navigatorKey;
-
-  final Authentication authentication;
-
-  State<_AuthenticationManager> createState() => _AuthenticationManagerState();
-}
-
-class _AuthenticationManagerState extends State<_AuthenticationManager> {
   StreamSubscription _subscription;
 
   bool isInitialized = false;
@@ -54,12 +34,12 @@ class _AuthenticationManagerState extends State<_AuthenticationManager> {
 
     _subscription = widget.authentication.onUserChange.listen((user) {
       if (_user == null && user != null) {
-        widget.navigatorKey.currentState
+        _navigatorKey.currentState
             .pushNamedAndRemoveUntil('/signed_in', (_) => false);
       }
 
       if ((isInitialized == false || _user != null) && user == null) {
-        widget.navigatorKey.currentState
+        _navigatorKey.currentState
             .pushNamedAndRemoveUntil('/signed_out', (_) => false);
       }
 
@@ -76,8 +56,14 @@ class _AuthenticationManagerState extends State<_AuthenticationManager> {
   }
 
   @override
-  Widget build(BuildContext context) => Navigator(
-        key: widget.navigatorKey,
+  Widget build(BuildContext context) => WidgetsApp(
+        title: 'Saraka',
+        color: SarakaColors.darkCyan,
+        localizationsDelegates: [
+          DefaultWidgetsLocalizations.delegate,
+          DefaultMaterialLocalizations.delegate,
+        ],
+        navigatorKey: _navigatorKey,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case "/":
