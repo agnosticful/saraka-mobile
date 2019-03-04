@@ -8,18 +8,6 @@ import './new_card_dialog.dart';
 void showNewCardDialog(BuildContext context) {
   showGeneralDialog(
     context: context,
-    pageBuilder: (context, _, __) {
-      final authentication = Provider.of<Authentication>(context);
-
-      return StreamBuilder<User>(
-        stream: authentication.onUserChange,
-        initialData: authentication.user,
-        builder: (context, snapshot) => NewCardDialog(
-              newCard:
-                  Provider.of<NewCardUsecase>(context)(snapshot.requireData),
-            ),
-      );
-    },
     barrierDismissible: true,
     barrierLabel: 'Close',
     barrierColor: SarakaColors.darkBlack.withOpacity(0.666),
@@ -59,5 +47,17 @@ void showNewCardDialog(BuildContext context) {
             ),
           ),
         ),
+    pageBuilder: (context, _, __) {
+      final authentication = Provider.of<Authentication>(context);
+
+      return StreamBuilder<User>(
+        stream: authentication.onUserChange,
+        initialData: authentication.user,
+        builder: (context, snapshot) => NewCardDialog(
+              newCard:
+                  Provider.of<NewCardUsecase>(context)(snapshot.requireData),
+            ),
+      );
+    },
   );
 }

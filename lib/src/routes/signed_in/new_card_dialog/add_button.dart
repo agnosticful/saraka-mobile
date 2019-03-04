@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
 import 'package:saraka/domains.dart';
 
 class AddButton extends StatefulWidget {
@@ -74,15 +73,21 @@ class _AddButtonState extends State<AddButton> {
     );
   }
 
-  void _onPressed(BuildContext context) {
+  void _onPressed(BuildContext context) async {
     assert(widget.newCard.isReadyToSave);
 
     setState(() {
       _isAdding = true;
     });
 
-    widget.newCard.save().then((_) {
+    try {
+      await widget.newCard.save();
+
       Navigator.of(context).pop();
-    });
+    } on NewCardDuplicationException catch (_) {
+      setState(() {
+        _isAdding = false;
+      });
+    }
   }
 }

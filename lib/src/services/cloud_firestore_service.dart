@@ -16,10 +16,17 @@ class CloudFirestoreService implements RepositoryService {
         .collection('users')
         .document(user.id)
         .collection('cards')
-        .document();
+        .document(idify(text));
+
+    if ((await document.get()).exists) {
+      throw new CardDuplicationException(text);
+    }
 
     await document.setData({
       "text": text,
     });
   }
 }
+
+String idify(String text) =>
+    text.toLowerCase().replaceAll(RegExp(r'[^0-9A-Za-z]'), '-');

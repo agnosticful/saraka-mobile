@@ -94,40 +94,6 @@ class _NewCard extends NewCard {
   }
 
   @override
-  bool get isTextValid {
-    if (_text.isEmpty) {
-      return false;
-    }
-
-    for (final codeUnit in _text.codeUnits) {
-      // Space, !, "
-      if (codeUnit >= 32 && codeUnit <= 34) continue;
-
-      // &, ', (, )
-      if (codeUnit >= 38 && codeUnit <= 41) continue;
-
-      // ,, -, .
-      if (codeUnit >= 44 && codeUnit <= 46) continue;
-
-      // 0-9
-      if (codeUnit >= 48 && codeUnit <= 57) continue;
-
-      // ?
-      if (codeUnit == 63) continue;
-
-      // A-Z
-      if (codeUnit >= 65 && codeUnit <= 90) continue;
-
-      // `, a-z
-      if (codeUnit >= 96 && codeUnit <= 122) continue;
-
-      return false;
-    }
-
-    return true;
-  }
-
-  @override
   bool get isReadyToSynthesize =>
       _textSynthesization != null && _textSynthesization.isReadyToPlay;
 
@@ -142,8 +108,13 @@ class _NewCard extends NewCard {
   }
 
   @override
-  Future<void> save() =>
-      _repositoryService.addNewCard(user: _user, text: _text);
+  Future<void> save() async {
+    try {
+      await _repositoryService.addNewCard(user: _user, text: _text);
+    } on CardDuplicationException catch (error) {
+      throw NewCardDuplicationException();
+    }
+  }
 
   @override
   void dispose() => _onChange.close();
