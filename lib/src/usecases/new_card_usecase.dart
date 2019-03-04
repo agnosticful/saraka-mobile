@@ -10,33 +10,50 @@ class NewCardUsecase {
   NewCardUsecase({
     @required DataPersistentService dataPersistentService,
     @required ExternalFunctionService externalFunctionService,
+    @required RepositoryService repositoryService,
   })  : assert(dataPersistentService != null),
-        _dataPersistentService = dataPersistentService,
         assert(externalFunctionService != null),
-        _externalFunctionService = externalFunctionService;
+        assert(repositoryService != null),
+        _dataPersistentService = dataPersistentService,
+        _externalFunctionService = externalFunctionService,
+        _repositoryService = repositoryService;
 
   final DataPersistentService _dataPersistentService;
 
   final ExternalFunctionService _externalFunctionService;
 
-  NewCard call() => _NewCard(
+  final RepositoryService _repositoryService;
+
+  NewCard call(User user) => _NewCard(
+        user: user,
         dataPersistentService: _dataPersistentService,
         externalFunctionService: _externalFunctionService,
+        repositoryService: _repositoryService,
       );
 }
 
 class _NewCard extends NewCard {
   _NewCard({
+    @required User user,
     @required DataPersistentService dataPersistentService,
     @required ExternalFunctionService externalFunctionService,
-  })  : assert(dataPersistentService != null),
-        _dataPersistentService = dataPersistentService,
+    @required RepositoryService repositoryService,
+  })  : assert(user != null),
+        assert(dataPersistentService != null),
         assert(externalFunctionService != null),
-        _externalFunctionService = externalFunctionService;
+        assert(repositoryService != null),
+        _user = user,
+        _dataPersistentService = dataPersistentService,
+        _externalFunctionService = externalFunctionService,
+        _repositoryService = repositoryService;
+
+  final User _user;
 
   final DataPersistentService _dataPersistentService;
 
   final ExternalFunctionService _externalFunctionService;
+
+  final RepositoryService _repositoryService;
 
   final _onChange = StreamController<NewCard>.broadcast();
 
@@ -53,9 +70,7 @@ class _NewCard extends NewCard {
 
     final previousTextSynthesization = _textSynthesization;
 
-    if (text.length == 0) {
-      _textSynthesization = null;
-    } else {
+    if (isTextValid) {
       final textSynthesization = _TextSynthesization(
         text,
         dataPersistentService: _dataPersistentService,
@@ -67,6 +82,8 @@ class _NewCard extends NewCard {
       });
 
       _textSynthesization = textSynthesization;
+    } else {
+      _textSynthesization = null;
     }
 
     if (previousTextSynthesization != null) {
@@ -74,6 +91,40 @@ class _NewCard extends NewCard {
     }
 
     _onChange.add(this);
+  }
+
+  @override
+  bool get isTextValid {
+    if (_text.isEmpty) {
+      return false;
+    }
+
+    for (final codeUnit in _text.codeUnits) {
+      // Space, !, "
+      if (codeUnit >= 32 && codeUnit <= 34) continue;
+
+      // &, ', (, )
+      if (codeUnit >= 38 && codeUnit <= 41) continue;
+
+      // ,, -, .
+      if (codeUnit >= 44 && codeUnit <= 46) continue;
+
+      // 0-9
+      if (codeUnit >= 48 && codeUnit <= 57) continue;
+
+      // ?
+      if (codeUnit == 63) continue;
+
+      // A-Z
+      if (codeUnit >= 65 && codeUnit <= 90) continue;
+
+      // `, a-z
+      if (codeUnit >= 96 && codeUnit <= 122) continue;
+
+      return false;
+    }
+
+    return true;
   }
 
   @override
@@ -91,9 +142,8 @@ class _NewCard extends NewCard {
   }
 
   @override
-  Future<void> save() async {
-    print(_text);
-  }
+  Future<void> save() =>
+      _repositoryService.addNewCard(user: _user, text: _text);
 
   @override
   void dispose() => _onChange.close();

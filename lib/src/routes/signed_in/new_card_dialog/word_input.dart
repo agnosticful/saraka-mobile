@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/domains.dart';
-import 'package:saraka/widgets.dart';
 
 class WordInput extends StatefulWidget {
   WordInput({Key key, @required this.newCard})
@@ -53,68 +52,60 @@ class _WordInputState extends State<WordInput> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Floating(
-        child: Container(
-          decoration: BoxDecoration(
-            color: SarakaColors.darkWhite,
-            borderRadius: BorderRadius.circular(8),
+      elevation: 6,
+      shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+      color: SarakaColors.darkWhite,
+      child: TextField(
+        controller: _controller,
+        decoration: InputDecoration(
+          hintText: 'e.g. get used to',
+          hintStyle: TextStyle(
+            fontSize: 16,
+            fontFamily: SarakaFonts.rubik,
+            color: SarakaColors.darkGray,
           ),
-          child: TextField(
-            controller: _controller,
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(
-              hintText: 'word...',
-              hintStyle: TextStyle(
-                fontSize: 16,
-                fontFamily: SarakaFonts.rubik,
-                color: SarakaColors.darkGray,
-              ),
-              contentPadding: EdgeInsets.only(
-                top: 16,
-                bottom: 16,
-                left: 16,
-              ),
-              border: InputBorder.none,
-              suffixIcon: StreamBuilder<NewCard>(
-                stream: widget.newCard.onChange,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData ||
-                      snapshot.requireData.text.length == 0) {
-                    return Container(width: 0, height: 0);
-                  }
+          contentPadding: EdgeInsets.only(
+            top: 14,
+            bottom: 14,
+            left: 16,
+          ),
+          border: InputBorder.none,
+          suffixIcon: StreamBuilder<NewCard>(
+            stream: widget.newCard.onChange,
+            initialData: widget.newCard,
+            builder: (context, snapshot) {
+              if (!snapshot.requireData.isTextValid) {
+                return Container(width: 0, height: 0);
+              }
 
-                  Icon icon;
-                  VoidCallback onPressed;
+              if (!snapshot.requireData.isReadyToSynthesize) {
+                return Icon(
+                  Feather.getIconData('loader'),
+                  color: SarakaColors.lightGray,
+                );
+              }
 
-                  if (snapshot.requireData.isReadyToSynthesize) {
-                    icon = Icon(Feather.getIconData('volume-2'));
-                    onPressed = _onSoundPressed;
-                  } else {
-                    icon = Icon(Feather.getIconData('loader'));
-                  }
-
-                  return IconButton(
-                    icon: icon,
-                    color: SarakaColors.darkCyan,
-                    disabledColor: SarakaColors.darkGray,
-                    onPressed: onPressed,
-                  );
-                },
-              ),
-            ),
-            style: TextStyle(
-              fontSize: 16.0,
-              fontFamily: SarakaFonts.rubik,
-              color: SarakaColors.darkBlack,
-            ),
-            autofocus: true,
+              return IconButton(
+                icon: Icon(Feather.getIconData('volume-2')),
+                color: SarakaColors.darkCyan,
+                onPressed: _onSoundPressed,
+              );
+            },
           ),
         ),
+        style: TextStyle(
+          fontSize: 16.0,
+          fontFamily: SarakaFonts.rubik,
+          color: SarakaColors.darkBlack,
+        ),
+        autofocus: true,
       ),
     );
   }
 
   void _onSoundPressed() {
-    widget.newCard.synthesize();
+    if (widget.newCard.isTextValid) {
+      widget.newCard.synthesize();
+    }
   }
 }

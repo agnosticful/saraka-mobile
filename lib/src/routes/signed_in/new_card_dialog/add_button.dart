@@ -5,57 +5,84 @@ import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
 import 'package:saraka/domains.dart';
 
-class AddButton extends StatelessWidget {
+class AddButton extends StatefulWidget {
   AddButton({@required this.newCard, Key key})
       : assert(newCard != null),
         super(key: key);
 
   final NewCard newCard;
 
-  @override
-  Widget build(BuildContext context) => Material(
-        child: Floating(
-          child: StreamBuilder<NewCard>(
-            stream: newCard.onChange,
-            initialData: newCard,
-            builder: (context, snapshot) {
-              final backgroundColor = snapshot.requireData.isReadyToSave
-                  ? SarakaColors.darkCyan
-                  : SarakaColors.darkGray;
+  State<AddButton> createState() => _AddButtonState();
+}
 
-              return InkWell(
-                borderRadius: BorderRadius.circular(8),
-                onTap: () => _onPressed(context),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(12, 12, 20, 12),
-                  decoration: BoxDecoration(
-                    color: backgroundColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Feather.getIconData('feather'),
-                        color: SarakaColors.white,
-                        size: 24,
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        'Add',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: SarakaFonts.rubik,
-                          color: SarakaColors.white,
-                        ),
-                      ),
-                    ],
+class _AddButtonState extends State<AddButton> {
+  bool _isAdding = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<NewCard>(
+      stream: widget.newCard.onChange,
+      initialData: widget.newCard,
+      builder: (context, snapshot) => _isAdding
+          ? RaisedButton(
+              shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+              onPressed: null,
+              color: SarakaColors.darkCyan,
+              textColor: SarakaColors.white,
+              splashColor: SarakaColors.lightCyan,
+              // highlightColor: SarakaColors.lightCyan,
+              disabledColor: SarakaColors.lightGray,
+              disabledTextColor: SarakaColors.darkGray,
+              elevation: 6,
+              child: Container(
+                padding: EdgeInsets.all(14),
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation(SarakaColors.darkGray),
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-      );
+              ),
+            )
+          : RaisedButton.icon(
+              shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+              onPressed: snapshot.requireData.isReadyToSave
+                  ? () => _onPressed(context)
+                  : null,
+              icon: Icon(Feather.getIconData('plus')),
+              color: SarakaColors.darkCyan,
+              textColor: SarakaColors.white,
+              splashColor: SarakaColors.lightCyan,
+              // highlightColor: SarakaColors.lightCyan,
+              disabledColor: SarakaColors.lightGray,
+              disabledTextColor: SarakaColors.darkGray,
+              textTheme: ButtonTextTheme.primary,
+              elevation: 6,
+              label: Container(
+                padding: EdgeInsets.symmetric(vertical: 14),
+                child: Text(
+                  'Add',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: SarakaFonts.rubik,
+                  ),
+                ),
+              ),
+            ),
+    );
+  }
 
-  void _onPressed(BuildContext context) {}
+  void _onPressed(BuildContext context) {
+    assert(widget.newCard.isReadyToSave);
+
+    setState(() {
+      _isAdding = true;
+    });
+
+    widget.newCard.save().then((_) {
+      Navigator.of(context).pop();
+    });
+  }
 }

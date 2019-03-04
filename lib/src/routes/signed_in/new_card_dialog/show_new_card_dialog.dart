@@ -1,15 +1,25 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
+import 'package:saraka/domains.dart';
 import 'package:saraka/usecases.dart';
 import './new_card_dialog.dart';
 
 void showNewCardDialog(BuildContext context) {
   showGeneralDialog(
     context: context,
-    pageBuilder: (context, _, __) => NewCardDialog(
-          newCard: Provider.of<NewCardUsecase>(context)(),
-        ),
+    pageBuilder: (context, _, __) {
+      final authentication = Provider.of<Authentication>(context);
+
+      return StreamBuilder<User>(
+        stream: authentication.onUserChange,
+        initialData: authentication.user,
+        builder: (context, snapshot) => NewCardDialog(
+              newCard:
+                  Provider.of<NewCardUsecase>(context)(snapshot.requireData),
+            ),
+      );
+    },
     barrierDismissible: true,
     barrierLabel: 'Close',
     barrierColor: SarakaColors.darkBlack.withOpacity(0.666),
