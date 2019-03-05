@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './home_route/home_route.dart';
+import './study_route/study_route.dart';
 
 class SignedInRoute extends PageRoute {
   SignedInRoute({RouteSettings settings}) : super(settings: settings);
@@ -37,6 +38,8 @@ class SignedInRoute extends PageRoute {
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case '/':
+                return StudyRoute();
+              case '/cards':
                 return HomeRoute();
             }
           },
