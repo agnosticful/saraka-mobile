@@ -15,6 +15,7 @@ class NewCardDialog extends StatelessWidget {
   Widget build(BuildContext context) => Center(
         child: Material(
           shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+          clipBehavior: Clip.antiAlias,
           color: SarakaColors.white,
           elevation: 6,
           child: Padding(
