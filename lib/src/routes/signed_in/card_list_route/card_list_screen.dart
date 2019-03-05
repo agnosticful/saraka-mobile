@@ -8,7 +8,7 @@ import 'package:wave/wave.dart';
 import './new_card_floating_action_button.dart';
 import './card_list_view.dart';
 
-class HomeScreen extends StatelessWidget {
+class CardListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
