@@ -7,6 +7,7 @@ class NewCardFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
+      backgroundColor: SarakaColors.lightRed,
       icon: Icon(Feather.getIconData('plus')),
       label: Text(
         'New Card',
