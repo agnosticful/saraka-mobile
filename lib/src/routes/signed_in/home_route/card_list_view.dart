@@ -28,6 +28,12 @@ class CardListView extends StatelessWidget {
                   fontFamily: SarakaFonts.rubik,
                 ),
               ),
+              leading: Navigator.of(context).canPop()
+                  ? IconButton(
+                      icon: Icon(Feather.getIconData('arrow-left')),
+                      onPressed: () => Navigator.of(context).pop(),
+                    )
+                  : null,
               actions: [
                 IconButton(
                   icon: Icon(Feather.getIconData('log-out')),
