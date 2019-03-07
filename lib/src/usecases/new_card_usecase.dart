@@ -158,6 +158,11 @@ class _TextSynthesization extends TextSynthesization {
   bool get isReadyToPlay => _isCached && !_isFetching;
 
   @override
+  Future<void> get onReadyToPlay => isReadyToPlay
+      ? Future.value(null)
+      : _onChange.stream.firstWhere((_) => isReadyToPlay == true);
+
+  @override
   Stream<TextSynthesization> get onChange => _onChange.stream;
 
   File _file;
