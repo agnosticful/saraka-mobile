@@ -11,9 +11,10 @@ class CardListUsecase {
 
   final RepositoryService _repositoryService;
 
-  CardList call(User user) => _CardList(
+  Future<CardList> call(User user) async => _CardList(
         user: user,
         repositoryService: _repositoryService,
+        cards: await _repositoryService.subscribeCards(user: user).first,
       );
 }
 
@@ -21,8 +22,10 @@ class _CardList extends CardList {
   _CardList({
     @required User user,
     @required RepositoryService repositoryService,
+    @required List<Card> cards,
   })  : assert(user != null),
         assert(repositoryService != null),
+        assert(cards != null),
         _user = user,
         _repositoryService = repositoryService;
 
@@ -30,24 +33,6 @@ class _CardList extends CardList {
 
   final RepositoryService _repositoryService;
 
-  final _onChange = StreamController<CardList>.broadcast();
-
-  final List<Card> _cards = [];
-
-  List<Card> get cards => _cards;
-
-  Stream<CardList> get onChange => _onChange.stream;
-
-  bool _isInitialized = false;
-
-  bool get isInitialized => _isInitialized;
-
-  Future<void> initialize() async {
-    final cards = await _repositoryService.subscribeCards(user: _user).first;
-
-    _cards.addAll(cards);
-    _isInitialized = true;
-
-    _onChange.add(this);
-  }
+  Stream<List<Card>> get cards =>
+      _repositoryService.subscribeCards(user: _user);
 }

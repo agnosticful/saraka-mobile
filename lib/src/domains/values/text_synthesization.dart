@@ -3,6 +3,8 @@ abstract class TextSynthesization {
 
   Stream<TextSynthesization> get onChange;
 
+  Future<void> get onReadyToPlay;
+
   void play();
 
   void dispose();

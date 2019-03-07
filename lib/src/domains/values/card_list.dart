@@ -1,11 +1,11 @@
 import 'package:saraka/domains.dart';
 
 abstract class CardList {
-  List<Card> get cards;
+  Stream<List<Card>> get cards;
 
-  Stream<CardList> get onChange;
+  Stream<Iterable<Card>> get cardsInQueue =>
+      cards.map((_cards) => _cards.where((card) => card.hasToStudy));
 
-  bool get isInitialized;
-
-  Future<void> initialize();
+  Stream<Iterable<Card>> get cardsNotInQueue =>
+      cards.map((_cards) => _cards.where((card) => !card.hasToStudy));
 }

@@ -10,8 +10,14 @@ import 'package:saraka/usecases.dart';
 import './application.dart';
 
 void main() {
+  Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
+
   final repositoryService = CloudFirestoreService(
     firestore: Firestore.instance,
+  );
+  final dataPersistentService = ApplicationStorageService();
+  final externalFunctionService = FirebaseFunctionService(
+    functions: CloudFunctions.instance,
   );
 
   final authenticationUsecase = AuthenticationUsecase(
@@ -24,11 +30,14 @@ void main() {
   final cardListUsecase = CardListUsecase(repositoryService: repositoryService);
 
   final newCardUsecase = NewCardUsecase(
-    dataPersistentService: ApplicationStorageService(),
-    externalFunctionService: FirebaseFunctionService(
-      functions: CloudFunctions.instance,
-    ),
+    dataPersistentService: dataPersistentService,
+    externalFunctionService: externalFunctionService,
     repositoryService: repositoryService,
+  );
+
+  final textSynthesizationUsecase = TextSynthesizationUsecase(
+    dataPersistentService: dataPersistentService,
+    externalFunctionService: externalFunctionService,
   );
 
   final authentication = authenticationUsecase();
@@ -39,6 +48,7 @@ void main() {
         Provider<Authentication>(value: authentication),
         Provider<CardListUsecase>(value: cardListUsecase),
         Provider<NewCardUsecase>(value: newCardUsecase),
+        Provider<TextSynthesizationUsecase>(value: textSynthesizationUsecase),
       ],
       child: Application(authentication: authentication),
     ),

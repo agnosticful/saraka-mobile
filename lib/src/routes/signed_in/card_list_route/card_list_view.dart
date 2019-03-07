@@ -1,90 +1,84 @@
 import 'dart:math' show max;
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show IconButton, SliverAppBar;
+import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/domains.dart';
+import 'package:saraka/usecases.dart';
 import './card_list_view_item.dart';
 
-class CardListView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final cardList = Provider.of<CardList>(context);
-
-    return StreamBuilder<CardList>(
-      stream: cardList.onChange,
-      initialData: cardList,
-      builder: (context, snapshot) {
-        return CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              backgroundColor: Color(0x00000000),
-              iconTheme: IconThemeData(color: SarakaColors.lightBlack),
-              centerTitle: true,
-              title: Text(
-                'Cards',
-                style: TextStyle(
-                  color: SarakaColors.lightBlack,
-                  fontFamily: SarakaFonts.rubik,
-                ),
-              ),
-              leading: Navigator.of(context).canPop()
-                  ? IconButton(
-                      icon: Icon(Feather.getIconData('arrow-left')),
-                      onPressed: () => Navigator.of(context).pop(),
-                    )
-                  : null,
-              actions: [
-                IconButton(
-                  icon: Icon(Feather.getIconData('log-out')),
-                  onPressed: () {
-                    Provider.of<Authentication>(context).signOut();
-                  },
-                ),
-              ],
-            ),
-            SliverPadding(
-              padding: EdgeInsets.fromLTRB(16, 16, 16, 80),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, i) {
-                    return i.isEven
-                        ? CardListViewItem(
-                            card: snapshot.requireData.cards[i ~/ 2])
-                        : SizedBox(height: 16);
-                  },
-                  childCount: max(0, snapshot.requireData.cards.length * 2 - 1),
-                ),
-              ),
-            ),
-          ],
-        );
-
-        // return ListView.separated(
-        //   padding: EdgeInsets.fromLTRB(16, 16, 16, 80),
-        //   itemBuilder: (context, i) =>
-        //       CardListViewItem(card: snapshot.requireData.cards[i]),
-        //   separatorBuilder: (context, i) => SizedBox(
-        //         height: 16,
-        //       ),
-        //   itemCount: snapshot.requireData.cards.length,
-        // );
-      },
-    );
-  }
+class CardListView extends StatefulWidget {
+  State<CardListView> createState() => _CardListViewState();
 }
 
-// class CardList extends StatefulWidget {
-//   CardList({Key key}) : super(key: key);
+class _CardListViewState extends State<CardListView> {
+  CardList _cardList;
 
-//   _CardListState createState() => _CardListState();
-// }
+  @override
+  void initState() {
+    super.initState();
 
-// class _CardListState extends State<CardList> {
-//   final CardList _cardList;
+    Future.delayed(Duration.zero, () async {
+      final authentication = Provider.of<Authentication>(context);
+      final cardListUsecase = Provider.of<CardListUsecase>(context);
+      final cardList = await cardListUsecase(authentication.user);
 
-//   @override
-//   Widget build(BuildContext context) {
+      setState(() {
+        _cardList = cardList;
+      });
+    });
+  }
 
-//   }
-// }
+  @override
+  Widget build(BuildContext context) => _cardList == null
+      ? Container()
+      : StreamBuilder<List<Card>>(
+          stream: _cardList.cards,
+          initialData: [],
+          builder: (context, snapshot) => CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    backgroundColor: Color(0x00000000),
+                    iconTheme: IconThemeData(color: SarakaColors.lightBlack),
+                    centerTitle: true,
+                    title: Text(
+                      'Cards',
+                      style: TextStyle(
+                        color: SarakaColors.lightBlack,
+                        fontFamily: SarakaFonts.rubik,
+                      ),
+                    ),
+                    leading: Navigator.of(context).canPop()
+                        ? IconButton(
+                            icon: Icon(Feather.getIconData('arrow-left')),
+                            onPressed: () => Navigator.of(context).pop(),
+                          )
+                        : null,
+                    actions: [
+                      IconButton(
+                        icon: Icon(Feather.getIconData('log-out')),
+                        onPressed: () {
+                          Provider.of<Authentication>(context).signOut();
+                        },
+                      ),
+                    ],
+                  ),
+                  SliverPadding(
+                    padding: EdgeInsets.fromLTRB(16, 16, 16, 80),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, i) {
+                          return i.isEven
+                              ? CardListViewItem(
+                                  card: snapshot.requireData[i ~/ 2])
+                              : SizedBox(height: 16);
+                        },
+                        childCount: max(0, snapshot.requireData.length * 2 - 1),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+        );
+}
