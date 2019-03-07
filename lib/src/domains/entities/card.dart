@@ -1,8 +1,6 @@
 import 'package:saraka/domains.dart';
 
-abstract class Card {
-  String get id;
-
+abstract class Card with Identifiable<Card, String> {
   String get text;
 
   DateTime get lastLearnedAt;
@@ -23,10 +21,4 @@ abstract class Card {
   Future<void> logLearning(LearningCertainty certainty, Duration interval);
 
   Future<void> undoLearning();
-
-  @override
-  operator ==(Object other) => other is Card && other.id == id;
-
-  @override
-  int get hashCode => id.hashCode;
 }

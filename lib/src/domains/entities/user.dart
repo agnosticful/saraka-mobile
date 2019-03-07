@@ -1,9 +1,3 @@
-abstract class User {
-  String id;
+import 'package:saraka/domains.dart';
 
-  @override
-  operator ==(Object other) => other is User && other.id == id;
-
-  @override
-  int get hashCode => id.hashCode;
-}
+abstract class User with Identifiable<Card, String> {}
