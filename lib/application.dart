@@ -1,18 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/domains.dart';
 import 'package:saraka/routes.dart';
 
 class Application extends StatefulWidget {
-  Application({
-    @required this.authentication,
-    Key key,
-  })  : assert(authentication != null),
-        super(key: key);
-
-  final Authentication authentication;
-
   @override
   State<StatefulWidget> createState() => _ApplicationState();
 }
@@ -30,21 +23,26 @@ class _ApplicationState extends State<Application> {
   void initState() {
     super.initState();
 
-    _user = widget.authentication.user;
+    Future.delayed(Duration.zero, () {
+      final authenticationBloc = Provider.of<AuthenticationBloc>(context);
 
-    _subscription = widget.authentication.onUserChange.listen((user) {
-      if (_user == null && user != null) {
-        _navigatorKey.currentState
-            .pushNamedAndRemoveUntil('/signed_in', (_) => false);
-      }
+      _user = authenticationBloc.user.value;
 
-      if ((isInitialized == false || _user != null) && user == null) {
-        _navigatorKey.currentState
-            .pushNamedAndRemoveUntil('/signed_out', (_) => false);
-      }
+      _subscription = authenticationBloc.user.listen((user) {
+        if (_user == null && user != null) {
+          _navigatorKey.currentState
+              .pushNamedAndRemoveUntil('/signed_in', (_) => false);
+        }
 
-      isInitialized = true;
-      _user = user;
+        if ((isInitialized == false || _user != null) && user == null) {
+          _navigatorKey.currentState
+              .pushNamedAndRemoveUntil('/signed_out', (_) => false);
+        }
+
+        isInitialized = true;
+
+        _user = user;
+      });
     });
   }
 
@@ -52,7 +50,9 @@ class _ApplicationState extends State<Application> {
   void deactivate() {
     super.deactivate();
 
-    _subscription.cancel();
+    if (_subscription != null) {
+      _subscription.cancel();
+    }
   }
 
   @override

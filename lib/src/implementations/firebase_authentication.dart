@@ -1,29 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
-import 'package:saraka/domains.dart';
-import 'package:saraka/services.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:saraka/blocs.dart';
 
-class FirebaseAuthenticationService implements AuthenticationService {
-  FirebaseAuthenticationService({
+class FirebaseAuthentication implements Authenticatable, Signable {
+  FirebaseAuthentication({
     @required FirebaseAuth firebaseAuth,
     @required GoogleSignIn googleSignIn,
   })  : assert(firebaseAuth != null),
         assert(googleSignIn != null),
         _firebaseAuth = firebaseAuth,
-        _googleSignIn = googleSignIn;
+        _googleSignIn = googleSignIn {
+    _firebaseAuth.onAuthStateChanged.listen((fUser) {
+      _user.add(fUser == null ? null : _User(id: fUser.uid));
+    });
+  }
 
   final FirebaseAuth _firebaseAuth;
 
   final GoogleSignIn _googleSignIn;
 
-  @override
-  Stream<User> get onUserChange =>
-      _firebaseAuth.onAuthStateChanged.map((firebaseUser) =>
-          firebaseUser != null ? _FirebaseUser(firebaseUser) : null);
+  final _user = BehaviorSubject<User>();
 
   @override
-  Future<User> signIn() async {
+  ValueObservable<User> get user => _user;
+
+  @override
+  Future<void> signIn() async {
     final googleUser = await _googleSignIn.signIn();
     final googleAuthentication = await googleUser.authentication;
 
@@ -32,19 +36,15 @@ class FirebaseAuthenticationService implements AuthenticationService {
       idToken: googleAuthentication.idToken,
     );
 
-    final firebaseUser = await _firebaseAuth.signInWithCredential(credential);
-
-    return _FirebaseUser(firebaseUser);
+    await _firebaseAuth.signInWithCredential(credential);
   }
 
   @override
   Future<void> signOut() async => _firebaseAuth.signOut();
 }
 
-class _FirebaseUser extends User {
-  _FirebaseUser(FirebaseUser firebaseUser)
-      : assert(firebaseUser != null),
-        id = firebaseUser.uid;
+class _User extends User {
+  _User({@required this.id}) : assert(id != null);
 
   final String id;
 }

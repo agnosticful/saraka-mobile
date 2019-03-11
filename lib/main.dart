@@ -4,53 +4,69 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/domains.dart';
-import 'package:saraka/services.dart';
-import 'package:saraka/usecases.dart';
+import 'package:saraka/blocs.dart';
+import 'package:saraka/implementations.dart';
 import './application.dart';
 
 void main() {
   Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
 
-  final repositoryService = CloudFirestoreService(
+  final authentication = FirebaseAuthentication(
+    firebaseAuth: FirebaseAuth.instance,
+    googleSignIn: GoogleSignIn(),
+  );
+
+  final cacheStorage = CacheStorage();
+
+  final cardRepository = FirestoreCardRepository(
     firestore: Firestore.instance,
   );
-  final dataPersistentService = ApplicationStorageService();
-  final externalFunctionService = FirebaseFunctionService(
-    functions: CloudFunctions.instance,
+
+  final firebaseExternalFunctions = FirebaseExternalFunctions(
+    cloudFunctions: CloudFunctions.instance,
   );
 
-  final authenticationUsecase = AuthenticationUsecase(
-    authenticationService: FirebaseAuthenticationService(
-      firebaseAuth: FirebaseAuth.instance,
-      googleSignIn: GoogleSignIn(),
-    ),
+  final soundPlayer = SoundPlayer();
+
+  final authenticationBlocFactory = AuthenticationBlocFactory(
+    authenticatable: authentication,
+    signable: authentication,
   );
 
-  final cardListUsecase = CardListUsecase(repositoryService: repositoryService);
-
-  final newCardUsecase = NewCardUsecase(
-    dataPersistentService: dataPersistentService,
-    externalFunctionService: externalFunctionService,
-    repositoryService: repositoryService,
+  final cardAdderBlocFactory = CardAdderBlocFactory(
+    authenticatable: authentication,
+    cardAddable: cardRepository,
   );
 
-  final textSynthesizationUsecase = TextSynthesizationUsecase(
-    dataPersistentService: dataPersistentService,
-    externalFunctionService: externalFunctionService,
+  final cardLearningBlocFactory = CardLearningBlocFactory(
+    authenticatable: authentication,
+    cardLearnable: cardRepository,
+    cardSubscribable: cardRepository,
   );
 
-  final authentication = authenticationUsecase();
+  final cardListBlocFactory = CardListBlocFactory(
+    authenticatable: authentication,
+    cardSubscribable: cardRepository,
+  );
+
+  final synthesizerBlocFactory = SynthesizerBlocFactory(
+    soundFilePlayable: soundPlayer,
+    synthesizable: firebaseExternalFunctions,
+    synthesizedSoundFileReferable: cacheStorage,
+  );
+
+  final authenticationBloc = authenticationBlocFactory.create();
 
   runApp(
     MultiProvider(
       providers: [
-        Provider<Authentication>(value: authentication),
-        Provider<CardListUsecase>(value: cardListUsecase),
-        Provider<NewCardUsecase>(value: newCardUsecase),
-        Provider<TextSynthesizationUsecase>(value: textSynthesizationUsecase),
+        Provider<CardAdderBlocFactory>(value: cardAdderBlocFactory),
+        Provider<CardLearningBlocFactory>(value: cardLearningBlocFactory),
+        Provider<CardListBlocFactory>(value: cardListBlocFactory),
+        Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
+        Provider<AuthenticationBloc>(value: authenticationBloc),
       ],
-      child: Application(authentication: authentication),
+      child: Application(),
     ),
   );
 }
