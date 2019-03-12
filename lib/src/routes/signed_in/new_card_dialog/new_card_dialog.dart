@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/domains.dart';
 import './add_button.dart';
 import './word_input.dart';
 
 class NewCardDialog extends StatelessWidget {
-  NewCardDialog({Key key, @required this.newCard})
-      : assert(newCard != null),
-        super(key: key);
-
-  final NewCard newCard;
-
   @override
   Widget build(BuildContext context) => Center(
         child: Material(
@@ -39,10 +32,10 @@ class NewCardDialog extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: WordInput(newCard: newCard),
+                      child: WordInput(),
                     ),
                     SizedBox(width: 16),
-                    AddButton(newCard: newCard),
+                    AddButton(),
                   ],
                 ),
               ],
@@ -51,5 +44,3 @@ class NewCardDialog extends StatelessWidget {
         ),
       );
 }
-
-typedef Listener = void Function();

@@ -8,13 +8,7 @@ import './back_button.dart';
 import './card_bundle.dart';
 import './progress_indicator.dart';
 
-class StudyScreen extends StatefulWidget {
-  StudyScreen({Key key}) : super(key: key);
-
-  State<StudyScreen> createState() => _StudyScreenState();
-}
-
-class _StudyScreenState extends State<StudyScreen> {
+class StudyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Stack(
         children: [

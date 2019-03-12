@@ -3,9 +3,8 @@ import 'package:flutter/material.dart' show InkWell, Material;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/domains.dart';
-import 'package:saraka/usecases.dart';
 
 const _VERTICAL_PADDING = 16.0;
 const _HORIZONTAL_PADDING = 16.0;
@@ -35,7 +34,8 @@ class _DraggableCardState extends State<DraggableCard>
   AnimationController slideBackAnimation;
   Tween<Offset> slideOutTween;
   AnimationController slideOutAnimation;
-  TextSynthesization _textSynthesization;
+  CardLearningBloc _cardLearningBloc;
+  SynthesizerBloc _synthesizerBloc;
 
   @override
   void initState() {
@@ -72,28 +72,25 @@ class _DraggableCardState extends State<DraggableCard>
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           if (cardOffset.dx < 0) {
-            widget.card.markLearned(LearningCertainty.vague);
+            _cardLearningBloc.learnedVaguely(widget.card);
           } else {
-            widget.card.markLearned(LearningCertainty.good);
+            _cardLearningBloc.learnedWell(widget.card);
           }
         }
       });
 
     Future.delayed(Duration.zero, () async {
-      final textSynthesization = await Provider.of<TextSynthesizationUsecase>(
-          context)(widget.card.text);
-
-      setState(() {
-        _textSynthesization = textSynthesization;
-      });
+      final cardLearningBloc = Provider.of<CardLearningBloc>(context);
+      final synthesizerBloc = Provider.of<SynthesizerBloc>(context);
 
       if (widget.cardsInFront == 0) {
-        _textSynthesization.onReadyToPlay.then((_) {
-          print(_textSynthesization.isReadyToPlay);
-
-          _textSynthesization.play();
-        });
+        synthesizerBloc.play(widget.card.text);
       }
+
+      setState(() {
+        _cardLearningBloc = cardLearningBloc;
+        _synthesizerBloc = synthesizerBloc;
+      });
     });
   }
 
@@ -101,12 +98,8 @@ class _DraggableCardState extends State<DraggableCard>
   void didUpdateWidget(DraggableCard oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.cardsInFront == 0) {
-      _textSynthesization.onReadyToPlay.then((_) {
-        print(_textSynthesization.isReadyToPlay);
-
-        _textSynthesization.play();
-      });
+    if (oldWidget.cardsInFront != 0 && widget.cardsInFront == 0) {
+      _synthesizerBloc.play(widget.card.text);
     }
   }
 
@@ -159,10 +152,7 @@ class _DraggableCardState extends State<DraggableCard>
                   onPanEnd: _onPanEnd,
                   onPanUpdate: _onPanUpdate,
                   child: InkWell(
-                    onTap: _textSynthesization != null &&
-                            _textSynthesization.isReadyToPlay
-                        ? _onTap
-                        : null,
+                    onTap: _onTap,
                     child: cardContent,
                   ),
                 )
@@ -221,9 +211,6 @@ class _DraggableCardState extends State<DraggableCard>
   }
 
   void _onTap() {
-    assert(_textSynthesization != null);
-    assert(_textSynthesization.isReadyToPlay);
-
-    _textSynthesization.play();
+    _synthesizerBloc.play(widget.card.text);
   }
 }

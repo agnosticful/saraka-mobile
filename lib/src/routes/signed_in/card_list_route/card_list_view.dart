@@ -3,9 +3,8 @@ import 'package:flutter/material.dart' show IconButton, SliverAppBar;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/domains.dart';
-import 'package:saraka/usecases.dart';
 import './card_list_view_item.dart';
 
 class CardListView extends StatefulWidget {
@@ -13,28 +12,26 @@ class CardListView extends StatefulWidget {
 }
 
 class _CardListViewState extends State<CardListView> {
-  CardList _cardList;
+  CardListBloc _cardListBloc;
 
   @override
   void initState() {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
-      final authentication = Provider.of<Authentication>(context);
-      final cardListUsecase = Provider.of<CardListUsecase>(context);
-      final cardList = await cardListUsecase(authentication.user);
+      final cardListBloc = Provider.of<CardListBloc>(context);
 
       setState(() {
-        _cardList = cardList;
+        _cardListBloc = cardListBloc;
       });
     });
   }
 
   @override
-  Widget build(BuildContext context) => _cardList == null
+  Widget build(BuildContext context) => _cardListBloc == null
       ? Container()
       : StreamBuilder<List<Card>>(
-          stream: _cardList.cards,
+          stream: _cardListBloc.cards.map((iter) => iter.toList()),
           initialData: [],
           builder: (context, snapshot) => CustomScrollView(
                 slivers: [
@@ -58,9 +55,7 @@ class _CardListViewState extends State<CardListView> {
                     actions: [
                       IconButton(
                         icon: Icon(Feather.getIconData('log-out')),
-                        onPressed: () {
-                          Provider.of<Authentication>(context).signOut();
-                        },
+                        onPressed: () => _onSignOutPressed(context),
                       ),
                     ],
                   ),
@@ -81,4 +76,8 @@ class _CardListViewState extends State<CardListView> {
                 ],
               ),
         );
+
+  void _onSignOutPressed(BuildContext context) {
+    Provider.of<AuthenticationBloc>(context).signOut();
+  }
 }
