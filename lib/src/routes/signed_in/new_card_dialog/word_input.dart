@@ -1,17 +1,11 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/domains.dart';
+import './synthesize_button.dart';
 
 class WordInput extends StatefulWidget {
-  WordInput({Key key, @required this.newCard})
-      : assert(newCard != null),
-        super(key: key);
-
-  final NewCard newCard;
-
   @override
   State<StatefulWidget> createState() => _WordInputState();
 }
@@ -21,30 +15,24 @@ class _WordInputState extends State<WordInput> {
 
   VoidCallback _listener;
 
-  Timer _timer;
-
   @override
   void initState() {
     super.initState();
 
-    _listener = () {
-      if (_timer != null) {
-        _timer.cancel();
-      }
+    Future.delayed(Duration.zero, () {
+      final cardAdderBloc = Provider.of<CardAdderBloc>(context);
 
-      _timer = Timer(Duration(milliseconds: 500), () {
-        widget.newCard.text = _controller.text;
+      _listener = () {
+        cardAdderBloc.setText(_controller.value.text);
+      };
 
-        _timer = null;
-      });
-    };
-
-    _controller.addListener(_listener);
+      _controller.addListener(_listener);
+    });
   }
 
   @override
-  void deactivate() {
-    super.deactivate();
+  void dispose() {
+    super.dispose();
 
     _controller.removeListener(_listener);
   }
@@ -70,28 +58,7 @@ class _WordInputState extends State<WordInput> {
             left: 16,
           ),
           border: InputBorder.none,
-          suffixIcon: StreamBuilder<NewCard>(
-            stream: widget.newCard.onChange,
-            initialData: widget.newCard,
-            builder: (context, snapshot) {
-              if (!snapshot.requireData.isTextValid) {
-                return Container(width: 0, height: 0);
-              }
-
-              if (!snapshot.requireData.isReadyToSynthesize) {
-                return Icon(
-                  Feather.getIconData('loader'),
-                  color: SarakaColors.lightGray,
-                );
-              }
-
-              return IconButton(
-                icon: Icon(Feather.getIconData('volume-2')),
-                color: SarakaColors.darkCyan,
-                onPressed: _onSoundPressed,
-              );
-            },
-          ),
+          suffixIcon: SynthesizeButton(),
         ),
         style: TextStyle(
           fontSize: 16.0,
@@ -101,11 +68,5 @@ class _WordInputState extends State<WordInput> {
         autofocus: true,
       ),
     );
-  }
-
-  void _onSoundPressed() {
-    if (widget.newCard.isTextValid) {
-      widget.newCard.synthesize();
-    }
   }
 }

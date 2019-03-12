@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/domains.dart';
-import 'package:saraka/usecases.dart';
+import 'package:saraka/blocs.dart';
 import './draggable_card.dart';
 
 class CardBundle extends StatefulWidget {
@@ -9,28 +8,26 @@ class CardBundle extends StatefulWidget {
 }
 
 class _CardBundleState extends State<CardBundle> {
-  CardList _cardList;
+  CardLearningBloc _cardLearningBloc;
 
   @override
   void initState() {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
-      final authentication = Provider.of<Authentication>(context);
-      final cardListUsecase = Provider.of<CardListUsecase>(context);
-      final cardList = await cardListUsecase(authentication.user);
+      final cardLearningBloc = Provider.of<CardLearningBloc>(context);
 
       setState(() {
-        _cardList = cardList;
+        _cardLearningBloc = cardLearningBloc;
       });
     });
   }
 
   @override
-  Widget build(BuildContext context) => _cardList == null
+  Widget build(BuildContext context) => _cardLearningBloc == null
       ? Container()
       : StreamBuilder<Iterable<Card>>(
-          stream: _cardList.cardsInQueue,
+          stream: _cardLearningBloc.cards,
           initialData: [],
           builder: (context, snapshot) {
             final children = <Widget>[];

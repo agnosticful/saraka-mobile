@@ -1,12 +1,13 @@
-import 'dart:convert';
+import 'dart:convert' show utf8;
 import 'dart:io' show File;
-import 'package:crypto/crypto.dart';
+import 'package:crypto/crypto.dart' show sha256;
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-import 'package:saraka/services.dart';
+import 'package:saraka/blocs.dart';
 
-class ApplicationStorageService implements DataPersistentService {
-  Future<File> getCachedSynthesizationFile(String text) async {
+class CacheStorage implements SynthesizedSoundFileReferable {
+  @override
+  Future<File> referSynthesizedSoundFile(String text) async {
     final cacheDirectory = await getTemporaryDirectory();
     final path = join(
       cacheDirectory.path,

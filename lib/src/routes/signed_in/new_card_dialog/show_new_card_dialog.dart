@@ -1,8 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/domains.dart';
-import 'package:saraka/usecases.dart';
 import './new_card_dialog.dart';
 
 void showNewCardDialog(BuildContext context) {
@@ -47,17 +46,22 @@ void showNewCardDialog(BuildContext context) {
             ),
           ),
         ),
-    pageBuilder: (context, _, __) {
-      final authentication = Provider.of<Authentication>(context);
-
-      return StreamBuilder<User>(
-        stream: authentication.onUserChange,
-        initialData: authentication.user,
-        builder: (context, snapshot) => NewCardDialog(
-              newCard:
-                  Provider.of<NewCardUsecase>(context)(snapshot.requireData),
+    pageBuilder: (context, _, __) => MultiProvider(
+          providers: [
+            StatefulProvider<CardListBloc>(
+              valueBuilder: (_) =>
+                  Provider.of<CardListBlocFactory>(context).create(),
             ),
-      );
-    },
+            StatefulProvider<CardAdderBloc>(
+              valueBuilder: (_) =>
+                  Provider.of<CardAdderBlocFactory>(context).create(),
+            ),
+            StatefulProvider<SynthesizerBloc>(
+              valueBuilder: (_) =>
+                  Provider.of<SynthesizerBlocFactory>(context).create(),
+            ),
+          ],
+          child: NewCardDialog(),
+        ),
   );
 }

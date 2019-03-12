@@ -1,8 +1,7 @@
-import 'dart:ui';
 import 'package:flutter/material.dart' show InkWell, Material;
 import 'package:flutter/widgets.dart';
+import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/domains.dart';
 
 class CardListViewItem extends StatelessWidget {
   CardListViewItem({Key key, @required this.card})
