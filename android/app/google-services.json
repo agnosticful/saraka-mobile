@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "183263712868-vbe1mjv74u1abee4an0us9fiss20iqtj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.axross.saraka",
+            "certificate_hash": "7a6e89d4514f70c7a0e29d7a6aa5d1dfec90c522"
+          }
+        },
+        {
           "client_id": "183263712868-ukapk4v3jd4umgg0v9r00fka9qmi72nf.apps.googleusercontent.com",
           "client_type": 3
         }
