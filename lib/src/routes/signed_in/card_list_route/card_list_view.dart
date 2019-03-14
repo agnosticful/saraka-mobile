@@ -52,12 +52,6 @@ class _CardListViewState extends State<CardListView> {
                             onPressed: () => Navigator.of(context).pop(),
                           )
                         : null,
-                    actions: [
-                      IconButton(
-                        icon: Icon(Feather.getIconData('log-out')),
-                        onPressed: () => _onSignOutPressed(context),
-                      ),
-                    ],
                   ),
                   SliverPadding(
                     padding: EdgeInsets.fromLTRB(16, 16, 16, 80),

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart' show AppBar, IconButton, Scaffold;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
+import 'package:saraka/widgets.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 import './back_button.dart';
 import './card_bundle.dart';
+import './main_drawer.dart';
 import './progress_indicator.dart';
 
 class StudyScreen extends StatelessWidget {
@@ -53,29 +55,35 @@ class StudyScreen extends StatelessWidget {
                   onPressed: () => Navigator.of(context).pushNamed('/cards'),
                 ),
               ],
+              leading: FeatherDrawerButton(),
             ),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            drawer: MainDrawer(),
+            body: Stack(
               children: [
-                Container(
-                  padding: EdgeInsets.all(16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      BackButton(),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: ProgressIndicator(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          BackButton(),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: ProgressIndicator(),
+                          ),
+                          SizedBox(width: 16),
+                        ],
                       ),
-                      SizedBox(width: 16),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+                CardBundle(),
               ],
             ),
           ),
-          CardBundle(),
         ],
       );
 }

@@ -13,7 +13,16 @@ class FirebaseAuthentication implements Authenticatable, Signable {
         _firebaseAuth = firebaseAuth,
         _googleSignIn = googleSignIn {
     _firebaseAuth.onAuthStateChanged.listen((fUser) {
-      _user.add(fUser == null ? null : _User(id: fUser.uid));
+      _user.add(
+        fUser == null
+            ? null
+            : _User(
+                id: fUser.uid,
+                name: fUser.displayName,
+                email: fUser.email,
+                imageUrl: Uri.parse(fUser.photoUrl),
+              ),
+      );
     });
   }
 
@@ -44,7 +53,21 @@ class FirebaseAuthentication implements Authenticatable, Signable {
 }
 
 class _User extends User {
-  _User({@required this.id}) : assert(id != null);
+  _User({
+    @required this.id,
+    @required this.name,
+    @required this.email,
+    @required this.imageUrl,
+  })  : assert(id != null),
+        assert(name != null),
+        assert(email != null),
+        assert(imageUrl != null);
 
   final String id;
+
+  final String name;
+
+  final String email;
+
+  final Uri imageUrl;
 }

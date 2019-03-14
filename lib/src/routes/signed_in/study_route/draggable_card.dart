@@ -115,10 +115,10 @@ class _DraggableCardState extends State<DraggableCard>
     final mediaQuery = MediaQuery.of(context);
     final rect = Rect.fromLTRB(
       mediaQuery.padding.left + _HORIZONTAL_PADDING + widget.cardsInFront * 4,
-      mediaQuery.padding.top + _VERTICAL_PADDING + 88 - widget.cardsInFront * 4,
+      mediaQuery.padding.top + _VERTICAL_PADDING + 16 - widget.cardsInFront * 4,
       mediaQuery.size.width - (_HORIZONTAL_PADDING + widget.cardsInFront * 4),
       mediaQuery.size.height -
-          (_VERTICAL_PADDING + 64 + widget.cardsInFront * 4),
+          (_VERTICAL_PADDING + 144 + widget.cardsInFront * 4),
     );
 
     final cardContent = Container(
