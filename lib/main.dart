@@ -35,7 +35,7 @@ void main() {
 
   final cardAdderBlocFactory = CardAdderBlocFactory(
     authenticatable: authentication,
-    cardAddable: cardRepository,
+    cardAddable: firebaseExternalFunctions,
   );
 
   final cardLearningBlocFactory = CardLearningBlocFactory(

@@ -4,8 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:saraka/blocs.dart';
 import './firestore_card.dart';
 
-class FirestoreCardRepository
-    implements CardAddable, CardLearneable, CardSubscribable {
+class FirestoreCardRepository implements CardLearneable, CardSubscribable {
   FirestoreCardRepository({
     @required Firestore firestore,
   })  : assert(firestore != null),
@@ -34,27 +33,6 @@ class FirestoreCardRepository
     observable.onCancel = () => subscription.cancel();
 
     return observable;
-  }
-
-  @override
-  Future<void> add({User user, NewCardText text}) async {
-    final document = _firestore
-        .collection('users')
-        .document(user.id)
-        .collection('cards')
-        .document(idify(text.text));
-
-    if ((await document.get()).exists) {
-      throw CardDuplicationException(text.text);
-    }
-
-    await document.setData({
-      "text": text,
-      "createdAt": FieldValue.serverTimestamp(),
-      "lastLearning": null,
-      "lastLearnedAt": null,
-      "hasToLearnAfter": FieldValue.serverTimestamp(),
-    });
   }
 
   @override

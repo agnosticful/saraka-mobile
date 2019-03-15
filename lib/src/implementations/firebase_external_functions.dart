@@ -3,13 +3,27 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:meta/meta.dart';
 import 'package:saraka/blocs.dart';
 
-class FirebaseExternalFunctions implements Synthesizable {
+class FirebaseExternalFunctions implements CardAddable, Synthesizable {
   FirebaseExternalFunctions({
     @required CloudFunctions cloudFunctions,
   })  : assert(cloudFunctions != null),
         _cloudFunctions = cloudFunctions;
 
   final CloudFunctions _cloudFunctions;
+
+  @override
+  Future<void> add({User user, NewCardText text}) async {
+    try {
+      await _cloudFunctions
+          .call(functionName: 'createCard', parameters: {"text": text.text});
+    } on CloudFunctionsException catch (error) {
+      if (error.code == "ALREADY_EXISTS") {
+        throw CardDuplicationException(text.text);
+      }
+
+      rethrow;
+    }
+  }
 
   @override
   Future<List<int>> synthesize(String text) async {
