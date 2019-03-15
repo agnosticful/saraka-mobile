@@ -72,8 +72,12 @@ class _CardAdderBloc implements CardAdderBloc {
         user: _authenticatable.user.value,
         text: text.value,
       );
+    } on CardDuplicationException catch (error) {
+      _state.add(CardAddingState.failedByDuplication);
+
+      return;
     } catch (error) {
-      _state.add(CardAddingState.failed);
+      _state.add(CardAddingState.failedUnknown);
 
       return;
     }
@@ -86,7 +90,8 @@ enum CardAddingState {
   initial,
   processing,
   completed,
-  failed,
+  failedUnknown,
+  failedByDuplication,
 }
 
 mixin CardAddable {

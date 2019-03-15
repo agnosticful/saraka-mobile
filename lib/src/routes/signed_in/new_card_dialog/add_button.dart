@@ -29,9 +29,17 @@ class _AddButtonState extends State<AddButton> {
           Navigator.of(context).pop();
         }
 
-        if (state == CardAddingState.failed) {
-          print('dame');
+        // TODO: handle this and pop up some message
+        // https://github.com/agnosticful/saraka-mobile/issues/21
+        if (state == CardAddingState.failedByDuplication) {
+          setState(() {
+            _isAdding = false;
+          });
+        }
 
+        // TODO: handle this and pop up some message
+        // https://github.com/agnosticful/saraka-mobile/issues/21
+        if (state == CardAddingState.failedUnknown) {
           setState(() {
             _isAdding = false;
           });
