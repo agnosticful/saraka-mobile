@@ -6,12 +6,11 @@ class FirestoreCard extends Card {
       : assert(snapshot != null),
         id = snapshot.documentID,
         text = snapshot.data['text'],
-        lastLearnedAt = snapshot.data['lastLearnedAt'] == null
+        lastStudiedAt = snapshot.data['lastStudiedAt'] == null
             ? null
-            : (snapshot.data['lastLearnedAt'] as Timestamp).toDate(),
-        hasToLearnAfter = snapshot.data['hasToLearnAfter'] == null
-            ? null
-            : (snapshot.data['hasToLearnAfter'] as Timestamp).toDate();
+            : (snapshot.data['lastStudiedAt'] as Timestamp).toDate(),
+        nextStudyScheduledAt =
+            (snapshot.data['nextStudyScheduledAt'] as Timestamp).toDate();
 
   @override
   final String id;
@@ -20,8 +19,8 @@ class FirestoreCard extends Card {
   final String text;
 
   @override
-  final DateTime lastLearnedAt;
+  final DateTime lastStudiedAt;
 
   @override
-  final DateTime hasToLearnAfter;
+  final DateTime nextStudyScheduledAt;
 }
