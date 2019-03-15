@@ -30,6 +30,7 @@ class _AddButtonState extends State<AddButton> {
         }
 
         // TODO: handle this and pop up some message
+        // https://github.com/agnosticful/saraka-mobile/issues/21
         if (state == CardAddingState.failedByDuplication) {
           setState(() {
             _isAdding = false;
@@ -37,6 +38,7 @@ class _AddButtonState extends State<AddButton> {
         }
 
         // TODO: handle this and pop up some message
+        // https://github.com/agnosticful/saraka-mobile/issues/21
         if (state == CardAddingState.failedUnknown) {
           setState(() {
             _isAdding = false;
