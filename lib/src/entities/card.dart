@@ -3,9 +3,9 @@ import './mixins/identifiable.dart';
 abstract class Card with Identifiable<Card, String> {
   String get text;
 
-  DateTime get lastLearnedAt;
+  DateTime get lastStudiedAt;
 
-  DateTime get hasToLearnAfter;
+  DateTime get nextStudyScheduledAt;
 
-  bool get hasToLearn => hasToLearnAfter.isBefore(DateTime.now());
+  bool get isScheduled => nextStudyScheduledAt.isBefore(DateTime.now());
 }
