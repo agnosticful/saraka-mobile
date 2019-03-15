@@ -26,20 +26,24 @@ class _ApplicationState extends State<Application> {
     Future.delayed(Duration.zero, () {
       final authenticationBloc = Provider.of<AuthenticationBloc>(context);
 
-      _user = authenticationBloc.user.value;
-
       _subscription = authenticationBloc.user.listen((user) {
-        if (_user == null && user != null) {
+        if (isInitialized == false) {
+          if (user == null) {
+            _navigatorKey.currentState
+                .pushNamedAndRemoveUntil('/signed_out', (_) => false);
+          } else {
+            _navigatorKey.currentState
+                .pushNamedAndRemoveUntil('/signed_in', (_) => false);
+          }
+
+          isInitialized = true;
+        } else if (_user == null && user != null) {
           _navigatorKey.currentState
               .pushNamedAndRemoveUntil('/signed_in', (_) => false);
-        }
-
-        if ((isInitialized == false || _user != null) && user == null) {
+        } else if (_user != null && user == null) {
           _navigatorKey.currentState
               .pushNamedAndRemoveUntil('/signed_out', (_) => false);
         }
-
-        isInitialized = true;
 
         _user = user;
       });
