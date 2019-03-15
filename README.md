@@ -39,9 +39,7 @@ Subject Public Key Algorithm: 1024-bit RSA key
 Version: 1
 ```
 
-Go to Firebase Console then go to App Setting -> "Saraka Debug" (You can jump there by [this link](https://console.firebase.google.com/u/0/project/saraka/settings/general/android:app.axross.saraka.debug)). Click the "Add fingerprint" button in the "SHA certificate fingerprints" section and paste your SHA1 value that you copied in the previous step there, then click "Save" button.
-
-Note: **DO NOT** edit "Saraka" Android app that is in the left pane.
+Go to Firebase Console then go to App Setting -> "Saraka" (Android) (You can jump there by [this link](https://console.firebase.google.com/u/0/project/saraka/settings/general/android:app.axross.saraka)). Click the "Add fingerprint" button in the "SHA certificate fingerprints" section and paste your SHA1 value that you copied in the previous step there, then click "Save" button.
 
 Click "google-services.json" to download the file.
 
