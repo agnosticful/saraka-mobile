@@ -15,19 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "183263712868-s9eggodiqo20qs8n5m18r46q6mlntqun.apps.googleusercontent.com",
+          "client_id": "183263712868-5q0jul0spoop2obcluso3ccc2lu1bsqm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "app.axross.saraka",
-            "certificate_hash": "cde1da2864ec8f9962c0367a10ce103e73f612d2"
-          }
-        },
-        {
-          "client_id": "183263712868-vbe1mjv74u1abee4an0us9fiss20iqtj.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "app.axross.saraka",
-            "certificate_hash": "7a6e89d4514f70c7a0e29d7a6aa5d1dfec90c522"
+            "certificate_hash": "1b9c6537b6c785115f47ec8702fcc82af8697a47"
           }
         },
         {
