@@ -102,3 +102,12 @@ mixin CardStudyable {
     @required User user,
   });
 }
+
+class StudyDuplicationException implements Exception {
+  StudyDuplicationException(this.card);
+
+  final Card card;
+
+  String toString() =>
+      'StudyDuplicationException: `${card.id}` has been just studied..';
+}
