@@ -44,3 +44,11 @@ Go to Firebase Console then go to App Setting -> "Saraka" (Android) (You can jum
 Click "google-services.json" to download the file.
 
 Put the downloaded file as `<repository_root>/android/app/google-services.json`.
+
+#### Generate a launcher icon
+
+Run the command in the following to generate a launcher icon:
+
+```
+flutter packages pub run flutter_launcher_icons:main -f ./flutter_launcher_icons.yaml
+```
