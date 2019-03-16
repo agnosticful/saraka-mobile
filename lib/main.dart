@@ -38,9 +38,9 @@ void main() {
     cardAddable: firebaseExternalFunctions,
   );
 
-  final cardLearningBlocFactory = CardLearningBlocFactory(
+  final cardStudyBlocFactory = CardStudyBlocFactory(
     authenticatable: authentication,
-    cardLearnable: cardRepository,
+    cardStudyable: firebaseExternalFunctions,
     cardSubscribable: cardRepository,
   );
 
@@ -61,7 +61,7 @@ void main() {
     MultiProvider(
       providers: [
         Provider<CardAdderBlocFactory>(value: cardAdderBlocFactory),
-        Provider<CardLearningBlocFactory>(value: cardLearningBlocFactory),
+        Provider<CardStudyBlocFactory>(value: cardStudyBlocFactory),
         Provider<CardListBlocFactory>(value: cardListBlocFactory),
         Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
         Provider<AuthenticationBloc>(value: authenticationBloc),

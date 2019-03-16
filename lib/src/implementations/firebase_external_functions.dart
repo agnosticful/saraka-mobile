@@ -3,7 +3,8 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:meta/meta.dart';
 import 'package:saraka/blocs.dart';
 
-class FirebaseExternalFunctions implements CardAddable, Synthesizable {
+class FirebaseExternalFunctions
+    implements CardAddable, CardStudyable, Synthesizable {
   FirebaseExternalFunctions({
     @required CloudFunctions cloudFunctions,
   })  : assert(cloudFunctions != null),
@@ -26,10 +27,35 @@ class FirebaseExternalFunctions implements CardAddable, Synthesizable {
   }
 
   @override
+  Future<void> study({Card card, StudyCertainty certainty, User user}) async {
+    try {
+      await _cloudFunctions.call(functionName: 'logStudy', parameters: {
+        "cardId": card.id,
+        "certainty": buildCertaintyString(certainty),
+      });
+    } on CloudFunctionsException catch (error) {
+      if (error.code == "FAILED_PRECONDITION") {
+        throw StudyDuplicationException(card);
+      }
+    }
+  }
+
+  @override
   Future<List<int>> synthesize(String text) async {
     final audioBase64 = await _cloudFunctions
         .call(functionName: 'synthesize', parameters: {"text": text});
 
     return base64.decode(audioBase64);
   }
+}
+
+String buildCertaintyString(StudyCertainty certainty) {
+  switch (certainty) {
+    case StudyCertainty.good:
+      return "GOOD";
+    case StudyCertainty.vague:
+      return "VAGUE";
+  }
+
+  assert(false);
 }

@@ -8,26 +8,26 @@ class CardBundle extends StatefulWidget {
 }
 
 class _CardBundleState extends State<CardBundle> {
-  CardLearningBloc _cardLearningBloc;
+  CardStudyBloc _cardStudyBloc;
 
   @override
   void initState() {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
-      final cardLearningBloc = Provider.of<CardLearningBloc>(context);
+      final cardStudyBloc = Provider.of<CardStudyBloc>(context);
 
       setState(() {
-        _cardLearningBloc = cardLearningBloc;
+        _cardStudyBloc = cardStudyBloc;
       });
     });
   }
 
   @override
-  Widget build(BuildContext context) => _cardLearningBloc == null
+  Widget build(BuildContext context) => _cardStudyBloc == null
       ? Container()
       : StreamBuilder<Iterable<Card>>(
-          stream: _cardLearningBloc.cards,
+          stream: _cardStudyBloc.cards,
           initialData: [],
           builder: (context, snapshot) {
             final children = <Widget>[];
