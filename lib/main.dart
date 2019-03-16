@@ -40,7 +40,7 @@ void main() {
 
   final cardStudyBlocFactory = CardStudyBlocFactory(
     authenticatable: authentication,
-    cardStudyable: cardRepository,
+    cardStudyable: firebaseExternalFunctions,
     cardSubscribable: cardRepository,
   );
 
