@@ -6,49 +6,49 @@ import './commons/card_subscribable.dart';
 
 export 'package:saraka/entities.dart' show Card;
 
-class CardLearningBlocFactory {
-  CardLearningBlocFactory({
+class CardStudyBlocFactory {
+  CardStudyBlocFactory({
     @required Authenticatable authenticatable,
-    @required CardLearneable cardLearnable,
+    @required CardStudyable cardStudyable,
     @required CardSubscribable cardSubscribable,
   })  : assert(authenticatable != null),
-        assert(cardLearnable != null),
+        assert(cardStudyable != null),
         assert(cardSubscribable != null),
         _authenticatable = authenticatable,
-        _cardLearnable = cardLearnable,
+        _cardStudyable = cardStudyable,
         _cardSubscribable = cardSubscribable;
 
   final Authenticatable _authenticatable;
 
-  final CardLearneable _cardLearnable;
+  final CardStudyable _cardStudyable;
 
   final CardSubscribable _cardSubscribable;
 
-  CardLearningBloc create() => _CardLearningBloc(
+  CardStudyBloc create() => _CardStudyBloc(
         authenticatable: _authenticatable,
-        cardLearnable: _cardLearnable,
+        cardStudyable: _cardStudyable,
         cardSubscribable: _cardSubscribable,
       );
 }
 
-abstract class CardLearningBloc {
+abstract class CardStudyBloc {
   ValueObservable<Iterable<Card>> get cards;
 
-  void learnedWell(Card card);
+  void studiedWell(Card card);
 
-  void learnedVaguely(Card card);
+  void studiedVaguely(Card card);
 }
 
-class _CardLearningBloc implements CardLearningBloc {
-  _CardLearningBloc({
+class _CardStudyBloc implements CardStudyBloc {
+  _CardStudyBloc({
     @required Authenticatable authenticatable,
-    @required CardLearneable cardLearnable,
+    @required CardStudyable cardStudyable,
     @required CardSubscribable cardSubscribable,
   })  : assert(authenticatable != null),
-        assert(cardLearnable != null),
+        assert(cardStudyable != null),
         assert(cardSubscribable != null),
         _authenticatable = authenticatable,
-        _cardLearnable = cardLearnable,
+        _cardStudyable = cardStudyable,
         _cardSubscribable = cardSubscribable {
     _cardSubscribable
         .subscribeCards(user: _authenticatable.user.value)
@@ -58,7 +58,7 @@ class _CardLearningBloc implements CardLearningBloc {
 
   final Authenticatable _authenticatable;
 
-  final CardLearneable _cardLearnable;
+  final CardStudyable _cardStudyable;
 
   final CardSubscribable _cardSubscribable;
 
@@ -68,37 +68,37 @@ class _CardLearningBloc implements CardLearningBloc {
   ValueObservable<Iterable<Card>> get cards => _cards;
 
   @override
-  Future<void> learnedWell(Card card) async {
+  Future<void> studiedWell(Card card) async {
     _cards.add(_cards.value.where((c) => c != card));
 
-    await _cardLearnable.learn(
+    await _cardStudyable.study(
       card: card,
-      certainty: LearningCertainty.good,
+      certainty: StudyCertainty.good,
       user: _authenticatable.user.value,
     );
   }
 
   @override
-  Future<void> learnedVaguely(Card card) async {
+  Future<void> studiedVaguely(Card card) async {
     _cards.add(_cards.value.where((c) => c != card));
 
-    await _cardLearnable.learn(
+    await _cardStudyable.study(
       card: card,
-      certainty: LearningCertainty.vague,
+      certainty: StudyCertainty.vague,
       user: _authenticatable.user.value,
     );
   }
 }
 
-enum LearningCertainty {
+enum StudyCertainty {
   good,
   vague,
 }
 
-mixin CardLearneable {
-  Future<void> learn({
+mixin CardStudyable {
+  Future<void> study({
     @required Card card,
-    @required LearningCertainty certainty,
+    @required StudyCertainty certainty,
     @required User user,
   });
 }

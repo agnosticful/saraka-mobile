@@ -9,9 +9,9 @@ class StudyRoute extends MaterialPageRoute {
 
   static Widget _builder(BuildContext context) => MultiProvider(
         providers: [
-          StatefulProvider<CardLearningBloc>(
+          StatefulProvider<CardStudyBloc>(
             valueBuilder: (_) =>
-                Provider.of<CardLearningBlocFactory>(context).create(),
+                Provider.of<CardStudyBlocFactory>(context).create(),
           ),
           StatefulProvider<SynthesizerBloc>(
             valueBuilder: (_) =>

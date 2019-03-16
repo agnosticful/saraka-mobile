@@ -4,7 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:saraka/blocs.dart';
 import './firestore_card.dart';
 
-class FirestoreCardRepository implements CardLearneable, CardSubscribable {
+class FirestoreCardRepository implements CardStudyable, CardSubscribable {
   FirestoreCardRepository({
     @required Firestore firestore,
   })  : assert(firestore != null),
@@ -36,8 +36,7 @@ class FirestoreCardRepository implements CardLearneable, CardSubscribable {
   }
 
   @override
-  Future<void> learn(
-      {Card card, LearningCertainty certainty, User user}) async {
+  Future<void> study({Card card, StudyCertainty certainty, User user}) async {
     final cardReference = _firestore
         .collection('users')
         .document(user.id)
@@ -92,14 +91,14 @@ class _FirestoreLearning {
             : (snapshot.data['learnedAt'] as Timestamp).toDate(),
         intervalForNext = Duration(
             milliseconds: snapshot.data['intervalInMilliSecondsForNext']),
-        // certainty = LearningCertainty.parse(snapshot.data['certainty']),
+        // certainty = StudyCertainty.parse(snapshot.data['certainty']),
         streak = snapshot.data['streak'];
 
   final DateTime learnedAt;
 
   final Duration intervalForNext;
 
-  // final LearningCertainty certainty;
+  // final StudyCertainty certainty;
 
   final int streak;
 }
