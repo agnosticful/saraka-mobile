@@ -41,7 +41,7 @@ void main() {
   final cardStudyBlocFactory = CardStudyBlocFactory(
     authenticatable: authentication,
     cardStudyable: firebaseExternalFunctions,
-    cardSubscribable: cardRepository,
+    inQueueCardSubscribable: cardRepository,
   );
 
   final cardListBlocFactory = CardListBlocFactory(

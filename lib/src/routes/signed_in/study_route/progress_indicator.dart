@@ -36,12 +36,11 @@ class _ProgressIndicatorState extends State<ProgressIndicator> {
                 backgroundColor: SarakaColors.darkGray,
                 valueColor: AlwaysStoppedAnimation(SarakaColors.lightRed),
               )
-            : StreamBuilder<Iterable<Card>>(
-                stream: _cardStudyingBloc.cards,
-                initialData: [],
+            : StreamBuilder<double>(
+                stream: _cardStudyingBloc.finishedRatio,
+                initialData: 0,
                 builder: (context, snapshot) => LinearProgressIndicator(
-                      value: (_originalLength - snapshot.requireData.length) /
-                          _originalLength,
+                      value: snapshot.requireData,
                       backgroundColor: SarakaColors.darkGray,
                       valueColor: AlwaysStoppedAnimation(SarakaColors.lightRed),
                     ),

@@ -4,7 +4,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:saraka/blocs.dart';
 import './firestore_card.dart';
 
-class FirestoreCardRepository implements CardSubscribable {
+class FirestoreCardRepository
+    implements CardSubscribable, InQueueCardSubscribable {
   FirestoreCardRepository({
     @required Firestore firestore,
   })  : assert(firestore != null),
@@ -21,6 +22,30 @@ class FirestoreCardRepository implements CardSubscribable {
         .document(user.id)
         .collection('cards')
         .orderBy('createdAt', descending: true)
+        .limit(1000)
+        .snapshots()
+        .listen((snapshot) {
+      final cards =
+          snapshot.documents.map((document) => FirestoreCard(document));
+
+      observable.add(cards);
+    });
+
+    observable.onCancel = () => subscription.cancel();
+
+    return observable;
+  }
+
+  @override
+  ValueObservable<Iterable<Card>> subscribeInQueueCards({@required User user}) {
+    final observable = BehaviorSubject<Iterable<Card>>();
+
+    final subscription = _firestore
+        .collection('users')
+        .document(user.id)
+        .collection('cards')
+        .where('nextStudyScheduledAt', isLessThanOrEqualTo: Timestamp.now())
+        .orderBy('nextStudyScheduledAt')
         .limit(1000)
         .snapshots()
         .listen((snapshot) {

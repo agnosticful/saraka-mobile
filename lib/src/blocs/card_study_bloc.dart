@@ -1,38 +1,40 @@
+import 'dart:collection';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/entities.dart';
 import './commons/authenticatable.dart';
-import './commons/card_subscribable.dart';
-
-export 'package:saraka/entities.dart' show Card;
 
 class CardStudyBlocFactory {
   CardStudyBlocFactory({
     @required Authenticatable authenticatable,
     @required CardStudyable cardStudyable,
-    @required CardSubscribable cardSubscribable,
+    @required InQueueCardSubscribable inQueueCardSubscribable,
   })  : assert(authenticatable != null),
         assert(cardStudyable != null),
-        assert(cardSubscribable != null),
+        assert(inQueueCardSubscribable != null),
         _authenticatable = authenticatable,
         _cardStudyable = cardStudyable,
-        _cardSubscribable = cardSubscribable;
+        _inQueueCardSubscribable = inQueueCardSubscribable;
 
   final Authenticatable _authenticatable;
 
   final CardStudyable _cardStudyable;
 
-  final CardSubscribable _cardSubscribable;
+  final InQueueCardSubscribable _inQueueCardSubscribable;
 
   CardStudyBloc create() => _CardStudyBloc(
         authenticatable: _authenticatable,
         cardStudyable: _cardStudyable,
-        cardSubscribable: _cardSubscribable,
+        inQueueCardSubscribable: _inQueueCardSubscribable,
       );
 }
 
 abstract class CardStudyBloc {
-  ValueObservable<Iterable<Card>> get cards;
+  Observable<Iterable<Card>> get cards;
+
+  Observable<Set<Card>> get cardsInQueue;
+
+  Observable<double> get finishedRatio;
 
   void studiedWell(Card card);
 
@@ -43,33 +45,51 @@ class _CardStudyBloc implements CardStudyBloc {
   _CardStudyBloc({
     @required Authenticatable authenticatable,
     @required CardStudyable cardStudyable,
-    @required CardSubscribable cardSubscribable,
+    @required InQueueCardSubscribable inQueueCardSubscribable,
   })  : assert(authenticatable != null),
         assert(cardStudyable != null),
-        assert(cardSubscribable != null),
+        assert(inQueueCardSubscribable != null),
         _authenticatable = authenticatable,
         _cardStudyable = cardStudyable,
-        _cardSubscribable = cardSubscribable {
-    _cardSubscribable
-        .subscribeCards(user: _authenticatable.user.value)
-        .first
-        .then((cards) => _cards.add(cards));
-  }
+        _inQueueCardSubscribable = inQueueCardSubscribable;
 
   final Authenticatable _authenticatable;
 
   final CardStudyable _cardStudyable;
 
-  final CardSubscribable _cardSubscribable;
+  final InQueueCardSubscribable _inQueueCardSubscribable;
 
-  final BehaviorSubject<Iterable<Card>> _cards = BehaviorSubject();
+  final BehaviorSubject<LinkedHashSet<Card>> _studiedCards =
+      BehaviorSubject.seeded(LinkedHashSet());
 
   @override
-  ValueObservable<Iterable<Card>> get cards => _cards;
+  Observable<Iterable<Card>> get cards => Observable.combineLatest2(
+        _inQueueCardSubscribable.subscribeInQueueCards(
+            user: _authenticatable.user.value),
+        _studiedCards,
+        (cards, studiedCards) =>
+            LinkedHashSet()..addAll(studiedCards)..addAll(cards),
+      );
+
+  @override
+  Observable<LinkedHashSet<Card>> get cardsInQueue => Observable.combineLatest2(
+        cards,
+        _studiedCards,
+        (cards, studiedCards) =>
+            cards.where((card) => !studiedCards.contains(card)),
+      );
+
+  @override
+  Observable<double> get finishedRatio => Observable.combineLatest2(
+        cards,
+        _studiedCards,
+        (cards, studiedCards) =>
+            cards.length > 0 ? studiedCards.length / cards.length : 0,
+      );
 
   @override
   Future<void> studiedWell(Card card) async {
-    _cards.add(_cards.value.where((c) => c != card));
+    _studiedCards.add(LinkedHashSet.of(_studiedCards.value)..add(card));
 
     await _cardStudyable.study(
       card: card,
@@ -80,7 +100,7 @@ class _CardStudyBloc implements CardStudyBloc {
 
   @override
   Future<void> studiedVaguely(Card card) async {
-    _cards.add(_cards.value.where((c) => c != card));
+    _studiedCards.add(LinkedHashSet.of(_studiedCards.value)..add(card));
 
     await _cardStudyable.study(
       card: card,
@@ -101,6 +121,10 @@ mixin CardStudyable {
     @required StudyCertainty certainty,
     @required User user,
   });
+}
+
+mixin InQueueCardSubscribable {
+  Observable<Iterable<Card>> subscribeInQueueCards({@required User user});
 }
 
 class StudyDuplicationException implements Exception {
