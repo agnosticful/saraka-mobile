@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import './card_list_screen.dart';
 
-class CardListRoute extends MaterialPageRoute {
+class CardListRoute extends CupertinoPageRoute {
   CardListRoute({RouteSettings settings})
       : super(builder: _builder, settings: settings);
 
