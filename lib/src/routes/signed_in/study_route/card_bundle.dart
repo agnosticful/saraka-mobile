@@ -27,8 +27,8 @@ class _CardBundleState extends State<CardBundle> {
   Widget build(BuildContext context) => _cardStudyBloc == null
       ? Container()
       : StreamBuilder<Iterable<Card>>(
-          stream: _cardStudyBloc.cards,
-          initialData: [],
+          stream: _cardStudyBloc.cardsInQueue,
+          initialData: Iterable.empty(),
           builder: (context, snapshot) {
             final children = <Widget>[];
             final firstFiveCards =

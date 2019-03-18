@@ -9,6 +9,7 @@ import './back_button.dart';
 import './card_bundle.dart';
 import './main_drawer.dart';
 import './progress_indicator.dart';
+import './time_estimation.dart';
 
 class StudyScreen extends StatelessWidget {
   @override
@@ -75,6 +76,7 @@ class StudyScreen extends StatelessWidget {
                             child: ProgressIndicator(),
                           ),
                           SizedBox(width: 16),
+                          TimeEstimation(),
                         ],
                       ),
                     ),
