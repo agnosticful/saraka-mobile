@@ -32,17 +32,15 @@ class SignedInRoute extends PageRoute {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) =>
-      Material(
-        child: Navigator(
-          initialRoute: '/',
-          onGenerateRoute: (settings) {
-            switch (settings.name) {
-              case '/':
-                return StudyRoute();
-              case '/cards':
-                return CardListRoute();
-            }
-          },
-        ),
+      MaterialApp(
+        initialRoute: '/',
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/':
+              return StudyRoute();
+            case '/cards':
+              return CardListRoute();
+          }
+        },
       );
 }
