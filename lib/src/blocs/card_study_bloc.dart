@@ -75,8 +75,8 @@ class _CardStudyBloc implements CardStudyBloc {
   Observable<LinkedHashSet<Card>> get cardsInQueue => Observable.combineLatest2(
         cards,
         _studiedCards,
-        (cards, studiedCards) =>
-            cards.where((card) => !studiedCards.contains(card)),
+        (cards, studiedCards) => LinkedHashSet.from(
+            cards.where((card) => !studiedCards.contains(card))),
       );
 
   @override
