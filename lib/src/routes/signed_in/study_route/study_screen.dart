@@ -7,6 +7,7 @@ import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 import './back_button.dart';
 import './card_bundle.dart';
+import './finished.dart';
 import './main_drawer.dart';
 import './progress_indicator.dart';
 import './time_estimation.dart';
@@ -82,6 +83,7 @@ class StudyScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                Finished(),
                 CardBundle(),
               ],
             ),

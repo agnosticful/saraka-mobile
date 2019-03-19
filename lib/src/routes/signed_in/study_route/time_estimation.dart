@@ -46,9 +46,11 @@ class _TimeEstimationText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = _duration.inMinutes >= 1
-        ? "in ${_duration.inMinutes} mins"
-        : "in < 1 mins";
+    final text = _duration.inMilliseconds == 0
+        ? "finished"
+        : _duration.inMinutes >= 1
+            ? "in ${_duration.inMinutes} mins"
+            : "in < 1 mins";
 
     return Text(
       text,
