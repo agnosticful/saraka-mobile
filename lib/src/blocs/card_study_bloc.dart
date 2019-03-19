@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/entities.dart';
@@ -30,15 +29,17 @@ class CardStudyBlocFactory {
 }
 
 abstract class CardStudyBloc {
-  Observable<Iterable<Card>> get cards;
-
-  Observable<Set<Card>> get cardsInQueue;
+  Observable<List<Card>> get cardsInQueue;
 
   Observable<double> get finishedRatio;
+
+  Observable<bool> get canUndo;
 
   void studiedWell(Card card);
 
   void studiedVaguely(Card card);
+
+  void undo();
 }
 
 class _CardStudyBloc implements CardStudyBloc {
@@ -51,7 +52,16 @@ class _CardStudyBloc implements CardStudyBloc {
         assert(inQueueCardSubscribable != null),
         _authenticatable = authenticatable,
         _cardStudyable = cardStudyable,
-        _inQueueCardSubscribable = inQueueCardSubscribable;
+        _inQueueCardSubscribable = inQueueCardSubscribable {
+    _inQueueCardSubscribable
+        .subscribeInQueueCards(
+          user: _authenticatable.user.value,
+        )
+        .first
+        .then((cards) {
+      _allInQueueCardsAtFirst = cards;
+    });
+  }
 
   final Authenticatable _authenticatable;
 
@@ -59,37 +69,33 @@ class _CardStudyBloc implements CardStudyBloc {
 
   final InQueueCardSubscribable _inQueueCardSubscribable;
 
-  final BehaviorSubject<LinkedHashSet<Card>> _studiedCards =
-      BehaviorSubject.seeded(LinkedHashSet());
+  List<Card> _allInQueueCardsAtFirst = [];
+
+  final BehaviorSubject<List<Card>> _studiedCards = BehaviorSubject.seeded([]);
 
   @override
-  Observable<Iterable<Card>> get cards => Observable.combineLatest2(
-        _inQueueCardSubscribable.subscribeInQueueCards(
-            user: _authenticatable.user.value),
-        _studiedCards,
-        (cards, studiedCards) =>
-            LinkedHashSet()..addAll(studiedCards)..addAll(cards),
+  Observable<List<Card>> get cardsInQueue => _studiedCards.map(
+        (studiedCards) => _allInQueueCardsAtFirst
+            .where(
+              (card) => !studiedCards.contains(card),
+            )
+            .toList(),
       );
 
   @override
-  Observable<LinkedHashSet<Card>> get cardsInQueue => Observable.combineLatest2(
-        cards,
-        _studiedCards,
-        (cards, studiedCards) => LinkedHashSet.from(
-            cards.where((card) => !studiedCards.contains(card))),
+  Observable<double> get finishedRatio => _studiedCards.map(
+        (studiedCards) => _allInQueueCardsAtFirst.length == 0
+            ? 0
+            : (studiedCards.length) / _allInQueueCardsAtFirst.length,
       );
 
   @override
-  Observable<double> get finishedRatio => Observable.combineLatest2(
-        cards,
-        _studiedCards,
-        (cards, studiedCards) =>
-            cards.length > 0 ? studiedCards.length / cards.length : 0,
-      );
+  Observable<bool> get canUndo =>
+      _studiedCards.map((studiedCards) => studiedCards.length > 0);
 
   @override
   Future<void> studiedWell(Card card) async {
-    _studiedCards.add(LinkedHashSet.of(_studiedCards.value)..add(card));
+    _studiedCards.add(_studiedCards.value.toList()..add(card));
 
     await _cardStudyable.study(
       card: card,
@@ -100,13 +106,23 @@ class _CardStudyBloc implements CardStudyBloc {
 
   @override
   Future<void> studiedVaguely(Card card) async {
-    _studiedCards.add(LinkedHashSet.of(_studiedCards.value)..add(card));
+    _studiedCards.add(_studiedCards.value.toList()..add(card));
 
     await _cardStudyable.study(
       card: card,
       certainty: StudyCertainty.vague,
       user: _authenticatable.user.value,
     );
+  }
+
+  @override
+  void undo() {
+    assert(_studiedCards.value.length >= 1);
+
+    _studiedCards
+        .add(_studiedCards.value.sublist(0, _studiedCards.value.length - 1));
+
+    // TODO: invoke a backend function
   }
 }
 
@@ -124,7 +140,7 @@ mixin CardStudyable {
 }
 
 mixin InQueueCardSubscribable {
-  Observable<Iterable<Card>> subscribeInQueueCards({@required User user});
+  Observable<List<Card>> subscribeInQueueCards({@required User user});
 }
 
 class StudyDuplicationException implements Exception {
