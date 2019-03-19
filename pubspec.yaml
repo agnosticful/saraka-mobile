@@ -64,6 +64,7 @@ flutter:
   # https://flutter.io/assets-and-images/#from-packages
   assets:
     - assets/default_images/user.png
+    - assets/flare/done.flr
     - assets/flare/Mountain.flr
 
   # To add custom fonts to your application, add a fonts section here,

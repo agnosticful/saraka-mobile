@@ -30,6 +30,10 @@ class _CardBundleState extends State<CardBundle> {
           stream: _cardStudyBloc.cardsInQueue,
           initialData: Iterable.empty(),
           builder: (context, snapshot) {
+            if (snapshot.requireData.length == 0) {
+              return Container();
+            }
+
             final children = <Widget>[];
             final firstFiveCards =
                 snapshot.requireData.take(5).toList().reversed.toList();
