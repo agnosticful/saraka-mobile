@@ -119,10 +119,14 @@ class _CardStudyBloc implements CardStudyBloc {
   void undo() {
     assert(_studiedCards.value.length >= 1);
 
-    _studiedCards
-        .add(_studiedCards.value.sublist(0, _studiedCards.value.length - 1));
+    final card = _studiedCards.value.last;
 
-    // TODO: invoke a backend function
+    _studiedCards.add(List.from(_studiedCards.value)..remove(card));
+
+    _cardStudyable.undoStudy(
+      card: card,
+      user: _authenticatable.user.value,
+    );
   }
 }
 
@@ -137,6 +141,11 @@ mixin CardStudyable {
     @required StudyCertainty certainty,
     @required User user,
   });
+
+  Future<void> undoStudy({
+    @required Card card,
+    @required User user,
+  });
 }
 
 mixin InQueueCardSubscribable {
@@ -149,5 +158,14 @@ class StudyDuplicationException implements Exception {
   final Card card;
 
   String toString() =>
-      'StudyDuplicationException: `${card.id}` has been just studied..';
+      'StudyDuplicationException: `${card.id}` has been just studied.';
+}
+
+class StudyOverundoException implements Exception {
+  StudyOverundoException(this.card);
+
+  final Card card;
+
+  String toString() =>
+      'StudyOverundoException: `${card.id}` doesn\'t have study to undo.';
 }
