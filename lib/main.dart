@@ -14,20 +14,20 @@ void main() {
 
   final firebaseAnalytics = FirebaseAnalytics();
 
-  final authentication = TrackedFirebaseAuthentication(
-    firebaseAnalytics: firebaseAnalytics,
+  final authentication = FirebaseAuthentication(
     firebaseAuth: FirebaseAuth.instance,
     googleSignIn: GoogleSignIn(),
   );
 
   final cacheStorage = CacheStorage();
 
+  final logger = FirebaseAnalyticsLogger(firebaseAnalytics: firebaseAnalytics);
+
   final cardRepository = FirestoreCardRepository(
     firestore: Firestore.instance,
   );
 
-  final firebaseExternalFunctions = TrackedFirebaseExternalFunctions(
-    firebaseAnalytics: firebaseAnalytics,
+  final firebaseExternalFunctions = FirebaseExternalFunctions(
     cloudFunctions: CloudFunctions.instance,
   );
 
@@ -36,16 +36,19 @@ void main() {
   final authenticationBlocFactory = AuthenticationBlocFactory(
     authenticatable: authentication,
     signable: authentication,
+    signInOutLoggable: logger,
   );
 
   final cardAdderBlocFactory = CardAdderBlocFactory(
     authenticatable: authentication,
     cardAddable: firebaseExternalFunctions,
+    cardCreateLoggable: logger,
   );
 
   final cardStudyBlocFactory = CardStudyBlocFactory(
     authenticatable: authentication,
     cardStudyable: firebaseExternalFunctions,
+    cardStudyLoggable: logger,
     inQueueCardSubscribable: cardRepository,
   );
 
@@ -58,6 +61,7 @@ void main() {
     soundFilePlayable: soundPlayer,
     synthesizable: firebaseExternalFunctions,
     synthesizedSoundFileReferable: cacheStorage,
+    synthesizeLoggable: logger,
   );
 
   final authenticationBloc = authenticationBlocFactory.create();

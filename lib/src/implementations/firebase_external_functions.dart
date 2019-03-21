@@ -31,7 +31,7 @@ class FirebaseExternalFunctions
     try {
       await _cloudFunctions.call(functionName: 'logStudy', parameters: {
         "cardId": card.id,
-        "certainty": buildCertaintyString(certainty),
+        "certainty": _buildCertaintyString(certainty),
       });
     } on CloudFunctionsException catch (error) {
       if (error.code == "FAILED_PRECONDITION") {
@@ -62,7 +62,7 @@ class FirebaseExternalFunctions
   }
 }
 
-String buildCertaintyString(StudyCertainty certainty) {
+String _buildCertaintyString(StudyCertainty certainty) {
   switch (certainty) {
     case StudyCertainty.good:
       return "GOOD";

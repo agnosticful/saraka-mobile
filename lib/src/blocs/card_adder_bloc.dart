@@ -9,18 +9,24 @@ class CardAdderBlocFactory {
   CardAdderBlocFactory({
     @required Authenticatable authenticatable,
     @required CardAddable cardAddable,
+    @required CardCreateLoggable cardCreateLoggable,
   })  : assert(authenticatable != null),
         assert(cardAddable != null),
+        assert(cardCreateLoggable != null),
         _authenticatable = authenticatable,
-        _cardAddable = cardAddable;
+        _cardAddable = cardAddable,
+        _cardCreateLoggable = cardCreateLoggable;
 
   final Authenticatable _authenticatable;
 
   final CardAddable _cardAddable;
 
+  final CardCreateLoggable _cardCreateLoggable;
+
   CardAdderBloc create() => _CardAdderBloc(
         authenticatable: _authenticatable,
         cardAddable: _cardAddable,
+        cardCreateLoggable: _cardCreateLoggable,
       );
 }
 
@@ -38,14 +44,19 @@ class _CardAdderBloc implements CardAdderBloc {
   _CardAdderBloc({
     @required Authenticatable authenticatable,
     @required CardAddable cardAddable,
+    @required CardCreateLoggable cardCreateLoggable,
   })  : assert(authenticatable != null),
         assert(cardAddable != null),
+        assert(cardCreateLoggable != null),
         _authenticatable = authenticatable,
-        _cardAddable = cardAddable;
+        _cardAddable = cardAddable,
+        _cardCreateLoggable = cardCreateLoggable;
 
   final Authenticatable _authenticatable;
 
   final CardAddable _cardAddable;
+
+  final CardCreateLoggable _cardCreateLoggable;
 
   final _text = BehaviorSubject<NewCardText>.seeded(_NewCardText(""));
 
@@ -72,6 +83,8 @@ class _CardAdderBloc implements CardAdderBloc {
         user: _authenticatable.user.value,
         text: text.value,
       );
+
+      await _cardCreateLoggable.logCardCreate();
     } on CardDuplicationException catch (error) {
       _state.add(CardAddingState.failedByDuplication);
 
@@ -96,6 +109,10 @@ enum CardAddingState {
 
 mixin CardAddable {
   Future<void> add({@required User user, @required NewCardText text});
+}
+
+mixin CardCreateLoggable {
+  Future<void> logCardCreate();
 }
 
 class _NewCardText extends NewCardText {

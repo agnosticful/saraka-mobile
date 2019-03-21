@@ -7,23 +7,28 @@ class CardStudyBlocFactory {
   CardStudyBlocFactory({
     @required Authenticatable authenticatable,
     @required CardStudyable cardStudyable,
+    @required CardStudyLoggable cardStudyLoggable,
     @required InQueueCardSubscribable inQueueCardSubscribable,
   })  : assert(authenticatable != null),
         assert(cardStudyable != null),
         assert(inQueueCardSubscribable != null),
         _authenticatable = authenticatable,
         _cardStudyable = cardStudyable,
+        _cardStudyLoggable = cardStudyLoggable,
         _inQueueCardSubscribable = inQueueCardSubscribable;
 
   final Authenticatable _authenticatable;
 
   final CardStudyable _cardStudyable;
 
+  final CardStudyLoggable _cardStudyLoggable;
+
   final InQueueCardSubscribable _inQueueCardSubscribable;
 
   CardStudyBloc create() => _CardStudyBloc(
         authenticatable: _authenticatable,
         cardStudyable: _cardStudyable,
+        cardStudyLoggable: _cardStudyLoggable,
         inQueueCardSubscribable: _inQueueCardSubscribable,
       );
 }
@@ -46,12 +51,14 @@ class _CardStudyBloc implements CardStudyBloc {
   _CardStudyBloc({
     @required Authenticatable authenticatable,
     @required CardStudyable cardStudyable,
+    @required CardStudyLoggable cardStudyLoggable,
     @required InQueueCardSubscribable inQueueCardSubscribable,
   })  : assert(authenticatable != null),
         assert(cardStudyable != null),
         assert(inQueueCardSubscribable != null),
         _authenticatable = authenticatable,
         _cardStudyable = cardStudyable,
+        _cardStudyLoggable = cardStudyLoggable,
         _inQueueCardSubscribable = inQueueCardSubscribable {
     _inQueueCardSubscribable
         .subscribeInQueueCards(
@@ -61,11 +68,15 @@ class _CardStudyBloc implements CardStudyBloc {
         .then((cards) {
       _allInQueueCardsAtFirst = cards;
     });
+
+    finishedRatio.where((ratio) => ratio == 1).listen((_) {});
   }
 
   final Authenticatable _authenticatable;
 
   final CardStudyable _cardStudyable;
+
+  final CardStudyLoggable _cardStudyLoggable;
 
   final InQueueCardSubscribable _inQueueCardSubscribable;
 
@@ -102,6 +113,8 @@ class _CardStudyBloc implements CardStudyBloc {
       certainty: StudyCertainty.good,
       user: _authenticatable.user.value,
     );
+
+    await _cardStudyLoggable.logCardStudy(certainty: StudyCertainty.good);
   }
 
   @override
@@ -113,17 +126,19 @@ class _CardStudyBloc implements CardStudyBloc {
       certainty: StudyCertainty.vague,
       user: _authenticatable.user.value,
     );
+
+    await _cardStudyLoggable.logCardStudy(certainty: StudyCertainty.vague);
   }
 
   @override
-  void undo() {
+  void undo() async {
     assert(_studiedCards.value.length >= 1);
 
     final card = _studiedCards.value.last;
 
     _studiedCards.add(List.from(_studiedCards.value)..remove(card));
 
-    _cardStudyable.undoStudy(
+    await _cardStudyable.undoStudy(
       card: card,
       user: _authenticatable.user.value,
     );
@@ -150,6 +165,10 @@ mixin CardStudyable {
 
 mixin InQueueCardSubscribable {
   Observable<List<Card>> subscribeInQueueCards({@required User user});
+}
+
+mixin CardStudyLoggable {
+  Future<void> logCardStudy({@required StudyCertainty certainty});
 }
 
 class StudyDuplicationException implements Exception {

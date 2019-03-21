@@ -59,6 +59,3 @@ class FirestoreCardRepository
     return observable;
   }
 }
-
-String idify(String text) =>
-    text.toLowerCase().replaceAll(RegExp(r'[^0-9A-Za-z]'), '-');
