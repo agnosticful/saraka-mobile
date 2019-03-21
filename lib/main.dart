@@ -1,5 +1,6 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,7 +12,10 @@ import './application.dart';
 void main() {
   Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
 
-  final authentication = FirebaseAuthentication(
+  final firebaseAnalytics = FirebaseAnalytics();
+
+  final authentication = TrackedFirebaseAuthentication(
+    firebaseAnalytics: firebaseAnalytics,
     firebaseAuth: FirebaseAuth.instance,
     googleSignIn: GoogleSignIn(),
   );
@@ -22,7 +26,8 @@ void main() {
     firestore: Firestore.instance,
   );
 
-  final firebaseExternalFunctions = FirebaseExternalFunctions(
+  final firebaseExternalFunctions = TrackedFirebaseExternalFunctions(
+    firebaseAnalytics: firebaseAnalytics,
     cloudFunctions: CloudFunctions.instance,
   );
 

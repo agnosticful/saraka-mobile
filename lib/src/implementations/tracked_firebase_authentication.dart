@@ -1,15 +1,19 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/blocs.dart';
 
-class FirebaseAuthentication implements Authenticatable, Signable {
-  FirebaseAuthentication({
+class TrackedFirebaseAuthentication implements Authenticatable, Signable {
+  TrackedFirebaseAuthentication({
+    @required FirebaseAnalytics firebaseAnalytics,
     @required FirebaseAuth firebaseAuth,
     @required GoogleSignIn googleSignIn,
-  })  : assert(firebaseAuth != null),
+  })  : assert(firebaseAnalytics != null),
+        assert(firebaseAuth != null),
         assert(googleSignIn != null),
+        _firebaseAnalytics = firebaseAnalytics,
         _firebaseAuth = firebaseAuth,
         _googleSignIn = googleSignIn {
     _firebaseAuth.onAuthStateChanged.listen((fUser) {
@@ -25,6 +29,8 @@ class FirebaseAuthentication implements Authenticatable, Signable {
       );
     });
   }
+
+  final FirebaseAnalytics _firebaseAnalytics;
 
   final FirebaseAuth _firebaseAuth;
 
@@ -46,10 +52,16 @@ class FirebaseAuthentication implements Authenticatable, Signable {
     );
 
     await _firebaseAuth.signInWithCredential(credential);
+
+    _firebaseAnalytics.logLogin();
   }
 
   @override
-  Future<void> signOut() async => _firebaseAuth.signOut();
+  Future<void> signOut() async {
+    _firebaseAuth.signOut();
+
+    _firebaseAnalytics.logEvent(name: 'logout');
+  }
 }
 
 class _User extends User {
