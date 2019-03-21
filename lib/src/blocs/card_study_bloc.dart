@@ -3,6 +3,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:saraka/entities.dart';
 import './commons/authenticatable.dart';
 
+export 'package:saraka/entities.dart' show StudyCertainty;
+
 class CardStudyBlocFactory {
   CardStudyBlocFactory({
     @required Authenticatable authenticatable,
@@ -143,11 +145,6 @@ class _CardStudyBloc implements CardStudyBloc {
       user: _authenticatable.user.value,
     );
   }
-}
-
-enum StudyCertainty {
-  good,
-  vague,
 }
 
 mixin CardStudyable {

@@ -23,7 +23,7 @@ class FirebaseAnalyticsLogger
       _firebaseAnalytics.logEvent(
         name: 'card_study',
         parameters: {
-          "certainty": _buildCertaintyString(certainty),
+          "certainty": certainty.toString(),
         },
       );
 
@@ -40,15 +40,4 @@ class FirebaseAnalyticsLogger
           "text": text,
         },
       );
-}
-
-String _buildCertaintyString(StudyCertainty certainty) {
-  switch (certainty) {
-    case StudyCertainty.good:
-      return "GOOD";
-    case StudyCertainty.vague:
-      return "VAGUE";
-  }
-
-  assert(false);
 }
