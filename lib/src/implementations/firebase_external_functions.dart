@@ -41,6 +41,19 @@ class FirebaseExternalFunctions
   }
 
   @override
+  Future<void> undoStudy({Card card, User user}) async {
+    try {
+      await _cloudFunctions.call(functionName: 'deleteLastStudy', parameters: {
+        "cardId": card.id,
+      });
+    } on CloudFunctionsException catch (error) {
+      if (error.code == "FAILED_PRECONDITION") {
+        throw StudyOverundoException(card);
+      }
+    }
+  }
+
+  @override
   Future<List<int>> synthesize(String text) async {
     final audioBase64 = await _cloudFunctions
         .call(functionName: 'synthesize', parameters: {"text": text});
