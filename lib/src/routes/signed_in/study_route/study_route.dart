@@ -11,7 +11,8 @@ class StudyRoute extends MaterialPageRoute {
         providers: [
           StatefulProvider<CardStudyBloc>(
             valueBuilder: (_) =>
-                Provider.of<CardStudyBlocFactory>(context).create(),
+                Provider.of<CardStudyBlocFactory>(context).create()
+                  ..initialize(),
           ),
           StatefulProvider<SynthesizerBloc>(
             valueBuilder: (_) =>

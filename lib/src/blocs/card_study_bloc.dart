@@ -42,11 +42,15 @@ abstract class CardStudyBloc {
 
   Observable<bool> get canUndo;
 
+  void initialize();
+
   void studiedWell(Card card);
 
   void studiedVaguely(Card card);
 
   void undo();
+
+  void dispose();
 }
 
 class _CardStudyBloc implements CardStudyBloc {
@@ -61,18 +65,7 @@ class _CardStudyBloc implements CardStudyBloc {
         _authenticatable = authenticatable,
         _cardStudyable = cardStudyable,
         _cardStudyLoggable = cardStudyLoggable,
-        _inQueueCardSubscribable = inQueueCardSubscribable {
-    _inQueueCardSubscribable
-        .subscribeInQueueCards(
-          user: _authenticatable.user.value,
-        )
-        .first
-        .then((cards) {
-      _allInQueueCardsAtFirst = cards;
-    });
-
-    finishedRatio.where((ratio) => ratio == 1).listen((_) {});
-  }
+        _inQueueCardSubscribable = inQueueCardSubscribable;
 
   final Authenticatable _authenticatable;
 
@@ -105,6 +98,28 @@ class _CardStudyBloc implements CardStudyBloc {
   @override
   Observable<bool> get canUndo =>
       _studiedCards.map((studiedCards) => studiedCards.length > 0);
+
+  @override
+  void initialize() async {
+    final cards = await _inQueueCardSubscribable
+        .subscribeInQueueCards(
+          user: _authenticatable.user.value,
+        )
+        .first;
+
+    _cardStudyLoggable.logStudyStart(cardLength: cards.length);
+
+    _allInQueueCardsAtFirst = cards;
+
+    finishedRatio.listen((ratio) {
+      if (ratio == 1) {
+        _cardStudyLoggable.logStudyEnd(
+          cardLength: _allInQueueCardsAtFirst.length,
+          studiedCardLength: _studiedCards.value.length,
+        );
+      }
+    });
+  }
 
   @override
   Future<void> studiedWell(Card card) async {
@@ -145,6 +160,14 @@ class _CardStudyBloc implements CardStudyBloc {
       user: _authenticatable.user.value,
     );
   }
+
+  @override
+  void dispose() {
+    _cardStudyLoggable.logStudyEnd(
+      cardLength: _allInQueueCardsAtFirst.length,
+      studiedCardLength: _studiedCards.value.length,
+    );
+  }
 }
 
 mixin CardStudyable {
@@ -165,6 +188,13 @@ mixin InQueueCardSubscribable {
 }
 
 mixin CardStudyLoggable {
+  Future<void> logStudyStart({@required int cardLength});
+
+  Future<void> logStudyEnd({
+    @required int cardLength,
+    @required int studiedCardLength,
+  });
+
   Future<void> logCardStudy({@required StudyCertainty certainty});
 }
 

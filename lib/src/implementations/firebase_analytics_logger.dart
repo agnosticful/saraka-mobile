@@ -34,6 +34,28 @@ class FirebaseAnalyticsLogger
   Future<void> logSignOut() => _firebaseAnalytics.logEvent(name: 'logout');
 
   @override
+  Future<void> logStudyStart({int cardLength}) => _firebaseAnalytics.logEvent(
+        name: 'study_start',
+        parameters: {
+          "card_length": cardLength,
+        },
+      );
+
+  @override
+  Future<void> logStudyEnd({
+    int cardLength,
+    int studiedCardLength,
+  }) =>
+      _firebaseAnalytics.logEvent(
+        name: 'study_end',
+        parameters: {
+          "card_length": cardLength,
+          "studied_card_length": studiedCardLength,
+          "remaining_card_length": cardLength - studiedCardLength,
+        },
+      );
+
+  @override
   Future<void> logSynthesize({String text}) => _firebaseAnalytics.logEvent(
         name: 'synthesize',
         parameters: {
