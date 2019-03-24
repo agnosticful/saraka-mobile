@@ -28,6 +28,10 @@ class FirebaseAnalyticsLogger
       );
 
   @override
+  Future<void> logCardStudyUndo() =>
+      _firebaseAnalytics.logEvent(name: 'card_study_undo');
+
+  @override
   Future<void> logSignIn() => _firebaseAnalytics.logLogin();
 
   @override
