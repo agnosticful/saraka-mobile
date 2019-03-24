@@ -38,6 +38,8 @@ abstract class CardAdderBloc {
   void setText(String text);
 
   void save();
+
+  void initialize();
 }
 
 class _CardAdderBloc implements CardAdderBloc {
@@ -97,6 +99,11 @@ class _CardAdderBloc implements CardAdderBloc {
 
     _state.add(CardAddingState.completed);
   }
+
+  @override
+  void initialize() {
+    _cardCreateLoggable.logCardCreateStart();
+  }
 }
 
 enum CardAddingState {
@@ -112,6 +119,8 @@ mixin CardAddable {
 }
 
 mixin CardCreateLoggable {
+  Future<void> logCardCreateStart();
+
   Future<void> logCardCreate();
 }
 

@@ -19,6 +19,10 @@ class FirebaseAnalyticsLogger
       _firebaseAnalytics.logEvent(name: 'card_create');
 
   @override
+  Future<void> logCardCreateStart() =>
+      _firebaseAnalytics.logEvent(name: 'card_create_start');
+
+  @override
   Future<void> logCardStudy({StudyCertainty certainty}) =>
       _firebaseAnalytics.logEvent(
         name: 'card_study',

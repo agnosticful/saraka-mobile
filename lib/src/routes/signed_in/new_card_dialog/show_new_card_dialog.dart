@@ -54,7 +54,8 @@ void showNewCardDialog(BuildContext context) {
             ),
             StatefulProvider<CardAdderBloc>(
               valueBuilder: (_) =>
-                  Provider.of<CardAdderBlocFactory>(context).create(),
+                  Provider.of<CardAdderBlocFactory>(context).create()
+                    ..initialize(),
             ),
             StatefulProvider<SynthesizerBloc>(
               valueBuilder: (_) =>
