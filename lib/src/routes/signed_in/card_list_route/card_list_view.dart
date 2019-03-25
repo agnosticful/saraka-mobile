@@ -14,6 +14,8 @@ class CardListView extends StatefulWidget {
 class _CardListViewState extends State<CardListView> {
   CardListBloc _cardListBloc;
 
+  Set<Card> _expandedCards = Set();
+
   @override
   void initState() {
     super.initState();
@@ -58,9 +60,15 @@ class _CardListViewState extends State<CardListView> {
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (context, i) {
+                          final card = snapshot.requireData[i ~/ 2];
+
                           return i.isEven
                               ? CardListViewItem(
-                                  card: snapshot.requireData[i ~/ 2])
+                                  key: ValueKey(card.id),
+                                  card: card,
+                                  onTap: () => onItemTap(card),
+                                  isExpanded: _expandedCards.contains(card),
+                                )
                               : SizedBox(height: 16);
                         },
                         childCount: max(0, snapshot.requireData.length * 2 - 1),
@@ -73,5 +81,17 @@ class _CardListViewState extends State<CardListView> {
 
   void _onSignOutPressed(BuildContext context) {
     Provider.of<AuthenticationBloc>(context).signOut();
+  }
+
+  void onItemTap(Card card) {
+    if (_expandedCards.contains(card)) {
+      setState(() {
+        _expandedCards.remove(card);
+      });
+    } else {
+      setState(() {
+        _expandedCards.add(card);
+      });
+    }
   }
 }
