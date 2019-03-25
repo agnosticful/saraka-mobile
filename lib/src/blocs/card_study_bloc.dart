@@ -3,27 +3,34 @@ import 'package:rxdart/rxdart.dart';
 import 'package:saraka/entities.dart';
 import './commons/authenticatable.dart';
 
+export 'package:saraka/entities.dart' show StudyCertainty;
+
 class CardStudyBlocFactory {
   CardStudyBlocFactory({
     @required Authenticatable authenticatable,
     @required CardStudyable cardStudyable,
+    @required CardStudyLoggable cardStudyLoggable,
     @required InQueueCardSubscribable inQueueCardSubscribable,
   })  : assert(authenticatable != null),
         assert(cardStudyable != null),
         assert(inQueueCardSubscribable != null),
         _authenticatable = authenticatable,
         _cardStudyable = cardStudyable,
+        _cardStudyLoggable = cardStudyLoggable,
         _inQueueCardSubscribable = inQueueCardSubscribable;
 
   final Authenticatable _authenticatable;
 
   final CardStudyable _cardStudyable;
 
+  final CardStudyLoggable _cardStudyLoggable;
+
   final InQueueCardSubscribable _inQueueCardSubscribable;
 
   CardStudyBloc create() => _CardStudyBloc(
         authenticatable: _authenticatable,
         cardStudyable: _cardStudyable,
+        cardStudyLoggable: _cardStudyLoggable,
         inQueueCardSubscribable: _inQueueCardSubscribable,
       );
 }
@@ -35,58 +42,63 @@ abstract class CardStudyBloc {
 
   Observable<bool> get canUndo;
 
+  void initialize();
+
   void studiedWell(Card card);
 
   void studiedVaguely(Card card);
 
   void undo();
+
+  void dispose();
 }
 
 class _CardStudyBloc implements CardStudyBloc {
   _CardStudyBloc({
     @required Authenticatable authenticatable,
     @required CardStudyable cardStudyable,
+    @required CardStudyLoggable cardStudyLoggable,
     @required InQueueCardSubscribable inQueueCardSubscribable,
   })  : assert(authenticatable != null),
         assert(cardStudyable != null),
         assert(inQueueCardSubscribable != null),
         _authenticatable = authenticatable,
         _cardStudyable = cardStudyable,
-        _inQueueCardSubscribable = inQueueCardSubscribable {
-    _inQueueCardSubscribable
-        .subscribeInQueueCards(
-          user: _authenticatable.user.value,
-        )
-        .first
-        .then((cards) {
-      _allInQueueCardsAtFirst = cards;
-    });
-  }
+        _cardStudyLoggable = cardStudyLoggable,
+        _inQueueCardSubscribable = inQueueCardSubscribable;
 
   final Authenticatable _authenticatable;
 
   final CardStudyable _cardStudyable;
 
+  final CardStudyLoggable _cardStudyLoggable;
+
   final InQueueCardSubscribable _inQueueCardSubscribable;
 
-  List<Card> _allInQueueCardsAtFirst = [];
+  final BehaviorSubject<List<Card>> _allInQueueCards =
+      BehaviorSubject.seeded([]);
 
   final BehaviorSubject<List<Card>> _studiedCards = BehaviorSubject.seeded([]);
 
   @override
-  Observable<List<Card>> get cardsInQueue => _studiedCards.map(
-        (studiedCards) => _allInQueueCardsAtFirst
-            .where(
-              (card) => !studiedCards.contains(card),
-            )
-            .toList(),
+  Observable<List<Card>> get cardsInQueue => Observable.combineLatest2(
+        _allInQueueCards,
+        _studiedCards,
+        (allCards, studiedCards) =>
+            allCards.where((card) => !studiedCards.contains(card)).toList(),
       );
 
   @override
-  Observable<double> get finishedRatio => _studiedCards.map(
-        (studiedCards) => _allInQueueCardsAtFirst.length == 0
-            ? 0
-            : (studiedCards.length) / _allInQueueCardsAtFirst.length,
+  Observable<double> get finishedRatio => Observable.combineLatest2(
+        _allInQueueCards,
+        _studiedCards,
+        (allCards, studiedCards) {
+          final numberOfAllCards = allCards.length;
+
+          return numberOfAllCards == 0
+              ? 0
+              : studiedCards.length / numberOfAllCards;
+        },
       );
 
   @override
@@ -94,45 +106,78 @@ class _CardStudyBloc implements CardStudyBloc {
       _studiedCards.map((studiedCards) => studiedCards.length > 0);
 
   @override
-  Future<void> studiedWell(Card card) async {
-    _studiedCards.add(_studiedCards.value.toList()..add(card));
+  void initialize() async {
+    final cards = await _inQueueCardSubscribable
+        .subscribeInQueueCards(user: _authenticatable.user.value)
+        .first;
 
-    await _cardStudyable.study(
+    _cardStudyLoggable.logStudyStart(cardLength: cards.length);
+
+    _allInQueueCards.add(cards);
+
+    finishedRatio.listen((ratio) {
+      if (ratio == 1) {
+        _cardStudyLoggable.logStudyEnd(
+          cardLength: cards.length,
+          studiedCardLength: _studiedCards.value.length,
+        );
+      }
+    });
+  }
+
+  @override
+  Future<void> studiedWell(Card card) async {
+    _studiedCards.add(List.from(_studiedCards.value)..add(card));
+
+    _cardStudyable.study(
       card: card,
       certainty: StudyCertainty.good,
       user: _authenticatable.user.value,
+    );
+
+    _cardStudyLoggable.logCardStudy(
+      certainty: StudyCertainty.good,
     );
   }
 
   @override
   Future<void> studiedVaguely(Card card) async {
-    _studiedCards.add(_studiedCards.value.toList()..add(card));
+    _studiedCards.add(List.from(_studiedCards.value)..add(card));
 
-    await _cardStudyable.study(
+    _cardStudyable.study(
       card: card,
       certainty: StudyCertainty.vague,
       user: _authenticatable.user.value,
     );
+
+    _cardStudyLoggable.logCardStudy(
+      certainty: StudyCertainty.vague,
+    );
   }
 
   @override
-  void undo() {
+  void undo() async {
     assert(_studiedCards.value.length >= 1);
 
-    final card = _studiedCards.value.last;
+    final lastCard = _studiedCards.value.last;
 
-    _studiedCards.add(List.from(_studiedCards.value)..remove(card));
+    _studiedCards.add(List.from(_studiedCards.value)..remove(lastCard));
 
     _cardStudyable.undoStudy(
-      card: card,
+      card: lastCard,
       user: _authenticatable.user.value,
     );
-  }
-}
 
-enum StudyCertainty {
-  good,
-  vague,
+    _cardStudyLoggable.logCardStudyUndo();
+  }
+
+  @override
+  Future<void> dispose() async {
+    _cardStudyLoggable.logStudyEnd(
+      cardLength: _allInQueueCards.value.length,
+      studiedCardLength: _studiedCards.value.length,
+    );
+  }
 }
 
 mixin CardStudyable {
@@ -150,6 +195,19 @@ mixin CardStudyable {
 
 mixin InQueueCardSubscribable {
   Observable<List<Card>> subscribeInQueueCards({@required User user});
+}
+
+mixin CardStudyLoggable {
+  Future<void> logStudyStart({@required int cardLength});
+
+  Future<void> logStudyEnd({
+    @required int cardLength,
+    @required int studiedCardLength,
+  });
+
+  Future<void> logCardStudy({@required StudyCertainty certainty});
+
+  Future<void> logCardStudyUndo();
 }
 
 class StudyDuplicationException implements Exception {

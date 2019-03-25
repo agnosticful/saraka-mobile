@@ -7,12 +7,15 @@ class SynthesizerBlocFactory {
     @required SoundFilePlayable soundFilePlayable,
     @required Synthesizable synthesizable,
     @required SynthesizedSoundFileReferable synthesizedSoundFileReferable,
+    @required SynthesizeLoggable synthesizeLoggable,
   })  : assert(soundFilePlayable != null),
         assert(synthesizedSoundFileReferable != null),
         assert(synthesizable != null),
+        assert(synthesizeLoggable != null),
         _soundFilePlayable = soundFilePlayable,
         _synthesizable = synthesizable,
-        _synthesizedSoundFileReferable = synthesizedSoundFileReferable;
+        _synthesizedSoundFileReferable = synthesizedSoundFileReferable,
+        _synthesizeLoggable = synthesizeLoggable;
 
   final SoundFilePlayable _soundFilePlayable;
 
@@ -20,10 +23,13 @@ class SynthesizerBlocFactory {
 
   final SynthesizedSoundFileReferable _synthesizedSoundFileReferable;
 
+  final SynthesizeLoggable _synthesizeLoggable;
+
   SynthesizerBloc create() => _SynthesizerBloc(
         soundFilePlayable: _soundFilePlayable,
         synthesizable: _synthesizable,
         synthesizedSoundFileReferable: _synthesizedSoundFileReferable,
+        synthesizeLoggable: _synthesizeLoggable,
       );
 }
 
@@ -40,18 +46,23 @@ class _SynthesizerBloc implements SynthesizerBloc {
     @required SoundFilePlayable soundFilePlayable,
     @required Synthesizable synthesizable,
     @required SynthesizedSoundFileReferable synthesizedSoundFileReferable,
+    @required SynthesizeLoggable synthesizeLoggable,
   })  : assert(soundFilePlayable != null),
         assert(synthesizable != null),
         assert(synthesizedSoundFileReferable != null),
+        assert(synthesizeLoggable != null),
         _soundFilePlayable = soundFilePlayable,
         _synthesizable = synthesizable,
-        _synthesizedSoundFileReferable = synthesizedSoundFileReferable;
+        _synthesizedSoundFileReferable = synthesizedSoundFileReferable,
+        _synthesizeLoggable = synthesizeLoggable;
 
   final SoundFilePlayable _soundFilePlayable;
 
   final Synthesizable _synthesizable;
 
   final SynthesizedSoundFileReferable _synthesizedSoundFileReferable;
+
+  final SynthesizeLoggable _synthesizeLoggable;
 
   final _isCaching = PublishSubject();
 
@@ -79,6 +90,8 @@ class _SynthesizerBloc implements SynthesizerBloc {
 
       final sound = await _synthesizable.synthesize(text);
 
+      _synthesizeLoggable.logSynthesize(text: text);
+
       await file.writeAsBytes(sound);
 
       _isCaching.add(-1);
@@ -98,4 +111,8 @@ mixin SynthesizedSoundFileReferable {
 
 mixin Synthesizable {
   Future<List<int>> synthesize(String text);
+}
+
+mixin SynthesizeLoggable {
+  Future<void> logSynthesize({@required String text});
 }

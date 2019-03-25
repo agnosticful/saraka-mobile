@@ -26,9 +26,9 @@ class _CardBundleState extends State<CardBundle> {
   @override
   Widget build(BuildContext context) => _cardStudyBloc == null
       ? Container()
-      : StreamBuilder<Iterable<Card>>(
+      : StreamBuilder<List<Card>>(
           stream: _cardStudyBloc.cardsInQueue,
-          initialData: Iterable.empty(),
+          initialData: [],
           builder: (context, snapshot) {
             if (snapshot.requireData.length == 0) {
               return Container();

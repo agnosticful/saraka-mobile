@@ -1,4 +1,5 @@
 export './src/implementations/cache_storage.dart';
+export './src/implementations/firebase_analytics_logger.dart';
 export './src/implementations/firebase_authentication.dart';
 export './src/implementations/firebase_external_functions.dart';
 export './src/implementations/firestore_card.dart';

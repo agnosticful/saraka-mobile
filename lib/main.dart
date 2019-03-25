@@ -1,5 +1,6 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,12 +12,16 @@ import './application.dart';
 void main() {
   Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
 
+  final firebaseAnalytics = FirebaseAnalytics();
+
   final authentication = FirebaseAuthentication(
     firebaseAuth: FirebaseAuth.instance,
     googleSignIn: GoogleSignIn(),
   );
 
   final cacheStorage = CacheStorage();
+
+  final logger = FirebaseAnalyticsLogger(firebaseAnalytics: firebaseAnalytics);
 
   final cardRepository = FirestoreCardRepository(
     firestore: Firestore.instance,
@@ -31,16 +36,19 @@ void main() {
   final authenticationBlocFactory = AuthenticationBlocFactory(
     authenticatable: authentication,
     signable: authentication,
+    signInOutLoggable: logger,
   );
 
   final cardAdderBlocFactory = CardAdderBlocFactory(
     authenticatable: authentication,
     cardAddable: firebaseExternalFunctions,
+    cardCreateLoggable: logger,
   );
 
   final cardStudyBlocFactory = CardStudyBlocFactory(
     authenticatable: authentication,
     cardStudyable: firebaseExternalFunctions,
+    cardStudyLoggable: logger,
     inQueueCardSubscribable: cardRepository,
   );
 
@@ -53,6 +61,7 @@ void main() {
     soundFilePlayable: soundPlayer,
     synthesizable: firebaseExternalFunctions,
     synthesizedSoundFileReferable: cacheStorage,
+    synthesizeLoggable: logger,
   );
 
   final authenticationBloc = authenticationBlocFactory.create();

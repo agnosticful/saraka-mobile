@@ -49,7 +49,7 @@ class FirebaseAuthentication implements Authenticatable, Signable {
   }
 
   @override
-  Future<void> signOut() async => _firebaseAuth.signOut();
+  Future<void> signOut() => _firebaseAuth.signOut();
 }
 
 class _User extends User {
