@@ -65,111 +65,109 @@ class _CardListViewItemState extends State<CardListViewItem>
 
   @override
   Widget build(BuildContext context) => Material(
-      shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
-      elevation: 6,
-      shadowColor: SarakaColors.darkGray.withOpacity(0.25),
-      clipBehavior: Clip.antiAlias,
-      color: Color(0xffffffff),
-      child: Stack(
-        // fit: StackFit.expand,
-        alignment: Alignment.bottomLeft,
-        children: [
-          Positioned.fill(
-            child: FadeTransition(
-              opacity: _animation,
-              child: Container(
-                // constraints: BoxConstraints.expand(height: 200),
-                padding: EdgeInsets.only(top: 16, right: 64, bottom: 16),
-                child: MaturityLineChart(),
-              ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+        elevation: 6,
+        shadowColor: SarakaColors.darkGray.withOpacity(0.25),
+        clipBehavior: Clip.antiAlias,
+        color: Color(0xffffffff),
+        child: InkWell(
+          onTap: widget.onTap,
+          child: Stack(
+            alignment: Alignment.bottomLeft,
             children: [
-              InkWell(
-                onTap: widget.onTap,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          widget.card.text,
-                          overflow:
-                              widget.isExpanded ? null : TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: SarakaColors.lightBlack,
-                            fontSize: 16,
-                            fontFamily: SarakaFonts.rubik,
-                            fontWeight: FontWeight.w500,
-                            height: 1.25,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      RotationTransition(
-                        turns: Tween(begin: 0.0, end: 0.5).animate(_animation),
-                        child: Icon(
-                          Feather.getIconData('chevron-down'),
-                          color: SarakaColors.lightGray,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizeTransition(
-                sizeFactor: _animation,
+              Positioned.fill(
                 child: FadeTransition(
                   opacity: _animation,
                   child: Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(
-                            top: 0,
-                            bottom: 12,
-                            left: 12,
-                            right: 12,
+                    padding: EdgeInsets.only(top: 16, right: 64, bottom: 16),
+                    child: MaturityLineChart(),
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(12, 16, 12, 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding:
+                          const EdgeInsets.only(bottom: 4, left: 4, right: 4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              widget.card.text,
+                              overflow: widget.isExpanded
+                                  ? null
+                                  : TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: SarakaColors.lightBlack,
+                                fontSize: 16,
+                                fontFamily: SarakaFonts.rubik,
+                                fontWeight: FontWeight.w500,
+                                height: 1.25,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
                           ),
+                          SizedBox(width: 8),
+                          RotationTransition(
+                            turns:
+                                Tween(begin: 0.0, end: 0.5).animate(_animation),
+                            child: Icon(
+                              Feather.getIconData('chevron-down'),
+                              color: SarakaColors.lightGray,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizeTransition(
+                      sizeFactor: _animation,
+                      child: FadeTransition(
+                        opacity: _animation,
+                        child: Container(
+                          padding: const EdgeInsets.only(top: 12),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               SynthesizeIconButton(text: widget.card.text),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Next Study",
-                                    style: TextStyle(
-                                      color: SarakaColors.darkGray,
-                                      fontFamily: SarakaFonts.rubik,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
+                              Container(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Next Study",
+                                      style: const TextStyle(
+                                        color: SarakaColors.darkGray,
+                                        fontFamily: SarakaFonts.rubik,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 4),
-                                  NextStudyDateText(card: widget.card),
-                                ],
+                                    SizedBox(height: 4),
+                                    NextStudyDateText(card: widget.card),
+                                  ],
+                                ),
                               ),
                               IconButton(
                                 icon: Icon(Feather.getIconData('trash-2')),
-                                color: SarakaColors.lightRed,
+                                color: SarakaColors.darkGray,
                                 onPressed: () {},
                               ),
                             ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ],
           ),
-        ],
-      ));
+        ),
+      );
 }

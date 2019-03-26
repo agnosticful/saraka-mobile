@@ -4,42 +4,24 @@ import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 
-class MaturityLineChart extends StatefulWidget {
-  @override
-  State<MaturityLineChart> createState() => _MaturityLineChartState();
-}
-
-class _MaturityLineChartState extends State<MaturityLineChart> {
-  CardDetailBloc _cardDetailBloc;
-
-  @override
-  void initState() {
-    super.initState();
-
-    Future.delayed(Duration.zero, () {
-      _cardDetailBloc = Provider.of<CardDetailBloc>(context);
-    });
-  }
-
+class MaturityLineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      // height: 128,
-      child: _cardDetailBloc != null
-          ? StreamBuilder<List<Study>>(
-              stream: _cardDetailBloc.studies,
+    return Consumer<CardDetailBloc>(
+      builder: (context, cardDetailBloc) => SizedBox(
+            child: StreamBuilder<List<Study>>(
+              stream: cardDetailBloc.studies,
               builder: (context, snapshot) => charts.LineChart(
                     <charts.Series<Study, int>>[
                       charts.Series(
                         id: "maturity",
-                        displayName: "Maturity",
                         domainFn: (_, i) => i,
                         measureFn: (study, _) => study.maturity * 100,
                         colorFn: (_, i) => charts.Color(
                               r: SarakaColors.lightRed.red,
                               g: SarakaColors.lightRed.green,
                               b: SarakaColors.lightRed.blue,
-                              a: 63,
+                              a: 31,
                             ),
                         data: snapshot.hasData
                             ? snapshot.requireData.reversed.toList()
@@ -60,7 +42,6 @@ class _MaturityLineChartState extends State<MaturityLineChart> {
                       radiusPx: 4.5,
                       includePoints: false,
                       roundEndCaps: true,
-                      // layoutPaintOrder: charts.LayoutViewPaintOrder.measureAxis,
                     ),
                     defaultInteractions: false,
                     layoutConfig: charts.LayoutConfig(
@@ -70,8 +51,8 @@ class _MaturityLineChartState extends State<MaturityLineChart> {
                       bottomMarginSpec: charts.MarginSpec.fixedPixel(0),
                     ),
                   ),
-            )
-          : Container(),
+            ),
+          ),
     );
   }
 }
