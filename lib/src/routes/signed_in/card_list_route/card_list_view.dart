@@ -14,6 +14,10 @@ class CardListView extends StatefulWidget {
 class _CardListViewState extends State<CardListView> {
   CardListBloc _cardListBloc;
 
+  CardDetailBlocFactory _cardDetailBlocFactory;
+
+  SynthesizerBlocFactory _synthesizerBlocFactory;
+
   Set<Card> _expandedCards = Set();
 
   @override
@@ -22,9 +26,14 @@ class _CardListViewState extends State<CardListView> {
 
     Future.delayed(Duration.zero, () async {
       final cardListBloc = Provider.of<CardListBloc>(context);
+      final cardDetailBlocFactory = Provider.of<CardDetailBlocFactory>(context);
+      final synthesizerBlocFactory =
+          Provider.of<SynthesizerBlocFactory>(context);
 
       setState(() {
         _cardListBloc = cardListBloc;
+        _cardDetailBlocFactory = cardDetailBlocFactory;
+        _synthesizerBlocFactory = synthesizerBlocFactory;
       });
     });
   }
@@ -63,11 +72,23 @@ class _CardListViewState extends State<CardListView> {
                           final card = snapshot.requireData[i ~/ 2];
 
                           return i.isEven
-                              ? CardListViewItem(
+                              ? MultiProvider(
                                   key: ValueKey(card.id),
-                                  card: card,
-                                  onTap: () => onItemTap(card),
-                                  isExpanded: _expandedCards.contains(card),
+                                  providers: [
+                                    StatefulProvider<CardDetailBloc>(
+                                      valueBuilder: (context) =>
+                                          _cardDetailBlocFactory.create(card),
+                                    ),
+                                    StatefulProvider<SynthesizerBloc>(
+                                      valueBuilder: (context) =>
+                                          _synthesizerBlocFactory.create(),
+                                    ),
+                                  ],
+                                  child: CardListViewItem(
+                                    card: card,
+                                    onTap: () => onItemTap(card),
+                                    isExpanded: _expandedCards.contains(card),
+                                  ),
                                 )
                               : SizedBox(height: 16);
                         },
