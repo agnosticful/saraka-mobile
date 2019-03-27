@@ -21,7 +21,7 @@ class FirestoreCardRepository
         .collection('users')
         .document(user.id)
         .collection('cards')
-        .orderBy('createdAt', descending: true)
+        .orderBy('nextStudyInterval', descending: true)
         .limit(1000)
         .snapshots()
         .listen((snapshot) {
