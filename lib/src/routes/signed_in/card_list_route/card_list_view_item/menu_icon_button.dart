@@ -11,7 +11,9 @@ class MenuIconButton extends StatelessWidget {
         Feather.getIconData('more-vertical'),
         color: SarakaColors.darkGray,
       ),
-      onPressed: () {},
+      onPressed: () {
+        // TODO: implement "delete card" here
+      },
     );
   }
 }
