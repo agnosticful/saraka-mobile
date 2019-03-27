@@ -5,7 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import './card_list_view_item.dart';
+import './card_list_view_item/card_list_view_item.dart';
 
 class CardListView extends StatefulWidget {
   State<CardListView> createState() => _CardListViewState();
@@ -17,8 +17,6 @@ class _CardListViewState extends State<CardListView> {
   CardDetailBlocFactory _cardDetailBlocFactory;
 
   SynthesizerBlocFactory _synthesizerBlocFactory;
-
-  Set<Card> _expandedCards = Set();
 
   @override
   void initState() {
@@ -86,8 +84,6 @@ class _CardListViewState extends State<CardListView> {
                                   ],
                                   child: CardListViewItem(
                                     card: card,
-                                    onTap: () => onItemTap(card),
-                                    isExpanded: _expandedCards.contains(card),
                                   ),
                                 )
                               : SizedBox(height: 16);
@@ -102,17 +98,5 @@ class _CardListViewState extends State<CardListView> {
 
   void _onSignOutPressed(BuildContext context) {
     Provider.of<AuthenticationBloc>(context).signOut();
-  }
-
-  void onItemTap(Card card) {
-    if (_expandedCards.contains(card)) {
-      setState(() {
-        _expandedCards.remove(card);
-      });
-    } else {
-      setState(() {
-        _expandedCards.add(card);
-      });
-    }
   }
 }

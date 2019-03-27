@@ -17,6 +17,7 @@ class SynthesizeIconButton extends StatelessWidget {
     return Consumer<SynthesizerBloc>(
       builder: (context, synthesizerBloc) => IconButton(
             icon: Icon(Feather.getIconData('volume-2')),
+            iconSize: 24,
             color: SarakaColors.darkGray,
             onPressed: () {
               synthesizerBloc.play(text);
