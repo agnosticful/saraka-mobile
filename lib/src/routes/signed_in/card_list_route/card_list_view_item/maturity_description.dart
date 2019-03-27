@@ -1,13 +1,12 @@
 import 'package:flutter/widgets.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 
-class Maturity extends StatelessWidget {
-  Maturity({@required this.card, Key key})
-      : assert(card != null),
+class MaturityDescription extends StatelessWidget {
+  MaturityDescription({@required this.maturity, Key key})
+      : assert(maturity != null),
         super(key: key);
 
-  final Card card;
+  final double maturity;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class Maturity extends StatelessWidget {
         ),
         SizedBox(height: 4),
         Text(
-          "${card.maturity.toStringAsFixed(2)}%",
+          "${maturity.toStringAsFixed(2)}%",
           style: TextStyle(
             color: SarakaColors.darkGray,
             fontFamily: SarakaFonts.rubik,

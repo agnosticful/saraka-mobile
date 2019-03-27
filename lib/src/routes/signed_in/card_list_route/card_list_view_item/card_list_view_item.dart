@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart' show Material;
 import 'package:flutter/widgets.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import './maturity_description.dart';
 import './maturity_line_chart.dart';
-import './maturity.dart';
 import './menu_icon_button.dart';
-import './next_study_date_text.dart';
+import './next_study_date_description.dart';
 import './synthesize_icon_button.dart';
 
 class CardListViewItem extends StatelessWidget {
@@ -27,7 +26,7 @@ class CardListViewItem extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           children: [
             Positioned.fill(
-              child: Container(
+              child: Padding(
                 padding: EdgeInsets.only(right: 64, bottom: 24),
                 child: MaturityLineChart(),
               ),
@@ -80,12 +79,14 @@ class CardListViewItem extends StatelessWidget {
                       SizedBox(width: 32),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
-                        child: NextStudyDateText(card: card),
+                        child: NextStudyDateDescription(
+                          nextStudyScheduledAt: card.nextStudyScheduledAt,
+                        ),
                       ),
                       SizedBox(width: 32),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
-                        child: Maturity(card: card),
+                        child: MaturityDescription(maturity: card.maturity),
                       ),
                     ],
                   ),

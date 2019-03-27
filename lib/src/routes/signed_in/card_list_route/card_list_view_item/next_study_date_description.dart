@@ -1,17 +1,16 @@
 import 'package:flutter/widgets.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 
-class NextStudyDateText extends StatelessWidget {
-  NextStudyDateText({@required this.card, Key key})
-      : assert(card != null),
+class NextStudyDateDescription extends StatelessWidget {
+  NextStudyDateDescription({@required this.nextStudyScheduledAt, Key key})
+      : assert(nextStudyScheduledAt != null),
         super(key: key);
 
-  final Card card;
+  final DateTime nextStudyScheduledAt;
 
   @override
   Widget build(BuildContext context) {
-    final difference = card.nextStudyScheduledAt.difference(DateTime.now());
+    final difference = nextStudyScheduledAt.difference(DateTime.now());
     String when;
 
     if (difference.inHours <= 3) {
@@ -25,7 +24,7 @@ class NextStudyDateText extends StatelessWidget {
     } else if (difference.inDays < 180) {
       when = "${difference.inDays / 30} months later";
     } else {
-      when = "in ${card.nextStudyScheduledAt.year}";
+      when = "in ${nextStudyScheduledAt.year}";
     }
 
     return Column(
