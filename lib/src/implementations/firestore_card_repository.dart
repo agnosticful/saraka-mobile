@@ -6,7 +6,11 @@ import './firestore_card.dart';
 import './firestore_study.dart';
 
 class FirestoreCardRepository
-    implements CardSubscribable, InQueueCardSubscribable, StudySubscribable {
+    implements
+        CardDeletable,
+        CardSubscribable,
+        InQueueCardSubscribable,
+        StudySubscribable {
   FirestoreCardRepository({
     @required Firestore firestore,
   })  : assert(firestore != null),
@@ -86,4 +90,15 @@ class FirestoreCardRepository
 
     return observable;
   }
+
+  @override
+  Future<void> deleteCard({User user, Card card}) => Future.wait([
+        Future.delayed(Duration(milliseconds: 600)),
+        _firestore
+            .collection('users')
+            .document(user.id)
+            .collection('cards')
+            .document(card.id)
+            .delete(),
+      ]);
 }

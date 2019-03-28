@@ -45,6 +45,11 @@ void main() {
     cardCreateLoggable: logger,
   );
 
+  final cardDeleteBlocFactory = CardDeleteBlocFactory(
+    authenticatable: authentication,
+    cardDeletable: cardRepository,
+  );
+
   final cardDetailBlocFactory = CardDetailBlocFactory(
     authenticatable: authentication,
     studySubscribable: cardRepository,
@@ -75,6 +80,7 @@ void main() {
     MultiProvider(
       providers: [
         Provider<CardAdderBlocFactory>(value: cardAdderBlocFactory),
+        Provider<CardDeleteBlocFactory>(value: cardDeleteBlocFactory),
         Provider<CardDetailBlocFactory>(value: cardDetailBlocFactory),
         Provider<CardStudyBlocFactory>(value: cardStudyBlocFactory),
         Provider<CardListBlocFactory>(value: cardListBlocFactory),
