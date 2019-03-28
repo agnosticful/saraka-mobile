@@ -60,7 +60,7 @@ class CardListViewItem extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 4, right: 4),
-                      child: MenuIconButton(card: card),
+                      child: MenuIconButton(),
                     ),
                   ],
                 ),

@@ -26,6 +26,8 @@ class CardDetailBlocFactory {
 }
 
 abstract class CardDetailBloc {
+  Card get card;
+
   ValueObservable<List<Study>> get studies;
 }
 
@@ -40,6 +42,7 @@ class _CardDetailBloc implements CardDetailBloc {
         _authenticatable = authenticatable,
         _studySubscribable = studySubscribable;
 
+  @override
   final Card card;
 
   final Authenticatable _authenticatable;

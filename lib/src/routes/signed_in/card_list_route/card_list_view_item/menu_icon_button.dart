@@ -2,18 +2,12 @@ import 'package:flutter/material.dart' show PopupMenuItem, showMenu;
 import 'package:flutter/material.dart' show IconButton;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 import '../../card_delete_confirm_dialog/show_card_delete_confirm_dialog.dart';
 
 class MenuIconButton extends StatelessWidget {
-  MenuIconButton({Key key, @required Card card})
-      : assert(card != null),
-        _card = card,
-        super(key: key);
-
-  final Card _card;
-
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -55,7 +49,9 @@ class MenuIconButton extends StatelessWidget {
     );
 
     if (selectedItem != null) {
-      showCardDeleteConfirmDialog(context, card: _card);
+      final card = Provider.of<CardDetailBloc>(context).card;
+
+      showCardDeleteConfirmDialog(context, card: card);
     }
   }
 }
