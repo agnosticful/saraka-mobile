@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saraka/constants.dart';
 import './card_list_route/card_list_route.dart';
 import './study_route/study_route.dart';
 
@@ -33,6 +34,8 @@ class SignedInRoute extends PageRoute {
     Animation<double> secondaryAnimation,
   ) =>
       MaterialApp(
+        theme:
+            ThemeData.fallback().copyWith(accentColor: SarakaColors.lightRed),
         initialRoute: '/',
         onGenerateRoute: (settings) {
           switch (settings.name) {
