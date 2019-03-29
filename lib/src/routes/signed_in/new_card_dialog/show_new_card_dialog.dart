@@ -40,7 +40,7 @@ void showNewCardDialog(BuildContext context) {
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(16),
-                  child: child,
+                  child: Center(child: child),
                 ),
               ),
             ),
@@ -55,7 +55,13 @@ void showNewCardDialog(BuildContext context) {
             StatefulProvider<CardAdderBloc>(
               valueBuilder: (_) =>
                   Provider.of<CardAdderBlocFactory>(context).create()
-                    ..initialize(),
+                    ..initialize()
+                    ..onComplete.listen((_) {
+                      Navigator.of(context).pop();
+                    })
+                    ..onError.listen((error) {
+                      Navigator.of(context).pop();
+                    }),
             ),
             StatefulProvider<SynthesizerBloc>(
               valueBuilder: (_) =>
