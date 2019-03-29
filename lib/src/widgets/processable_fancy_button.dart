@@ -8,10 +8,12 @@ class ProcessableFancyButton extends StatefulWidget {
     Key key,
     @required this.color,
     this.isProcessing = false,
+    this.isDisabled = false,
     @required this.onPressed,
     @required this.child,
   })  : assert(color != null),
         assert(isProcessing != null),
+        assert(isDisabled != null),
         assert(onPressed != null),
         assert(child != null),
         super(key: key);
@@ -19,6 +21,8 @@ class ProcessableFancyButton extends StatefulWidget {
   final Color color;
 
   final bool isProcessing;
+
+  final bool isDisabled;
 
   final VoidCallback onPressed;
 
@@ -67,8 +71,8 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
   Widget build(BuildContext context) {
     return RaisedButton(
       shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
-      onPressed: widget.onPressed,
-      color: widget.color,
+      onPressed: widget.isDisabled ? () {} : widget.onPressed,
+      color: widget.isDisabled ? SarakaColors.darkWhite : widget.color,
       elevation: 6,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12),
@@ -81,11 +85,13 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
                 scale: Tween(begin: 1.0, end: 0.0).animate(_animation),
                 child: DefaultTextStyle(
                   style: TextStyle(
-                    color: (widget.color.computeLuminance() + 0.05) *
-                                (widget.color.computeLuminance() + 0.05) >
-                            0.3
-                        ? SarakaColors.darkBlack
-                        : SarakaColors.white,
+                    color: widget.isDisabled
+                        ? SarakaColors.darkGray
+                        : (widget.color.computeLuminance() + 0.05) *
+                                    (widget.color.computeLuminance() + 0.05) >
+                                0.3
+                            ? SarakaColors.darkBlack
+                            : SarakaColors.white,
                     fontSize: 16,
                     fontFamily: SarakaFonts.rubik,
                     fontWeight: FontWeight.w500,
@@ -103,7 +109,8 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    valueColor: AlwaysStoppedAnimation(SarakaColors.white),
+                    valueColor:
+                        const AlwaysStoppedAnimation(SarakaColors.white),
                   ),
                 ),
               ),
