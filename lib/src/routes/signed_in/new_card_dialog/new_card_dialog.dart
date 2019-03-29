@@ -23,7 +23,7 @@ class NewCardDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 16, left: 12),
+                    padding: const EdgeInsets.only(bottom: 8, left: 8),
                     child: SynthesizeButton(),
                   ),
                   Expanded(child: Container()),
