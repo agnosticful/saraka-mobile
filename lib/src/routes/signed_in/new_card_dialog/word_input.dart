@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import './synthesize_button.dart';
 
 class WordInput extends StatefulWidget {
   @override
@@ -11,7 +10,7 @@ class WordInput extends StatefulWidget {
 }
 
 class _WordInputState extends State<WordInput> {
-  final TextEditingController _controller = TextEditingController();
+  final _controller = TextEditingController();
 
   VoidCallback _listener;
 
@@ -32,41 +31,43 @@ class _WordInputState extends State<WordInput> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _controller.removeListener(_listener);
+
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 6,
-      shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
-      color: SarakaColors.darkWhite,
-      child: TextField(
-        controller: _controller,
-        decoration: InputDecoration(
-          hintText: 'e.g. get used to',
-          hintStyle: TextStyle(
-            fontSize: 16,
-            fontFamily: SarakaFonts.rubik,
-            color: SarakaColors.darkGray,
+    return Consumer<CardAdderBloc>(
+      builder: (context, cardAdderBloc) => StreamBuilder<CardAddingState>(
+            stream: cardAdderBloc.state,
+            initialData: cardAdderBloc.state.value,
+            builder: (context, snapshot) => TextField(
+                  controller: _controller,
+                  cursorColor: SarakaColors.lightRed,
+                  autofocus: true,
+                  enabled: snapshot.requireData == CardAddingState.initial,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(16),
+                    hintText: "e.g. get used to",
+                    hintStyle: TextStyle(
+                      color: SarakaColors.lightGray,
+                      fontSize: 18,
+                      fontFamily: SarakaFonts.rubik,
+                      fontWeight: FontWeight.w500,
+                      height: 1.25,
+                    ),
+                    border: InputBorder.none,
+                  ),
+                  style: const TextStyle(
+                    color: SarakaColors.lightBlack,
+                    fontSize: 18,
+                    fontFamily: SarakaFonts.rubik,
+                    fontWeight: FontWeight.w500,
+                    height: 1.25,
+                  ),
+                ),
           ),
-          contentPadding: EdgeInsets.only(
-            top: 14,
-            bottom: 14,
-            left: 16,
-          ),
-          border: InputBorder.none,
-          suffixIcon: SynthesizeButton(),
-        ),
-        style: TextStyle(
-          fontSize: 16.0,
-          fontFamily: SarakaFonts.rubik,
-          color: SarakaColors.darkBlack,
-        ),
-        autofocus: true,
-      ),
     );
   }
 }

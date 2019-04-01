@@ -35,6 +35,10 @@ abstract class CardAdderBloc {
 
   ValueObservable<CardAddingState> get state;
 
+  Observable<void> get onComplete;
+
+  Observable<Exception> get onError;
+
   void setText(String text);
 
   void save();
@@ -71,6 +75,16 @@ class _CardAdderBloc implements CardAdderBloc {
   @override
   ValueObservable<CardAddingState> get state => _state;
 
+  final _onComplete = BehaviorSubject<void>();
+
+  @override
+  Observable<void> get onComplete => _onComplete;
+
+  @override
+  final _onError = BehaviorSubject<Exception>();
+
+  Observable<Exception> get onError => _onError;
+
   @override
   void setText(String newText) => _text.add(_NewCardText(newText));
 
@@ -88,16 +102,19 @@ class _CardAdderBloc implements CardAdderBloc {
 
       await _cardCreateLoggable.logCardCreate();
     } on CardDuplicationException catch (error) {
-      _state.add(CardAddingState.failedByDuplication);
+      _state.add(CardAddingState.failed);
+      _onError.add(error);
 
       return;
     } catch (error) {
-      _state.add(CardAddingState.failedUnknown);
+      _state.add(CardAddingState.failed);
+      _onError.add(error);
 
       return;
     }
 
     _state.add(CardAddingState.completed);
+    _onComplete.add(null);
   }
 
   @override
@@ -110,8 +127,7 @@ enum CardAddingState {
   initial,
   processing,
   completed,
-  failedUnknown,
-  failedByDuplication,
+  failed,
 }
 
 mixin CardAddable {

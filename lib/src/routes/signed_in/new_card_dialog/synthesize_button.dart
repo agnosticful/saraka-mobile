@@ -10,8 +10,6 @@ class SynthesizeButton extends StatefulWidget {
 }
 
 class _SynthesizeButtonState extends State<SynthesizeButton> {
-  SynthesizerBloc _synthesizerBloc;
-
   StreamSubscription _subscription;
 
   String _text;
@@ -37,10 +35,6 @@ class _SynthesizeButtonState extends State<SynthesizeButton> {
           _text = text.isValid ? text.text : null;
         });
       });
-
-      setState(() {
-        _synthesizerBloc = synthesizerBloc;
-      });
     });
   }
 
@@ -52,32 +46,47 @@ class _SynthesizeButtonState extends State<SynthesizeButton> {
   }
 
   @override
-  Widget build(BuildContext context) => _synthesizerBloc != null
-      ? StreamBuilder<bool>(
-          stream: _synthesizerBloc.isCaching,
-          initialData: false,
-          builder: (context, snapshot) {
-            if (_text == null) {
-              return Container(width: 0, height: 0);
-            }
+  Widget build(BuildContext context) => Consumer<SynthesizerBloc>(
+        builder: (context, synthesizerBloc) => StreamBuilder<bool>(
+              stream: synthesizerBloc.isCaching,
+              initialData: false,
+              builder: (context, snapshot) {
+                if (_text == null) {
+                  return IconButton(
+                    icon: Icon(Feather.getIconData('volume-2')),
+                    color: SarakaColors.lightGray,
+                    onPressed: null,
+                  );
+                }
 
-            if (snapshot.requireData) {
-              return Icon(
-                Feather.getIconData('loader'),
-                color: SarakaColors.lightGray,
-              );
-            }
+                if (snapshot.requireData) {
+                  return SizedBox.fromSize(
+                    size: Size.square(48),
+                    child: Center(
+                      child: SizedBox.fromSize(
+                        size: Size.square(20),
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              SarakaColors.lightRed),
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    ),
+                  );
+                }
 
-            return IconButton(
-              icon: Icon(Feather.getIconData('volume-2')),
-              color: SarakaColors.darkCyan,
-              onPressed: _onSoundPressed,
-            );
-          },
-        )
-      : Container();
+                return IconButton(
+                  icon: Icon(Feather.getIconData('volume-2')),
+                  color: SarakaColors.lightRed,
+                  onPressed: () => _onSoundPressed(context),
+                );
+              },
+            ),
+      );
 
-  void _onSoundPressed() {
-    _synthesizerBloc.play(_text);
+  void _onSoundPressed(BuildContext context) {
+    final synthesizerBloc = Provider.of<SynthesizerBloc>(context);
+
+    synthesizerBloc.play(_text);
   }
 }

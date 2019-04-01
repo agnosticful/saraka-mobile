@@ -8,10 +8,12 @@ class ProcessableFancyButton extends StatefulWidget {
     Key key,
     @required this.color,
     this.isProcessing = false,
+    this.isDisabled = false,
     @required this.onPressed,
     @required this.child,
   })  : assert(color != null),
         assert(isProcessing != null),
+        assert(isDisabled != null),
         assert(onPressed != null),
         assert(child != null),
         super(key: key);
@@ -19,6 +21,8 @@ class ProcessableFancyButton extends StatefulWidget {
   final Color color;
 
   final bool isProcessing;
+
+  final bool isDisabled;
 
   final VoidCallback onPressed;
 
@@ -30,22 +34,37 @@ class ProcessableFancyButton extends StatefulWidget {
 
 class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
     with TickerProviderStateMixin {
-  AnimationController _animationController;
+  AnimationController _processingStateAnimationController;
 
-  Animation _animation;
+  AnimationController _disabledStateAnimationController;
+
+  Animation _processingStateAnimation;
+
+  Animation _disabledStateAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
+    _processingStateAnimationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
       value: widget.isProcessing ? 1 : 0,
     );
 
-    _animation = CurvedAnimation(
-      parent: _animationController,
+    _disabledStateAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 150),
+      value: widget.isDisabled ? 1 : 0,
+    );
+
+    _processingStateAnimation = CurvedAnimation(
+      parent: _processingStateAnimationController,
+      curve: Curves.easeInOutCirc,
+    );
+
+    _disabledStateAnimation = CurvedAnimation(
+      parent: _disabledStateAnimationController,
       curve: Curves.easeInOutCirc,
     );
   }
@@ -56,61 +75,84 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
 
     if (widget.isProcessing != oldWidget.isProcessing) {
       if (widget.isProcessing) {
-        _animationController.forward();
+        _processingStateAnimationController.forward();
       } else {
-        _animationController.reverse();
+        _processingStateAnimationController.reverse();
+      }
+    }
+
+    if (widget.isDisabled != oldWidget.isDisabled) {
+      if (widget.isDisabled) {
+        _disabledStateAnimationController.forward();
+      } else {
+        _disabledStateAnimationController.reverse();
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
-      onPressed: widget.onPressed,
-      color: widget.color,
-      elevation: 6,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 12),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            FadeTransition(
-              opacity: Tween(begin: 1.0, end: 0.0).animate(_animation),
-              child: ScaleTransition(
-                scale: Tween(begin: 1.0, end: 0.0).animate(_animation),
-                child: DefaultTextStyle(
-                  style: TextStyle(
-                    color: (widget.color.computeLuminance() + 0.05) *
-                                (widget.color.computeLuminance() + 0.05) >
-                            0.3
-                        ? SarakaColors.darkBlack
-                        : SarakaColors.white,
-                    fontSize: 16,
-                    fontFamily: SarakaFonts.rubik,
-                    fontWeight: FontWeight.w500,
+    return AnimatedBuilder(
+      animation: _disabledStateAnimation,
+      child: widget.child,
+      builder: (context, child) => RaisedButton(
+            shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+            onPressed: widget.isDisabled ? () {} : widget.onPressed,
+            color: ColorTween(begin: widget.color, end: SarakaColors.darkWhite)
+                .animate(_disabledStateAnimation)
+                .value,
+            elevation: 6,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  FadeTransition(
+                    opacity: Tween(begin: 1.0, end: 0.0)
+                        .animate(_processingStateAnimation),
+                    child: ScaleTransition(
+                      scale: Tween(begin: 1.0, end: 0.0)
+                          .animate(_processingStateAnimation),
+                      child: DefaultTextStyle(
+                        style: TextStyle(
+                          color: ColorTween(
+                            begin: computeTextColor(widget.color),
+                            end: SarakaColors.darkGray,
+                          ).animate(_disabledStateAnimation).value,
+                          fontSize: 16,
+                          fontFamily: SarakaFonts.rubik,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        child: child,
+                      ),
+                    ),
                   ),
-                  child: widget.child,
-                ),
+                  FadeTransition(
+                    opacity: _processingStateAnimation,
+                    child: ScaleTransition(
+                      scale: _processingStateAnimation,
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          valueColor:
+                              const AlwaysStoppedAnimation(SarakaColors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            FadeTransition(
-              opacity: _animation,
-              child: ScaleTransition(
-                scale: _animation,
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    valueColor: AlwaysStoppedAnimation(SarakaColors.white),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
     );
   }
+
+  static Color computeTextColor(Color backgroundColor) =>
+      (backgroundColor.computeLuminance() + 0.05) *
+                  (backgroundColor.computeLuminance() + 0.05) >
+              0.3
+          ? SarakaColors.darkBlack
+          : SarakaColors.white;
 }
