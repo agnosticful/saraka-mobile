@@ -22,9 +22,8 @@ class CardListScreen extends StatelessWidget {
                     centerTitle: true,
                     title: Text(
                       'Cards',
-                      style: TextStyle(
+                      style: SarakaTextStyles.appBarTitle.copyWith(
                         color: SarakaColors.lightBlack,
-                        fontFamily: SarakaFonts.rubik,
                       ),
                     ),
                     leading: Navigator.of(context).canPop()

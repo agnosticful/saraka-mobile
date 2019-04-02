@@ -49,13 +49,7 @@ class _CardDeleteConfirmDialogState extends State<CardDeleteConfirmDialog>
                       padding: const EdgeInsets.only(right: 8),
                       child: Text(
                         'Delete the card?',
-                        style: TextStyle(
-                          color: SarakaColors.darkBlack,
-                          fontFamily: SarakaFonts.rubik,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          decoration: TextDecoration.none,
-                        ),
+                        style: SarakaTextStyles.heading,
                       ),
                     ),
                     SizedBox(height: 16),
@@ -63,13 +57,7 @@ class _CardDeleteConfirmDialogState extends State<CardDeleteConfirmDialog>
                       padding: const EdgeInsets.only(right: 8),
                       child: Text(
                         '"${cardDeleteBloc.card.text}" will be no longer in your flashcards and study progress will be deleted.',
-                        style: TextStyle(
-                          color: SarakaColors.darkGray,
-                          fontFamily: SarakaFonts.rubik,
-                          fontSize: 14,
-                          decoration: TextDecoration.none,
-                          height: 1.25,
-                        ),
+                        style: SarakaTextStyles.multilineBody,
                       ),
                     ),
                     SizedBox(height: 24),

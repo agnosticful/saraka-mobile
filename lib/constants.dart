@@ -22,3 +22,24 @@ abstract class SarakaColors {
 abstract class SarakaFonts {
   static const rubik = 'Rubik';
 }
+
+abstract class SarakaTextStyles {
+  static const _base = TextStyle(
+    fontFamily: SarakaFonts.rubik,
+  );
+  static final body = _base.copyWith(
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    color: SarakaColors.darkGray,
+  );
+  static final multilineBody = body.apply(heightFactor: 1.25);
+  static final body2 = body.apply(fontSizeFactor: .8125);
+  static final multilineBody2 = body2.apply(heightFactor: 1.25);
+  static final heading = _base.copyWith(
+    fontWeight: FontWeight.w500,
+    fontSize: 18,
+    color: SarakaColors.lightBlack,
+  );
+  static final appBarTitle = _base.copyWith();
+  static final buttonLabel = _base.copyWith(fontWeight: FontWeight.w500);
+}

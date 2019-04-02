@@ -47,13 +47,7 @@ class CardListViewItem extends StatelessWidget {
                         child: Text(
                           card.text,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: SarakaColors.lightBlack,
-                            fontSize: 18,
-                            fontFamily: SarakaFonts.rubik,
-                            fontWeight: FontWeight.w500,
-                            height: 1.25,
-                          ),
+                          style: SarakaTextStyles.heading,
                           textAlign: TextAlign.left,
                         ),
                       ),

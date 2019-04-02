@@ -7,13 +7,11 @@ class NewCardFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FloatingActionButton.extended(
         backgroundColor: SarakaColors.lightRed,
+        foregroundColor: SarakaColors.white,
         icon: Icon(Feather.getIconData('plus')),
         label: Text(
           'New Card',
-          style: TextStyle(
-            fontFamily: SarakaFonts.rubik,
-            fontSize: 16,
-          ),
+          style: SarakaTextStyles.buttonLabel.copyWith(letterSpacing: 1),
         ),
         shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
         onPressed: () => _onPressed(context),
