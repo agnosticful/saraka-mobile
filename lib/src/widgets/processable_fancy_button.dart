@@ -101,7 +101,9 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
             color: ColorTween(begin: widget.color, end: SarakaColors.darkWhite)
                 .animate(_disabledStateAnimation)
                 .value,
-            elevation: 6,
+            elevation: Tween(begin: 6.0, end: 0.0)
+                .animate(_disabledStateAnimation)
+                .value,
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 12),
               child: Stack(
