@@ -15,21 +15,12 @@ class MaturityDescription extends StatelessWidget {
       children: [
         Text(
           "Maturity",
-          style: const TextStyle(
-            color: SarakaColors.darkGray,
-            fontFamily: SarakaFonts.rubik,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
+          style: SarakaTextStyles.body2.apply(fontWeightDelta: 1),
         ),
         SizedBox(height: 4),
         Text(
           "${maturity.toStringAsFixed(2)}%",
-          style: TextStyle(
-            color: SarakaColors.darkGray,
-            fontFamily: SarakaFonts.rubik,
-            fontSize: 14,
-          ),
+          style: SarakaTextStyles.body2,
         ),
       ],
     );

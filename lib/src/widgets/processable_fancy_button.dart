@@ -114,14 +114,11 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
                       scale: Tween(begin: 1.0, end: 0.0)
                           .animate(_processingStateAnimation),
                       child: DefaultTextStyle(
-                        style: TextStyle(
+                        style: SarakaTextStyles.buttonLabel.apply(
                           color: ColorTween(
                             begin: computeTextColor(widget.color),
                             end: SarakaColors.darkGray,
                           ).animate(_disabledStateAnimation).value,
-                          fontSize: 16,
-                          fontFamily: SarakaFonts.rubik,
-                          fontWeight: FontWeight.w500,
                         ),
                         child: child,
                       ),

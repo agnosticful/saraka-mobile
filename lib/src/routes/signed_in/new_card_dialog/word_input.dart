@@ -50,22 +50,12 @@ class _WordInputState extends State<WordInput> {
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(16),
                     hintText: "e.g. get used to",
-                    hintStyle: TextStyle(
+                    hintStyle: SarakaTextStyles.heading.apply(
                       color: SarakaColors.lightGray,
-                      fontSize: 18,
-                      fontFamily: SarakaFonts.rubik,
-                      fontWeight: FontWeight.w500,
-                      height: 1.25,
                     ),
                     border: InputBorder.none,
                   ),
-                  style: const TextStyle(
-                    color: SarakaColors.lightBlack,
-                    fontSize: 18,
-                    fontFamily: SarakaFonts.rubik,
-                    fontWeight: FontWeight.w500,
-                    height: 1.25,
-                  ),
+                  style: SarakaTextStyles.heading,
                 ),
           ),
     );

@@ -42,10 +42,7 @@ class StudyScreen extends StatelessWidget {
             appBar: AppBar(
               title: Text(
                 'Study',
-                style: TextStyle(
-                  color: SarakaColors.white,
-                  fontFamily: SarakaFonts.rubik,
-                ),
+                style: SarakaTextStyles.appBarTitle,
               ),
               centerTitle: true,
               backgroundColor: Color(0x00000000),
