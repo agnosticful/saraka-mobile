@@ -1,8 +1,10 @@
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class LandingRoute extends PageRoute {
-  LandingRoute({RouteSettings settings}) : super(settings: settings);
+class SignedInRoute extends PageRoute {
+  SignedInRoute({@required this.child, RouteSettings settings})
+      : super(settings: settings);
+
+  final Widget child;
 
   @override
   final bool maintainState = true;
@@ -33,10 +35,5 @@ class LandingRoute extends PageRoute {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) =>
-      FlareActor(
-        "assets/flare/Mountain.flr",
-        alignment: Alignment.center,
-        fit: BoxFit.cover,
-        animation: "rotate",
-      );
+      child;
 }
