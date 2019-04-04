@@ -17,5 +17,5 @@ class NewCardFloatingActionButton extends StatelessWidget {
         onPressed: () => _onPressed(context),
       );
 
-  void _onPressed(BuildContext context) => NewCardDialog.show(context);
+  void _onPressed(BuildContext context) => showNewCardDialog(context: context);
 }

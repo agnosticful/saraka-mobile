@@ -3,6 +3,7 @@ export './src/widgets/authentication_navigator/authentication_navigator.dart';
 export './src/widgets/card_delete_confirm_dialog.dart';
 export './src/widgets/card_list_screen/card_list_screen.dart';
 export './src/widgets/disappearable_builder.dart';
+export './src/widgets/fancy_popup_dialog.dart';
 export './src/widgets/fancy_popup_overlay.dart';
 export './src/widgets/feather_drawer_button.dart';
 export './src/widgets/floating.dart';

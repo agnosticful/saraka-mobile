@@ -51,7 +51,10 @@ class MenuIconButton extends StatelessWidget {
     if (selectedItem != null) {
       final card = Provider.of<CardDetailBloc>(context).card;
 
-      CardDeleteConfirmDialog.show(context, card: card);
+      showCardDeleteConfirmDialog(
+        context: context,
+        card: card,
+      );
     }
   }
 }
