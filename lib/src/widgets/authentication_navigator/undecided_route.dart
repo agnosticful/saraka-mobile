@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
-import './sign_in_route/sign_in_route.dart';
+import 'package:flutter/widgets.dart';
 
-class SignedOutRoute extends PageRoute {
-  SignedOutRoute({RouteSettings settings}) : super(settings: settings);
+class UndecidedRoute extends PageRoute {
+  UndecidedRoute({@required this.child, RouteSettings settings})
+      : super(settings: settings);
+
+  final Widget child;
 
   @override
   final bool maintainState = true;
@@ -23,7 +25,9 @@ class SignedOutRoute extends PageRoute {
     Animation<double> secondaryAnimation,
     Widget child,
   ) =>
-      FadeTransition(opacity: animation, child: child);
+      settings != null && settings.isInitialRoute
+          ? child
+          : FadeTransition(opacity: animation, child: child);
 
   @override
   Widget buildPage(
@@ -31,15 +35,5 @@ class SignedOutRoute extends PageRoute {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) =>
-      Material(
-        child: Navigator(
-          initialRoute: '/',
-          onGenerateRoute: (settings) {
-            switch (settings.name) {
-              case '/':
-                return SignInRoute();
-            }
-          },
-        ),
-      );
+      child;
 }
