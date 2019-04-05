@@ -65,9 +65,9 @@ class _CardDeleteBloc implements CardDeleteBloc {
   @override
   Observable<void> get onComplete => _onComplete;
 
-  @override
   final _onError = BehaviorSubject<Exception>();
 
+  @override
   Observable<Exception> get onError => _onError;
 
   @override
