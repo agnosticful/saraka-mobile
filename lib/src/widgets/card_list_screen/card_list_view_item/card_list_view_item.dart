@@ -71,16 +71,22 @@ class CardListViewItem extends StatelessWidget {
                       SynthesizeIconButton(text: card.text),
                       Expanded(child: Container()),
                       SizedBox(width: 32),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: NextStudyDateDescription(
-                          nextStudyScheduledAt: card.nextStudyScheduledAt,
+                      SizedBox(
+                        width: 96,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: NextStudyDateDescription(
+                            nextStudyScheduledAt: card.nextStudyScheduledAt,
+                          ),
                         ),
                       ),
                       SizedBox(width: 32),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: MaturityDescription(maturity: card.maturity),
+                      SizedBox(
+                        width: 64,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: MaturityDescription(maturity: card.maturity),
+                        ),
                       ),
                     ],
                   ),

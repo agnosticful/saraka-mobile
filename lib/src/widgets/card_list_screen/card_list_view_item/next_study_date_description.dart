@@ -22,7 +22,7 @@ class NextStudyDateDescription extends StatelessWidget {
     } else if (difference.inDays < 14) {
       when = "${difference.inDays} days later";
     } else if (difference.inDays < 180) {
-      when = "${difference.inDays / 30} months later";
+      when = "${difference.inDays ~/ 30} months later";
     } else {
       when = "in ${nextStudyScheduledAt.year}";
     }
