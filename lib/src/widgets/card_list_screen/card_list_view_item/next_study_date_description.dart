@@ -19,7 +19,7 @@ class NextStudyDateDescription extends StatelessWidget {
       when = "Today";
     } else if (difference.inDays == 1) {
       when = "Tomorrow";
-    } else if (difference.inDays < 14) {
+    } else if (difference.inDays < 30) {
       when = "${difference.inDays} days later";
     } else if (difference.inDays < 180) {
       when = "${difference.inDays ~/ 30} months later";
