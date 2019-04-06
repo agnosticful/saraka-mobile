@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
+import 'package:saraka/constants.dart';
 import 'package:saraka/implementations.dart';
-import './application.dart';
+import 'package:saraka/widgets.dart';
 
 void main() {
   Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
@@ -87,7 +88,18 @@ void main() {
         Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
         Provider<AuthenticationBloc>(value: authenticationBloc),
       ],
-      child: Application(),
+      child: Application(
+        title: "Saraka",
+        color: SarakaColors.lightRed,
+        child: AuthenticationNavigator(
+          signedIn: SignedInNavigator(
+            study: StudyScreen(),
+            cardList: CardListScreen(),
+          ),
+          signedOut: SignedOutScreen(),
+          undecided: LandingScreen(),
+        ),
+      ),
     ),
   );
 }
