@@ -102,13 +102,15 @@ void main() {
       child: Application(
         title: "Saraka",
         color: SarakaColors.lightRed,
-        child: AuthenticationNavigator(
-          signedIn: SignedInNavigator(
-            study: StudyScreen(),
-            cardList: CardListScreen(),
+        child: MaintenanceCheckNavigator(
+          child: AuthenticationNavigator(
+            signedIn: SignedInNavigator(
+              study: StudyScreen(),
+              cardList: CardListScreen(),
+            ),
+            signedOut: SignedOutScreen(),
+            undecided: LandingScreen(),
           ),
-          signedOut: SignedOutScreen(),
-          undecided: LandingScreen(),
         ),
       ),
     ),
