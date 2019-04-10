@@ -28,6 +28,10 @@ void main() {
     firestore: Firestore.instance,
   );
 
+  final maintenanceRepository = FirestoreMaintenanceRepository(
+    firestore: Firestore.instance,
+  );
+
   final firebaseExternalFunctions = FirebaseExternalFunctions(
     cloudFunctions: CloudFunctions.instance,
   );
@@ -38,6 +42,10 @@ void main() {
     authenticatable: authentication,
     signable: authentication,
     signInOutLoggable: logger,
+  );
+
+  final maintenanceCheckBlocFactory = MaintenanceCheckBlocFactory(
+    maintenanceSubscribable: maintenanceRepository,
   );
 
   final cardAdderBlocFactory = CardAdderBlocFactory(
@@ -77,6 +85,8 @@ void main() {
 
   final authenticationBloc = authenticationBlocFactory.create();
 
+  final maintenanceCheckBloc = maintenanceCheckBlocFactory.create();
+
   runApp(
     MultiProvider(
       providers: [
@@ -87,6 +97,7 @@ void main() {
         Provider<CardListBlocFactory>(value: cardListBlocFactory),
         Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
         Provider<AuthenticationBloc>(value: authenticationBloc),
+        Provider<MaintenanceCheckBloc>(value: maintenanceCheckBloc),
       ],
       child: Application(
         title: "Saraka",
