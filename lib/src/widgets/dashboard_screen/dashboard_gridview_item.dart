@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import './cards_maturity_donut_chart.dart';
 import 'package:saraka/constants.dart';
+import './cards_maturity_donut_chart.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class CardsMaturityGridViewItem extends StatelessWidget {
   CardsMaturityGridViewItem(
-      {this.totalCardsNumber, this.todayLearnNumber, this.maturedCardNumber})
+      {this.totalCardsNumber, this.todayLearnNumber, this.cardsMaturity})
       : assert(totalCardsNumber != null),
         assert(todayLearnNumber != null),
-        assert(maturedCardNumber != null);
+        assert(cardsMaturity != null);
 
   final String totalCardsNumber;
 
   final String todayLearnNumber;
 
-  final List maturedCardNumber;
+  final List cardsMaturity;
 
   @override
   Widget build(BuildContext context) => Material(
@@ -32,8 +33,50 @@ class CardsMaturityGridViewItem extends StatelessWidget {
                     child: Container(
                       height: 280.0,
                       width: 280.0,
-                      child:
-                          CardsMaturityDonutChart.withData(maturedCardNumber),
+                      child: CardsMaturityDonutChart(
+                        seriesList: <charts.Series<MatureCount, int>>[
+                          charts.Series(
+                            id: 'Maturity',
+                            domainFn: (MatureCount matures, _) =>
+                                matures.maturity,
+                            measureFn: (MatureCount matures, _) =>
+                                matures.maturity,
+                            data: [
+                              new MatureCount(
+                                  "More than 80%",
+                                  cardsMaturity
+                                      .where((iter) => iter.maturity >= 80)
+                                      .toList()
+                                      .length),
+                              new MatureCount(
+                                  "50%",
+                                  cardsMaturity
+                                      .where((iter) =>
+                                          iter.maturity >= 50 &&
+                                          iter.maturity < 80)
+                                      .toList()
+                                      .length),
+                              new MatureCount(
+                                  "30%",
+                                  cardsMaturity
+                                      .where((iter) =>
+                                          iter.maturity >= 30 &&
+                                          iter.maturity < 50)
+                                      .toList()
+                                      .length),
+                              new MatureCount(
+                                  "Less than 30%",
+                                  cardsMaturity
+                                      .where((iter) => iter.maturity < 30)
+                                      .toList()
+                                      .length),
+                            ],
+                            labelAccessorFn: (MatureCount row, _) =>
+                                '${row.title}',
+                          ),
+                        ],
+                        animate: true,
+                      ),
                     ),
                   ),
                   Center(
