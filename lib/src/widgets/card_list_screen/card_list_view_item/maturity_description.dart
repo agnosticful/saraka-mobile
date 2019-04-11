@@ -19,7 +19,7 @@ class MaturityDescription extends StatelessWidget {
         ),
         SizedBox(height: 4),
         Text(
-          "${maturity.toStringAsFixed(2)}%",
+          "${(maturity * 100).toStringAsFixed(2)}%",
           style: SarakaTextStyles.body2,
         ),
       ],
