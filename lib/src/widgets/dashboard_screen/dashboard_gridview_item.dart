@@ -13,7 +13,7 @@ class CardsMaturityGridViewItem extends StatelessWidget {
 
     final String todayLearnNumber;
 
-    final double maturedCardNumber;
+    final List maturedCardNumber;
   
   @override
   Widget build(BuildContext context) => Material(

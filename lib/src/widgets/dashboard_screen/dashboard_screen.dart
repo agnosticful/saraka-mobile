@@ -48,7 +48,7 @@ class DashboardScreen extends StatelessWidget{
                     totalCardsNumber: snapshot.data.length.toString(),
                     todayLearnNumber: snapshot.data.where((iter) => 
                       iter.nextStudyScheduledAt.isBefore(DateTime.now())).length.toString(),
-                    maturedCardNumber: 62.3
+                    maturedCardNumber: snapshot.data.toList(),
                   ),
                 ],
                 staggeredTiles: [

@@ -7,7 +7,7 @@ class CardsMaturityDonutChart extends StatelessWidget {
 
   CardsMaturityDonutChart(this.seriesList, {this.animate});
 
-  factory CardsMaturityDonutChart.withData(double maturity) {
+  factory CardsMaturityDonutChart.withData(List maturity) {
     return new CardsMaturityDonutChart(
       _createData(maturity),
       animate: true,
@@ -27,26 +27,28 @@ class CardsMaturityDonutChart extends StatelessWidget {
     );
   }
 
-  static List<charts.Series<LinearSales, double>> _createData(double maturity) {
+  static List<charts.Series<MatureCount, int>> _createData(List maturity) {
     final data = [
-      new LinearSales("Mature", maturity),
-      new LinearSales("Immature", 100 - maturity),
+      new MatureCount("80", maturity.where((iter) => iter.maturity >= 80).toList().length),
+      new MatureCount("50", maturity.where((iter) => iter.maturity >= 50 && iter.maturity < 80).toList().length),
+      new MatureCount("30", maturity.where((iter) => iter.maturity >= 30 && iter.maturity < 50).toList().length),
+      new MatureCount("29", maturity.where((iter) => iter.maturity < 30).toList().length),
     ];
 
     return [
-      new charts.Series<LinearSales, double>(
+      new charts.Series<MatureCount, int>(
         id: 'Maturity',
-        domainFn: (LinearSales sales, _) => sales.maturity,
-        measureFn: (LinearSales sales, _) => sales.maturity,
+        domainFn: (MatureCount matures, _) => matures.maturity,
+        measureFn: (MatureCount matures, _) => matures.maturity,
         data: data,
       )
     ];
   }
 }
 
-class LinearSales {
+class MatureCount {
   final String title;
-  final double maturity;
+  final int maturity;
 
-  LinearSales(this.title, this.maturity);
+  MatureCount(this.title, this.maturity);
 }
