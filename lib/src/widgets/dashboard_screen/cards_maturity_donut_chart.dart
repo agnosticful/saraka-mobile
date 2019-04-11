@@ -28,10 +28,10 @@ class CardsMaturityDonutChart extends StatelessWidget {
 
   static List<charts.Series<MatureCount, int>> _createData(List maturity) {
     final data = [
-      new MatureCount("80", maturity.where((iter) => iter.maturity >= 80).toList().length),
-      new MatureCount("50", maturity.where((iter) => iter.maturity >= 50 && iter.maturity < 80).toList().length),
-      new MatureCount("30", maturity.where((iter) => iter.maturity >= 30 && iter.maturity < 50).toList().length),
-      new MatureCount("29", maturity.where((iter) => iter.maturity < 30).toList().length),
+      new MatureCount("80%", maturity.where((iter) => iter.maturity >= 80).toList().length),
+      new MatureCount("50%", maturity.where((iter) => iter.maturity >= 50 && iter.maturity < 80).toList().length),
+      new MatureCount("30%", maturity.where((iter) => iter.maturity >= 30 && iter.maturity < 50).toList().length),
+      new MatureCount("29%", maturity.where((iter) => iter.maturity < 30).toList().length),
     ];
 
     return [
@@ -40,6 +40,7 @@ class CardsMaturityDonutChart extends StatelessWidget {
         domainFn: (MatureCount matures, _) => matures.maturity,
         measureFn: (MatureCount matures, _) => matures.maturity,
         data: data,
+        labelAccessorFn: (MatureCount row, _) => '${row.title}',
       )
     ];
   }
