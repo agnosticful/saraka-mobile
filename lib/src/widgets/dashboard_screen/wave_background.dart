@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saraka/constants.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
- 
+
 class WaveBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class WaveBackground extends StatelessWidget {
         gradientBegin: Alignment.bottomLeft,
         gradientEnd: Alignment.topRight,
       ),
-        backgroundColor: SarakaColors.lightBlack,
+      backgroundColor: SarakaColors.lightBlack,
       size: Size.infinite,
       waveAmplitude: 0,
     );
