@@ -22,7 +22,6 @@ class CardsMaturityDonutChart extends StatelessWidget {
       defaultRenderer: new charts.ArcRendererConfig(
         arcWidth: 10,
         arcRendererDecorators: [new charts.ArcLabelDecorator()]
-        // TODO change font and line.
       )
     );
   }
