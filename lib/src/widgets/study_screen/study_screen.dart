@@ -47,16 +47,13 @@ class StudyScreen extends StatelessWidget {
               centerTitle: true,
               backgroundColor: Color(0x00000000),
               elevation: 0,
-              iconTheme: IconThemeData(color: SarakaColors.white),
-              actions: [
-                IconButton(
-                  icon: Icon(Feather.getIconData('inbox')),
-                  onPressed: () => Navigator.of(context).pushNamed('/cards'),
-                ),
-              ],
-              leading: FeatherDrawerButton(),
+              leading: Navigator.of(context).canPop()
+                  ? IconButton(
+                      icon: Icon(Feather.getIconData('arrow-left')),
+                      onPressed: () => Navigator.of(context).pop(),
+                    )
+                  : null,
             ),
-            drawer: MainDrawer(),
             body: Stack(
               children: [
                 Column(
