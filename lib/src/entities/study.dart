@@ -9,6 +9,6 @@ abstract class Study {
 
   double get maturity => calculateMaturity(nextStudyInterval);
 
-  static calculateMaturity(Duration nextStudyInterval) =>
+  static double calculateMaturity(Duration nextStudyInterval) =>
       nextStudyInterval.inMilliseconds / (1000 * 60 * 60 * 24 * 365);
 }
