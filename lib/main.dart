@@ -93,6 +93,7 @@ void main() {
         color: SarakaColors.lightRed,
         child: AuthenticationNavigator(
           signedIn: SignedInNavigator(
+            dashboard: DashboardScreen(),
             study: StudyScreen(),
             cardList: CardListScreen(),
           ),

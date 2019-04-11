@@ -2,19 +2,24 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import './card_list_route.dart';
 import './study_route.dart';
+import './dashboard_route.dart';
 
 class SignedInNavigator extends StatefulWidget {
   SignedInNavigator({
     Key key,
     @required this.cardList,
     @required this.study,
+    @required this.dashboard,
   })  : assert(cardList != null),
         assert(study != null),
+        assert(dashboard != null),
         super(key: key);
 
   final Widget cardList;
 
   final Widget study;
+
+  final Widget dashboard;
 
   @override
   State<SignedInNavigator> createState() => _SignedInNavigatorState();
@@ -93,6 +98,11 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case "/":
+              return DashboardRoute(
+                settings: settings,
+                child: widget.dashboard,
+              );
+            case "/study":
               return StudyRoute(
                 settings: settings,
                 child: widget.study,
