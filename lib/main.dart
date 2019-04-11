@@ -61,13 +61,13 @@ void main() {
 
   final cardDetailBlocFactory = CardDetailBlocFactory(
     authenticatable: authentication,
-    studySubscribable: cardRepository,
+    reviewSubscribable: cardRepository,
   );
 
-  final cardStudyBlocFactory = CardStudyBlocFactory(
+  final cardReviewBlocFactory = CardReviewBlocFactory(
     authenticatable: authentication,
-    cardStudyable: firebaseExternalFunctions,
-    cardStudyLoggable: logger,
+    cardReviewable: firebaseExternalFunctions,
+    cardReviewLoggable: logger,
     inQueueCardSubscribable: cardRepository,
   );
 
@@ -93,7 +93,7 @@ void main() {
         Provider<CardAdderBlocFactory>(value: cardAdderBlocFactory),
         Provider<CardDeleteBlocFactory>(value: cardDeleteBlocFactory),
         Provider<CardDetailBlocFactory>(value: cardDetailBlocFactory),
-        Provider<CardStudyBlocFactory>(value: cardStudyBlocFactory),
+        Provider<CardReviewBlocFactory>(value: cardReviewBlocFactory),
         Provider<CardListBlocFactory>(value: cardListBlocFactory),
         Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
         Provider<AuthenticationBloc>(value: authenticationBloc),
@@ -105,7 +105,7 @@ void main() {
         child: MaintenanceCheckNavigator(
           child: AuthenticationNavigator(
             signedIn: SignedInNavigator(
-              study: StudyScreen(),
+              review: ReviewScreen(),
               cardList: CardListScreen(),
             ),
             signedOut: SignedOutScreen(),

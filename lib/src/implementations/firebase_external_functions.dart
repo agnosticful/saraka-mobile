@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:saraka/blocs.dart';
 
 class FirebaseExternalFunctions
-    implements CardAddable, CardStudyable, Synthesizable {
+    implements CardAddable, CardReviewable, Synthesizable {
   FirebaseExternalFunctions({
     @required CloudFunctions cloudFunctions,
   })  : assert(cloudFunctions != null),
@@ -31,10 +31,10 @@ class FirebaseExternalFunctions
   }
 
   @override
-  Future<void> study({Card card, StudyCertainty certainty, User user}) async {
+  Future<void> review({Card card, ReviewCertainty certainty, User user}) async {
     try {
       await _cloudFunctions.call(
-        functionName: 'logStudy',
+        functionName: 'logReview',
         parameters: {
           "cardId": card.id,
           "certainty": certainty.toString(),
@@ -42,23 +42,23 @@ class FirebaseExternalFunctions
       );
     } on CloudFunctionsException catch (error) {
       if (error.code == "FAILED_PRECONDITION") {
-        throw StudyDuplicationException(card);
+        throw ReviewDuplicationException(card);
       }
     }
   }
 
   @override
-  Future<void> undoStudy({Card card, User user}) async {
+  Future<void> undoReview({Card card, User user}) async {
     try {
       await _cloudFunctions.call(
-        functionName: 'deleteLastStudy',
+        functionName: 'deleteLastReview',
         parameters: {
           "cardId": card.id,
         },
       );
     } on CloudFunctionsException catch (error) {
       if (error.code == "FAILED_PRECONDITION") {
-        throw StudyOverundoException(card);
+        throw ReviewOverundoException(card);
       }
     }
   }

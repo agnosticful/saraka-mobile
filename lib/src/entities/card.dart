@@ -1,16 +1,16 @@
 import './mixins/identifiable.dart';
-import './study.dart';
+import './review.dart';
 
 abstract class Card with Identifiable<Card, String> {
   String get text;
 
-  DateTime get lastStudiedAt;
+  DateTime get lastReviewedAt;
 
-  DateTime get nextStudyScheduledAt;
+  DateTime get nextReviewScheduledAt;
 
-  Duration get nextStudyInterval;
+  Duration get nextReviewInterval;
 
-  double get maturity => Study.calculateMaturity(nextStudyInterval);
+  double get maturity => Review.calculateMaturity(nextReviewInterval);
 
-  bool get isScheduled => nextStudyScheduledAt.isBefore(DateTime.now());
+  bool get isScheduled => nextReviewScheduledAt.isBefore(DateTime.now());
 }

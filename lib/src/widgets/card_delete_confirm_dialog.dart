@@ -61,7 +61,7 @@ class CardDeleteConfirmDialog extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: Text(
-                          '"${cardDeleteBloc.card.text}" will be no longer in your flashcards and study progress will be deleted.',
+                          '"${cardDeleteBloc.card.text}" will be no longer in your flashcards and review progress will be deleted.',
                           style: SarakaTextStyles.multilineBody,
                         ),
                       ),

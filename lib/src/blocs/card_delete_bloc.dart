@@ -3,7 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:saraka/entities.dart';
 import './commons/authenticatable.dart';
 
-export 'package:saraka/entities.dart' show Study;
+export 'package:saraka/entities.dart' show Review;
 
 class CardDeleteBlocFactory {
   CardDeleteBlocFactory({

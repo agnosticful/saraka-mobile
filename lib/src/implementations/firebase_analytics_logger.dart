@@ -5,7 +5,7 @@ import 'package:saraka/blocs.dart';
 class FirebaseAnalyticsLogger
     implements
         CardCreateLoggable,
-        CardStudyLoggable,
+        CardReviewLoggable,
         SignInOutLoggable,
         SynthesizeLoggable {
   FirebaseAnalyticsLogger({@required FirebaseAnalytics firebaseAnalytics})
@@ -23,17 +23,17 @@ class FirebaseAnalyticsLogger
       _firebaseAnalytics.logEvent(name: 'card_create_start');
 
   @override
-  Future<void> logCardStudy({StudyCertainty certainty}) =>
+  Future<void> logCardReview({ReviewCertainty certainty}) =>
       _firebaseAnalytics.logEvent(
-        name: 'card_study',
+        name: 'card_review',
         parameters: {
           "certainty": certainty.toString(),
         },
       );
 
   @override
-  Future<void> logCardStudyUndo() =>
-      _firebaseAnalytics.logEvent(name: 'card_study_undo');
+  Future<void> logCardReviewUndo() =>
+      _firebaseAnalytics.logEvent(name: 'card_review_undo');
 
   @override
   Future<void> logSignIn() => _firebaseAnalytics.logLogin();
@@ -42,24 +42,24 @@ class FirebaseAnalyticsLogger
   Future<void> logSignOut() => _firebaseAnalytics.logEvent(name: 'logout');
 
   @override
-  Future<void> logStudyStart({int cardLength}) => _firebaseAnalytics.logEvent(
-        name: 'study_start',
+  Future<void> logReviewStart({int cardLength}) => _firebaseAnalytics.logEvent(
+        name: 'review_start',
         parameters: {
           "card_length": cardLength,
         },
       );
 
   @override
-  Future<void> logStudyEnd({
+  Future<void> logReviewEnd({
     int cardLength,
-    int studiedCardLength,
+    int reviewedCardLength,
   }) =>
       _firebaseAnalytics.logEvent(
-        name: 'study_end',
+        name: 'review_end',
         parameters: {
           "card_length": cardLength,
-          "studied_card_length": studiedCardLength,
-          "remaining_card_length": cardLength - studiedCardLength,
+          "reviewed_card_length": reviewedCardLength,
+          "remaining_card_length": cardLength - reviewedCardLength,
         },
       );
 
