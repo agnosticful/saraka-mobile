@@ -27,15 +27,11 @@ class _MaintenanceCheckNavigatorState extends State<MaintenanceCheckNavigator> {
   void initState() {
     super.initState();
 
-    print('a');
-
     Future.delayed(Duration.zero, () {
       final maintenanceCheckBloc = Provider.of<MaintenanceCheckBloc>(context);
 
       _subscription =
           maintenanceCheckBloc.maintenance.listen((maintenanceState) {
-        print(maintenanceState);
-
         if (maintenanceState == _previousMaintenance) {
           return;
         }
