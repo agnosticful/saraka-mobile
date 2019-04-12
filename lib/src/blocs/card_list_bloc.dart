@@ -48,5 +48,5 @@ class _CardListBloc implements CardListBloc {
 }
 
 mixin CardSubscribable {
-  Observable<Iterable<Card>> subscribeCards({@required User user});
+  ValueObservable<Iterable<Card>> subscribeCards({@required User user});
 }
