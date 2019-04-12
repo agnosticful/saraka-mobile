@@ -5,8 +5,8 @@ import 'package:saraka/constants.dart';
 class StartLearningFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FloatingActionButton.extended(
-        heroTag: null,
-        backgroundColor: SarakaColors.lightBlue,
+        backgroundColor: SarakaColors.lightRed,
+        foregroundColor: SarakaColors.white,
         icon: Icon(Feather.getIconData('play')),
         label: Text(
           'Start learning',
