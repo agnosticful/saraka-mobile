@@ -8,26 +8,26 @@ class TimeEstimation extends StatefulWidget {
 }
 
 class _TimeEstimationState extends State<TimeEstimation> {
-  CardStudyBloc _cardStudyingBloc;
+  CardReviewBloc _cardReviewingBloc;
 
   @override
   void initState() {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
-      final cardStudyingBloc = Provider.of<CardStudyBloc>(context);
+      final cardReviewingBloc = Provider.of<CardReviewBloc>(context);
 
       setState(() {
-        _cardStudyingBloc = cardStudyingBloc;
+        _cardReviewingBloc = cardReviewingBloc;
       });
     });
   }
 
   @override
-  Widget build(BuildContext context) => _cardStudyingBloc == null
+  Widget build(BuildContext context) => _cardReviewingBloc == null
       ? Text("")
       : StreamBuilder<Iterable<Card>>(
-          stream: _cardStudyingBloc.cardsInQueue,
+          stream: _cardReviewingBloc.cardsInQueue,
           initialData: Iterable.empty(),
           builder: (context, snapshot) => _TimeEstimationText(
                 duration:

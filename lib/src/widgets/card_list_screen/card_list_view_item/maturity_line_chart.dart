@@ -9,14 +9,14 @@ class MaturityLineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CardDetailBloc>(
       builder: (context, cardDetailBloc) => SizedBox(
-            child: StreamBuilder<List<Study>>(
-              stream: cardDetailBloc.studies,
+            child: StreamBuilder<List<Review>>(
+              stream: cardDetailBloc.reviews,
               builder: (context, snapshot) => charts.LineChart(
-                    <charts.Series<Study, int>>[
+                    <charts.Series<Review, int>>[
                       charts.Series(
                         id: "maturity",
                         domainFn: (_, i) => i,
-                        measureFn: (study, _) => study.maturity * 100,
+                        measureFn: (review, _) => review.maturity * 100,
                         colorFn: (_, i) => charts.Color(
                               r: SarakaColors.lightRed.red,
                               g: SarakaColors.lightRed.green,

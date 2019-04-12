@@ -3,62 +3,62 @@ import 'package:rxdart/rxdart.dart';
 import 'package:saraka/entities.dart';
 import './commons/authenticatable.dart';
 
-export 'package:saraka/entities.dart' show Study;
+export 'package:saraka/entities.dart' show Review;
 
 class CardDetailBlocFactory {
   CardDetailBlocFactory({
     @required Authenticatable authenticatable,
-    @required StudySubscribable studySubscribable,
+    @required ReviewSubscribable reviewSubscribable,
   })  : assert(authenticatable != null),
-        assert(studySubscribable != null),
+        assert(reviewSubscribable != null),
         _authenticatable = authenticatable,
-        _studySubscribable = studySubscribable;
+        _reviewSubscribable = reviewSubscribable;
 
   final Authenticatable _authenticatable;
 
-  final StudySubscribable _studySubscribable;
+  final ReviewSubscribable _reviewSubscribable;
 
   CardDetailBloc create(Card card) => _CardDetailBloc(
         card: card,
         authenticatable: _authenticatable,
-        studySubscribable: _studySubscribable,
+        reviewSubscribable: _reviewSubscribable,
       );
 }
 
 abstract class CardDetailBloc {
   Card get card;
 
-  ValueObservable<List<Study>> get studies;
+  ValueObservable<List<Review>> get reviews;
 }
 
 class _CardDetailBloc implements CardDetailBloc {
   _CardDetailBloc({
     @required this.card,
     @required Authenticatable authenticatable,
-    @required StudySubscribable studySubscribable,
+    @required ReviewSubscribable reviewSubscribable,
   })  : assert(card != null),
         assert(authenticatable != null),
-        assert(studySubscribable != null),
+        assert(reviewSubscribable != null),
         _authenticatable = authenticatable,
-        _studySubscribable = studySubscribable;
+        _reviewSubscribable = reviewSubscribable;
 
   @override
   final Card card;
 
   final Authenticatable _authenticatable;
 
-  final StudySubscribable _studySubscribable;
+  final ReviewSubscribable _reviewSubscribable;
 
   @override
-  ValueObservable<List<Study>> get studies =>
-      _studySubscribable.subscribeStudiesInCard(
+  ValueObservable<List<Review>> get reviews =>
+      _reviewSubscribable.subscribeReviewsInCard(
         user: _authenticatable.user.value,
         card: card,
       );
 }
 
-mixin StudySubscribable {
-  Observable<List<Study>> subscribeStudiesInCard({
+mixin ReviewSubscribable {
+  Observable<List<Review>> subscribeReviewsInCard({
     @required User user,
     @required Card card,
   });

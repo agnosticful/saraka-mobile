@@ -5,7 +5,7 @@ import 'package:saraka/constants.dart';
 import './maturity_description.dart';
 import './maturity_line_chart.dart';
 import './menu_icon_button.dart';
-import './next_study_date_description.dart';
+import './next_review_date_description.dart';
 import './synthesize_icon_button.dart';
 
 class CardListViewItem extends StatelessWidget {
@@ -75,8 +75,8 @@ class CardListViewItem extends StatelessWidget {
                         width: 96,
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 8),
-                          child: NextStudyDateDescription(
-                            nextStudyScheduledAt: card.nextStudyScheduledAt,
+                          child: NextReviewDateDescription(
+                            nextReviewScheduledAt: card.nextReviewScheduledAt,
                           ),
                         ),
                       ),
