@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:saraka/constants.dart';
-import './cards_maturity_donut_chart.dart';
+import './card_maturity_donut_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class CardsMaturityGridViewItem extends StatelessWidget {
@@ -33,7 +33,7 @@ class CardsMaturityGridViewItem extends StatelessWidget {
                     child: Container(
                       height: 280.0,
                       width: 280.0,
-                      child: CardsMaturityDonutChart(
+                      child: CardMaturityDonutChart(
                         seriesList: <charts.Series<MatureCount, int>>[
                           charts.Series(
                             id: 'Maturity',

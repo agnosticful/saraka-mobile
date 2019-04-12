@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-class CardsMaturityDonutChart extends StatelessWidget {
+class CardMaturityDonutChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
 
-  CardsMaturityDonutChart({@required this.seriesList, @required this.animate})
+  CardMaturityDonutChart({@required this.seriesList, @required this.animate})
       : assert(seriesList != null),
         assert(animate != null);
 
