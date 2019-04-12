@@ -4,9 +4,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:saraka/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
-import './summary.dart';
 import './main_drawer.dart';
 import './start_learning_floating_action_button.dart';
+import './summary.dart';
 import './wave_background.dart';
 
 class DashboardScreen extends StatelessWidget {
