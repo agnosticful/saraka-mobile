@@ -11,7 +11,7 @@ class NewCardFloatingActionButton extends StatelessWidget {
         icon: Icon(Feather.getIconData('plus')),
         label: Text(
           'New Card',
-          style: SarakaTextStyles.buttonLabel.copyWith(letterSpacing: 1),
+          style: SarakaTextStyles.buttonLabel,
         ),
         shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
         onPressed: () => _onPressed(context),
