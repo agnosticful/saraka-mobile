@@ -10,10 +10,7 @@ class StartLearningFloatingActionButton extends StatelessWidget {
         icon: Icon(Feather.getIconData('play')),
         label: Text(
           'Start learning',
-          style: TextStyle(
-            fontFamily: SarakaFonts.rubik,
-            fontSize: 14,
-          ),
+          style: SarakaTextStyles.buttonLabel,
         ),
         shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
         onPressed: () => Navigator.of(context).pushNamed('/study'),

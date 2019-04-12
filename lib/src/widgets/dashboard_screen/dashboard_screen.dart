@@ -16,13 +16,7 @@ class DashboardScreen extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: StartLearningFloatingActionButton(),
         appBar: AppBar(
-          title: Text(
-            'Dashboard',
-            style: TextStyle(
-              color: SarakaColors.white,
-              fontFamily: SarakaFonts.rubik,
-            ),
-          ),
+          title: Text('Dashboard', style: SarakaTextStyles.appBarTitle),
           centerTitle: true,
           backgroundColor: SarakaColors.lightBlack,
           elevation: 0,

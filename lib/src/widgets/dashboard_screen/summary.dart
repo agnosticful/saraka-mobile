@@ -85,13 +85,7 @@ class Summary extends StatelessWidget {
                       Text(
                         totalCardsNumber,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: SarakaColors.lightBlack,
-                          fontSize: 30.0,
-                          fontFamily: SarakaFonts.rubik,
-                          fontWeight: FontWeight.w500,
-                          height: 1.25,
-                        ),
+                        style: SarakaTextStyles.heading,
                         textAlign: TextAlign.center,
                       ),
                       Row(
@@ -103,13 +97,7 @@ class Summary extends StatelessWidget {
                           Text(
                             'Cards',
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: SarakaColors.lightBlack,
-                              fontSize: 12.0,
-                              fontFamily: SarakaFonts.rubik,
-                              fontWeight: FontWeight.w500,
-                              height: 1.25,
-                            ),
+                            style: SarakaTextStyles.body,
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -122,13 +110,7 @@ class Summary extends StatelessWidget {
                               Text(
                                 'See card list',
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: SarakaColors.lightBlack,
-                                  fontSize: 20.0,
-                                  fontFamily: SarakaFonts.rubik,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.25,
-                                ),
+                                style: SarakaTextStyles.heading,
                                 textAlign: TextAlign.center,
                               ),
                               Icon(
@@ -151,13 +133,7 @@ class Summary extends StatelessWidget {
                 child: Text(
                   todayLearnNumber + ' cards you study for today',
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: SarakaColors.lightBlack,
-                    fontSize: 20.0,
-                    fontFamily: SarakaFonts.rubik,
-                    fontWeight: FontWeight.w500,
-                    height: 1.25,
-                  ),
+                  style: SarakaTextStyles.heading,
                   textAlign: TextAlign.center,
                 ),
               ),
