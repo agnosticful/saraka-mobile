@@ -2,13 +2,11 @@ import 'package:flutter/material.dart' show AppBar, IconButton, Scaffold;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 import './back_button.dart';
 import './card_bundle.dart';
 import './finished.dart';
-import './main_drawer.dart';
 import './progress_indicator.dart';
 import './time_estimation.dart';
 
