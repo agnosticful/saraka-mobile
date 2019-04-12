@@ -15,3 +15,4 @@ export './src/widgets/processable_fancy_button.dart';
 export './src/widgets/signed_in_navigator/signed_in_navigator.dart';
 export './src/widgets/signed_out_screen/signed_out_screen.dart';
 export './src/widgets/review_screen/review_screen.dart';
+export './src/widgets/dashboard_screen/dashboard_screen.dart';
