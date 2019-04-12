@@ -135,6 +135,7 @@ void main() async {
               child: MaintenanceCheckNavigator(
                 child: AuthenticationNavigator(
                   signedIn: SignedInNavigator(
+                    dashboard: DashboardScreen(),
                     review: ReviewScreen(),
                     cardList: CardListScreen(),
                   ),

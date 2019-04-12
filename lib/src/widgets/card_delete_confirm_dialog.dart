@@ -22,8 +22,6 @@ Future<void> showCardDeleteConfirmDialog({
                       Navigator.of(context).pop();
                     })
                     ..onError.listen((error) {
-                      print('error!');
-
                       Navigator.of(context).pop();
                     }),
             ),
