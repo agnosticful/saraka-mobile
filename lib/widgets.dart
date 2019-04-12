@@ -1,5 +1,7 @@
 export './src/widgets/application.dart';
 export './src/widgets/authentication_navigator/authentication_navigator.dart';
+export './src/widgets/backend_version_check_navigator/backend_version_check_navigator.dart';
+export './src/widgets/backend_version_incompatible_screen.dart';
 export './src/widgets/card_delete_confirm_dialog.dart';
 export './src/widgets/card_list_screen/card_list_screen.dart';
 export './src/widgets/disappearable_builder.dart';
