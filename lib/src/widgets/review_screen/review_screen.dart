@@ -10,7 +10,7 @@ import './finished.dart';
 import './progress_indicator.dart';
 import './time_estimation.dart';
 
-class StudyScreen extends StatelessWidget {
+class ReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Stack(
         children: [
@@ -39,7 +39,7 @@ class StudyScreen extends StatelessWidget {
             backgroundColor: Color(0x00000000),
             appBar: AppBar(
               title: Text(
-                'Study',
+                'Review',
                 style: SarakaTextStyles.appBarTitle,
               ),
               centerTitle: true,

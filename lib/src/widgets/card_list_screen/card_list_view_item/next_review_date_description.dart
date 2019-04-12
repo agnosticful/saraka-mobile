@@ -1,16 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:saraka/constants.dart';
 
-class NextStudyDateDescription extends StatelessWidget {
-  NextStudyDateDescription({@required this.nextStudyScheduledAt, Key key})
-      : assert(nextStudyScheduledAt != null),
+class NextReviewDateDescription extends StatelessWidget {
+  NextReviewDateDescription({@required this.nextReviewScheduledAt, Key key})
+      : assert(nextReviewScheduledAt != null),
         super(key: key);
 
-  final DateTime nextStudyScheduledAt;
+  final DateTime nextReviewScheduledAt;
 
   @override
   Widget build(BuildContext context) {
-    final difference = nextStudyScheduledAt.difference(DateTime.now());
+    final difference = nextReviewScheduledAt.difference(DateTime.now());
     String when;
 
     if (difference.inHours <= 3) {
@@ -24,14 +24,14 @@ class NextStudyDateDescription extends StatelessWidget {
     } else if (difference.inDays < 180) {
       when = "${difference.inDays ~/ 30} months later";
     } else {
-      when = "in ${nextStudyScheduledAt.year}";
+      when = "in ${nextReviewScheduledAt.year}";
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Next Study",
+          "Next Review",
           style: SarakaTextStyles.body2.apply(fontWeightDelta: 1),
         ),
         SizedBox(height: 4),

@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 
-class StudyRoute extends CupertinoPageRoute {
-  StudyRoute({@required Widget child, RouteSettings settings})
+class ReviewRoute extends CupertinoPageRoute {
+  ReviewRoute({@required Widget child, RouteSettings settings})
       : super(
           builder: (BuildContext context) => MultiProvider(
                 providers: [
-                  StatefulProvider<CardStudyBloc>(
+                  StatefulProvider<CardReviewBloc>(
                     valueBuilder: (_) =>
-                        Provider.of<CardStudyBlocFactory>(context).create()
+                        Provider.of<CardReviewBlocFactory>(context).create()
                           ..initialize(),
                   ),
                   StatefulProvider<SynthesizerBloc>(

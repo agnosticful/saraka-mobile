@@ -21,9 +21,9 @@ class _FinishedState extends State<Finished> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      final cardStudyBloc = Provider.of<CardStudyBloc>(context);
+      final cardReviewBloc = Provider.of<CardReviewBloc>(context);
 
-      _subscription = cardStudyBloc.cardsInQueue.listen((cards) {
+      _subscription = cardReviewBloc.cardsInQueue.listen((cards) {
         if (cards.length == 0) {
           _controls.play("main");
         }

@@ -34,7 +34,7 @@ class _DraggableCardState extends State<DraggableCard>
   AnimationController slideBackAnimation;
   Tween<Offset> slideOutTween;
   AnimationController slideOutAnimation;
-  CardStudyBloc _cardStudyBloc;
+  CardReviewBloc _cardReviewBloc;
   SynthesizerBloc _synthesizerBloc;
 
   @override
@@ -72,15 +72,15 @@ class _DraggableCardState extends State<DraggableCard>
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           if (cardOffset.dx < 0) {
-            _cardStudyBloc.studiedVaguely(widget.card);
+            _cardReviewBloc.reviewedVaguely(widget.card);
           } else {
-            _cardStudyBloc.studiedWell(widget.card);
+            _cardReviewBloc.reviewedWell(widget.card);
           }
         }
       });
 
     Future.delayed(Duration.zero, () async {
-      final cardStudyBloc = Provider.of<CardStudyBloc>(context);
+      final cardReviewBloc = Provider.of<CardReviewBloc>(context);
       final synthesizerBloc = Provider.of<SynthesizerBloc>(context);
 
       if (widget.cardsInFront == 0) {
@@ -88,7 +88,7 @@ class _DraggableCardState extends State<DraggableCard>
       }
 
       setState(() {
-        _cardStudyBloc = cardStudyBloc;
+        _cardReviewBloc = cardReviewBloc;
         _synthesizerBloc = synthesizerBloc;
       });
     });

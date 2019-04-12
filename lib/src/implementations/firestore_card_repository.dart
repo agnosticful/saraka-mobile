@@ -3,14 +3,14 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/blocs.dart';
 import './firestore_card.dart';
-import './firestore_study.dart';
+import './firestore_review.dart';
 
 class FirestoreCardRepository
     implements
         CardDeletable,
         CardSubscribable,
         InQueueCardSubscribable,
-        StudySubscribable {
+        ReviewSubscribable {
   FirestoreCardRepository({
     @required Firestore firestore,
   })  : assert(firestore != null),
@@ -27,6 +27,7 @@ class FirestoreCardRepository
         .document(user.id)
         .collection('cards')
         .orderBy('nextStudyInterval', descending: true)
+        .orderBy('text')
         .limit(1000)
         .snapshots()
         .listen((snapshot) {
@@ -65,11 +66,11 @@ class FirestoreCardRepository
   }
 
   @override
-  Observable<List<Study>> subscribeStudiesInCard({
+  Observable<List<Review>> subscribeReviewsInCard({
     User user,
     Card card,
   }) {
-    final observable = BehaviorSubject<List<Study>>();
+    final observable = BehaviorSubject<List<Review>>();
 
     final subscription = _firestore
         .collection('users')
@@ -82,7 +83,7 @@ class FirestoreCardRepository
         .snapshots()
         .listen((snapshot) {
       observable.add(snapshot.documents
-          .map((document) => FirestoreStudy(document))
+          .map((document) => FirestoreReview(document))
           .toList());
     });
 
