@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
@@ -10,7 +12,17 @@ import 'package:saraka/constants.dart';
 import 'package:saraka/implementations.dart';
 import 'package:saraka/widgets.dart';
 
-void main() {
+void main() async {
+  FlutterError.onError = (FlutterErrorDetails details) {
+    if (buildMode == _BuildMode.debug) {
+      FlutterError.dumpErrorToConsole(details);
+    } else {
+      Zone.current.handleUncaughtError(details.exception, details.stack);
+    }
+  };
+
+  await FlutterCrashlytics().initialize();
+
   Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
 
   final firebaseAnalytics = FirebaseAnalytics();
@@ -87,32 +99,68 @@ void main() {
 
   final maintenanceCheckBloc = maintenanceCheckBlocFactory.create();
 
-  runApp(
-    MultiProvider(
-      providers: [
-        Provider<CardAdderBlocFactory>(value: cardAdderBlocFactory),
-        Provider<CardDeleteBlocFactory>(value: cardDeleteBlocFactory),
-        Provider<CardDetailBlocFactory>(value: cardDetailBlocFactory),
-        Provider<CardReviewBlocFactory>(value: cardReviewBlocFactory),
-        Provider<CardListBlocFactory>(value: cardListBlocFactory),
-        Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
-        Provider<AuthenticationBloc>(value: authenticationBloc),
-        Provider<MaintenanceCheckBloc>(value: maintenanceCheckBloc),
-      ],
-      child: Application(
-        title: "Saraka",
-        color: SarakaColors.lightRed,
-        child: MaintenanceCheckNavigator(
-          child: AuthenticationNavigator(
-            signedIn: SignedInNavigator(
-              review: ReviewScreen(),
-              cardList: CardListScreen(),
+  runZoned<Future<Null>>(
+    () async {
+      runApp(
+        MultiProvider(
+          providers: [
+            Provider<CardAdderBlocFactory>(value: cardAdderBlocFactory),
+            Provider<CardDeleteBlocFactory>(value: cardDeleteBlocFactory),
+            Provider<CardDetailBlocFactory>(value: cardDetailBlocFactory),
+            Provider<CardReviewBlocFactory>(value: cardReviewBlocFactory),
+            Provider<CardListBlocFactory>(value: cardListBlocFactory),
+            Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
+            Provider<AuthenticationBloc>(value: authenticationBloc),
+            Provider<MaintenanceCheckBloc>(value: maintenanceCheckBloc),
+          ],
+          child: Application(
+            title: "Saraka",
+            color: SarakaColors.lightRed,
+            child: MaintenanceCheckNavigator(
+              child: AuthenticationNavigator(
+                signedIn: SignedInNavigator(
+                  review: ReviewScreen(),
+                  cardList: CardListScreen(),
+                ),
+                signedOut: SignedOutScreen(),
+                undecided: LandingScreen(),
+              ),
             ),
-            signedOut: SignedOutScreen(),
-            undecided: LandingScreen(),
           ),
         ),
-      ),
-    ),
+      );
+    },
+    onError: (error, stackTrace) async {
+      // Whenever an error occurs, call the `reportCrash` function. This will send Dart errors to our dev console or Crashlytics depending on the environment.
+      await FlutterCrashlytics().reportCrash(
+        error,
+        stackTrace,
+        forceCrash: false,
+      );
+    },
   );
+}
+
+_BuildMode buildMode = (() {
+  if (const bool.fromEnvironment('dart.vm.product')) {
+    return _BuildMode.release;
+  }
+
+  var result = _BuildMode.profile;
+
+  // assert functions will run only on debug mode.
+  assert(() {
+    result = _BuildMode.debug;
+
+    return true;
+  }());
+
+  // if neither of above, it's on profile mode
+  return result;
+}());
+
+enum _BuildMode {
+  release,
+  profile,
+  debug,
 }
