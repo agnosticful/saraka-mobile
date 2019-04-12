@@ -27,6 +27,7 @@ class DashboardScreen extends StatelessWidget {
           builder: (context, cardListBloc) => Container(
                 child: StreamBuilder<List<Card>>(
                   stream: cardListBloc.cards.map((iter) => iter.toList()),
+                  initialData: [],
                   builder: (context, snapshot) => Stack(
                         children: <Widget>[
                           WaveBackground(),
@@ -39,13 +40,13 @@ class DashboardScreen extends StatelessWidget {
                             children: <Widget>[
                               Summary(
                                 totalCardsNumber:
-                                    snapshot.data.length.toString(),
-                                todayLearnNumber: snapshot.data
+                                    snapshot.requireData.length.toString(),
+                                todayLearnNumber: snapshot.requireData
                                     .where((iter) => iter.nextReviewScheduledAt
                                         .isBefore(DateTime.now()))
                                     .length
                                     .toString(),
-                                cardsMaturity: snapshot.data.toList(),
+                                cardsMaturity: snapshot.requireData.toList(),
                               ),
                             ],
                             staggeredTiles: [
