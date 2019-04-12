@@ -4,9 +4,8 @@ import 'package:saraka/constants.dart';
 import './card_maturity_donut_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-class CardsMaturityGridViewItem extends StatelessWidget {
-  CardsMaturityGridViewItem(
-      {this.totalCardsNumber, this.todayLearnNumber, this.cardsMaturity})
+class Summary extends StatelessWidget {
+  Summary({this.totalCardsNumber, this.todayLearnNumber, this.cardsMaturity})
       : assert(totalCardsNumber != null),
         assert(todayLearnNumber != null),
         assert(cardsMaturity != null);

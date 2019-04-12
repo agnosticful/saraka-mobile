@@ -4,7 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:saraka/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
-import './dashboard_gridview_item.dart';
+import './summary.dart';
 import './main_drawer.dart';
 import './start_learning_floating_action_button.dart';
 import './wave_background.dart';
@@ -43,7 +43,7 @@ class DashboardScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 16.0, vertical: 8.0),
                             children: <Widget>[
-                              CardsMaturityGridViewItem(
+                              Summary(
                                 totalCardsNumber:
                                     snapshot.data.length.toString(),
                                 todayLearnNumber: snapshot.data
