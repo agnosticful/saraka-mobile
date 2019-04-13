@@ -2,8 +2,7 @@ import 'package:flutter/material.dart' show AppBar, IconButton, Scaffold;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
+import 'package:saraka/widgets.dart';
 import './back_button.dart';
 import './card_bundle.dart';
 import './finished.dart';
@@ -14,27 +13,7 @@ class ReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Stack(
         children: [
-          WaveWidget(
-            config: CustomConfig(
-              gradients: [
-                [
-                  SarakaColors.lightBlack,
-                  SarakaColors.darkBlack,
-                ],
-                [
-                  SarakaColors.darkBlack.withOpacity(0.5),
-                  SarakaColors.darkBlack.withOpacity(0.75),
-                ],
-              ],
-              durations: [19440, 6000],
-              heightPercentages: [0.2, 0.5],
-              gradientBegin: Alignment.bottomLeft,
-              gradientEnd: Alignment.topRight,
-            ),
-            backgroundColor: SarakaColors.lightBlack,
-            size: Size.infinite,
-            waveAmplitude: 0,
-          ),
+          WaveBackground(color: SarakaColors.darkBlack),
           Scaffold(
             backgroundColor: Color(0x00000000),
             appBar: AppBar(
