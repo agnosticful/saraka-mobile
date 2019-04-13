@@ -1,6 +1,6 @@
 import 'package:flutter/painting.dart';
 
-int backendMajorVersion = 1;
+int expectedBackendVersion = 1;
 
 abstract class SarakaColors {
   static const white = Color(0xfff0f4f8);
