@@ -78,6 +78,11 @@ class Summary extends StatelessWidget {
                             ],
                             labelAccessorFn: (MatureCount row, _) =>
                                 '${row.title}',
+                            outsideLabelStyleAccessorFn: (MatureCount row, _) {
+                              final color =
+                                  charts.MaterialPalette.red.shadeDefault;
+                              return new charts.TextStyleSpec(color: color);
+                            },
                           ),
                         ],
                         animate: true,
