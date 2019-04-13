@@ -40,6 +40,12 @@ class Summary extends StatelessWidget {
                                 matures.maturity,
                             measureFn: (MatureCount matures, _) =>
                                 matures.maturity,
+                            colorFn: (_, i) => charts.Color(
+                                  r: SarakaColors.lightRed.red,
+                                  g: SarakaColors.lightRed.green,
+                                  b: SarakaColors.lightRed.blue,
+                                  a: 31,
+                                ),
                             data: [
                               new MatureCount(
                                   "More than 80%",
