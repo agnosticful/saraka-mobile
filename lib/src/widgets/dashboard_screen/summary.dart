@@ -18,7 +18,7 @@ class Summary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Material(
-        color: Colors.white,
+        color: Colors.transparent,
         elevation: 14.0,
         shadowColor: Color(0x802196F3),
         borderRadius: BorderRadius.circular(10.0),
