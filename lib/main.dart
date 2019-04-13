@@ -32,6 +32,10 @@ void main() async {
     googleSignIn: GoogleSignIn(),
   );
 
+  final backendVersionRepository = FirestoreBackendVersionRepository(
+    firestore: Firestore.instance,
+  );
+
   final cacheStorage = CacheStorage();
 
   final logger = FirebaseAnalyticsLogger(firebaseAnalytics: firebaseAnalytics);
@@ -54,6 +58,11 @@ void main() async {
     authenticatable: authentication,
     signable: authentication,
     signInOutLoggable: logger,
+  );
+
+  final backendVersionCompatibilityCheckBlocFactory =
+      BackendVersionCompatibilityCheckBlocFactory(
+    backendVersionGetable: backendVersionRepository,
   );
 
   final maintenanceCheckBlocFactory = MaintenanceCheckBlocFactory(
@@ -97,6 +106,9 @@ void main() async {
 
   final authenticationBloc = authenticationBlocFactory.create();
 
+  final backendVersionCompatibilityCheckBloc =
+      backendVersionCompatibilityCheckBlocFactory.create();
+
   final maintenanceCheckBloc = maintenanceCheckBlocFactory.create();
 
   runZoned<Future<Null>>(
@@ -111,20 +123,25 @@ void main() async {
             Provider<CardListBlocFactory>(value: cardListBlocFactory),
             Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
             Provider<AuthenticationBloc>(value: authenticationBloc),
+            Provider<BackendVersionCompatibilityCheckBloc>(
+              value: backendVersionCompatibilityCheckBloc,
+            ),
             Provider<MaintenanceCheckBloc>(value: maintenanceCheckBloc),
           ],
           child: Application(
             title: "Saraka",
             color: SarakaColors.lightRed,
-            child: MaintenanceCheckNavigator(
-              child: AuthenticationNavigator(
-                signedIn: SignedInNavigator(
-                  dashboard: DashboardScreen(),
-                  review: ReviewScreen(),
-                  cardList: CardListScreen(),
+            child: BackendVersionCheckNavigator(
+              child: MaintenanceCheckNavigator(
+                child: AuthenticationNavigator(
+                  signedIn: SignedInNavigator(
+                    dashboard: DashboardScreen(),
+                    review: ReviewScreen(),
+                    cardList: CardListScreen(),
+                  ),
+                  signedOut: SignedOutScreen(),
+                  undecided: LandingScreen(),
                 ),
-                signedOut: SignedOutScreen(),
-                undecided: LandingScreen(),
               ),
             ),
           ),
