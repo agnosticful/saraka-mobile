@@ -24,6 +24,9 @@ class Summary extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
         child: Column(
           children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(bottom: 30.0),
+            ),
             Expanded(
               child: Stack(
                 children: <Widget>[
@@ -148,7 +151,7 @@ class Summary extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 80.0),
+                    padding: EdgeInsets.only(bottom: 90.0),
                   )
                 ],
               ),
