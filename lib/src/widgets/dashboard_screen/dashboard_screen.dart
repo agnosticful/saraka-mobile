@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart' hide Card;
 import 'package:flutter/widgets.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:saraka/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
@@ -34,13 +33,9 @@ class DashboardScreen extends StatelessWidget {
                     child: StreamBuilder<List<Card>>(
                       stream: cardListBloc.cards.map((iter) => iter.toList()),
                       initialData: [],
-                      builder: (context, snapshot) => StaggeredGridView.count(
-                            crossAxisCount: 1,
-                            crossAxisSpacing: 12.0,
-                            mainAxisSpacing: 12.0,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 8.0),
+                      builder: (context, snapshot) => Stack(
                             children: <Widget>[
+                              WaveBackground(color: SarakaColors.white),
                               Summary(
                                 totalCardsNumber:
                                     snapshot.requireData.length.toString(),
@@ -50,10 +45,7 @@ class DashboardScreen extends StatelessWidget {
                                     .length
                                     .toString(),
                                 cardsMaturity: snapshot.requireData.toList(),
-                              ),
-                            ],
-                            staggeredTiles: [
-                              StaggeredTile.extent(1, 350.0),
+                              )
                             ],
                           ),
                     ),
