@@ -35,7 +35,7 @@ class Summary extends StatelessWidget {
                       child: CardMaturityDonutChart(
                         seriesList: <charts.Series<MatureCount, int>>[
                           charts.Series(
-                            id: 'Maturity',
+                            id: 'CardMaturity',
                             domainFn: (MatureCount matures, _) =>
                                 matures.maturity,
                             measureFn: (MatureCount matures, _) =>
@@ -44,7 +44,7 @@ class Summary extends StatelessWidget {
                                   r: SarakaColors.lightRed.red,
                                   g: SarakaColors.lightRed.green,
                                   b: SarakaColors.lightRed.blue,
-                                  a: 31,
+                                  a: 255,
                                 ),
                             data: [
                               new MatureCount(
@@ -79,8 +79,7 @@ class Summary extends StatelessWidget {
                             labelAccessorFn: (MatureCount row, _) =>
                                 '${row.title}',
                             outsideLabelStyleAccessorFn: (MatureCount row, _) {
-                              final color =
-                                  charts.MaterialPalette.red.shadeDefault;
+                              final color = charts.MaterialPalette.white;
                               return new charts.TextStyleSpec(color: color);
                             },
                           ),
@@ -96,7 +95,7 @@ class Summary extends StatelessWidget {
                       Text(
                         totalCardsNumber,
                         overflow: TextOverflow.ellipsis,
-                        style: SarakaTextStyles.heading,
+                        style: SarakaTextStyles.headline,
                         textAlign: TextAlign.center,
                       ),
                       Row(
@@ -108,7 +107,7 @@ class Summary extends StatelessWidget {
                           Text(
                             'Cards',
                             overflow: TextOverflow.ellipsis,
-                            style: SarakaTextStyles.body,
+                            style: SarakaTextStyles.bodyWhiteSmall,
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -121,12 +120,12 @@ class Summary extends StatelessWidget {
                               Text(
                                 'See card list',
                                 overflow: TextOverflow.ellipsis,
-                                style: SarakaTextStyles.heading,
+                                style: SarakaTextStyles.bodyWhite,
                                 textAlign: TextAlign.center,
                               ),
                               Icon(
                                 Icons.keyboard_arrow_down,
-                                color: SarakaColors.lightBlack,
+                                color: SarakaColors.white,
                               ),
                             ],
                           ),
@@ -144,7 +143,7 @@ class Summary extends StatelessWidget {
                 child: Text(
                   todayLearnNumber + ' cards you study for today',
                   overflow: TextOverflow.ellipsis,
-                  style: SarakaTextStyles.heading,
+                  style: SarakaTextStyles.headlineSmall,
                   textAlign: TextAlign.center,
                 ),
               ),
