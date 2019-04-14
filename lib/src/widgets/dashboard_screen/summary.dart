@@ -25,7 +25,7 @@ class Summary extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(bottom: 30.0),
+              padding: EdgeInsets.only(bottom: 32),
             ),
             Expanded(
               child: Stack(
@@ -80,10 +80,9 @@ class Summary extends StatelessWidget {
                             ],
                             labelAccessorFn: (MatureCount row, _) =>
                                 '${row.title}',
-                            outsideLabelStyleAccessorFn: (MatureCount row, _) {
-                              final color = charts.MaterialPalette.black;
-                              return new charts.TextStyleSpec(color: color);
-                            },
+                            outsideLabelStyleAccessorFn: (MatureCount row, _) =>
+                                charts.TextStyleSpec(
+                                    color: charts.MaterialPalette.black),
                           ),
                         ],
                         animate: true,
@@ -97,7 +96,7 @@ class Summary extends StatelessWidget {
                       Text(
                         totalCardsNumber,
                         overflow: TextOverflow.ellipsis,
-                        style: SarakaTextStyles.headline,
+                        style: SarakaTextStyles.body.copyWith(fontSize: 40),
                         textAlign: TextAlign.center,
                       ),
                       Row(
@@ -109,7 +108,8 @@ class Summary extends StatelessWidget {
                           Text(
                             'Cards',
                             overflow: TextOverflow.ellipsis,
-                            style: SarakaTextStyles.bodySmall,
+                            style:
+                                SarakaTextStyles.body2.copyWith(fontSize: 12),
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -151,7 +151,7 @@ class Summary extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 90.0),
+                    padding: EdgeInsets.only(bottom: 88.0),
                   )
                 ],
               ),

@@ -42,16 +42,6 @@ abstract class SarakaTextStyles {
     fontSize: 18,
     color: SarakaColors.lightBlack,
   );
-  static final bodySmall = _base.copyWith(
-    fontWeight: FontWeight.w400,
-    fontSize: 12,
-    color: SarakaColors.darkGray,
-  );
-  static final headline = _base.copyWith(
-    fontWeight: FontWeight.w400,
-    fontSize: 40,
-    color: SarakaColors.darkGray,
-  );
   static final headlineSmall = _base.copyWith(
     fontWeight: FontWeight.w400,
     fontSize: 20,
