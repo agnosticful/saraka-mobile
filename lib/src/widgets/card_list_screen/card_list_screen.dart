@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
+import 'package:saraka/widgets.dart';
 import './card_sliver_list.dart';
 import './new_card_floating_action_button.dart';
-import './wave_background.dart';
 
 class CardListScreen extends StatelessWidget {
   @override
@@ -13,7 +13,7 @@ class CardListScreen extends StatelessWidget {
         body: Container(
           child: Stack(
             children: [
-              WaveBackground(),
+              WaveBackground(color: SarakaColors.white),
               CustomScrollView(
                 slivers: [
                   SliverAppBar(
