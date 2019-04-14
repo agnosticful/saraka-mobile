@@ -11,7 +11,7 @@ import './wave_background.dart';
 class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Color(0x00000000),
+        backgroundColor: SarakaColors.lightBlack,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: StartLearningFloatingActionButton(),
         appBar: AppBar(
