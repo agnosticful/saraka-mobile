@@ -11,27 +11,30 @@ import './summary.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Color(0x00000000),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: StartLearningFloatingActionButton(),
-        appBar: AppBar(
-          title: Text('Dashboard', style: SarakaTextStyles.appBarTitle),
-          centerTitle: true,
-          backgroundColor: SarakaColors.lightBlack,
-          elevation: 0,
-          iconTheme: IconThemeData(color: SarakaColors.white),
-        ),
-        drawer: MainDrawer(),
-        body: Consumer<CardListBloc>(
-          builder: (context, cardListBloc) => Container(
-                child: StreamBuilder<List<Card>>(
-                  stream: cardListBloc.cards.map((iter) => iter.toList()),
-                  initialData: [],
-                  builder: (context, snapshot) => Stack(
-                        children: <Widget>[
-                          WaveBackground(color: SarakaColors.white),
-                          StaggeredGridView.count(
+  Widget build(BuildContext context) => Stack(
+        children: [
+          WaveBackground(color: SarakaColors.white),
+          Scaffold(
+            backgroundColor: Color(0x00000000),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: StartLearningFloatingActionButton(),
+            appBar: AppBar(
+              title: Text('Dashboard',
+                  style: SarakaTextStyles.appBarTitle
+                      .copyWith(color: SarakaColors.lightBlack)),
+              centerTitle: true,
+              backgroundColor: Color(0x00000000),
+              elevation: 0,
+              iconTheme: IconThemeData(color: SarakaColors.lightBlack),
+            ),
+            drawer: MainDrawer(),
+            body: Consumer<CardListBloc>(
+              builder: (context, cardListBloc) => Container(
+                    child: StreamBuilder<List<Card>>(
+                      stream: cardListBloc.cards.map((iter) => iter.toList()),
+                      initialData: [],
+                      builder: (context, snapshot) => StaggeredGridView.count(
                             crossAxisCount: 1,
                             crossAxisSpacing: 12.0,
                             mainAxisSpacing: 12.0,
@@ -52,11 +55,11 @@ class DashboardScreen extends StatelessWidget {
                             staggeredTiles: [
                               StaggeredTile.extent(1, 350.0),
                             ],
-                          )
-                        ],
-                      ),
-                ),
-              ),
-        ),
+                          ),
+                    ),
+                  ),
+            ),
+          )
+        ],
       );
 }
