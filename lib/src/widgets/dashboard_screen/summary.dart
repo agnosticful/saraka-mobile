@@ -24,8 +24,7 @@ class Summary extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
         child: Column(
           children: <Widget>[
-            Container(
-              height: 300.0,
+            Expanded(
               child: Stack(
                 children: <Widget>[
                   Center(
@@ -44,7 +43,7 @@ class Summary extends StatelessWidget {
                                   r: SarakaColors.lightRed.red,
                                   g: SarakaColors.lightRed.green,
                                   b: SarakaColors.lightRed.blue,
-                                  a: 255,
+                                  a: 180,
                                 ),
                             data: [
                               new MatureCount(
@@ -79,7 +78,7 @@ class Summary extends StatelessWidget {
                             labelAccessorFn: (MatureCount row, _) =>
                                 '${row.title}',
                             outsideLabelStyleAccessorFn: (MatureCount row, _) {
-                              final color = charts.MaterialPalette.white;
+                              final color = charts.MaterialPalette.black;
                               return new charts.TextStyleSpec(color: color);
                             },
                           ),
@@ -107,7 +106,7 @@ class Summary extends StatelessWidget {
                           Text(
                             'Cards',
                             overflow: TextOverflow.ellipsis,
-                            style: SarakaTextStyles.bodyWhiteSmall,
+                            style: SarakaTextStyles.bodySmall,
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -125,7 +124,7 @@ class Summary extends StatelessWidget {
                               ),
                               Icon(
                                 Icons.keyboard_arrow_down,
-                                color: SarakaColors.white,
+                                color: SarakaColors.darkGray,
                               ),
                             ],
                           ),
@@ -138,12 +137,20 @@ class Summary extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              child: Text(
-                todayLearnNumber + ' cards you study for today',
-                overflow: TextOverflow.ellipsis,
-                style: SarakaTextStyles.headlineSmall,
-                textAlign: TextAlign.center,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text(
+                    todayLearnNumber + ' cards you study for today',
+                    overflow: TextOverflow.ellipsis,
+                    style: SarakaTextStyles.headlineSmall,
+                    textAlign: TextAlign.center,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 80.0),
+                  )
+                ],
               ),
             ),
           ],
