@@ -36,11 +36,32 @@ abstract class SarakaTextStyles {
   );
   static final multilineBody = body.apply(heightFactor: 1.25);
   static final body2 = body.apply(fontSizeFactor: .8125);
+  static final body3 = body.apply(color: SarakaColors.white);
   static final multilineBody2 = body2.apply(heightFactor: 1.25);
   static final heading = _base.copyWith(
     fontWeight: FontWeight.w500,
     fontSize: 18,
     color: SarakaColors.lightBlack,
+  );
+  static final bodyWhite = _base.copyWith(
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    color: SarakaColors.white,
+  );
+  static final bodyWhiteSmall = _base.copyWith(
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+    color: SarakaColors.white,
+  );
+  static final headline = _base.copyWith(
+    fontWeight: FontWeight.w400,
+    fontSize: 30,
+    color: SarakaColors.white,
+  );
+  static final headlineSmall = _base.copyWith(
+    fontWeight: FontWeight.w400,
+    fontSize: 20,
+    color: SarakaColors.white,
   );
   static final appBarTitle = _base.copyWith();
   static final buttonLabel = _base.copyWith(fontWeight: FontWeight.w500);
