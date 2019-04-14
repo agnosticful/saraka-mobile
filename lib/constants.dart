@@ -36,7 +36,6 @@ abstract class SarakaTextStyles {
   );
   static final multilineBody = body.apply(heightFactor: 1.25);
   static final body2 = body.apply(fontSizeFactor: .8125);
-  static final body3 = body.apply(color: SarakaColors.white);
   static final multilineBody2 = body2.apply(heightFactor: 1.25);
   static final heading = _base.copyWith(
     fontWeight: FontWeight.w500,
