@@ -120,7 +120,7 @@ class Summary extends StatelessWidget {
                               Text(
                                 'See card list',
                                 overflow: TextOverflow.ellipsis,
-                                style: SarakaTextStyles.bodyWhite,
+                                style: SarakaTextStyles.headlineSmall,
                                 textAlign: TextAlign.center,
                               ),
                               Icon(
@@ -139,13 +139,11 @@ class Summary extends StatelessWidget {
               ),
             ),
             Container(
-              child: Center(
-                child: Text(
-                  todayLearnNumber + ' cards you study for today',
-                  overflow: TextOverflow.ellipsis,
-                  style: SarakaTextStyles.headlineSmall,
-                  textAlign: TextAlign.center,
-                ),
+              child: Text(
+                todayLearnNumber + ' cards you study for today',
+                overflow: TextOverflow.ellipsis,
+                style: SarakaTextStyles.headlineSmall,
+                textAlign: TextAlign.center,
               ),
             ),
           ],
