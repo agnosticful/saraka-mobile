@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 
-class ReviewRoute extends CupertinoPageRoute {
+class ReviewRoute extends MaterialPageRoute {
   ReviewRoute({@required Widget child, RouteSettings settings})
       : super(
           builder: (BuildContext context) => MultiProvider(
