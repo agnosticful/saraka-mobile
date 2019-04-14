@@ -10,43 +10,48 @@ import './summary.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Color(0x00000000),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: StartLearningFloatingActionButton(),
-        appBar: AppBar(
-          title: Text('Dashboard',
-              style: SarakaTextStyles.appBarTitle.copyWith(
-                color: SarakaColors.lightBlack,
-              )),
-          centerTitle: true,
-          backgroundColor: SarakaColors.white,
-          elevation: 0,
-          iconTheme: IconThemeData(color: SarakaColors.lightBlack),
-        ),
-        drawer: MainDrawer(),
-        body: Consumer<CardListBloc>(
-          builder: (context, cardListBloc) => Container(
-                child: StreamBuilder<List<Card>>(
-                  stream: cardListBloc.cards.map((iter) => iter.toList()),
-                  initialData: [],
-                  builder: (context, snapshot) => Stack(
-                        children: <Widget>[
-                          WaveBackground(color: SarakaColors.white),
-                          Summary(
-                            totalCardsNumber:
-                                snapshot.requireData.length.toString(),
-                            todayLearnNumber: snapshot.requireData
-                                .where((iter) => iter.nextReviewScheduledAt
-                                    .isBefore(DateTime.now()))
-                                .length
-                                .toString(),
-                            cardsMaturity: snapshot.requireData.toList(),
-                          )
-                        ],
-                      ),
-                ),
-              ),
-        ),
+  Widget build(BuildContext context) => Stack(
+        children: [
+          WaveBackground(color: SarakaColors.white),
+          Scaffold(
+            backgroundColor: Color(0x00000000),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: StartLearningFloatingActionButton(),
+            appBar: AppBar(
+              title: Text('Dashboard',
+                  style: SarakaTextStyles.appBarTitle
+                      .copyWith(color: SarakaColors.lightBlack)),
+              centerTitle: true,
+              backgroundColor: Color(0x00000000),
+              elevation: 0,
+              iconTheme: IconThemeData(color: SarakaColors.lightBlack),
+            ),
+            drawer: MainDrawer(),
+            body: Consumer<CardListBloc>(
+              builder: (context, cardListBloc) => Container(
+                    child: StreamBuilder<List<Card>>(
+                      stream: cardListBloc.cards.map((iter) => iter.toList()),
+                      initialData: [],
+                      builder: (context, snapshot) => Stack(
+                            children: <Widget>[
+                              WaveBackground(color: SarakaColors.white),
+                              Summary(
+                                totalCardsNumber:
+                                    snapshot.requireData.length.toString(),
+                                todayLearnNumber: snapshot.requireData
+                                    .where((iter) => iter.nextReviewScheduledAt
+                                        .isBefore(DateTime.now()))
+                                    .length
+                                    .toString(),
+                                cardsMaturity: snapshot.requireData.toList(),
+                              )
+                            ],
+                          ),
+                    ),
+                  ),
+            ),
+          )
+        ],
       );
 }

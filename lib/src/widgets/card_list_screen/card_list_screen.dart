@@ -17,7 +17,9 @@ class CardListScreen extends StatelessWidget {
               CustomScrollView(
                 slivers: [
                   SliverAppBar(
-                    backgroundColor: Color(0x00000000),
+                    floating: true,
+                    elevation: 6,
+                    backgroundColor: SarakaColors.white,
                     iconTheme: IconThemeData(color: SarakaColors.lightBlack),
                     centerTitle: true,
                     title: Text(
