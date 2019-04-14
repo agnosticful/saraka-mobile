@@ -42,20 +42,20 @@ abstract class SarakaTextStyles {
     fontSize: 18,
     color: SarakaColors.lightBlack,
   );
-  static final bodyWhiteSmall = _base.copyWith(
+  static final bodySmall = _base.copyWith(
     fontWeight: FontWeight.w400,
     fontSize: 12,
-    color: SarakaColors.white,
+    color: SarakaColors.darkGray,
   );
   static final headline = _base.copyWith(
     fontWeight: FontWeight.w400,
     fontSize: 40,
-    color: SarakaColors.white,
+    color: SarakaColors.darkGray,
   );
   static final headlineSmall = _base.copyWith(
     fontWeight: FontWeight.w400,
     fontSize: 20,
-    color: SarakaColors.white,
+    color: SarakaColors.darkGray,
   );
   static final appBarTitle = _base.copyWith();
   static final buttonLabel = _base.copyWith(fontWeight: FontWeight.w500);

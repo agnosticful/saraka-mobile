@@ -15,11 +15,14 @@ class DashboardScreen extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: StartLearningFloatingActionButton(),
         appBar: AppBar(
-          title: Text('Dashboard', style: SarakaTextStyles.appBarTitle),
+          title: Text('Dashboard',
+              style: SarakaTextStyles.appBarTitle.copyWith(
+                color: SarakaColors.lightBlack,
+              )),
           centerTitle: true,
-          backgroundColor: SarakaColors.lightBlack,
+          backgroundColor: SarakaColors.white,
           elevation: 0,
-          iconTheme: IconThemeData(color: SarakaColors.white),
+          iconTheme: IconThemeData(color: SarakaColors.lightBlack),
         ),
         drawer: MainDrawer(),
         body: Consumer<CardListBloc>(
