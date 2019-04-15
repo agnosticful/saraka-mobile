@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:saraka/blocs.dart';
 import './card_list_route.dart';
+import './introduction_route.dart';
 import './review_route.dart';
 import './dashboard_route.dart';
 
@@ -8,14 +11,18 @@ class SignedInNavigator extends StatefulWidget {
   SignedInNavigator({
     Key key,
     @required this.cardList,
+    @required this.introduction,
     @required this.review,
     @required this.dashboard,
   })  : assert(cardList != null),
+        assert(introduction != null),
         assert(review != null),
         assert(dashboard != null),
         super(key: key);
 
   final Widget cardList;
+
+  final Widget introduction;
 
   final Widget review;
 
@@ -93,27 +100,39 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
   }
 
   @override
-  Widget build(BuildContext context) => Navigator(
-        key: _navigatorKey,
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case "/":
-              return DashboardRoute(
-                settings: settings,
-                child: widget.dashboard,
-              );
-            case "/study":
-              return ReviewRoute(
-                settings: settings,
-                child: widget.review,
-              );
-            case "/cards":
-              return CardListRoute(
-                settings: settings,
-                child: widget.cardList,
-              );
-          }
-        },
-        initialRoute: "/",
+  Widget build(BuildContext context) => Consumer<AuthenticationBloc>(
+        builder: (context, authenticationBloc) => StreamBuilder<User>(
+              stream: authenticationBloc.user,
+              initialData: authenticationBloc.user.value,
+              builder: (context, snapshot) => Navigator(
+                    key: _navigatorKey,
+                    onGenerateRoute: (settings) {
+                      switch (settings.name) {
+                        case "/":
+                          return DashboardRoute(
+                            settings: settings,
+                            child: widget.dashboard,
+                          );
+                        case "/study":
+                          return ReviewRoute(
+                            settings: settings,
+                            child: widget.review,
+                          );
+                        case "/cards":
+                          return CardListRoute(
+                            settings: settings,
+                            child: widget.cardList,
+                          );
+                        case "/introduction":
+                          return IntroductionRoute(
+                            settings: settings,
+                            child: widget.introduction,
+                          );
+                      }
+                    },
+                    initialRoute:
+                        snapshot.requireData.isNew ? "/introduction" : "/",
+                  ),
+            ),
       );
 }

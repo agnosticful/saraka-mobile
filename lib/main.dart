@@ -137,6 +137,7 @@ void main() async {
                 child: AuthenticationNavigator(
                   signedIn: SignedInNavigator(
                     cardList: CardListScreen(),
+                    introduction: IntroductionNavigator(),
                     dashboard: DashboardScreen(),
                     review: ReviewScreen(),
                   ),
