@@ -45,7 +45,7 @@ Click "google-services.json" to download the file.
 
 Put the downloaded file as `<repository_root>/android/app/google-services.json`.
 
-### Android Signing Config
+#### Android Signing Config
 
 You need to receive a `key.properties` file from some exisiting member. This file is supposed to be placed at `android/key.properties`.
 
