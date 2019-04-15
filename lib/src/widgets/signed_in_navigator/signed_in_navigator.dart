@@ -109,6 +109,13 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                     onGenerateRoute: (settings) {
                       switch (settings.name) {
                         case "/":
+                          if (snapshot.requireData.isNew) {
+                            return IntroductionRoute(
+                              settings: settings,
+                              child: widget.introduction,
+                            );
+                          }
+
                           return DashboardRoute(
                             settings: settings,
                             child: widget.dashboard,
@@ -123,15 +130,9 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                             settings: settings,
                             child: widget.cardList,
                           );
-                        case "/introduction":
-                          return IntroductionRoute(
-                            settings: settings,
-                            child: widget.introduction,
-                          );
                       }
                     },
-                    initialRoute:
-                        snapshot.requireData.isNew ? "/introduction" : "/",
+                    initialRoute: "/",
                   ),
             ),
       );
