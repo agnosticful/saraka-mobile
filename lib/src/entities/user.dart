@@ -6,4 +6,6 @@ abstract class User with Identifiable<User, String> {
   String get email;
 
   Uri get imageUrl;
+
+  bool get isNew;
 }

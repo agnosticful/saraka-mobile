@@ -29,6 +29,7 @@ void main() async {
 
   final authentication = FirebaseAuthentication(
     firebaseAuth: FirebaseAuth.instance,
+    firestore: Firestore.instance,
     googleSignIn: GoogleSignIn(),
   );
 
@@ -135,9 +136,9 @@ void main() async {
               child: MaintenanceCheckNavigator(
                 child: AuthenticationNavigator(
                   signedIn: SignedInNavigator(
+                    cardList: CardListScreen(),
                     dashboard: DashboardScreen(),
                     review: ReviewScreen(),
-                    cardList: CardListScreen(),
                   ),
                   signedOut: SignedOutScreen(),
                   undecided: LandingScreen(),
