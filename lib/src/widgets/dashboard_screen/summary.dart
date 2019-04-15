@@ -40,12 +40,13 @@ class Summary extends StatelessWidget {
                           colorFn: (MatureCount matures, i) => matures.color,
                           data: [
                             new MatureCount(
-                                "More than 80%",
+                                "> 80%",
                                 cardsMaturity
                                     .where((iter) => iter.maturity * 100 >= 80)
                                     .toList()
                                     .length,
-                                Colors.deepOrange[700]),
+                                Color.lerp(SarakaColors.lightYellow,
+                                    SarakaColors.lightRed, 1.0)),
                             new MatureCount(
                                 "50%",
                                 cardsMaturity
@@ -54,7 +55,8 @@ class Summary extends StatelessWidget {
                                         iter.maturity * 100 < 80)
                                     .toList()
                                     .length,
-                                Colors.deepOrange[600]),
+                                Color.lerp(SarakaColors.lightYellow,
+                                    SarakaColors.lightRed, 0.8)),
                             new MatureCount(
                                 "30%",
                                 cardsMaturity
@@ -63,14 +65,16 @@ class Summary extends StatelessWidget {
                                         iter.maturity * 100 < 50)
                                     .toList()
                                     .length,
-                                Colors.deepOrange[400]),
+                                Color.lerp(SarakaColors.lightYellow,
+                                    SarakaColors.lightRed, 0.6)),
                             new MatureCount(
-                                "Less than 30%",
+                                "30% <",
                                 cardsMaturity
                                     .where((iter) => iter.maturity * 100 < 30)
                                     .toList()
                                     .length,
-                                Colors.deepOrange[200]),
+                                Color.lerp(SarakaColors.lightYellow,
+                                    SarakaColors.lightRed, 0.5)),
                           ],
                           labelAccessorFn: (MatureCount row, _) =>
                               '${row.title}',
@@ -90,7 +94,7 @@ class Summary extends StatelessWidget {
                     Text(
                       totalCardsNumber,
                       overflow: TextOverflow.ellipsis,
-                      style: SarakaTextStyles.body.copyWith(fontSize: 40),
+                      style: SarakaTextStyles.body.copyWith(fontSize: 48),
                       textAlign: TextAlign.center,
                     ),
                     Row(
@@ -102,7 +106,7 @@ class Summary extends StatelessWidget {
                         Text(
                           'Cards',
                           overflow: TextOverflow.ellipsis,
-                          style: SarakaTextStyles.body2.copyWith(fontSize: 12),
+                          style: SarakaTextStyles.body2.copyWith(fontSize: 16),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -115,7 +119,8 @@ class Summary extends StatelessWidget {
                             Text(
                               'See card list',
                               overflow: TextOverflow.ellipsis,
-                              style: SarakaTextStyles.headlineSmall,
+                              style:
+                                  SarakaTextStyles.body.copyWith(fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
                             Icon(
@@ -139,11 +144,11 @@ class Summary extends StatelessWidget {
                 Text(
                   todayLearnNumber + ' cards you study for today',
                   overflow: TextOverflow.ellipsis,
-                  style: SarakaTextStyles.headlineSmall,
+                  style: SarakaTextStyles.body.copyWith(fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 88.0),
+                  padding: EdgeInsets.only(bottom: 80.0),
                 )
               ],
             ),
