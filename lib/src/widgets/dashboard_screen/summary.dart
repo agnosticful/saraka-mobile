@@ -47,29 +47,29 @@ class Summary extends StatelessWidget {
                             new MatureCount(
                                 "More than 80%",
                                 cardsMaturity
-                                    .where((iter) => iter.maturity >= 80)
+                                    .where((iter) => iter.maturity * 100 >= 80)
                                     .toList()
                                     .length),
                             new MatureCount(
                                 "50%",
                                 cardsMaturity
                                     .where((iter) =>
-                                        iter.maturity >= 50 &&
-                                        iter.maturity < 80)
+                                        iter.maturity * 100 >= 50 &&
+                                        iter.maturity * 100 < 80)
                                     .toList()
                                     .length),
                             new MatureCount(
                                 "30%",
                                 cardsMaturity
                                     .where((iter) =>
-                                        iter.maturity >= 30 &&
-                                        iter.maturity < 50)
+                                        iter.maturity * 100 >= 30 &&
+                                        iter.maturity * 100 < 50)
                                     .toList()
                                     .length),
                             new MatureCount(
                                 "Less than 30%",
                                 cardsMaturity
-                                    .where((iter) => iter.maturity < 30)
+                                    .where((iter) => iter.maturity * 100 < 30)
                                     .toList()
                                     .length),
                           ],
@@ -127,7 +127,7 @@ class Summary extends StatelessWidget {
                         ),
                         onTap: () => Navigator.of(context).pushNamed('/cards'),
                       ),
-                    )
+                    ),
                   ],
                 )),
               ],
