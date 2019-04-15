@@ -22,6 +22,9 @@ class CardMaturityDonutChart extends StatelessWidget {
 class MatureCount {
   final String title;
   final int maturity;
+  final charts.Color color;
 
-  MatureCount(this.title, this.maturity);
+  MatureCount(this.title, this.maturity, Color color)
+      : this.color = new charts.Color(
+            r: color.red, g: color.green, b: color.blue, a: color.alpha);
 }

@@ -37,19 +37,15 @@ class Summary extends StatelessWidget {
                               matures.maturity,
                           measureFn: (MatureCount matures, _) =>
                               matures.maturity,
-                          colorFn: (_, i) => charts.Color(
-                                r: SarakaColors.lightRed.red,
-                                g: SarakaColors.lightRed.green,
-                                b: SarakaColors.lightRed.blue,
-                                a: 180,
-                              ),
+                          colorFn: (MatureCount matures, i) => matures.color,
                           data: [
                             new MatureCount(
                                 "More than 80%",
                                 cardsMaturity
                                     .where((iter) => iter.maturity * 100 >= 80)
                                     .toList()
-                                    .length),
+                                    .length,
+                                Colors.deepOrange[700]),
                             new MatureCount(
                                 "50%",
                                 cardsMaturity
@@ -57,7 +53,8 @@ class Summary extends StatelessWidget {
                                         iter.maturity * 100 >= 50 &&
                                         iter.maturity * 100 < 80)
                                     .toList()
-                                    .length),
+                                    .length,
+                                Colors.deepOrange[600]),
                             new MatureCount(
                                 "30%",
                                 cardsMaturity
@@ -65,13 +62,15 @@ class Summary extends StatelessWidget {
                                         iter.maturity * 100 >= 30 &&
                                         iter.maturity * 100 < 50)
                                     .toList()
-                                    .length),
+                                    .length,
+                                Colors.deepOrange[400]),
                             new MatureCount(
                                 "Less than 30%",
                                 cardsMaturity
                                     .where((iter) => iter.maturity * 100 < 30)
                                     .toList()
-                                    .length),
+                                    .length,
+                                Colors.deepOrange[200]),
                           ],
                           labelAccessorFn: (MatureCount row, _) =>
                               '${row.title}',
