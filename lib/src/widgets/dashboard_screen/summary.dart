@@ -49,15 +49,15 @@ class Summary extends StatelessWidget {
                                           (iter) => iter.maturity * 100 >= 100)
                                       .toList()
                                       .length,
-                                  SarakaColors.lightYellow),
-                              new MatureCount(
-                                  "Immature",
-                                  cardsMaturity
-                                      .where(
-                                          (iter) => iter.maturity * 100 < 100)
-                                      .toList()
-                                      .length,
                                   SarakaColors.lightRed),
+                              new MatureCount(
+                                "Immature",
+                                cardsMaturity
+                                    .where((iter) => iter.maturity * 100 < 100)
+                                    .toList()
+                                    .length,
+                                SarakaColors.darkGray.withOpacity(0.2),
+                              ),
                             ],
                             outsideLabelStyleAccessorFn: (MatureCount row, _) =>
                                 charts.TextStyleSpec(
@@ -81,11 +81,11 @@ class Summary extends StatelessWidget {
                                               .length /
                                           totalCardsNumber) *
                                       100)
-                                  .toStringAsFixed(2)
+                                  .toStringAsFixed(1)
                                   .toString(),
                               overflow: TextOverflow.ellipsis,
-                              style:
-                                  SarakaTextStyles.body.copyWith(fontSize: 48),
+                              style: SarakaTextStyles.heading
+                                  .copyWith(fontSize: 48),
                             ),
                             Column(
                               children: <Widget>[
@@ -111,7 +111,7 @@ class Summary extends StatelessWidget {
                             Icon(
                               Icons.fiber_manual_record,
                               size: 12,
-                              color: SarakaColors.lightYellow,
+                              color: SarakaColors.lightRed,
                             ),
                             Padding(
                               padding: EdgeInsets.only(right: 3),
@@ -137,7 +137,7 @@ class Summary extends StatelessWidget {
                             Icon(
                               Icons.fiber_manual_record,
                               size: 12,
-                              color: SarakaColors.lightRed,
+                              color: SarakaColors.darkGray.withOpacity(0.2),
                             ),
                             Padding(
                               padding: EdgeInsets.only(right: 3),
