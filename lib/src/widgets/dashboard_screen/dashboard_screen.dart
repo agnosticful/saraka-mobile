@@ -15,6 +15,7 @@ class DashboardScreen extends StatelessWidget {
         children: [
           WaveBackground(color: SarakaColors.white),
           Scaffold(
+            resizeToAvoidBottomPadding: false,
             backgroundColor: Color(0x00000000),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
@@ -29,7 +30,7 @@ class DashboardScreen extends StatelessWidget {
               iconTheme: IconThemeData(color: SarakaColors.lightBlack),
               actions: [
                 IconButton(
-                  icon: Icon(Feather.getIconData('inbox')),
+                  icon: Icon(Feather.getIconData('plus')),
                   onPressed: () => showNewCardDialog(context: context),
                 ),
               ],
