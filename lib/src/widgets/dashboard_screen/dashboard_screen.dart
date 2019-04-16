@@ -30,7 +30,7 @@ class DashboardScreen extends StatelessWidget {
               actions: [
                 IconButton(
                   icon: Icon(Feather.getIconData('inbox')),
-                  onPressed: () => Navigator.of(context).pushNamed('/cards'),
+                  onPressed: () => showNewCardDialog(context: context),
                 ),
               ],
             ),
