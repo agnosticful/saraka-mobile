@@ -10,7 +10,7 @@ class Summary extends StatelessWidget {
         assert(todayLearnNumber != null),
         assert(cardsMaturity != null);
 
-  final String totalCardsNumber;
+  final int totalCardsNumber;
 
   final String todayLearnNumber;
 
@@ -43,45 +43,22 @@ class Summary extends StatelessWidget {
                             colorFn: (MatureCount matures, i) => matures.color,
                             data: [
                               new MatureCount(
-                                  "> 80%",
+                                  "Mature",
                                   cardsMaturity
                                       .where(
-                                          (iter) => iter.maturity * 100 >= 80)
+                                          (iter) => iter.maturity * 100 >= 100)
                                       .toList()
                                       .length,
-                                  Color.lerp(SarakaColors.lightYellow,
-                                      SarakaColors.lightRed, 1.0)),
+                                  SarakaColors.lightYellow),
                               new MatureCount(
-                                  "50%",
+                                  "Immature",
                                   cardsMaturity
-                                      .where((iter) =>
-                                          iter.maturity * 100 >= 50 &&
-                                          iter.maturity * 100 < 80)
+                                      .where(
+                                          (iter) => iter.maturity * 100 < 100)
                                       .toList()
                                       .length,
-                                  Color.lerp(SarakaColors.lightYellow,
-                                      SarakaColors.lightRed, 0.8)),
-                              new MatureCount(
-                                  "30%",
-                                  cardsMaturity
-                                      .where((iter) =>
-                                          iter.maturity * 100 >= 30 &&
-                                          iter.maturity * 100 < 50)
-                                      .toList()
-                                      .length,
-                                  Color.lerp(SarakaColors.lightYellow,
-                                      SarakaColors.lightRed, 0.6)),
-                              new MatureCount(
-                                  "30% <",
-                                  cardsMaturity
-                                      .where((iter) => iter.maturity * 100 < 30)
-                                      .toList()
-                                      .length,
-                                  Color.lerp(SarakaColors.lightYellow,
-                                      SarakaColors.lightRed, 0.5)),
+                                  SarakaColors.lightRed),
                             ],
-                            labelAccessorFn: (MatureCount row, _) =>
-                                '${row.title}',
                             outsideLabelStyleAccessorFn: (MatureCount row, _) =>
                                 charts.TextStyleSpec(
                                     color: charts.MaterialPalette.black),
@@ -93,127 +70,113 @@ class Summary extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          totalCardsNumber,
-                          overflow: TextOverflow.ellipsis,
-                          style: SarakaTextStyles.body.copyWith(fontSize: 48),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              ((cardsMaturity
+                                              .where((iter) =>
+                                                  iter.maturity * 100 >= 100)
+                                              .toList()
+                                              .length /
+                                          totalCardsNumber) *
+                                      100)
+                                  .toStringAsFixed(2)
+                                  .toString(),
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  SarakaTextStyles.body.copyWith(fontSize: 48),
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 24),
+                                ),
+                                Text(
+                                  '%',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: SarakaTextStyles.body2
+                                      .copyWith(fontSize: 24),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(left: 60.0),
+                              padding: EdgeInsets.only(right: 24),
+                            ),
+                            Icon(
+                              Icons.fiber_manual_record,
+                              size: 12,
+                              color: SarakaColors.lightYellow,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 3),
                             ),
                             Text(
-                              'Cards',
+                              "Mature",
                               overflow: TextOverflow.ellipsis,
                               style:
-                                  SarakaTextStyles.body2.copyWith(fontSize: 12),
+                                  SarakaTextStyles.body2.copyWith(fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 38),
                             ),
                           ],
                         ),
-                        Center(
-                          child: GestureDetector(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'See card list',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: SarakaTextStyles.body
-                                      .copyWith(fontSize: 24),
-                                ),
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: SarakaColors.darkGray,
-                                ),
-                              ],
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(right: 24),
                             ),
-                            onTap: () =>
-                                Navigator.of(context).pushNamed('/cards'),
-                          ),
+                            Icon(
+                              Icons.fiber_manual_record,
+                              size: 12,
+                              color: SarakaColors.lightRed,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 3),
+                            ),
+                            Text(
+                              "Immature",
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  SarakaTextStyles.body2.copyWith(fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 16),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(right: 8),
+                Center(
+                  child: GestureDetector(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'See all ' + totalCardsNumber.toString() + ' cards',
+                          overflow: TextOverflow.ellipsis,
+                          style: SarakaTextStyles.body.copyWith(fontSize: 24),
+                        ),
+                        Icon(
+                          Icons.keyboard_arrow_down,
+                          color: SarakaColors.darkGray,
+                        ),
+                      ],
                     ),
-                    Icon(
-                      Icons.fiber_manual_record,
-                      size: 12,
-                      color: Color.lerp(
-                          SarakaColors.lightYellow, SarakaColors.lightRed, 1.0),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 3),
-                    ),
-                    Text(
-                      "> 80%",
-                      overflow: TextOverflow.ellipsis,
-                      style: SarakaTextStyles.body2.copyWith(fontSize: 18),
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 16),
-                    ),
-                    Icon(
-                      Icons.fiber_manual_record,
-                      size: 12,
-                      color: Color.lerp(
-                          SarakaColors.lightYellow, SarakaColors.lightRed, 0.8),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 3),
-                    ),
-                    Text(
-                      "50%",
-                      overflow: TextOverflow.ellipsis,
-                      style: SarakaTextStyles.body2.copyWith(fontSize: 18),
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 16),
-                    ),
-                    Icon(
-                      Icons.fiber_manual_record,
-                      size: 12,
-                      color: Color.lerp(
-                          SarakaColors.lightYellow, SarakaColors.lightRed, 0.7),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 3),
-                    ),
-                    Text(
-                      "30%",
-                      overflow: TextOverflow.ellipsis,
-                      style: SarakaTextStyles.body2.copyWith(fontSize: 18),
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 16),
-                    ),
-                    Icon(
-                      Icons.fiber_manual_record,
-                      size: 12,
-                      color: Color.lerp(
-                          SarakaColors.lightYellow, SarakaColors.lightRed, 0.5),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 3),
-                    ),
-                    Text(
-                      "30% <",
-                      overflow: TextOverflow.ellipsis,
-                      style: SarakaTextStyles.body2.copyWith(fontSize: 18),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                )
+                    onTap: () => Navigator.of(context).pushNamed('/cards'),
+                  ),
+                ),
               ],
             ),
           ),

@@ -37,8 +37,7 @@ class DashboardScreen extends StatelessWidget {
                             children: <Widget>[
                               WaveBackground(color: SarakaColors.white),
                               Summary(
-                                totalCardsNumber:
-                                    snapshot.requireData.length.toString(),
+                                totalCardsNumber: snapshot.requireData.length,
                                 todayLearnNumber: snapshot.requireData
                                     .where((iter) => iter.nextReviewScheduledAt
                                         .isBefore(DateTime.now()))
