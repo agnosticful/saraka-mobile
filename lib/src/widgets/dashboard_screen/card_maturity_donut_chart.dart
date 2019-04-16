@@ -13,9 +13,7 @@ class CardMaturityDonutChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return new charts.PieChart(seriesList,
         animate: animate,
-        defaultRenderer: new charts.ArcRendererConfig(
-            arcWidth: 4,
-            arcRendererDecorators: [new charts.ArcLabelDecorator()]));
+        defaultRenderer: new charts.ArcRendererConfig(arcWidth: 4));
   }
 }
 
