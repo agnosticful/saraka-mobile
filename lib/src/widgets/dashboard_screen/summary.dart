@@ -229,7 +229,7 @@ class Summary extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(bottom: 80),
             child: Text(
-              todayLearnNumber + ' cards you study for today',
+              todayLearnNumber + ' cards you will study today',
               overflow: TextOverflow.ellipsis,
               style: SarakaTextStyles.body,
               textAlign: TextAlign.center,
