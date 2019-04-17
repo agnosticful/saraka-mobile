@@ -19,32 +19,34 @@ class _CardSliverListState extends State<CardSliverList> {
           StreamBuilder<List<Card>>(
             stream: cardListBloc.cards,
             initialData: cardListBloc.cards.value,
-            builder: (context, snapshot) => SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, i) {
-                      final card = snapshot.requireData[i ~/ 2];
+            builder: (context, snapshot) => snapshot.hasData
+                ? SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, i) {
+                        final card = snapshot.requireData[i ~/ 2];
 
-                      return i.isEven
-                          ? MultiProvider(
-                              key: ValueKey(card.id),
-                              providers: [
-                                Provider<CardDetailBloc>(
-                                  value: cardDetailBlocFactory.create(card),
+                        return i.isEven
+                            ? MultiProvider(
+                                key: ValueKey(card.id),
+                                providers: [
+                                  Provider<CardDetailBloc>(
+                                    value: cardDetailBlocFactory.create(card),
+                                  ),
+                                  Provider<SynthesizerBloc>(
+                                    value: synthesizerBlocFactory.create(),
+                                  ),
+                                ],
+                                child: CardListViewItem(
+                                  card: card,
                                 ),
-                                Provider<SynthesizerBloc>(
-                                  value: synthesizerBlocFactory.create(),
-                                ),
-                              ],
-                              child: CardListViewItem(
-                                card: card,
-                              ),
-                            )
-                          : SizedBox(height: 16);
-                    },
-                    childCount:
-                        math.max(0, snapshot.requireData.length * 2 - 1),
-                  ),
-                ),
+                              )
+                            : SizedBox(height: 16);
+                      },
+                      childCount:
+                          math.max(0, snapshot.requireData.length * 2 - 1),
+                    ),
+                  )
+                : SliverFillRemaining(),
           ),
     );
   }

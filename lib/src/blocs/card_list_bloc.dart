@@ -37,13 +37,18 @@ class _CardListBloc implements CardListBloc {
   })  : assert(authenticatable != null),
         assert(cardSubscribable != null),
         _authenticatable = authenticatable,
-        _cardSubscribable = cardSubscribable;
+        _cardSubscribable = cardSubscribable {
+    _cardSubscribable
+        .subscribeCards(user: _authenticatable.user.value)
+        .listen((cs) {
+      cards.add(cs);
+    });
+  }
 
   final Authenticatable _authenticatable;
 
   final CardSubscribable _cardSubscribable;
 
   @override
-  ValueObservable<List<Card>> get cards =>
-      _cardSubscribable.subscribeCards(user: _authenticatable.user.value);
+  final BehaviorSubject<List<Card>> cards = BehaviorSubject();
 }
