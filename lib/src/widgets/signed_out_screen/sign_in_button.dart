@@ -10,21 +10,21 @@ class SignInButton extends StatefulWidget {
 }
 
 class _SignInButtonState extends State<SignInButton> {
-  bool _isProcessing = false;
-
   @override
-  Widget build(BuildContext context) => ProcessableFancyButton(
-        color: SarakaColors.lightRed,
-        isProcessing: _isProcessing,
-        onPressed: () => _onPressed(context),
-        child: Text('Start with Google Account'),
+  Widget build(BuildContext context) => Consumer<AuthenticationBloc>(
+        builder: (context, authenticationBloc) => StreamBuilder<bool>(
+              stream: authenticationBloc.isSigningIn,
+              initialData: authenticationBloc.isSigningIn.value,
+              builder: (context, snapshot) => ProcessableFancyButton(
+                    color: SarakaColors.lightRed,
+                    isProcessing: snapshot.requireData,
+                    onPressed: () => _onPressed(context),
+                    child: Text('Start with Google Account'),
+                  ),
+            ),
       );
 
   void _onPressed(BuildContext context) {
-    setState(() {
-      _isProcessing = true;
-    });
-
     final authentication = Provider.of<AuthenticationBloc>(context);
 
     authentication.signIn();

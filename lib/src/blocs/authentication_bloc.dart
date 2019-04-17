@@ -30,6 +30,8 @@ class AuthenticationBlocFactory {
 abstract class AuthenticationBloc {
   ValueObservable<User> get user;
 
+  ValueObservable<bool> get isSigningIn;
+
   void signIn();
 
   void signOut();
@@ -57,8 +59,17 @@ class _AuthenticationBloc implements AuthenticationBloc {
   ValueObservable<User> get user => _authenticatable.user;
 
   @override
+  final BehaviorSubject<bool> isSigningIn = BehaviorSubject.seeded(false);
+
+  @override
   void signIn() async {
-    await _signable.signIn();
+    isSigningIn.add(true);
+
+    try {
+      await _signable.signIn();
+    } finally {
+      isSigningIn.add(false);
+    }
 
     await _signInOutLoggable.logSignIn();
   }
