@@ -90,12 +90,12 @@ class Summary extends StatelessWidget {
                             Column(
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeInsets.only(bottom: 24),
+                                  padding: EdgeInsets.only(bottom: 20),
                                 ),
                                 Text(
                                   '%',
                                   overflow: TextOverflow.ellipsis,
-                                  style: SarakaTextStyles.body2
+                                  style: SarakaTextStyles.heading
                                       .copyWith(fontSize: 24),
                                 ),
                               ],
@@ -119,8 +119,7 @@ class Summary extends StatelessWidget {
                             Text(
                               "Mature",
                               overflow: TextOverflow.ellipsis,
-                              style:
-                                  SarakaTextStyles.body2.copyWith(fontSize: 18),
+                              style: SarakaTextStyles.body,
                               textAlign: TextAlign.center,
                             ),
                             Padding(
@@ -145,8 +144,7 @@ class Summary extends StatelessWidget {
                             Text(
                               "Immature",
                               overflow: TextOverflow.ellipsis,
-                              style:
-                                  SarakaTextStyles.body2.copyWith(fontSize: 18),
+                              style: SarakaTextStyles.body,
                               textAlign: TextAlign.center,
                             ),
                             Padding(
@@ -158,13 +156,41 @@ class Summary extends StatelessWidget {
                     ),
                   ],
                 ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 16),
+                ),
+                Column(
+                  children: <Widget>[
+                    Text(
+                      '5 cards will be mature',
+                      overflow: TextOverflow.ellipsis,
+                      style: SarakaTextStyles.body,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(right: 50),
+                        ),
+                        Text(
+                          'within 7 days to come',
+                          overflow: TextOverflow.ellipsis,
+                          style: SarakaTextStyles.body,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 32),
+                ),
                 Center(
                   child: GestureDetector(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'See all ' + totalCardsNumber.toString() + ' cards',
+                          'SEE ALL ' + totalCardsNumber.toString() + ' CARDS',
                           overflow: TextOverflow.ellipsis,
                           style: SarakaTextStyles.body.copyWith(fontSize: 24),
                         ),
@@ -185,7 +211,7 @@ class Summary extends StatelessWidget {
             child: Text(
               todayLearnNumber + ' cards you study for today',
               overflow: TextOverflow.ellipsis,
-              style: SarakaTextStyles.body.copyWith(fontSize: 16),
+              style: SarakaTextStyles.body,
               textAlign: TextAlign.center,
             ),
           ),
