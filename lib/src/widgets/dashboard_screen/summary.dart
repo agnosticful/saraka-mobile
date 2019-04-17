@@ -16,6 +16,15 @@ class Summary extends StatelessWidget {
 
   final List cardsMaturity;
 
+  double getMatureCardRatio() {
+    return cardsMaturity
+            .where((iter) => iter.maturity * 100 >= 100)
+            .toList()
+            .length /
+        totalCardsNumber *
+        100;
+  }
+
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
@@ -74,15 +83,9 @@ class Summary extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              ((cardsMaturity
-                                              .where((iter) =>
-                                                  iter.maturity * 100 >= 100)
-                                              .toList()
-                                              .length /
-                                          totalCardsNumber) *
-                                      100)
-                                  .toStringAsFixed(1)
-                                  .toString(),
+                              getMatureCardRatio() == 100
+                                  ? 100.toString()
+                                  : getMatureCardRatio().toStringAsFixed(1),
                               overflow: TextOverflow.ellipsis,
                               style: SarakaTextStyles.heading
                                   .copyWith(fontSize: 48),
