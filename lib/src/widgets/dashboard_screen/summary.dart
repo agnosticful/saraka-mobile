@@ -159,6 +159,33 @@ class Summary extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(bottom: 16),
                 ),
+                Center(
+                  child: GestureDetector(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          'SEE ALL ' + totalCardsNumber.toString() + ' CARDS',
+                          overflow: TextOverflow.ellipsis,
+                          style: SarakaTextStyles.heading.copyWith(
+                              fontSize: 20, color: SarakaColors.darkGray),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: SarakaColors.darkGray,
+                          size: 20,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 24),
+                        )
+                      ],
+                    ),
+                    onTap: () => Navigator.of(context).pushNamed('/cards'),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 32),
+                ),
                 Column(
                   children: <Widget>[
                     Text(
@@ -170,7 +197,7 @@ class Summary extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(right: 50),
+                          padding: EdgeInsets.only(right: 48),
                         ),
                         Text(
                           'within   days to come',
@@ -180,29 +207,6 @@ class Summary extends StatelessWidget {
                       ],
                     ),
                   ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 32),
-                ),
-                Center(
-                  child: GestureDetector(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'SEE ALL ' + totalCardsNumber.toString() + ' CARDS',
-                          overflow: TextOverflow.ellipsis,
-                          style: SarakaTextStyles.heading.copyWith(
-                              fontSize: 20, color: SarakaColors.darkGray),
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          color: SarakaColors.darkGray,
-                        ),
-                      ],
-                    ),
-                    onTap: () => Navigator.of(context).pushNamed('/cards'),
-                  ),
                 ),
               ],
             ),
