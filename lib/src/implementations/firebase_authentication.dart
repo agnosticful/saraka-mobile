@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -16,26 +17,36 @@ class FirebaseAuthentication implements Authenticatable, Signable {
         _firebaseAuth = firebaseAuth,
         _firestore = firestore,
         _googleSignIn = googleSignIn {
-    _firebaseAuth.onAuthStateChanged.listen((fUser) async {
-      if (fUser == null) {
+    Observable(_firebaseAuth.onAuthStateChanged).listen((firebaseUser) async {
+      if (firebaseUser == null) {
+        if (_lastUserFragmentSubscription != null) {
+          _lastUserFragmentSubscription.cancel();
+
+          _lastUserFragmentSubscription = null;
+        }
+
         return _user.add(null);
       }
 
-      final isNew = await _firestore
+      _lastUserFragmentSubscription = _firestore
           .collection('users')
-          .document(fUser.uid)
-          .collection('cards')
-          .limit(1)
-          .getDocuments()
-          .then((snapshot) => snapshot.documents.length == 0);
+          .document(firebaseUser.uid)
+          .snapshots()
+          .listen((snapshot) {
+        if (!snapshot.exists) {
+          return _user.add(null);
+        }
 
-      _user.add(_User(
-        id: fUser.uid,
-        name: fUser.displayName,
-        email: fUser.email,
-        imageUrl: Uri.parse(fUser.photoUrl),
-        isNew: isNew,
-      ));
+        final userFragment = _FirestoreUserFragment(snapshot);
+
+        _user.add(_User(
+          id: firebaseUser.uid,
+          name: firebaseUser.displayName,
+          email: firebaseUser.email,
+          imageUrl: Uri.parse(firebaseUser.photoUrl),
+          isIntroductionFinished: userFragment.isIntroductionFinished,
+        ));
+      });
     });
   }
 
@@ -46,6 +57,8 @@ class FirebaseAuthentication implements Authenticatable, Signable {
   final GoogleSignIn _googleSignIn;
 
   final _user = BehaviorSubject<User>();
+
+  StreamSubscription _lastUserFragmentSubscription;
 
   @override
   ValueObservable<User> get user => _user;
@@ -73,12 +86,12 @@ class _User extends User {
     @required this.name,
     @required this.email,
     @required this.imageUrl,
-    @required this.isNew,
+    @required this.isIntroductionFinished,
   })  : assert(id != null),
         assert(name != null),
         assert(email != null),
         assert(imageUrl != null),
-        assert(isNew != null);
+        assert(isIntroductionFinished != null);
 
   final String id;
 
@@ -88,5 +101,13 @@ class _User extends User {
 
   final Uri imageUrl;
 
-  final bool isNew;
+  final bool isIntroductionFinished;
+}
+
+class _FirestoreUserFragment {
+  _FirestoreUserFragment(DocumentSnapshot snapshot)
+      : assert(snapshot != null),
+        isIntroductionFinished = snapshot.data['isIntroductionFinished'];
+
+  final bool isIntroductionFinished;
 }

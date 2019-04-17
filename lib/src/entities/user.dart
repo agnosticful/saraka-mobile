@@ -7,5 +7,5 @@ abstract class User with Identifiable<User, String> {
 
   Uri get imageUrl;
 
-  bool get isNew;
+  bool get isIntroductionFinished;
 }
