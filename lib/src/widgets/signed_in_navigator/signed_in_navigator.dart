@@ -109,16 +109,10 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                     onGenerateRoute: (settings) {
                       switch (settings.name) {
                         case "/":
-                          if (snapshot.requireData.isNew) {
-                            return IntroductionRoute(
-                              settings: settings,
-                              child: widget.introduction,
-                            );
-                          }
-
                           return DashboardRoute(
                             settings: settings,
-                            child: widget.dashboard,
+                            normal: widget.dashboard,
+                            introduction: widget.introduction,
                           );
                         case "/study":
                           return ReviewRoute(
