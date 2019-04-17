@@ -2,9 +2,10 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/entities.dart';
 import './commons/authenticatable.dart';
+import './commons/card_subscribable.dart';
 
-export 'package:saraka/entities.dart' show Card;
 export './commons/authenticatable.dart';
+export './commons/card_subscribable.dart';
 
 class CardListBlocFactory {
   CardListBlocFactory({
@@ -26,7 +27,7 @@ class CardListBlocFactory {
 }
 
 abstract class CardListBloc {
-  ValueObservable<Iterable<Card>> get cards;
+  ValueObservable<List<Card>> get cards;
 }
 
 class _CardListBloc implements CardListBloc {
@@ -43,10 +44,6 @@ class _CardListBloc implements CardListBloc {
   final CardSubscribable _cardSubscribable;
 
   @override
-  ValueObservable<Iterable<Card>> get cards =>
+  ValueObservable<List<Card>> get cards =>
       _cardSubscribable.subscribeCards(user: _authenticatable.user.value);
-}
-
-mixin CardSubscribable {
-  ValueObservable<Iterable<Card>> subscribeCards({@required User user});
 }
