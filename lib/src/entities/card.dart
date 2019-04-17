@@ -13,4 +13,6 @@ abstract class Card with Identifiable<Card, String> {
   double get maturity => Review.calculateMaturity(nextReviewInterval);
 
   bool get isScheduled => nextReviewScheduledAt.isBefore(DateTime.now());
+
+  double get modifier;
 }

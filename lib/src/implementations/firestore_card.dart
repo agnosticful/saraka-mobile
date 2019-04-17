@@ -12,7 +12,8 @@ class FirestoreCard extends Card {
         nextReviewScheduledAt =
             (snapshot.data['nextStudyScheduledAt'] as Timestamp).toDate(),
         nextReviewInterval =
-            Duration(milliseconds: snapshot.data['nextStudyInterval']);
+            Duration(milliseconds: snapshot.data['nextStudyInterval']),
+        modifier = snapshot.data['modifier'];
 
   @override
   final String id;
@@ -28,4 +29,7 @@ class FirestoreCard extends Card {
 
   @override
   final Duration nextReviewInterval;
+
+  @override
+  final double modifier;
 }
