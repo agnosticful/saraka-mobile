@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/blocs.dart';
 import './maturity_description.dart';
 import './maturity_line_chart.dart';
 import './menu_icon_button.dart';
@@ -14,10 +13,13 @@ class CardListViewItem extends StatelessWidget {
   CardListViewItem({
     Key key,
     @required this.card,
+    this.showDetail = true,
   })  : assert(card != null),
         super(key: key);
 
   final Card card;
+
+  final bool showDetail;
 
   Widget build(BuildContext context) =>
       Consumer2<CardDetailBlocFactory, SynthesizerBlocFactory>(
@@ -84,28 +86,33 @@ class CardListViewItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               SynthesizeIconButton(text: card.text),
-                              Expanded(child: Container()),
-                              SizedBox(width: 32),
-                              SizedBox(
-                                width: 96,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: NextReviewDateDescription(
-                                    nextReviewScheduledAt:
-                                        card.nextReviewScheduledAt,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 32),
-                              SizedBox(
-                                width: 64,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: MaturityDescription(
-                                      maturity: card.maturity),
-                                ),
-                              ),
-                            ],
+                            ]..addAll(showDetail
+                                ? [
+                                    Expanded(child: Container()),
+                                    SizedBox(width: 32),
+                                    SizedBox(
+                                      width: 96,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8),
+                                        child: NextReviewDateDescription(
+                                          nextReviewScheduledAt:
+                                              card.nextReviewScheduledAt,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 32),
+                                    SizedBox(
+                                      width: 64,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8),
+                                        child: MaturityDescription(
+                                            maturity: card.maturity),
+                                      ),
+                                    ),
+                                  ]
+                                : []),
                           ),
                         ),
                       ],

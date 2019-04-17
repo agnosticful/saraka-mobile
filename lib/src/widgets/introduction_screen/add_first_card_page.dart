@@ -98,6 +98,7 @@ class _AddFirstCardPageState extends State<AddFirstCardPage> {
                                         )
                                       : CardListViewItem(
                                           card: cardsSnapshot.requireData[i],
+                                          showDetail: false,
                                         ),
                                   separatorBuilder: (context, _) =>
                                       SizedBox(height: 16),
