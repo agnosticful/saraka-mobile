@@ -28,21 +28,22 @@ class _AddFirstCardPageState extends State<AddFirstCardPage> {
         Future.delayed(Duration.zero, () async {
           final firstCardListBloc = Provider.of<FirstCardListBloc>(context);
 
-          if (!firstCardListBloc.isEnoughCardsAdded.value &&
-              !firstCardListBloc
-                  .hasAlreadyOpenedNewCardDialogAutomatically.value) {
-            setState(() {
-              _isNewCardDialogShown = true;
-            });
-
+          if (!firstCardListBloc
+              .hasAlreadyOpenedNewCardDialogAutomatically.value) {
             firstCardListBloc.hasAlreadyOpenedNewCardDialogAutomatically
                 .add(true);
 
-            await showNewCardDialog(context: context);
+            if (!firstCardListBloc.isEnoughCardsAdded.value) {
+              setState(() {
+                _isNewCardDialogShown = true;
+              });
 
-            setState(() {
-              _isNewCardDialogShown = false;
-            });
+              await showNewCardDialog(context: context);
+
+              setState(() {
+                _isNewCardDialogShown = false;
+              });
+            }
           }
         });
       }
