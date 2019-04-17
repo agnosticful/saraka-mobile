@@ -17,14 +17,13 @@ class Summary extends StatelessWidget {
 
   final List cardsMaturity;
 
-  double getMatureCardRatio() {
-    return cardsMaturity
-            .where((iter) => iter.maturity * 100 >= 100)
-            .toList()
-            .length /
-        totalCardsNumber *
-        100;
-  }
+  double getMatureCardRatio() =>
+      cardsMaturity
+          .where((iter) => iter.maturity * 100 >= 100)
+          .toList()
+          .length /
+      totalCardsNumber *
+      100;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -112,10 +111,15 @@ class Summary extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(right: 24),
                             ),
-                            Icon(
-                              Icons.fiber_manual_record,
-                              size: 12,
-                              color: SarakaColors.lightRed,
+                            Container(
+                              height: 8,
+                              width: 8,
+                              decoration: ShapeDecoration(
+                                shape: SuperellipseShape(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                color: SarakaColors.lightRed,
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(right: 3),
@@ -135,12 +139,17 @@ class Summary extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(right: 24),
+                              padding: EdgeInsets.only(right: 21),
                             ),
-                            Icon(
-                              Icons.fiber_manual_record,
-                              size: 12,
-                              color: SarakaColors.darkGray.withOpacity(0.2),
+                            Container(
+                              height: 8,
+                              width: 8,
+                              decoration: ShapeDecoration(
+                                shape: SuperellipseShape(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                color: SarakaColors.darkGray.withOpacity(0.2),
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(right: 3),
@@ -168,10 +177,12 @@ class Summary extends StatelessWidget {
                   children: <Widget>[
                     FlatButton(
                       child: Container(
-                        width: 200,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        decoration: ShapeDecoration(
+                          shape: SuperellipseShape(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
                         ),
+                        width: 240,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
