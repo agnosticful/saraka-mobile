@@ -3,9 +3,12 @@ import 'package:flutter/widgets.dart';
 import './dot_indicator.dart';
 
 class IntroductionSlider extends StatefulWidget {
-  IntroductionSlider({Key key, @required this.children})
+  IntroductionSlider(
+      {Key key, this.onActivePageChanged, @required this.children})
       : assert(children != null),
         super(key: key);
+
+  final void Function(int activePageIndex) onActivePageChanged;
 
   final List<Widget> children;
 
@@ -49,5 +52,9 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
     setState(() {
       _activeIndex = i;
     });
+
+    if (widget.onActivePageChanged != null) {
+      widget.onActivePageChanged(i);
+    }
   }
 }
