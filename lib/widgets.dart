@@ -4,11 +4,14 @@ export './src/widgets/backend_version_check_navigator/backend_version_check_navi
 export './src/widgets/backend_version_incompatible_screen.dart';
 export './src/widgets/card_delete_confirm_dialog.dart';
 export './src/widgets/card_list_screen/card_list_screen.dart';
+export './src/widgets/card_list_view_item/card_list_view_item.dart';
 export './src/widgets/disappearable_builder.dart';
 export './src/widgets/fancy_popup_dialog.dart';
 export './src/widgets/fancy_popup_overlay.dart';
 export './src/widgets/feather_drawer_button.dart';
 export './src/widgets/floating.dart';
+export './src/widgets/introduction_screen/introduction_screen.dart';
+export './src/widgets/introduction_slider/introduction_slider.dart';
 export './src/widgets/landing_screen.dart';
 export './src/widgets/maintenance_check_navigator/maintenance_check_navigator.dart';
 export './src/widgets/maintenance_screen.dart';

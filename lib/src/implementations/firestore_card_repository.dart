@@ -19,8 +19,8 @@ class FirestoreCardRepository
   final Firestore _firestore;
 
   @override
-  ValueObservable<Iterable<Card>> subscribeCards({@required User user}) {
-    final observable = BehaviorSubject<Iterable<Card>>();
+  ValueObservable<List<Card>> subscribeCards({@required User user}) {
+    final observable = BehaviorSubject<List<Card>>();
 
     final subscription = _firestore
         .collection('users')
@@ -31,8 +31,9 @@ class FirestoreCardRepository
         .limit(1000)
         .snapshots()
         .listen((snapshot) {
-      final cards =
-          snapshot.documents.map((document) => FirestoreCard(document));
+      final cards = snapshot.documents
+          .map((document) => FirestoreCard(document))
+          .toList();
 
       observable.add(cards);
     });

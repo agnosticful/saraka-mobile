@@ -2,6 +2,8 @@ import 'package:flutter/painting.dart';
 
 int expectedBackendVersion = 1;
 
+int necessaryFirstCardLength = 3;
+
 abstract class SarakaColors {
   static const white = Color(0xfff0f4f8);
   static const darkWhite = Color(0xffe1e8ef);
