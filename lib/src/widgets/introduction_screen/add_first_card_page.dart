@@ -76,29 +76,35 @@ class _AddFirstCardPageState extends State<AddFirstCardPage> {
                           initialData:
                               firstCardListBloc.isEnoughCardsAdded.value,
                           builder: (context, isEnoughCardsAddedSnapshot) =>
-                              ListView.separated(
-                                shrinkWrap: true,
-                                itemBuilder: (context, i) => i ==
-                                        cardsSnapshot.requireData.length
-                                    ? Center(
-                                        child: DisappearableBuilder(
-                                          isDisappeared: _isNewCardDialogShown,
-                                          child: AddCardButton(
-                                            onPressed: () =>
-                                                _onAddCardButtonPressed(
-                                                    context),
+                              Align(
+                                alignment: cardsSnapshot.requireData.isEmpty
+                                    ? Alignment.center
+                                    : Alignment.topLeft,
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, i) => i ==
+                                          cardsSnapshot.requireData.length
+                                      ? Center(
+                                          child: DisappearableBuilder(
+                                            isDisappeared:
+                                                _isNewCardDialogShown,
+                                            child: AddCardButton(
+                                              onPressed: () =>
+                                                  _onAddCardButtonPressed(
+                                                      context),
+                                            ),
                                           ),
+                                        )
+                                      : CardListViewItem(
+                                          card: cardsSnapshot.requireData[i],
                                         ),
-                                      )
-                                    : CardListViewItem(
-                                        card: cardsSnapshot.requireData[i],
-                                      ),
-                                separatorBuilder: (context, _) =>
-                                    SizedBox(height: 16),
-                                itemCount:
-                                    isEnoughCardsAddedSnapshot.requireData
-                                        ? cardsSnapshot.requireData.length
-                                        : cardsSnapshot.requireData.length + 1,
+                                  separatorBuilder: (context, _) =>
+                                      SizedBox(height: 16),
+                                  itemCount: isEnoughCardsAddedSnapshot
+                                          .requireData
+                                      ? cardsSnapshot.requireData.length
+                                      : cardsSnapshot.requireData.length + 1,
+                                ),
                               ),
                         ),
                   ),
