@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
-import './card_list_view_item/card_list_view_item.dart';
+import 'package:saraka/widgets.dart';
 
 class CardSliverList extends StatefulWidget {
   @override
@@ -17,8 +17,8 @@ class _CardSliverListState extends State<CardSliverList> {
       builder: (context, cardListBloc, cardDetailBlocFactory,
               synthesizerBlocFactory) =>
           StreamBuilder<List<Card>>(
-            stream: cardListBloc.cards.map((iter) => iter.toList()),
-            initialData: [],
+            stream: cardListBloc.cards,
+            initialData: cardListBloc.cards.value,
             builder: (context, snapshot) => SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, i) {
