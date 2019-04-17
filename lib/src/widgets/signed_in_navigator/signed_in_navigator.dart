@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import './card_list_route.dart';
-import './introduction_route.dart';
 import './review_route.dart';
 import './dashboard_route.dart';
 
