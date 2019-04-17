@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
 import './card_maturity_donut_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -185,7 +186,7 @@ class Summary extends StatelessWidget {
                               ),
                             ),
                             Icon(
-                              Icons.arrow_forward_ios,
+                              Feather.getIconData('arrow-right-circle'),
                               color: SarakaColors.darkGray,
                               size: 20,
                             ),
