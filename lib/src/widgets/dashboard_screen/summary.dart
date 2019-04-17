@@ -192,7 +192,7 @@ class Summary extends StatelessWidget {
                         Text(
                           'SEE ALL ' + totalCardsNumber.toString() + ' CARDS',
                           overflow: TextOverflow.ellipsis,
-                          style: SarakaTextStyles.body.copyWith(fontSize: 24),
+                          style: SarakaTextStyles.body.copyWith(fontSize: 20),
                         ),
                         Icon(
                           Icons.keyboard_arrow_down,
