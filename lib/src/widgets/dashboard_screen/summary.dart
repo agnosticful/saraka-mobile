@@ -162,7 +162,7 @@ class Summary extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     Text(
-                      '5 cards will be mature',
+                      '  cards will be mature',
                       overflow: TextOverflow.ellipsis,
                       style: SarakaTextStyles.body,
                     ),
@@ -173,7 +173,7 @@ class Summary extends StatelessWidget {
                           padding: EdgeInsets.only(right: 50),
                         ),
                         Text(
-                          'within 7 days to come',
+                          'within   days to come',
                           overflow: TextOverflow.ellipsis,
                           style: SarakaTextStyles.body,
                         ),
@@ -192,7 +192,8 @@ class Summary extends StatelessWidget {
                         Text(
                           'SEE ALL ' + totalCardsNumber.toString() + ' CARDS',
                           overflow: TextOverflow.ellipsis,
-                          style: SarakaTextStyles.body.copyWith(fontSize: 20),
+                          style: SarakaTextStyles.heading.copyWith(
+                              fontSize: 20, color: SarakaColors.darkGray),
                         ),
                         Icon(
                           Icons.keyboard_arrow_down,
