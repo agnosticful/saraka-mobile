@@ -29,6 +29,7 @@ void main() async {
 
   final authentication = FirebaseAuthentication(
     firebaseAuth: FirebaseAuth.instance,
+    firestore: Firestore.instance,
     googleSignIn: GoogleSignIn(),
   );
 
@@ -52,6 +53,8 @@ void main() async {
     cloudFunctions: CloudFunctions.instance,
   );
 
+  final userRepository = FirestoreUserRepository(firestore: Firestore.instance);
+
   final soundPlayer = SoundPlayer();
 
   final authenticationBlocFactory = AuthenticationBlocFactory(
@@ -63,6 +66,12 @@ void main() async {
   final backendVersionCompatibilityCheckBlocFactory =
       BackendVersionCompatibilityCheckBlocFactory(
     backendVersionGetable: backendVersionRepository,
+  );
+
+  final firstCardListBlocFactory = FirstCardListBlocFactory(
+    authenticatable: authentication,
+    cardSubscribable: cardRepository,
+    introductionFinishable: userRepository,
   );
 
   final maintenanceCheckBlocFactory = MaintenanceCheckBlocFactory(
@@ -121,6 +130,7 @@ void main() async {
             Provider<CardDetailBlocFactory>(value: cardDetailBlocFactory),
             Provider<CardReviewBlocFactory>(value: cardReviewBlocFactory),
             Provider<CardListBlocFactory>(value: cardListBlocFactory),
+            Provider<FirstCardListBlocFactory>(value: firstCardListBlocFactory),
             Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
             Provider<AuthenticationBloc>(value: authenticationBloc),
             Provider<BackendVersionCompatibilityCheckBloc>(
@@ -135,9 +145,10 @@ void main() async {
               child: MaintenanceCheckNavigator(
                 child: AuthenticationNavigator(
                   signedIn: SignedInNavigator(
+                    cardList: CardListScreen(),
+                    introduction: IntroductionScreen(),
                     dashboard: DashboardScreen(),
                     review: ReviewScreen(),
-                    cardList: CardListScreen(),
                   ),
                   signedOut: SignedOutScreen(),
                   undecided: LandingScreen(),
