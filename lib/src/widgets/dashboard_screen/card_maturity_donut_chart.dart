@@ -24,5 +24,9 @@ class MatureCount {
 
   MatureCount(this.title, this.maturity, Color color)
       : this.color = new charts.Color(
-            r: color.red, g: color.green, b: color.blue, a: color.alpha);
+          r: color.red,
+          g: color.green,
+          b: color.blue,
+          a: color.alpha,
+        );
 }

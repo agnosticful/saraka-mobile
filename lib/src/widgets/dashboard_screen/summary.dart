@@ -180,7 +180,9 @@ class Summary extends StatelessWidget {
                                   ' CARDS',
                               overflow: TextOverflow.ellipsis,
                               style: SarakaTextStyles.heading.copyWith(
-                                  fontSize: 20, color: SarakaColors.darkGray),
+                                fontSize: 20,
+                                color: SarakaColors.darkGray,
+                              ),
                             ),
                             Icon(
                               Icons.arrow_forward_ios,
