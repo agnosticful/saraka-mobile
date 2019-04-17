@@ -25,6 +25,12 @@ class Summary extends StatelessWidget {
       totalCardsNumber *
       100;
 
+  List getNextMatureCards() => cardsMaturity
+      .where((iter) =>
+          iter.nextReviewInterval <= const Duration(days: 7) &&
+          iter.nextReviewInterval * iter.modifier >= const Duration(days: 365))
+      .toList();
+
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
@@ -215,7 +221,8 @@ class Summary extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     Text(
-                      '  cards will be mature',
+                      getNextMatureCards().length.toString() +
+                          ' cards will be mature',
                       overflow: TextOverflow.ellipsis,
                       style: SarakaTextStyles.body,
                     ),
@@ -226,7 +233,7 @@ class Summary extends StatelessWidget {
                           padding: EdgeInsets.only(right: 48),
                         ),
                         Text(
-                          'within   days to come',
+                          'within 7 days to come',
                           overflow: TextOverflow.ellipsis,
                           style: SarakaTextStyles.body,
                         ),
