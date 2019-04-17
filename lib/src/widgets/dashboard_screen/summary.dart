@@ -159,29 +159,38 @@ class Summary extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(bottom: 16),
                 ),
-                Center(
-                  child: GestureDetector(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          'SEE ALL ' + totalCardsNumber.toString() + ' CARDS',
-                          overflow: TextOverflow.ellipsis,
-                          style: SarakaTextStyles.heading.copyWith(
-                              fontSize: 20, color: SarakaColors.darkGray),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    FlatButton(
+                      child: Container(
+                        width: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: SarakaColors.darkGray,
-                          size: 20,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              'SEE ALL ' +
+                                  totalCardsNumber.toString() +
+                                  ' CARDS',
+                              overflow: TextOverflow.ellipsis,
+                              style: SarakaTextStyles.heading.copyWith(
+                                  fontSize: 20, color: SarakaColors.darkGray),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: SarakaColors.darkGray,
+                              size: 20,
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 24),
-                        )
-                      ],
+                      ),
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed('/cards'),
                     ),
-                    onTap: () => Navigator.of(context).pushNamed('/cards'),
-                  ),
+                  ],
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 32),
