@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
 import './card_maturity_donut_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -10,11 +11,19 @@ class Summary extends StatelessWidget {
         assert(todayLearnNumber != null),
         assert(cardsMaturity != null);
 
-  final String totalCardsNumber;
+  final int totalCardsNumber;
 
   final String todayLearnNumber;
 
   final List cardsMaturity;
+
+  double getMatureCardRatio() =>
+      cardsMaturity
+          .where((iter) => iter.maturity * 100 >= 100)
+          .toList()
+          .length /
+      totalCardsNumber *
+      100;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -23,130 +32,218 @@ class Summary extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 32),
           ),
           Expanded(
-            child: Stack(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Center(
-                  child: Container(
-                    height: 280.0,
-                    width: 280.0,
-                    child: CardMaturityDonutChart(
-                      seriesList: <charts.Series<MatureCount, int>>[
-                        charts.Series(
-                          id: 'CardMaturity',
-                          domainFn: (MatureCount matures, _) =>
-                              matures.maturity,
-                          measureFn: (MatureCount matures, _) =>
-                              matures.maturity,
-                          colorFn: (_, i) => charts.Color(
-                                r: SarakaColors.lightRed.red,
-                                g: SarakaColors.lightRed.green,
-                                b: SarakaColors.lightRed.blue,
-                                a: 180,
+                Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: 280.0,
+                      width: 280.0,
+                      child: CardMaturityDonutChart(
+                        seriesList: <charts.Series<MatureCount, int>>[
+                          charts.Series(
+                            id: 'CardMaturity',
+                            domainFn: (MatureCount matures, _) =>
+                                matures.maturity,
+                            measureFn: (MatureCount matures, _) =>
+                                matures.maturity,
+                            colorFn: (MatureCount matures, i) => matures.color,
+                            data: [
+                              new MatureCount(
+                                  "Mature",
+                                  cardsMaturity
+                                      .where(
+                                          (iter) => iter.maturity * 100 >= 100)
+                                      .toList()
+                                      .length,
+                                  SarakaColors.lightRed),
+                              new MatureCount(
+                                "Immature",
+                                cardsMaturity
+                                    .where((iter) => iter.maturity * 100 < 100)
+                                    .toList()
+                                    .length,
+                                SarakaColors.darkGray.withOpacity(0.2),
                               ),
-                          data: [
-                            new MatureCount(
-                                "More than 80%",
-                                cardsMaturity
-                                    .where((iter) => iter.maturity * 100 >= 80)
-                                    .toList()
-                                    .length),
-                            new MatureCount(
-                                "50%",
-                                cardsMaturity
-                                    .where((iter) =>
-                                        iter.maturity * 100 >= 50 &&
-                                        iter.maturity * 100 < 80)
-                                    .toList()
-                                    .length),
-                            new MatureCount(
-                                "30%",
-                                cardsMaturity
-                                    .where((iter) =>
-                                        iter.maturity * 100 >= 30 &&
-                                        iter.maturity * 100 < 50)
-                                    .toList()
-                                    .length),
-                            new MatureCount(
-                                "Less than 30%",
-                                cardsMaturity
-                                    .where((iter) => iter.maturity * 100 < 30)
-                                    .toList()
-                                    .length),
+                            ],
+                            outsideLabelStyleAccessorFn: (MatureCount row, _) =>
+                                charts.TextStyleSpec(
+                                    color: charts.MaterialPalette.black),
+                          ),
+                        ],
+                        animate: true,
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              getMatureCardRatio() == 100
+                                  ? 100.toString()
+                                  : getMatureCardRatio().toStringAsFixed(1),
+                              overflow: TextOverflow.ellipsis,
+                              style: SarakaTextStyles.heading
+                                  .copyWith(fontSize: 48),
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 20),
+                                ),
+                                Text(
+                                  '%',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: SarakaTextStyles.heading
+                                      .copyWith(fontSize: 24),
+                                ),
+                              ],
+                            ),
                           ],
-                          labelAccessorFn: (MatureCount row, _) =>
-                              '${row.title}',
-                          outsideLabelStyleAccessorFn: (MatureCount row, _) =>
-                              charts.TextStyleSpec(
-                                  color: charts.MaterialPalette.black),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(right: 24),
+                            ),
+                            Container(
+                              height: 8,
+                              width: 8,
+                              decoration: ShapeDecoration(
+                                shape: SuperellipseShape(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                color: SarakaColors.lightRed,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 3),
+                            ),
+                            Text(
+                              "Mature",
+                              overflow: TextOverflow.ellipsis,
+                              style: SarakaTextStyles.body,
+                              textAlign: TextAlign.center,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 38),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(right: 21),
+                            ),
+                            Container(
+                              height: 8,
+                              width: 8,
+                              decoration: ShapeDecoration(
+                                shape: SuperellipseShape(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                color: SarakaColors.darkGray.withOpacity(0.2),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 3),
+                            ),
+                            Text(
+                              "Immature",
+                              overflow: TextOverflow.ellipsis,
+                              style: SarakaTextStyles.body,
+                              textAlign: TextAlign.center,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 16),
+                            ),
+                          ],
                         ),
                       ],
-                      animate: true,
                     ),
-                  ),
+                  ],
                 ),
-                Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Padding(
+                  padding: EdgeInsets.only(bottom: 16),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    FlatButton(
+                      child: Container(
+                        decoration: ShapeDecoration(
+                          shape: SuperellipseShape(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                        ),
+                        width: 240,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              'SEE ALL ' +
+                                  totalCardsNumber.toString() +
+                                  ' CARDS',
+                              overflow: TextOverflow.ellipsis,
+                              style: SarakaTextStyles.heading.copyWith(
+                                fontSize: 20,
+                                color: SarakaColors.darkGray,
+                              ),
+                            ),
+                            Icon(
+                              Feather.getIconData('arrow-right-circle'),
+                              color: SarakaColors.darkGray,
+                              size: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed('/cards'),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 32),
+                ),
+                Column(
                   children: <Widget>[
                     Text(
-                      totalCardsNumber,
+                      '  cards will be mature',
                       overflow: TextOverflow.ellipsis,
-                      style: SarakaTextStyles.body.copyWith(fontSize: 40),
-                      textAlign: TextAlign.center,
+                      style: SarakaTextStyles.body,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(left: 60.0),
+                          padding: EdgeInsets.only(right: 48),
                         ),
                         Text(
-                          'Cards',
+                          'within   days to come',
                           overflow: TextOverflow.ellipsis,
-                          style: SarakaTextStyles.body2.copyWith(fontSize: 12),
-                          textAlign: TextAlign.center,
+                          style: SarakaTextStyles.body,
                         ),
                       ],
                     ),
-                    Center(
-                      child: GestureDetector(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'See card list',
-                              overflow: TextOverflow.ellipsis,
-                              style: SarakaTextStyles.headlineSmall,
-                              textAlign: TextAlign.center,
-                            ),
-                            Icon(
-                              Icons.keyboard_arrow_down,
-                              color: SarakaColors.darkGray,
-                            ),
-                          ],
-                        ),
-                        onTap: () => Navigator.of(context).pushNamed('/cards'),
-                      ),
-                    ),
                   ],
-                )),
+                ),
               ],
             ),
           ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Text(
-                  todayLearnNumber + ' cards you study for today',
-                  overflow: TextOverflow.ellipsis,
-                  style: SarakaTextStyles.headlineSmall,
-                  textAlign: TextAlign.center,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 88.0),
-                )
-              ],
+          Container(
+            padding: EdgeInsets.only(bottom: 80),
+            child: Text(
+              todayLearnNumber + ' cards you will study today',
+              overflow: TextOverflow.ellipsis,
+              style: SarakaTextStyles.body,
+              textAlign: TextAlign.center,
             ),
           ),
         ],

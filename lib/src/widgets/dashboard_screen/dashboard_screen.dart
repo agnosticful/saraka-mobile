@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide Card;
 import 'package:flutter/widgets.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
@@ -14,6 +15,7 @@ class DashboardScreen extends StatelessWidget {
         children: [
           WaveBackground(color: SarakaColors.white),
           Scaffold(
+            resizeToAvoidBottomPadding: false,
             backgroundColor: Color(0x00000000),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
@@ -26,6 +28,12 @@ class DashboardScreen extends StatelessWidget {
               backgroundColor: Color(0x00000000),
               elevation: 0,
               iconTheme: IconThemeData(color: SarakaColors.lightBlack),
+              actions: [
+                IconButton(
+                  icon: Icon(Feather.getIconData('plus')),
+                  onPressed: () => showNewCardDialog(context: context),
+                ),
+              ],
             ),
             drawer: MainDrawer(),
             body: Consumer<CardListBloc>(
@@ -37,8 +45,7 @@ class DashboardScreen extends StatelessWidget {
                             children: <Widget>[
                               WaveBackground(color: SarakaColors.white),
                               Summary(
-                                totalCardsNumber:
-                                    snapshot.requireData.length.toString(),
+                                totalCardsNumber: snapshot.requireData.length,
                                 todayLearnNumber: snapshot.requireData
                                     .where((iter) => iter.nextReviewScheduledAt
                                         .isBefore(DateTime.now()))

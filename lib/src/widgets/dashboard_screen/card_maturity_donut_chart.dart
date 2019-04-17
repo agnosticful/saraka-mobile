@@ -13,15 +13,20 @@ class CardMaturityDonutChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return new charts.PieChart(seriesList,
         animate: animate,
-        defaultRenderer: new charts.ArcRendererConfig(
-            arcWidth: 10,
-            arcRendererDecorators: [new charts.ArcLabelDecorator()]));
+        defaultRenderer: new charts.ArcRendererConfig(arcWidth: 4));
   }
 }
 
 class MatureCount {
   final String title;
   final int maturity;
+  final charts.Color color;
 
-  MatureCount(this.title, this.maturity);
+  MatureCount(this.title, this.maturity, Color color)
+      : this.color = new charts.Color(
+          r: color.red,
+          g: color.green,
+          b: color.blue,
+          a: color.alpha,
+        );
 }
