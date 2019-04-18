@@ -3,29 +3,29 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import './card_list_route.dart';
-import './review_route.dart';
 import './dashboard_route.dart';
+import './review_route.dart';
 
 class SignedInNavigator extends StatefulWidget {
   SignedInNavigator({
     Key key,
-    @required this.cardList,
-    @required this.introduction,
-    @required this.review,
-    @required this.dashboard,
-  })  : assert(cardList != null),
-        assert(introduction != null),
-        assert(review != null),
-        assert(dashboard != null),
+    @required this.cardListBuilder,
+    @required this.dashboardBuilder,
+    @required this.introductionBuilder,
+    @required this.reviewBuilder,
+  })  : assert(cardListBuilder != null),
+        assert(dashboardBuilder != null),
+        assert(introductionBuilder != null),
+        assert(reviewBuilder != null),
         super(key: key);
 
-  final Widget cardList;
+  final WidgetBuilder cardListBuilder;
 
-  final Widget introduction;
+  final WidgetBuilder introductionBuilder;
 
-  final Widget review;
+  final WidgetBuilder reviewBuilder;
 
-  final Widget dashboard;
+  final WidgetBuilder dashboardBuilder;
 
   @override
   State<SignedInNavigator> createState() => _SignedInNavigatorState();
@@ -110,18 +110,18 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                         case "/":
                           return DashboardRoute(
                             settings: settings,
-                            normal: widget.dashboard,
-                            introduction: widget.introduction,
+                            normal: widget.dashboardBuilder(context),
+                            introduction: widget.introductionBuilder(context),
                           );
                         case "/study":
                           return ReviewRoute(
                             settings: settings,
-                            child: widget.review,
+                            child: widget.reviewBuilder(context),
                           );
                         case "/cards":
                           return CardListRoute(
                             settings: settings,
-                            child: widget.cardList,
+                            child: widget.cardListBuilder(context),
                           );
                       }
                     },

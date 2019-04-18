@@ -142,20 +142,22 @@ void main() async {
             title: "Saraka",
             color: SarakaColors.lightRed,
             child: BackendVersionCheckNavigator(
-              child: MaintenanceCheckNavigator(
-                child: AuthenticationNavigator(
-                  signedIn: SignedInNavigator(
-                    cardList: CardListScreen(),
-                    introduction: IntroductionScreen(),
-                    dashboard: DashboardScreen(),
-                    review: ReviewScreen(
-                      showTutorial: true,
-                    ),
+              builder: (context) => MaintenanceCheckNavigator(
+                    builder: (context) => AuthenticationNavigator(
+                          signedInBuilder: (context) => SignedInNavigator(
+                                cardListBuilder: (context) => CardListScreen(),
+                                introductionBuilder: (context) =>
+                                    IntroductionScreen(),
+                                dashboardBuilder: (context) =>
+                                    DashboardScreen(),
+                                reviewBuilder: (context) => ReviewScreen(
+                                      showTutorial: true,
+                                    ),
+                              ),
+                          signedOutBuilder: (context) => SignedOutScreen(),
+                          undecidedBuilder: (context) => LandingScreen(),
+                        ),
                   ),
-                  signedOut: SignedOutScreen(),
-                  undecided: LandingScreen(),
-                ),
-              ),
             ),
           ),
         ),

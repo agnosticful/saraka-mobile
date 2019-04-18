@@ -9,19 +9,19 @@ import './undecided_route.dart';
 class AuthenticationNavigator extends StatefulWidget {
   AuthenticationNavigator({
     Key key,
-    @required this.signedIn,
-    @required this.signedOut,
-    @required this.undecided,
-  })  : assert(signedIn != null),
-        assert(signedOut != null),
-        assert(undecided != null),
+    @required this.signedInBuilder,
+    @required this.signedOutBuilder,
+    @required this.undecidedBuilder,
+  })  : assert(signedInBuilder != null),
+        assert(signedOutBuilder != null),
+        assert(undecidedBuilder != null),
         super(key: key);
 
-  final Widget signedIn;
+  final WidgetBuilder signedInBuilder;
 
-  final Widget signedOut;
+  final WidgetBuilder signedOutBuilder;
 
-  final Widget undecided;
+  final WidgetBuilder undecidedBuilder;
 
   @override
   State<StatefulWidget> createState() => _AuthenticationNavigatorState();
@@ -82,17 +82,17 @@ class _AuthenticationNavigatorState extends State<AuthenticationNavigator> {
             case "/":
               return UndecidedRoute(
                 settings: settings,
-                child: widget.undecided,
+                child: widget.undecidedBuilder(context),
               );
             case "/signed_in":
               return SignedInRoute(
                 settings: settings,
-                child: widget.signedIn,
+                child: widget.signedInBuilder(context),
               );
             case "/signed_out":
               return SignedOutRoute(
                 settings: settings,
-                child: widget.signedOut,
+                child: widget.signedOutBuilder(context),
               );
           }
         },
