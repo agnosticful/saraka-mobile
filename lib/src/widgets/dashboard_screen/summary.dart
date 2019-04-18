@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
-import './card_maturity_donut_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import './card_list_button.dart';
+import './card_maturity_donut_chart.dart';
 
 class Summary extends StatelessWidget {
   Summary({this.totalCardsNumber, this.todayLearnNumber, this.cardsMaturity})
@@ -169,45 +169,12 @@ class Summary extends StatelessWidget {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 16),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    FlatButton(
-                      child: Container(
-                        decoration: ShapeDecoration(
-                          shape: SuperellipseShape(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        width: 240,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              'SEE ALL ' +
-                                  totalCardsNumber.toString() +
-                                  ' CARDS',
-                              overflow: TextOverflow.ellipsis,
-                              style: SarakaTextStyles.heading.copyWith(
-                                fontSize: 20,
-                                color: SarakaColors.darkGray,
-                              ),
-                            ),
-                            Icon(
-                              Feather.getIconData('arrow-right-circle'),
-                              color: SarakaColors.darkGray,
-                              size: 20,
-                            ),
-                          ],
-                        ),
-                      ),
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed('/cards'),
-                    ),
-                  ],
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 16),
+                    child: CardListButton(),
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 32),
