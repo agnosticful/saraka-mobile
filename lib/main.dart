@@ -150,8 +150,9 @@ void main() async {
                                     IntroductionScreen(),
                                 dashboardBuilder: (context) =>
                                     DashboardScreen(),
-                                reviewBuilder: (context) => ReviewScreen(
-                                      showTutorial: true,
+                                reviewBuilder: (context, showTutorial) =>
+                                    ReviewScreen(
+                                      showTutorial: showTutorial,
                                     ),
                               ),
                           signedOutBuilder: (context) => SignedOutScreen(),

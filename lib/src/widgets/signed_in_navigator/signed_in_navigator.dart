@@ -23,7 +23,7 @@ class SignedInNavigator extends StatefulWidget {
 
   final WidgetBuilder introductionBuilder;
 
-  final WidgetBuilder reviewBuilder;
+  final Widget Function(BuildContext, bool showTutorial) reviewBuilder;
 
   final WidgetBuilder dashboardBuilder;
 
@@ -114,9 +114,18 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                             introduction: widget.introductionBuilder(context),
                           );
                         case "/study":
+                          bool showTutorial = false;
+
+                          if (settings.arguments != null) {
+                            assert(settings.arguments is Map<String, bool>);
+
+                            showTutorial = (settings.arguments
+                                as Map<String, bool>)["showTutorial"];
+                          }
+
                           return ReviewRoute(
                             settings: settings,
-                            child: widget.reviewBuilder(context),
+                            child: widget.reviewBuilder(context, showTutorial),
                           );
                         case "/cards":
                           return CardListRoute(
