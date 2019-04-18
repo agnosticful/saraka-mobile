@@ -148,7 +148,9 @@ void main() async {
                     cardList: CardListScreen(),
                     introduction: IntroductionScreen(),
                     dashboard: DashboardScreen(),
-                    review: ReviewScreen(),
+                    review: ReviewScreen(
+                      showTutorial: true,
+                    ),
                   ),
                   signedOut: SignedOutScreen(),
                   undecided: LandingScreen(),
