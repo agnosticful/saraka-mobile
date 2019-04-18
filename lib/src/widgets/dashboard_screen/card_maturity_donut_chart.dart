@@ -13,6 +13,12 @@ class CardMaturityDonutChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return new charts.PieChart(seriesList,
         animate: animate,
+        layoutConfig: charts.LayoutConfig(
+          topMarginSpec: charts.MarginSpec.fixedPixel(0),
+          bottomMarginSpec: charts.MarginSpec.fixedPixel(0),
+          leftMarginSpec: charts.MarginSpec.fixedPixel(0),
+          rightMarginSpec: charts.MarginSpec.fixedPixel(0),
+        ),
         defaultRenderer: new charts.ArcRendererConfig(arcWidth: 4));
   }
 }
