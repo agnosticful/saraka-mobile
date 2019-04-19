@@ -19,11 +19,19 @@ class Summary extends StatelessWidget {
 
   double getMatureCardRatio() =>
       cardsMaturity
-          .where((iter) => iter.maturity * 100 >= 100)
+          .where((card) => card.maturity * 100 >= 100)
           .toList()
           .length /
       totalCardsNumber *
       100;
+
+  List getNextMatureCards() => cardsMaturity
+      .where((card) =>
+          DateTime.now()
+              .add(const Duration(days: 7))
+              .isAfter(card.nextReviewScheduledAt) &&
+          card.nextReviewInterval * card.modifier >= const Duration(days: 365))
+      .toList();
 
   @override
   Widget build(BuildContext context) => Column(
@@ -55,14 +63,14 @@ class Summary extends StatelessWidget {
                                   "Mature",
                                   cardsMaturity
                                       .where(
-                                          (iter) => iter.maturity * 100 >= 100)
+                                          (card) => card.maturity * 100 >= 100)
                                       .toList()
                                       .length,
                                   SarakaColors.lightRed),
                               new MatureCount(
                                 "Immature",
                                 cardsMaturity
-                                    .where((iter) => iter.maturity * 100 < 100)
+                                    .where((card) => card.maturity * 100 < 100)
                                     .toList()
                                     .length,
                                 SarakaColors.darkGray.withOpacity(0.2),
@@ -179,27 +187,10 @@ class Summary extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(bottom: 32),
                 ),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      '  cards will be mature',
-                      overflow: TextOverflow.ellipsis,
-                      style: SarakaTextStyles.body,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(right: 48),
-                        ),
-                        Text(
-                          'within   days to come',
-                          overflow: TextOverflow.ellipsis,
-                          style: SarakaTextStyles.body,
-                        ),
-                      ],
-                    ),
-                  ],
+                Text(
+                  '${getNextMatureCards().length} cards are going to be mature',
+                  overflow: TextOverflow.ellipsis,
+                  style: SarakaTextStyles.body,
                 ),
               ],
             ),
