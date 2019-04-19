@@ -8,8 +8,27 @@ import './card_bundle.dart';
 import './finished.dart';
 import './progress_indicator.dart';
 import './time_estimation.dart';
+import './tutorial.dart';
 
-class ReviewScreen extends StatelessWidget {
+class ReviewScreen extends StatefulWidget {
+  ReviewScreen({Key key, this.showTutorial = false}) : super(key: key);
+
+  final bool showTutorial;
+
+  @override
+  State<ReviewScreen> createState() => _ReviewScreenState();
+}
+
+class _ReviewScreenState extends State<ReviewScreen> {
+  bool _isTutorialShown;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isTutorialShown = widget.showTutorial;
+  }
+
   @override
   Widget build(BuildContext context) => Stack(
         children: [
@@ -59,6 +78,18 @@ class ReviewScreen extends StatelessWidget {
               ],
             ),
           ),
-        ],
+        ]..addAll(_isTutorialShown
+            ? [
+                Tutorial(
+                  onDismissed: _onTutorialDismissed,
+                ),
+              ]
+            : []),
       );
+
+  void _onTutorialDismissed() {
+    setState(() {
+      _isTutorialShown = false;
+    });
+  }
 }

@@ -131,7 +131,10 @@ class _AddFirstCardPageState extends State<AddFirstCardPage> {
                             color: SarakaColors.lightRed,
                             isDisabled: !snapshot.requireData,
                             onPressed: () {
-                              Navigator.of(context).pushNamed('/study');
+                              Navigator.of(context).pushNamed(
+                                '/study',
+                                arguments: {"showTutorial": true},
+                              );
 
                               Future.delayed(Duration(milliseconds: 500), () {
                                 firstCardListBloc.finishIntroduction();

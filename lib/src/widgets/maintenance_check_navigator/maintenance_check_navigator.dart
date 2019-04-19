@@ -6,9 +6,9 @@ import './maintenance_route.dart';
 import './normal_route.dart';
 
 class MaintenanceCheckNavigator extends StatefulWidget {
-  MaintenanceCheckNavigator({Key key, @required this.child});
+  MaintenanceCheckNavigator({Key key, @required this.builder});
 
-  final Widget child;
+  final WidgetBuilder builder;
 
   @override
   State<StatefulWidget> createState() => _MaintenanceCheckNavigatorState();
@@ -61,7 +61,10 @@ class _MaintenanceCheckNavigatorState extends State<MaintenanceCheckNavigator> {
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case "/":
-              return NormalRoute(settings: settings, child: widget.child);
+              return NormalRoute(
+                settings: settings,
+                child: widget.builder(context),
+              );
             case "/maintenance":
               return MaintenanceRoute(settings: settings);
           }
