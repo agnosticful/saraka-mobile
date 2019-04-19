@@ -19,18 +19,18 @@ class Summary extends StatelessWidget {
 
   double getMatureCardRatio() =>
       cardsMaturity
-          .where((iter) => iter.maturity * 100 >= 100)
+          .where((card) => card.maturity * 100 >= 100)
           .toList()
           .length /
       totalCardsNumber *
       100;
 
   List getNextMatureCards() => cardsMaturity
-      .where((iter) =>
+      .where((card) =>
           DateTime.now()
               .add(const Duration(days: 7))
-              .isAfter(iter.nextReviewScheduledAt) &&
-          iter.nextReviewInterval * iter.modifier >= const Duration(days: 365))
+              .isAfter(card.nextReviewScheduledAt) &&
+          card.nextReviewInterval * card.modifier >= const Duration(days: 365))
       .toList();
 
   @override
@@ -63,14 +63,14 @@ class Summary extends StatelessWidget {
                                   "Mature",
                                   cardsMaturity
                                       .where(
-                                          (iter) => iter.maturity * 100 >= 100)
+                                          (card) => card.maturity * 100 >= 100)
                                       .toList()
                                       .length,
                                   SarakaColors.lightRed),
                               new MatureCount(
                                 "Immature",
                                 cardsMaturity
-                                    .where((iter) => iter.maturity * 100 < 100)
+                                    .where((card) => card.maturity * 100 < 100)
                                     .toList()
                                     .length,
                                 SarakaColors.darkGray.withOpacity(0.2),
