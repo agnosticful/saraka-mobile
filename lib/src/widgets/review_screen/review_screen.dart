@@ -26,7 +26,7 @@ class ReviewScreen extends StatelessWidget {
               elevation: 0,
               leading: Navigator.of(context).canPop()
                   ? IconButton(
-                      icon: Icon(Feather.getIconData('arrow-left')),
+                      icon: Icon(Feather.getIconData('x')),
                       onPressed: () => Navigator.of(context).pop(),
                     )
                   : null,
