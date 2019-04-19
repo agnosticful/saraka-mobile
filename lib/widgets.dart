@@ -1,4 +1,5 @@
 export './src/widgets/application.dart';
+export './src/widgets/arrow.dart';
 export './src/widgets/authentication_navigator/authentication_navigator.dart';
 export './src/widgets/backend_version_check_navigator/backend_version_check_navigator.dart';
 export './src/widgets/backend_version_incompatible_screen.dart';

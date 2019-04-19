@@ -6,9 +6,9 @@ import './incompatible_route.dart';
 import './normal_route.dart';
 
 class BackendVersionCheckNavigator extends StatefulWidget {
-  BackendVersionCheckNavigator({Key key, @required this.child});
+  BackendVersionCheckNavigator({Key key, @required this.builder});
 
-  final Widget child;
+  final WidgetBuilder builder;
 
   @override
   State<StatefulWidget> createState() => _BackendVersionCheckNavigatorState();
@@ -62,7 +62,8 @@ class _BackendVersionCheckNavigatorState
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case "/":
-              return NormalRoute(settings: settings, child: widget.child);
+              return NormalRoute(
+                  settings: settings, child: widget.builder(context));
             case "/incompatible":
               return IncompatibleRoute(settings: settings);
           }
