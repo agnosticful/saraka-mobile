@@ -113,7 +113,7 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                             normal: widget.dashboardBuilder(context),
                             introduction: widget.introductionBuilder(context),
                           );
-                        case "/study":
+                        case "/review":
                           bool showTutorial = false;
 
                           if (settings.arguments != null) {
