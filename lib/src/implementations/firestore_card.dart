@@ -6,13 +6,13 @@ class FirestoreCard extends Card {
       : assert(snapshot != null),
         id = snapshot.documentID,
         text = snapshot.data['text'],
-        lastReviewedAt = snapshot.data['lastStudiedAt'] == null
+        lastReviewedAt = snapshot.data['lastReviewedAt'] == null
             ? null
-            : (snapshot.data['lastStudiedAt'] as Timestamp).toDate(),
+            : (snapshot.data['lastReviewedAt'] as Timestamp).toDate(),
         nextReviewScheduledAt =
-            (snapshot.data['nextStudyScheduledAt'] as Timestamp).toDate(),
+            (snapshot.data['nextReviewScheduledFor'] as Timestamp).toDate(),
         nextReviewInterval =
-            Duration(milliseconds: snapshot.data['nextStudyInterval']),
+            Duration(milliseconds: snapshot.data['nextReviewInterval']),
         modifier = snapshot.data['modifier'];
 
   @override

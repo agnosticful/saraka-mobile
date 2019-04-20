@@ -132,7 +132,7 @@ class _AddFirstCardPageState extends State<AddFirstCardPage> {
                             isDisabled: !snapshot.requireData,
                             onPressed: () {
                               Navigator.of(context).pushNamed(
-                                '/study',
+                                '/review',
                                 arguments: {"showTutorial": true},
                               );
 

@@ -4,7 +4,7 @@ import 'package:saraka/blocs.dart';
 class FirestoreReview extends Review {
   FirestoreReview(DocumentSnapshot snapshot)
       : assert(snapshot != null),
-        reviewedAt = (snapshot.data['studiedAt'] as Timestamp).toDate(),
+        reviewedAt = (snapshot.data['reviewedAt'] as Timestamp).toDate(),
         certainty = ReviewCertainty.parse(snapshot.data['certainty']),
         nextReviewInterval =
             Duration(milliseconds: snapshot.data['nextStudyInterval']);
