@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
@@ -165,6 +166,9 @@ void main() async {
       );
     },
     onError: (error, stackTrace) async {
+      debugPrint(error);
+      debugPrint(stackTrace);
+
       // Whenever an error occurs, call the `reportCrash` function. This will send Dart errors to our dev console or Crashlytics depending on the environment.
       await FlutterCrashlytics().reportCrash(
         error,
