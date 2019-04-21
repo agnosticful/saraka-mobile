@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart' hide Card;
-import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
-import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/widgets.dart';
 import './main_drawer.dart';
+import './mature_card_prediction_text.dart';
+import './ready_card_length_text.dart';
 import './start_learning_floating_action_button.dart';
 import './summary.dart';
 
@@ -36,29 +35,35 @@ class DashboardScreen extends StatelessWidget {
               ],
             ),
             drawer: MainDrawer(),
-            body: Consumer<CardListBloc>(
-              builder: (context, cardListBloc) => Container(
-                    child: StreamBuilder<List<Card>>(
-                      stream: cardListBloc.cards.map((iter) => iter.toList()),
-                      initialData: [],
-                      builder: (context, snapshot) => Stack(
-                            children: <Widget>[
-                              WaveBackground(color: SarakaColors.white),
-                              Summary(
-                                totalCardsNumber: snapshot.requireData.length,
-                                todayLearnNumber: snapshot.requireData
-                                    .where((iter) => iter.nextReviewScheduledAt
-                                        .isBefore(DateTime.now()))
-                                    .length
-                                    .toString(),
-                                cardsMaturity: snapshot.requireData.toList(),
-                              )
-                            ],
+            body: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: 240,
+                            minHeight: 240,
+                            maxWidth: 320,
+                            maxHeight: 320,
                           ),
+                          child: Summary(),
+                        ),
+                        SizedBox(height: 16),
+                        MatureCardPredictionText(),
+                      ],
                     ),
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 80),
+                  child: ReadyCardLengthText(),
+                ),
+              ],
             ),
-          )
+          ),
         ],
       );
 }

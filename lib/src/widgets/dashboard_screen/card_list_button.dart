@@ -15,14 +15,16 @@ class CardListButton extends StatelessWidget {
                   shape: SuperellipseShape(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  padding: EdgeInsets.fromLTRB(16, 14, 8, 14),
+                  padding: EdgeInsets.fromLTRB(24, 14, 16, 14),
                   onPressed: () => Navigator.of(context).pushNamed('/cards'),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'See All ${snapshot.requireData.length} Cards',
+                        snapshot.hasData
+                            ? 'See All ${snapshot.requireData.length} Cards'
+                            : "Loading...",
                         overflow: TextOverflow.ellipsis,
                         style: SarakaTextStyles.buttonLabel.copyWith(
                           color: SarakaColors.lightBlack,

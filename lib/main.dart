@@ -23,7 +23,10 @@ void main() async {
 
   await FlutterCrashlytics().initialize();
 
-  Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
+  Firestore.instance.settings(
+    timestampsInSnapshotsEnabled: true,
+    persistenceEnabled: false,
+  );
 
   final firebaseAnalytics = FirebaseAnalytics();
 

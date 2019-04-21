@@ -12,20 +12,22 @@ class DashboardRoute extends CupertinoPageRoute {
                 builder: (context, authenticationBloc) => StreamBuilder<User>(
                       stream: authenticationBloc.user,
                       initialData: authenticationBloc.user.value,
-                      builder: (context, snapshot) => snapshot
-                              .requireData.isIntroductionFinished
-                          ? StatefulProvider(
-                              valueBuilder: (_) =>
-                                  Provider.of<CardListBlocFactory>(context)
-                                      .create(),
-                              child: normal,
-                            )
-                          : StatefulProvider(
-                              valueBuilder: (_) =>
-                                  Provider.of<FirstCardListBlocFactory>(context)
-                                      .create(),
-                              child: introduction,
-                            ),
+                      builder: (context, snapshot) => snapshot.hasData
+                          ? snapshot.requireData.isIntroductionFinished
+                              ? StatefulProvider(
+                                  valueBuilder: (_) =>
+                                      Provider.of<CardListBlocFactory>(context)
+                                          .create(),
+                                  child: normal,
+                                )
+                              : StatefulProvider(
+                                  valueBuilder: (_) =>
+                                      Provider.of<FirstCardListBlocFactory>(
+                                              context)
+                                          .create(),
+                                  child: introduction,
+                                )
+                          : Container(),
                     ),
               ),
           settings: settings,
