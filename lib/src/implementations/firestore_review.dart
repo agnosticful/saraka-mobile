@@ -7,7 +7,7 @@ class FirestoreReview extends Review {
         reviewedAt = (snapshot.data['reviewedAt'] as Timestamp).toDate(),
         certainty = ReviewCertainty.parse(snapshot.data['certainty']),
         nextReviewInterval =
-            Duration(milliseconds: snapshot.data['nextStudyInterval']);
+            Duration(milliseconds: snapshot.data['nextReviewInterval']);
 
   @override
   final DateTime reviewedAt;
