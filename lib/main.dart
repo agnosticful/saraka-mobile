@@ -143,7 +143,7 @@ void main() async {
             Provider<MaintenanceCheckBloc>(value: maintenanceCheckBloc),
           ],
           child: Application(
-            title: "Saraka",
+            title: "Parrot",
             color: SarakaColors.lightRed,
             child: BackendVersionCheckNavigator(
               builder: (context) => MaintenanceCheckNavigator(
