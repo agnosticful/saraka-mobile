@@ -16,37 +16,41 @@ class MainDrawer extends StatelessWidget {
                     ? DrawerHeader(child: Container())
                     : StreamBuilder<User>(
                         stream: authenticationBloc.user,
-                        builder: (context, snapshot) =>
-                            UserAccountsDrawerHeader(
-                              decoration: BoxDecoration(
-                                color: SarakaColors.lightRed,
-                              ),
-                              currentAccountPicture: CircleAvatar(
-                                backgroundImage: snapshot.hasData
-                                    ? NetworkImage(snapshot.requireData.imageUrl
-                                        .toString())
-                                    : AssetImage(
-                                        'assets/default_images/user.png'),
-                              ),
-                              accountName: Text(
-                                snapshot.hasData
-                                    ? snapshot.requireData.name
-                                    : 'Loading...',
-                                style: TextStyle(
-                                  fontFamily: SarakaFonts.rubik,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              accountEmail: Text(
-                                snapshot.hasData
-                                    ? snapshot.requireData.email
-                                    : 'Loading...',
-                                style: TextStyle(
-                                  fontFamily: SarakaFonts.rubik,
-                                ),
+                        builder: (context, snapshot) {
+                          precacheImage(
+                              NetworkImage(
+                                  snapshot.requireData.imageUrl.toString()),
+                              context);
+                          return UserAccountsDrawerHeader(
+                            decoration: BoxDecoration(
+                              color: SarakaColors.lightRed,
+                            ),
+                            currentAccountPicture: CircleAvatar(
+                              backgroundImage: snapshot.hasData
+                                  ? NetworkImage(
+                                      snapshot.requireData.imageUrl.toString())
+                                  : AssetImage(
+                                      'assets/default_images/user.png'),
+                            ),
+                            accountName: Text(
+                              snapshot.hasData
+                                  ? snapshot.requireData.name
+                                  : 'Loading...',
+                              style: TextStyle(
+                                fontFamily: SarakaFonts.rubik,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                      ),
+                            accountEmail: Text(
+                              snapshot.hasData
+                                  ? snapshot.requireData.email
+                                  : 'Loading...',
+                              style: TextStyle(
+                                fontFamily: SarakaFonts.rubik,
+                              ),
+                            ),
+                          );
+                        }),
                 ListTile(
                   leading: Icon(
                     Feather.getIconData('log-out'),
