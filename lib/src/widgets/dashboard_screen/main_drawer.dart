@@ -17,10 +17,12 @@ class MainDrawer extends StatelessWidget {
                     : StreamBuilder<User>(
                         stream: authenticationBloc.user,
                         builder: (context, snapshot) {
-                          precacheImage(
-                              NetworkImage(
-                                  snapshot.requireData.imageUrl.toString()),
-                              context);
+                          if (snapshot.hasData) {
+                            precacheImage(
+                                NetworkImage(
+                                    snapshot.requireData.imageUrl.toString()),
+                                context);
+                          }
                           return UserAccountsDrawerHeader(
                             decoration: BoxDecoration(
                               color: SarakaColors.lightRed,
