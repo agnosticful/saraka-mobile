@@ -12,21 +12,10 @@ class BackendVersionIncompatibleScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 64,
-                    height: 64,
-                    child: Image.asset('assets/images/app-store.png'),
-                  ),
-                  SizedBox(width: 32),
-                  SizedBox(
-                    width: 64,
-                    height: 64,
-                    child: Image.asset('assets/images/play-store.png'),
-                  ),
-                ],
+              SizedBox(
+                width: 128,
+                height: 128,
+                child: Image.asset('assets/images/play-store.png'),
               ),
               SizedBox(height: 32),
               Text(
