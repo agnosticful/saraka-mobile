@@ -18,9 +18,9 @@ class MaintenanceScreen extends StatelessWidget {
               SizedBox(
                 width: 128,
                 height: 128,
-                child: Image.asset('assets/images/maintenance.png'),
+                child: Image.asset('assets/images/development.png'),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 32),
               Text(
                 "Going to be improved...",
                 style: SarakaTextStyles.heading.copyWith(
