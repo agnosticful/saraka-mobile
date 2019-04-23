@@ -15,11 +15,11 @@ class LandingScreen extends StatelessWidget {
             SizedBox(
               width: 192,
               height: 192,
-              child: Image.asset('assets/images/saraka.png'),
+              child: Image.asset('assets/images/parrot.png'),
             ),
             SizedBox(height: 32),
             Text(
-              "Saraka",
+              "Parrot",
               style: SarakaTextStyles.heading.copyWith(
                 fontSize: 32,
                 fontWeight: FontWeight.w300,
@@ -28,10 +28,10 @@ class LandingScreen extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              "Learn by practice.",
+              "Not study, just be used.",
               style: SarakaTextStyles.body.copyWith(
                 fontSize: 16,
-                color: Color(0x00ffffff),
+                color: SarakaColors.lightRed,
               ),
             ),
           ],
