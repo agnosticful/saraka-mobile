@@ -7,8 +7,8 @@ abstract class Review {
 
   Duration get nextReviewInterval;
 
-  double get maturity => calculateMaturity(nextReviewInterval);
+  double get proficiency => calculateProficiency(nextReviewInterval);
 
-  static double calculateMaturity(Duration nextReviewInterval) =>
+  static double calculateProficiency(Duration nextReviewInterval) =>
       nextReviewInterval.inMilliseconds / (1000 * 60 * 60 * 24 * 365);
 }

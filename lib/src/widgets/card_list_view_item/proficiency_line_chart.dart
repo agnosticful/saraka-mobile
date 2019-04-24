@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 
-class MaturityLineChart extends StatelessWidget {
+class ProficiencyLineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<CardDetailBloc>(
@@ -14,9 +14,9 @@ class MaturityLineChart extends StatelessWidget {
               builder: (context, snapshot) => charts.LineChart(
                     <charts.Series<Review, int>>[
                       charts.Series(
-                        id: "maturity",
+                        id: "proficiency",
                         domainFn: (_, i) => i,
-                        measureFn: (review, _) => review.maturity * 100,
+                        measureFn: (review, _) => review.proficiency * 100,
                         colorFn: (_, i) => charts.Color(
                               r: SarakaColors.lightRed.red,
                               g: SarakaColors.lightRed.green,

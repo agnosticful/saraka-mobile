@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 
-class MatureCardPredictionText extends StatelessWidget {
+class ProficientCardPredictionText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<CardListBloc>(
@@ -12,7 +12,7 @@ class MatureCardPredictionText extends StatelessWidget {
             initialData: cardListBloc.cards.value,
             builder: (context, snapshot) => Text(
                   snapshot.hasData
-                      ? '${_extractAlmostMatureCards(snapshot.requireData).length} cards are going to be mature'
+                      ? '${_extractAlmostProficientCards(snapshot.requireData).length} cards are going to be familiar soon'
                       : 'Loading...',
                   overflow: TextOverflow.ellipsis,
                   style: SarakaTextStyles.body,
@@ -22,7 +22,7 @@ class MatureCardPredictionText extends StatelessWidget {
     );
   }
 
-  List _extractAlmostMatureCards(List<Card> cards) => cards
+  List _extractAlmostProficientCards(List<Card> cards) => cards
       .where((card) =>
           DateTime.now()
               .add(const Duration(days: 7))
