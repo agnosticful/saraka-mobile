@@ -57,7 +57,7 @@ class Summary extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(height: 32),
+                            SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -109,7 +109,7 @@ class Summary extends StatelessWidget {
                                     Text(
                                       "Mature",
                                       overflow: TextOverflow.ellipsis,
-                                      style: SarakaTextStyles.body,
+                                      style: SarakaTextStyles.body2,
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
@@ -133,14 +133,14 @@ class Summary extends StatelessWidget {
                                     Text(
                                       "Immature",
                                       overflow: TextOverflow.ellipsis,
-                                      style: SarakaTextStyles.body,
+                                      style: SarakaTextStyles.body2,
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
                               ],
                             ),
-                            SizedBox(height: 16),
+                            SizedBox(height: 8),
                             CardListButton(),
                           ],
                         ),

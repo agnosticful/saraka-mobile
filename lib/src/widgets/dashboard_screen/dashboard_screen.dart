@@ -38,23 +38,25 @@ class DashboardScreen extends StatelessWidget {
             body: Column(
               children: [
                 Expanded(
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minWidth: 240,
-                            minHeight: 240,
-                            maxWidth: 320,
-                            maxHeight: 320,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minWidth: 280,
+                                  minHeight: 280,
+                                  maxWidth: 280,
+                                  maxHeight: 280,
+                                ),
+                                child: Summary(),
+                              ),
+                              SizedBox(height: 16),
+                              MatureCardPredictionText(),
+                            ],
                           ),
-                          child: Summary(),
                         ),
-                        SizedBox(height: 16),
-                        MatureCardPredictionText(),
-                      ],
-                    ),
                   ),
                 ),
                 Padding(
