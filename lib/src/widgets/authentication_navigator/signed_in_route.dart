@@ -10,7 +10,7 @@ class SignedInRoute extends PageRoute {
   final bool maintainState = true;
 
   @override
-  final Duration transitionDuration = const Duration(milliseconds: 300);
+  final Duration transitionDuration = const Duration(milliseconds: 750);
 
   @override
   final Color barrierColor = null;

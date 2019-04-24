@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart' hide Card;
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter/material.dart' hide AppBar, Card;
 import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
+import './app_bar.dart';
 import './main_drawer.dart';
 import './proficient_card_prediction_text.dart';
 import './ready_card_length_text.dart';
@@ -19,42 +19,30 @@ class DashboardScreen extends StatelessWidget {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: StartLearningFloatingActionButton(),
-            appBar: AppBar(
-              title: Text('Dashboard',
-                  style: SarakaTextStyles.appBarTitle
-                      .copyWith(color: SarakaColors.lightBlack)),
-              centerTitle: true,
-              backgroundColor: Color(0x00000000),
-              elevation: 0,
-              iconTheme: IconThemeData(color: SarakaColors.lightBlack),
-              actions: [
-                IconButton(
-                  icon: Icon(Feather.getIconData('plus')),
-                  onPressed: () => showNewCardDialog(context: context),
-                ),
-              ],
-            ),
+            appBar: AppBar(),
             drawer: MainDrawer(),
             body: Column(
               children: [
                 Expanded(
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minWidth: 240,
-                            minHeight: 240,
-                            maxWidth: 320,
-                            maxHeight: 320,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minWidth: 280,
+                                  minHeight: 280,
+                                  maxWidth: 280,
+                                  maxHeight: 280,
+                                ),
+                                child: Summary(),
+                              ),
+                              SizedBox(height: 16),
+                              ProficientCardPredictionText(),
+                            ],
                           ),
-                          child: Summary(),
                         ),
-                        SizedBox(height: 16),
-                        ProficientCardPredictionText(),
-                      ],
-                    ),
                   ),
                 ),
                 Padding(
