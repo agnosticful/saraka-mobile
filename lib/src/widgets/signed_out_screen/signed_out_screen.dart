@@ -6,18 +6,18 @@ class SignedOutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          color: SarakaColors.white,
-        ),
-        child: Stack(
-          children: [
-            Center(
+      decoration: BoxDecoration(
+        color: SarakaColors.white,
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) => Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(height: 64),
                   SizedBox(
-                    width: 192,
-                    height: 192,
+                    width: constraints.maxWidth * .5,
+                    height: constraints.maxWidth * .5,
                     child: Image.asset('assets/images/parrot.png'),
                   ),
                   SizedBox(height: 32),
@@ -37,16 +37,12 @@ class SignedOutScreen extends StatelessWidget {
                       color: SarakaColors.lightRed,
                     ),
                   ),
+                  SizedBox(height: 64),
+                  SignInButton()
                 ],
               ),
             ),
-            Positioned(
-              bottom: 128,
-              left: 64,
-              right: 64,
-              child: SignInButton(),
-            ),
-          ],
-        ));
+      ),
+    );
   }
 }
