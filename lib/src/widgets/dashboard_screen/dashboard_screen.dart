@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart' hide Card;
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter/material.dart' hide AppBar, Card;
 import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
+import './app_bar.dart';
 import './main_drawer.dart';
 import './mature_card_prediction_text.dart';
 import './ready_card_length_text.dart';
@@ -19,21 +19,7 @@ class DashboardScreen extends StatelessWidget {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: StartLearningFloatingActionButton(),
-            appBar: AppBar(
-              title: Text('Dashboard',
-                  style: SarakaTextStyles.appBarTitle
-                      .copyWith(color: SarakaColors.lightBlack)),
-              centerTitle: true,
-              backgroundColor: Color(0x00000000),
-              elevation: 0,
-              iconTheme: IconThemeData(color: SarakaColors.lightBlack),
-              actions: [
-                IconButton(
-                  icon: Icon(Feather.getIconData('plus')),
-                  onPressed: () => showNewCardDialog(context: context),
-                ),
-              ],
-            ),
+            appBar: AppBar(),
             drawer: MainDrawer(),
             body: Column(
               children: [
