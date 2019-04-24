@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import './user_info.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
@@ -12,45 +13,7 @@ class MainDrawer extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                authenticationBloc == null
-                    ? DrawerHeader(child: Container())
-                    : StreamBuilder<User>(
-                        stream: authenticationBloc.user,
-                        builder: (context, snapshot) {
-                          precacheImage(
-                              NetworkImage(
-                                  snapshot.requireData.imageUrl.toString()),
-                              context);
-                          return UserAccountsDrawerHeader(
-                            decoration: BoxDecoration(
-                              color: SarakaColors.lightRed,
-                            ),
-                            currentAccountPicture: CircleAvatar(
-                              backgroundImage: snapshot.hasData
-                                  ? NetworkImage(
-                                      snapshot.requireData.imageUrl.toString())
-                                  : AssetImage(
-                                      'assets/default_images/user.png'),
-                            ),
-                            accountName: Text(
-                              snapshot.hasData
-                                  ? snapshot.requireData.name
-                                  : 'Loading...',
-                              style: TextStyle(
-                                fontFamily: SarakaFonts.rubik,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            accountEmail: Text(
-                              snapshot.hasData
-                                  ? snapshot.requireData.email
-                                  : 'Loading...',
-                              style: TextStyle(
-                                fontFamily: SarakaFonts.rubik,
-                              ),
-                            ),
-                          );
-                        }),
+                UserInfo(),
                 ListTile(
                   leading: Icon(
                     Feather.getIconData('log-out'),
