@@ -3,7 +3,7 @@ import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
 import './app_bar.dart';
 import './main_drawer.dart';
-import './mature_card_prediction_text.dart';
+import './proficient_card_prediction_text.dart';
 import './ready_card_length_text.dart';
 import './start_learning_floating_action_button.dart';
 import './summary.dart';
@@ -39,7 +39,7 @@ class DashboardScreen extends StatelessWidget {
                                 child: Summary(),
                               ),
                               SizedBox(height: 16),
-                              MatureCardPredictionText(),
+                              ProficientCardPredictionText(),
                             ],
                           ),
                         ),

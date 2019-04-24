@@ -4,7 +4,7 @@ import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import './card_list_button.dart';
-import './card_maturity_donut_chart.dart';
+import './card_proficiency_donut_chart.dart';
 
 class Summary extends StatelessWidget {
   @override
@@ -17,38 +17,39 @@ class Summary extends StatelessWidget {
                     child: Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
-                        CardMaturityDonutChart(
-                          seriesList: <charts.Series<MatureCount, int>>[
+                        CardProficiencyDonutChart(
+                          seriesList: <charts.Series<ProficientCount, int>>[
                             charts.Series(
-                              id: 'CardMaturity',
-                              domainFn: (MatureCount matures, _) =>
-                                  matures.maturity,
-                              measureFn: (MatureCount matures, _) =>
-                                  matures.maturity,
-                              colorFn: (MatureCount matures, i) =>
-                                  matures.color,
+                              id: 'CardProficiency',
+                              domainFn: (ProficientCount proficients, _) =>
+                                  proficients.proficiency,
+                              measureFn: (ProficientCount proficients, _) =>
+                                  proficients.proficiency,
+                              colorFn: (ProficientCount proficients, i) =>
+                                  proficients.color,
                               data: [
-                                new MatureCount(
-                                    "Mature",
+                                new ProficientCount(
+                                    "Familiar",
                                     snapshot.requireData
                                         .where((card) =>
-                                            card.maturity * 100 >= 100)
+                                            card.proficiency * 100 >= 100)
                                         .toList()
                                         .length,
                                     SarakaColors.lightRed),
-                                new MatureCount(
-                                  "Immature",
+                                new ProficientCount(
+                                  "Need to study",
                                   snapshot.requireData
-                                      .where(
-                                          (card) => card.maturity * 100 < 100)
+                                      .where((card) =>
+                                          card.proficiency * 100 < 100)
                                       .toList()
                                       .length,
                                   SarakaColors.darkGray.withOpacity(0.2),
                                 ),
                               ],
                               outsideLabelStyleAccessorFn:
-                                  (MatureCount row, _) => charts.TextStyleSpec(
-                                      color: charts.MaterialPalette.black),
+                                  (ProficientCount row, _) =>
+                                      charts.TextStyleSpec(
+                                          color: charts.MaterialPalette.black),
                             ),
                           ],
                           animate: true,
@@ -62,11 +63,11 @@ class Summary extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  _calculateMatureCardRate(
+                                  _calculateProficientCardRate(
                                               snapshot.requireData) ==
                                           100
                                       ? 100.toString()
-                                      : _calculateMatureCardRate(
+                                      : _calculateProficientCardRate(
                                               snapshot.requireData)
                                           .toStringAsFixed(1),
                                   overflow: TextOverflow.ellipsis,
@@ -107,7 +108,7 @@ class Summary extends StatelessWidget {
                                       padding: EdgeInsets.only(right: 8),
                                     ),
                                     Text(
-                                      "Mature",
+                                      "Familiar",
                                       overflow: TextOverflow.ellipsis,
                                       style: SarakaTextStyles.body2,
                                       textAlign: TextAlign.center,
@@ -131,7 +132,7 @@ class Summary extends StatelessWidget {
                                       padding: EdgeInsets.only(right: 8),
                                     ),
                                     Text(
-                                      "Immature",
+                                      "Need to study",
                                       overflow: TextOverflow.ellipsis,
                                       style: SarakaTextStyles.body2,
                                       textAlign: TextAlign.center,
@@ -150,8 +151,8 @@ class Summary extends StatelessWidget {
             ),
       );
 
-  double _calculateMatureCardRate(List<Card> cards) =>
-      cards.where((card) => card.maturity * 100 >= 100).toList().length /
+  double _calculateProficientCardRate(List<Card> cards) =>
+      cards.where((card) => card.proficiency * 100 >= 100).toList().length /
       cards.length *
       100;
 }

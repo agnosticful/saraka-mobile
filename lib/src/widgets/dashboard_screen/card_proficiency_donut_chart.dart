@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-class CardMaturityDonutChart extends StatelessWidget {
+class CardProficiencyDonutChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
 
-  CardMaturityDonutChart({@required this.seriesList, @required this.animate})
+  CardProficiencyDonutChart({@required this.seriesList, @required this.animate})
       : assert(seriesList != null),
         assert(animate != null);
 
@@ -23,12 +23,12 @@ class CardMaturityDonutChart extends StatelessWidget {
   }
 }
 
-class MatureCount {
+class ProficientCount {
   final String title;
-  final int maturity;
+  final int proficiency;
   final charts.Color color;
 
-  MatureCount(this.title, this.maturity, Color color)
+  ProficientCount(this.title, this.proficiency, Color color)
       : this.color = new charts.Color(
           r: color.red,
           g: color.green,

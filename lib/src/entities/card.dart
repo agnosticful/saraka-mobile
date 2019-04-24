@@ -10,7 +10,7 @@ abstract class Card with Identifiable<Card, String> {
 
   Duration get nextReviewInterval;
 
-  double get maturity => Review.calculateMaturity(nextReviewInterval);
+  double get proficiency => Review.calculateProficiency(nextReviewInterval);
 
   bool get isScheduled => nextReviewScheduledAt.isBefore(DateTime.now());
 

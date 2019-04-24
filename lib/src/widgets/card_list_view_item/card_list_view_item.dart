@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import './maturity_description.dart';
-import './maturity_line_chart.dart';
+import './proficiency_description.dart';
+import './proficiency_line_chart.dart';
 import './menu_icon_button.dart';
 import './next_review_date_description.dart';
 import './synthesize_icon_button.dart';
@@ -45,7 +45,7 @@ class CardListViewItem extends StatelessWidget {
                     Positioned.fill(
                       child: Padding(
                         padding: EdgeInsets.only(right: 64, bottom: 24),
-                        child: MaturityLineChart(),
+                        child: ProficiencyLineChart(),
                       ),
                     ),
                     Column(
@@ -89,7 +89,6 @@ class CardListViewItem extends StatelessWidget {
                             ]..addAll(showDetail
                                 ? [
                                     Expanded(child: Container()),
-                                    SizedBox(width: 32),
                                     SizedBox(
                                       width: 96,
                                       child: Padding(
@@ -101,14 +100,14 @@ class CardListViewItem extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 32),
+                                    SizedBox(width: 16),
                                     SizedBox(
-                                      width: 64,
+                                      width: 80,
                                       child: Padding(
                                         padding:
                                             const EdgeInsets.only(bottom: 8),
-                                        child: MaturityDescription(
-                                            maturity: card.maturity),
+                                        child: ProficiencyDescription(
+                                            proficiency: card.proficiency),
                                       ),
                                     ),
                                   ]
