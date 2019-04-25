@@ -73,7 +73,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 height: MediaQuery.of(context).size.width * 0.75,
               ),
             ),
-            AddFirstCardPage(isActive: _activeIndex == 3),
+            AddFirstCardPage(isActive: _activeIndex == 5),
           ],
         ),
       );
