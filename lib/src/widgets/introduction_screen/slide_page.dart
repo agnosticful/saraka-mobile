@@ -31,21 +31,21 @@ class SlidePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          image,
+          SizedBox(height: 32),
           Text(
             headline,
             style: SarakaTextStyles.heading.copyWith(
               fontSize: 28,
               fontWeight: FontWeight.w300,
-              color: SarakaColors.white,
+              color: SarakaColors.lightBlack,
             ),
           ),
-          SizedBox(height: 48),
-          image,
-          SizedBox(height: 48),
+          SizedBox(height: 16),
           Text(
             description,
             style: SarakaTextStyles.multilineBody
-                .copyWith(color: SarakaColors.white),
+                .copyWith(color: SarakaColors.darkGray),
           ),
         ],
       ),

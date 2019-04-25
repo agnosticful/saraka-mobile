@@ -13,59 +13,69 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   int _activeIndex = 0;
 
   @override
-  Widget build(BuildContext context) => IntroductionSlider(
-        onActivePageChanged: _onActivePageChanged,
-        children: [
-          SlidePage(
-            color: SarakaColors.lightBlack,
-            headline: "Best Way to Be Fluent",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            image: Container(
-              width: MediaQuery.of(context).size.width * 0.75,
-              height: MediaQuery.of(context).size.width * 0.75,
-              decoration: BoxDecoration(
-                color: SarakaColors.white,
-                borderRadius: BorderRadius.circular(
-                  MediaQuery.of(context).size.width * 0.75 / 2,
-                ),
+  Widget build(BuildContext context) => Container(
+        color: SarakaColors.white,
+        child: IntroductionSlider(
+          onActivePageChanged: _onActivePageChanged,
+          children: [
+            SlidePage(
+              color: SarakaColors.white,
+              headline: "Add a phrase",
+              description:
+                  "Parrot accepts any phrase or word that you want to be able to speak fluently.",
+              image: Image.asset(
+                "assets/images/introduction1.png",
+                width: MediaQuery.of(context).size.width * 0.75,
+                height: MediaQuery.of(context).size.width * 0.75,
               ),
             ),
-          ),
-          SlidePage(
-            color: SarakaColors.darkRed,
-            headline: "Not Study, Just Get Used",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            image: Container(
-              width: MediaQuery.of(context).size.width * 0.75,
-              height: MediaQuery.of(context).size.width * 0.75,
-              decoration: BoxDecoration(
-                color: SarakaColors.white,
-                borderRadius: BorderRadius.circular(
-                  MediaQuery.of(context).size.width * 0.75 / 2,
-                ),
+            SlidePage(
+              color: SarakaColors.white,
+              headline: "Copy phrases",
+              description:
+                  "Parrot speaks those phrases fluently (backed on AI technology). Listen and copy aloud it.",
+              image: Image.asset(
+                "assets/images/introduction2.png",
+                width: MediaQuery.of(context).size.width * 0.75,
+                height: MediaQuery.of(context).size.width * 0.75,
               ),
             ),
-          ),
-          SlidePage(
-            color: SarakaColors.darkGreen,
-            headline: "Listen, Speak, Repeat!",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            image: Container(
-              width: MediaQuery.of(context).size.width * 0.75,
-              height: MediaQuery.of(context).size.width * 0.75,
-              decoration: BoxDecoration(
-                color: SarakaColors.white,
-                borderRadius: BorderRadius.circular(
-                  MediaQuery.of(context).size.width * 0.75 / 2,
-                ),
+            SlidePage(
+              color: SarakaColors.white,
+              headline: "Swipe to mark",
+              description:
+                  "If you confident to pronounce it correctly, swipe a card to right, otherwise to left.",
+              image: Image.asset(
+                "assets/images/introduction3.png",
+                width: MediaQuery.of(context).size.width * 0.75,
+                height: MediaQuery.of(context).size.width * 0.75,
               ),
             ),
-          ),
-          AddFirstCardPage(isActive: _activeIndex == 3),
-        ],
+            SlidePage(
+              color: SarakaColors.white,
+              headline: "Repeat as a review",
+              description:
+                  "Your most effective timing to review will be calculated by a psycological study. You will review your pronunciation repeatedly.",
+              image: Image.asset(
+                "assets/images/introduction4.png",
+                width: MediaQuery.of(context).size.width * 0.75,
+                height: MediaQuery.of(context).size.width * 0.75,
+              ),
+            ),
+            SlidePage(
+              color: SarakaColors.white,
+              headline: "Get fluent",
+              description:
+                  "You will repeatedly practice to pronounce phrases and will be getting used to speak it fluently.",
+              image: Image.asset(
+                "assets/images/introduction5.png",
+                width: MediaQuery.of(context).size.width * 0.75,
+                height: MediaQuery.of(context).size.width * 0.75,
+              ),
+            ),
+            AddFirstCardPage(isActive: _activeIndex == 3),
+          ],
+        ),
       );
 
   void _onActivePageChanged(int activePageIndex) {
