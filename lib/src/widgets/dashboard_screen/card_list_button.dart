@@ -13,6 +13,10 @@ class CardListButton extends StatelessWidget {
             initialData: cardListBloc.cards.value,
             builder: (context, snapshot) => FlatButton(
                   shape: SuperellipseShape(
+                    side: BorderSide(
+                      color: SarakaColors.lightGray,
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(24),
                   ),
                   padding: EdgeInsets.fromLTRB(24, 14, 16, 14),
