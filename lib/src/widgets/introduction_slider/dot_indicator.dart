@@ -83,8 +83,8 @@ class _DotIndicatorItemState extends State<_DotIndicatorItem>
                   borderRadius: BorderRadius.circular(6),
                 ),
                 color: ColorTween(
-                  begin: SarakaColors.white.withOpacity(0.25),
-                  end: SarakaColors.white,
+                  begin: SarakaColors.lightGray,
+                  end: SarakaColors.darkGray,
                 ).animate(_animation).value),
           ),
     );
