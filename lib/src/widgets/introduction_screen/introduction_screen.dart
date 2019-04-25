@@ -33,7 +33,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               color: SarakaColors.white,
               headline: "Copy phrases",
               description:
-                  "Parrot speaks those phrases fluently (backed on AI technology). Listen and copy aloud it.",
+                  "Parrot speaks those phrases using AI. Listen and repeat up aloud.",
               image: Image.asset(
                 "assets/images/introduction2.png",
                 width: MediaQuery.of(context).size.width * 0.75,
@@ -44,7 +44,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               color: SarakaColors.white,
               headline: "Swipe to mark",
               description:
-                  "If you confident to pronounce it correctly, swipe a card to right, otherwise to left.",
+                  "If you feel confident to pronounce it correctly, swipe a card to right, otherwise to left.",
               image: Image.asset(
                 "assets/images/introduction3.png",
                 width: MediaQuery.of(context).size.width * 0.75,
@@ -55,7 +55,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               color: SarakaColors.white,
               headline: "Repeat as a review",
               description:
-                  "Your most effective timing to review will be calculated by a psycological study. You will review your pronunciation repeatedly.",
+                  "The most effective timing to review will be calculated by the results of previous review.",
               image: Image.asset(
                 "assets/images/introduction4.png",
                 width: MediaQuery.of(context).size.width * 0.75,
@@ -64,9 +64,9 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             ),
             SlidePage(
               color: SarakaColors.white,
-              headline: "Get fluent",
+              headline: "Become fluent",
               description:
-                  "You will repeatedly practice to pronounce phrases and will be getting used to speak it fluently.",
+                  "You will repeatedly practice to pronounce phrases and will be getting used to speaking it fluently.",
               image: Image.asset(
                 "assets/images/introduction5.png",
                 width: MediaQuery.of(context).size.width * 0.75,
