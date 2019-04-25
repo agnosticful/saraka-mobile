@@ -1,5 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:saraka/widgets.dart';
 import './dot_indicator.dart';
 
 class IntroductionSlider extends StatefulWidget {
@@ -17,18 +17,37 @@ class IntroductionSlider extends StatefulWidget {
 }
 
 class _IntroductionSliderState extends State<IntroductionSlider> {
+  final controller = PageController();
+
+  int _previousIndex = 0;
   int _activeIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.addListener(() {
+      setState(() {
+        _activeIndex = controller.page.round();
+      });
+
+      if (_activeIndex != _previousIndex) {
+        if (widget.onActivePageChanged != null) {
+          widget.onActivePageChanged(_activeIndex);
+        }
+
+        _previousIndex = _activeIndex;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        CarouselSlider(
-          viewportFraction: 1.0,
-          aspectRatio: MediaQuery.of(context).size.aspectRatio,
-          enableInfiniteScroll: false,
-          onPageChanged: _onPageChanged,
-          items: widget.children,
+        PageView(
+          controller: controller,
+          children: widget.children,
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -44,17 +63,51 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
             ),
           ),
         ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: 32,
+              left: 16,
+              right: 16,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                DisappearableBuilder(
+                  isDisappeared: _activeIndex == 0,
+                  child: FlatButton(
+                    shape: SuperellipseShape(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    onPressed: () => controller.previousPage(
+                          curve: Curves.easeInOutCirc,
+                          duration: Duration(milliseconds: 300),
+                        ),
+                    child: Text("Previous"),
+                  ),
+                ),
+                DisappearableBuilder(
+                  isDisappeared: _activeIndex == widget.children.length - 1,
+                  child: FlatButton(
+                    shape: SuperellipseShape(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    onPressed: () => controller.nextPage(
+                          curve: Curves.easeInOutCirc,
+                          duration: Duration(milliseconds: 300),
+                        ),
+                    child: Text("Next"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
-  }
-
-  void _onPageChanged(int i) {
-    setState(() {
-      _activeIndex = i;
-    });
-
-    if (widget.onActivePageChanged != null) {
-      widget.onActivePageChanged(i);
-    }
   }
 }
