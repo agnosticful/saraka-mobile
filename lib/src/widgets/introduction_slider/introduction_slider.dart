@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
 import './dot_indicator.dart';
 
@@ -67,7 +68,7 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
           alignment: Alignment.bottomCenter,
           child: Padding(
             padding: EdgeInsets.only(
-              bottom: 32,
+              bottom: 48,
               left: 16,
               right: 16,
             ),
@@ -81,12 +82,15 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
                     shape: SuperellipseShape(
                       borderRadius: BorderRadius.circular(24),
                     ),
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                     onPressed: () => controller.previousPage(
                           curve: Curves.easeInOutCirc,
                           duration: Duration(milliseconds: 300),
                         ),
-                    child: Text("Previous"),
+                    child: Text(
+                      "Previous",
+                      style: SarakaTextStyles.buttonLabel,
+                    ),
                   ),
                 ),
                 DisappearableBuilder(
@@ -95,12 +99,15 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
                     shape: SuperellipseShape(
                       borderRadius: BorderRadius.circular(24),
                     ),
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                     onPressed: () => controller.nextPage(
                           curve: Curves.easeInOutCirc,
                           duration: Duration(milliseconds: 300),
                         ),
-                    child: Text("Next"),
+                    child: Text(
+                      "Next",
+                      style: SarakaTextStyles.buttonLabel,
+                    ),
                   ),
                 ),
               ],

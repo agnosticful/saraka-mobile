@@ -124,24 +124,27 @@ class _AddFirstCardPageState extends State<AddFirstCardPage> {
                           ),
                     ),
                     SizedBox(height: 16),
-                    StreamBuilder<bool>(
-                      stream: firstCardListBloc.isEnoughCardsAdded,
-                      initialData: firstCardListBloc.isEnoughCardsAdded.value,
-                      builder: (context, snapshot) => ProcessableFancyButton(
-                            color: SarakaColors.lightRed,
-                            isDisabled: !snapshot.requireData,
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                '/review',
-                                arguments: {"showTutorial": true},
-                              );
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: StreamBuilder<bool>(
+                        stream: firstCardListBloc.isEnoughCardsAdded,
+                        initialData: firstCardListBloc.isEnoughCardsAdded.value,
+                        builder: (context, snapshot) => ProcessableFancyButton(
+                              color: SarakaColors.lightRed,
+                              isDisabled: !snapshot.requireData,
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(
+                                  '/review',
+                                  arguments: {"showTutorial": true},
+                                );
 
-                              Future.delayed(Duration(milliseconds: 500), () {
-                                firstCardListBloc.finishIntroduction();
-                              });
-                            },
-                            child: Text("Start Study"),
-                          ),
+                                Future.delayed(Duration(milliseconds: 500), () {
+                                  firstCardListBloc.finishIntroduction();
+                                });
+                              },
+                              child: Text("Start Study"),
+                            ),
+                      ),
                     ),
                   ],
                 ),
