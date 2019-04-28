@@ -5,13 +5,19 @@ import './dot_indicator.dart';
 
 class IntroductionSlider extends StatefulWidget {
   IntroductionSlider(
-      {Key key, this.onActivePageChanged, @required this.children})
-      : assert(children != null),
+      {Key key,
+      this.onCurrentPageChanged,
+      @required this.pageBuilder,
+      @required this.pageNames})
+      : assert(pageBuilder != null),
+        assert(pageNames.length >= 1),
         super(key: key);
 
-  final void Function(int activePageIndex) onActivePageChanged;
+  final void Function(String pageName) onCurrentPageChanged;
 
-  final List<Widget> children;
+  final Widget Function(BuildContext, String pageName) pageBuilder;
+
+  final List<String> pageNames;
 
   @override
   _IntroductionSliderState createState() => _IntroductionSliderState();
@@ -20,101 +26,108 @@ class IntroductionSlider extends StatefulWidget {
 class _IntroductionSliderState extends State<IntroductionSlider> {
   final controller = PageController();
 
-  int _previousIndex = 0;
-  int _activeIndex = 0;
+  String _previousPageName;
+
+  String _currentPageName;
 
   @override
   void initState() {
     super.initState();
 
-    controller.addListener(() {
-      setState(() {
-        _activeIndex = controller.page.round();
-      });
+    _previousPageName = widget.pageNames.first;
+    _currentPageName = _previousPageName;
 
-      if (_activeIndex != _previousIndex) {
-        if (widget.onActivePageChanged != null) {
-          widget.onActivePageChanged(_activeIndex);
+    controller.addListener(() {
+      final currentPageName = widget.pageNames[controller.page.round()];
+
+      if (currentPageName != _previousPageName) {
+        setState(() {
+          _currentPageName = currentPageName;
+        });
+
+        if (widget.onCurrentPageChanged != null) {
+          widget.onCurrentPageChanged(currentPageName);
         }
 
-        _previousIndex = _activeIndex;
+        _previousPageName = currentPageName;
       }
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        PageView(
-          controller: controller,
-          children: widget.children,
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: 16,
-              left: 16,
-              right: 16,
-            ),
-            child: DotIndicator(
-              length: widget.children.length,
-              activeIndex: _activeIndex,
+  Widget build(BuildContext context) => Stack(
+        children: [
+          PageView.builder(
+            controller: controller,
+            itemBuilder: (context, index) =>
+                widget.pageBuilder(context, widget.pageNames[index]),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: 16,
+                left: 16,
+                right: 16,
+              ),
+              child: DotIndicator(
+                length: widget.pageNames.length,
+                activeIndex: widget.pageNames.indexOf(_currentPageName),
+              ),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: 48,
-              left: 16,
-              right: 16,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                DisappearableBuilder(
-                  isDisappeared: _activeIndex == 0,
-                  child: FlatButton(
-                    shape: SuperellipseShape(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                    onPressed: () => controller.previousPage(
-                          curve: Curves.easeInOutCirc,
-                          duration: Duration(milliseconds: 300),
-                        ),
-                    child: Text(
-                      "Previous",
-                      style: SarakaTextStyles.buttonLabel,
-                    ),
-                  ),
-                ),
-                DisappearableBuilder(
-                  isDisappeared: _activeIndex == widget.children.length - 1,
-                  child: FlatButton(
-                    shape: SuperellipseShape(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                    onPressed: () => controller.nextPage(
-                          curve: Curves.easeInOutCirc,
-                          duration: Duration(milliseconds: 300),
-                        ),
-                    child: Text(
-                      "Next",
-                      style: SarakaTextStyles.buttonLabel,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: 48,
+                left: 16,
+                right: 16,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  DisappearableBuilder(
+                    isDisappeared: _currentPageName == widget.pageNames.first,
+                    child: FlatButton(
+                      shape: SuperellipseShape(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                      onPressed: () => controller.previousPage(
+                            curve: Curves.easeInOutCirc,
+                            duration: Duration(milliseconds: 300),
+                          ),
+                      child: Text(
+                        "Previous",
+                        style: SarakaTextStyles.buttonLabel,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  DisappearableBuilder(
+                    isDisappeared: _currentPageName == widget.pageNames.last,
+                    child: FlatButton(
+                      shape: SuperellipseShape(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                      onPressed: () => controller.nextPage(
+                            curve: Curves.easeInOutCirc,
+                            duration: Duration(milliseconds: 300),
+                          ),
+                      child: Text(
+                        "Next",
+                        style: SarakaTextStyles.buttonLabel,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }
