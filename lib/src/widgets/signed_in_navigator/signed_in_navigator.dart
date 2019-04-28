@@ -9,6 +9,7 @@ import './review_route.dart';
 class SignedInNavigator extends StatefulWidget {
   SignedInNavigator({
     Key key,
+    this.observers = const [],
     @required this.cardListBuilder,
     @required this.dashboardBuilder,
     @required this.introductionBuilder,
@@ -18,6 +19,8 @@ class SignedInNavigator extends StatefulWidget {
         assert(introductionBuilder != null),
         assert(reviewBuilder != null),
         super(key: key);
+
+  final List<NavigatorObserver> observers;
 
   final WidgetBuilder cardListBuilder;
 
@@ -29,6 +32,12 @@ class SignedInNavigator extends StatefulWidget {
 
   @override
   State<SignedInNavigator> createState() => _SignedInNavigatorState();
+
+  static String extractRouteName(RouteSettings routeSettings) => const {
+        "/": "Dashboard",
+        "/review": "Review",
+        "/cards": "Card List",
+      }[routeSettings.name];
 }
 
 class _SignedInNavigatorState extends State<SignedInNavigator>
@@ -105,6 +114,7 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
               initialData: authenticationBloc.user.value,
               builder: (context, snapshot) => Navigator(
                     key: _navigatorKey,
+                    observers: widget.observers,
                     onGenerateRoute: (settings) {
                       switch (settings.name) {
                         case "/":
