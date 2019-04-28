@@ -6,6 +6,7 @@ class FirebaseAnalyticsLogger
     implements
         CardCreateLoggable,
         CardReviewLoggable,
+        IntroductionFinishLoggable,
         SignInOutLoggable,
         SynthesizeLoggable {
   FirebaseAnalyticsLogger({@required FirebaseAnalytics firebaseAnalytics})
@@ -34,6 +35,10 @@ class FirebaseAnalyticsLogger
   @override
   Future<void> logCardReviewUndo() =>
       _firebaseAnalytics.logEvent(name: 'card_review_undo');
+
+  @override
+  Future<void> logIntroductionFinish() =>
+      _firebaseAnalytics.logEvent(name: 'introduction_finish');
 
   @override
   Future<void> logSignIn() => _firebaseAnalytics.logLogin();

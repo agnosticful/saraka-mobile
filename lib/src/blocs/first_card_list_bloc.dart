@@ -13,12 +13,15 @@ class FirstCardListBlocFactory {
     @required Authenticatable authenticatable,
     @required CardSubscribable cardSubscribable,
     @required IntroductionFinishable introductionFinishable,
+    @required IntroductionFinishLoggable introductionFinishLoggable,
   })  : assert(authenticatable != null),
         assert(cardSubscribable != null),
         assert(introductionFinishable != null),
+        assert(introductionFinishLoggable != null),
         _authenticatable = authenticatable,
         _cardSubscribable = cardSubscribable,
-        _introductionFinishable = introductionFinishable;
+        _introductionFinishable = introductionFinishable,
+        _introductionFinishLoggable = introductionFinishLoggable;
 
   final Authenticatable _authenticatable;
 
@@ -26,10 +29,13 @@ class FirstCardListBlocFactory {
 
   final IntroductionFinishable _introductionFinishable;
 
+  final IntroductionFinishLoggable _introductionFinishLoggable;
+
   FirstCardListBloc create() => _FirstCardListBloc(
         authenticatable: _authenticatable,
         cardSubscribable: _cardSubscribable,
         introductionFinishable: _introductionFinishable,
+        introductionFinishLoggable: _introductionFinishLoggable,
       );
 }
 
@@ -48,12 +54,15 @@ class _FirstCardListBloc implements FirstCardListBloc {
     @required Authenticatable authenticatable,
     @required CardSubscribable cardSubscribable,
     @required IntroductionFinishable introductionFinishable,
+    @required IntroductionFinishLoggable introductionFinishLoggable,
   })  : assert(authenticatable != null),
         assert(cardSubscribable != null),
         assert(introductionFinishable != null),
+        assert(introductionFinishLoggable != null),
         _authenticatable = authenticatable,
         _cardSubscribable = cardSubscribable,
-        _introductionFinishable = introductionFinishable {
+        _introductionFinishable = introductionFinishable,
+        _introductionFinishLoggable = introductionFinishLoggable {
     final subscription = _cardSubscribable
         .subscribeCards(user: _authenticatable.user.value)
         .listen((cards) {
@@ -74,6 +83,8 @@ class _FirstCardListBloc implements FirstCardListBloc {
 
   final IntroductionFinishable _introductionFinishable;
 
+  final IntroductionFinishLoggable _introductionFinishLoggable;
+
   @override
   final BehaviorSubject<List<Card>> firstCards = BehaviorSubject();
 
@@ -85,10 +96,17 @@ class _FirstCardListBloc implements FirstCardListBloc {
       BehaviorSubject.seeded(false);
 
   @override
-  Future<void> finishIntroduction() => _introductionFinishable
-      .finishIntroduction(user: _authenticatable.user.value);
+  Future<void> finishIntroduction() => Future.wait([
+        _introductionFinishable.finishIntroduction(
+            user: _authenticatable.user.value),
+        _introductionFinishLoggable.logIntroductionFinish(),
+      ]);
 }
 
 mixin IntroductionFinishable {
   Future<void> finishIntroduction({@required User user});
+}
+
+mixin IntroductionFinishLoggable {
+  Future<void> logIntroductionFinish();
 }

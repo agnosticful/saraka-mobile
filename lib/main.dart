@@ -76,6 +76,7 @@ void main() async {
     authenticatable: authentication,
     cardSubscribable: cardRepository,
     introductionFinishable: userRepository,
+    introductionFinishLoggable: logger,
   );
 
   final maintenanceCheckBlocFactory = MaintenanceCheckBlocFactory(
