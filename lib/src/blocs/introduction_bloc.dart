@@ -8,20 +8,23 @@ import './commons/card_subscribable.dart';
 export './commons/authenticatable.dart';
 export './commons/card_subscribable.dart';
 
-class FirstCardListBlocFactory {
-  FirstCardListBlocFactory({
+class IntroductionBlocFactory {
+  IntroductionBlocFactory({
     @required Authenticatable authenticatable,
     @required CardSubscribable cardSubscribable,
     @required IntroductionFinishable introductionFinishable,
     @required IntroductionFinishLoggable introductionFinishLoggable,
+    @required IntroductionPageChangeLoggable introductionPageChangeLoggable,
   })  : assert(authenticatable != null),
         assert(cardSubscribable != null),
         assert(introductionFinishable != null),
         assert(introductionFinishLoggable != null),
+        assert(introductionPageChangeLoggable != null),
         _authenticatable = authenticatable,
         _cardSubscribable = cardSubscribable,
         _introductionFinishable = introductionFinishable,
-        _introductionFinishLoggable = introductionFinishLoggable;
+        _introductionFinishLoggable = introductionFinishLoggable,
+        _introductionPageChangeLoggable = introductionPageChangeLoggable;
 
   final Authenticatable _authenticatable;
 
@@ -31,38 +34,46 @@ class FirstCardListBlocFactory {
 
   final IntroductionFinishLoggable _introductionFinishLoggable;
 
-  FirstCardListBloc create() => _FirstCardListBloc(
+  final IntroductionPageChangeLoggable _introductionPageChangeLoggable;
+
+  IntroductionBloc create() => _IntroductionBloc(
         authenticatable: _authenticatable,
         cardSubscribable: _cardSubscribable,
         introductionFinishable: _introductionFinishable,
         introductionFinishLoggable: _introductionFinishLoggable,
+        introductionPageChangeLoggable: _introductionPageChangeLoggable,
       );
 }
 
-abstract class FirstCardListBloc {
+abstract class IntroductionBloc {
   ValueObservable<List<Card>> get firstCards;
 
   ValueObservable<bool> get isEnoughCardsAdded;
 
   BehaviorSubject<bool> get hasAlreadyOpenedNewCardDialogAutomatically;
 
+  Future<void> logPageChange({@required String pageName});
+
   Future<void> finishIntroduction();
 }
 
-class _FirstCardListBloc implements FirstCardListBloc {
-  _FirstCardListBloc({
+class _IntroductionBloc implements IntroductionBloc {
+  _IntroductionBloc({
     @required Authenticatable authenticatable,
     @required CardSubscribable cardSubscribable,
     @required IntroductionFinishable introductionFinishable,
     @required IntroductionFinishLoggable introductionFinishLoggable,
+    @required IntroductionPageChangeLoggable introductionPageChangeLoggable,
   })  : assert(authenticatable != null),
         assert(cardSubscribable != null),
         assert(introductionFinishable != null),
         assert(introductionFinishLoggable != null),
+        assert(introductionPageChangeLoggable != null),
         _authenticatable = authenticatable,
         _cardSubscribable = cardSubscribable,
         _introductionFinishable = introductionFinishable,
-        _introductionFinishLoggable = introductionFinishLoggable {
+        _introductionFinishLoggable = introductionFinishLoggable,
+        _introductionPageChangeLoggable = introductionPageChangeLoggable {
     final subscription = _cardSubscribable
         .subscribeCards(user: _authenticatable.user.value)
         .listen((cards) {
@@ -85,6 +96,8 @@ class _FirstCardListBloc implements FirstCardListBloc {
 
   final IntroductionFinishLoggable _introductionFinishLoggable;
 
+  final IntroductionPageChangeLoggable _introductionPageChangeLoggable;
+
   @override
   final BehaviorSubject<List<Card>> firstCards = BehaviorSubject();
 
@@ -94,6 +107,13 @@ class _FirstCardListBloc implements FirstCardListBloc {
   @override
   final hasAlreadyOpenedNewCardDialogAutomatically =
       BehaviorSubject.seeded(false);
+
+  @override
+  Future<void> logPageChange({
+    @required String pageName,
+  }) =>
+      _introductionPageChangeLoggable.logIntroductionPageChange(
+          pageName: pageName);
 
   @override
   Future<void> finishIntroduction() => Future.wait([
@@ -109,4 +129,8 @@ mixin IntroductionFinishable {
 
 mixin IntroductionFinishLoggable {
   Future<void> logIntroductionFinish();
+}
+
+mixin IntroductionPageChangeLoggable {
+  Future<void> logIntroductionPageChange({@required String pageName});
 }

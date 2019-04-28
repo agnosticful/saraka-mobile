@@ -7,6 +7,7 @@ class FirebaseAnalyticsLogger
         CardCreateLoggable,
         CardReviewLoggable,
         IntroductionFinishLoggable,
+        IntroductionPageChangeLoggable,
         SignInOutLoggable,
         SynthesizeLoggable {
   FirebaseAnalyticsLogger({@required FirebaseAnalytics firebaseAnalytics})
@@ -39,6 +40,13 @@ class FirebaseAnalyticsLogger
   @override
   Future<void> logIntroductionFinish() =>
       _firebaseAnalytics.logEvent(name: 'introduction_finish');
+
+  @override
+  Future<void> logIntroductionPageChange({@required String pageName}) =>
+      _firebaseAnalytics.logEvent(
+        name: "introduction_page_change",
+        parameters: {"page": pageName},
+      );
 
   @override
   Future<void> logSignIn() => _firebaseAnalytics.logLogin();

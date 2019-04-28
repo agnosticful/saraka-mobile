@@ -72,11 +72,12 @@ void main() async {
     backendVersionGetable: backendVersionRepository,
   );
 
-  final firstCardListBlocFactory = FirstCardListBlocFactory(
+  final firstCardListBlocFactory = IntroductionBlocFactory(
     authenticatable: authentication,
     cardSubscribable: cardRepository,
     introductionFinishable: userRepository,
     introductionFinishLoggable: logger,
+    introductionPageChangeLoggable: logger,
   );
 
   final maintenanceCheckBlocFactory = MaintenanceCheckBlocFactory(
@@ -135,7 +136,7 @@ void main() async {
             Provider<CardDetailBlocFactory>(value: cardDetailBlocFactory),
             Provider<CardReviewBlocFactory>(value: cardReviewBlocFactory),
             Provider<CardListBlocFactory>(value: cardListBlocFactory),
-            Provider<FirstCardListBlocFactory>(value: firstCardListBlocFactory),
+            Provider<IntroductionBlocFactory>(value: firstCardListBlocFactory),
             Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
             Provider<AuthenticationBloc>(value: authenticationBloc),
             Provider<BackendVersionCompatibilityCheckBloc>(

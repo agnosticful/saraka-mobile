@@ -14,7 +14,7 @@ class AddCardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FirstCardListBloc>(
+    return Consumer<IntroductionBloc>(
       builder: (context, firstCardListBloc) => StreamBuilder<List<Card>>(
             stream: firstCardListBloc.firstCards,
             initialData: firstCardListBloc.firstCards.value,

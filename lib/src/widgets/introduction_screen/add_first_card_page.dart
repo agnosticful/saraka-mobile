@@ -26,7 +26,7 @@ class _AddFirstCardPageState extends State<AddFirstCardPage> {
     if (widget.isActive != oldWidget.isActive) {
       if (widget.isActive) {
         Future.delayed(Duration.zero, () async {
-          final firstCardListBloc = Provider.of<FirstCardListBloc>(context);
+          final firstCardListBloc = Provider.of<IntroductionBloc>(context);
 
           if (!firstCardListBloc
               .hasAlreadyOpenedNewCardDialogAutomatically.value) {
@@ -52,7 +52,7 @@ class _AddFirstCardPageState extends State<AddFirstCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FirstCardListBloc>(
+    return Consumer<IntroductionBloc>(
       builder: (context, firstCardListBloc) => Container(
             padding: EdgeInsets.fromLTRB(16, 64, 16, 48),
             decoration: BoxDecoration(
