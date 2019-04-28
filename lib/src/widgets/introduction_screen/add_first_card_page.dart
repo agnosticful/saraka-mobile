@@ -133,6 +133,8 @@ class _AddFirstCardPageState extends State<AddFirstCardPage> {
                               color: SarakaColors.lightRed,
                               isDisabled: !snapshot.requireData,
                               onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamedAndRemoveUntil("/", (_) => false);
                                 Navigator.of(context).pushNamed(
                                   '/review',
                                   arguments: {"showTutorial": true},

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import './card_list_route.dart';
 import './dashboard_route.dart';
+import './introduction_route.dart';
 import './review_route.dart';
 
 class SignedInNavigator extends StatefulWidget {
@@ -35,6 +36,7 @@ class SignedInNavigator extends StatefulWidget {
 
   static String extractRouteName(RouteSettings routeSettings) => const {
         "/": "Dashboard",
+        "/introduction": "Introduction",
         "/review": "Review",
         "/cards": "Card List",
       }[routeSettings.name];
@@ -120,8 +122,12 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                         case "/":
                           return DashboardRoute(
                             settings: settings,
-                            normal: widget.dashboardBuilder(context),
-                            introduction: widget.introductionBuilder(context),
+                            child: widget.dashboardBuilder(context),
+                          );
+                        case "/introduction":
+                          return IntroductionRoute(
+                            settings: settings,
+                            child: widget.introductionBuilder(context),
                           );
                         case "/review":
                           bool showTutorial = false;
@@ -144,7 +150,11 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                           );
                       }
                     },
-                    initialRoute: "/",
+                    initialRoute: snapshot.hasData
+                        ? snapshot.requireData.isIntroductionFinished
+                            ? "/"
+                            : "/introduction"
+                        : "/",
                   ),
             ),
       );
