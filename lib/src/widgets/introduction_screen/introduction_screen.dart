@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
 import './add_first_card_page.dart';
@@ -93,6 +95,8 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     setState(() {
       _currentPage = pageName;
     });
+
+    Provider.of<IntroductionBloc>(context).logPageChange(pageName: pageName);
   }
 
   static const List<String> _pageNames = [

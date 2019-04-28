@@ -22,7 +22,7 @@ class DashboardRoute extends CupertinoPageRoute {
                                 )
                               : StatefulProvider(
                                   valueBuilder: (_) =>
-                                      Provider.of<FirstCardListBlocFactory>(
+                                      Provider.of<IntroductionBlocFactory>(
                                               context)
                                           .create(),
                                   child: introduction,
