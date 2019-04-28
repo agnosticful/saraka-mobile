@@ -7,7 +7,7 @@ class IntroductionRoute extends CupertinoPageRoute {
       : super(
           builder: (BuildContext context) => StatefulProvider(
                 valueBuilder: (_) =>
-                    Provider.of<FirstCardListBlocFactory>(context).create(),
+                    Provider.of<IntroductionBlocFactory>(context).create(),
                 child: child,
               ),
           settings: settings,
