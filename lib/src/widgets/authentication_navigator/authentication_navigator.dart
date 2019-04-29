@@ -9,6 +9,7 @@ import './undecided_route.dart';
 class AuthenticationNavigator extends StatefulWidget {
   AuthenticationNavigator({
     Key key,
+    this.observers = const [],
     @required this.signedInBuilder,
     @required this.signedOutBuilder,
     @required this.undecidedBuilder,
@@ -16,6 +17,8 @@ class AuthenticationNavigator extends StatefulWidget {
         assert(signedOutBuilder != null),
         assert(undecidedBuilder != null),
         super(key: key);
+
+  final List<NavigatorObserver> observers;
 
   final WidgetBuilder signedInBuilder;
 
@@ -25,6 +28,11 @@ class AuthenticationNavigator extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _AuthenticationNavigatorState();
+
+  static String extractRouteName(RouteSettings routeSettings) => const {
+        "/": "Landing",
+        "/signed_out": "Sign Out",
+      }[routeSettings.name];
 }
 
 class _AuthenticationNavigatorState extends State<AuthenticationNavigator> {
@@ -77,6 +85,7 @@ class _AuthenticationNavigatorState extends State<AuthenticationNavigator> {
   @override
   Widget build(BuildContext context) => Navigator(
         key: _navigatorKey,
+        observers: widget.observers,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case "/":

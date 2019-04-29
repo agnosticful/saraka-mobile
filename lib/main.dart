@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -148,9 +149,45 @@ void main() async {
             title: "Parrot",
             color: SarakaColors.lightRed,
             child: BackendVersionCheckNavigator(
+              observers: [
+                FirebaseAnalyticsObserver(
+                  analytics: firebaseAnalytics,
+                  nameExtractor: (routeSettings) =>
+                      BackendVersionCheckNavigator.extractRouteName(
+                        routeSettings,
+                      ),
+                ),
+              ],
               builder: (context) => MaintenanceCheckNavigator(
+                    observers: [
+                      FirebaseAnalyticsObserver(
+                        analytics: firebaseAnalytics,
+                        nameExtractor: (routeSettings) =>
+                            MaintenanceCheckNavigator.extractRouteName(
+                              routeSettings,
+                            ),
+                      ),
+                    ],
                     builder: (context) => AuthenticationNavigator(
+                          observers: [
+                            FirebaseAnalyticsObserver(
+                              analytics: firebaseAnalytics,
+                              nameExtractor: (routeSettings) =>
+                                  AuthenticationNavigator.extractRouteName(
+                                    routeSettings,
+                                  ),
+                            ),
+                          ],
                           signedInBuilder: (context) => SignedInNavigator(
+                                observers: [
+                                  FirebaseAnalyticsObserver(
+                                    analytics: firebaseAnalytics,
+                                    nameExtractor: (routeSettings) =>
+                                        SignedInNavigator.extractRouteName(
+                                          routeSettings,
+                                        ),
+                                  ),
+                                ],
                                 cardListBuilder: (context) => CardListScreen(),
                                 introductionBuilder: (context) =>
                                     IntroductionScreen(),
