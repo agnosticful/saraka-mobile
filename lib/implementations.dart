@@ -8,3 +8,4 @@ export './src/implementations/firestore_card_repository.dart';
 export './src/implementations/firestore_maintenance_repository.dart';
 export './src/implementations/firestore_user_repository.dart';
 export './src/implementations/sound_player.dart';
+export './src/implementations/url_launcher.dart';

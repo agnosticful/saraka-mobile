@@ -61,6 +61,8 @@ void main() async {
 
   final soundPlayer = SoundPlayer();
 
+  final urlLauncher = UrlLauncher();
+
   final authenticationBlocFactory = AuthenticationBlocFactory(
     authenticatable: authentication,
     signable: authentication,
@@ -70,6 +72,11 @@ void main() async {
   final backendVersionCompatibilityCheckBlocFactory =
       BackendVersionCompatibilityCheckBlocFactory(
     backendVersionGetable: backendVersionRepository,
+  );
+
+  final commonLinkBloc = CommonLinkBloc(
+    urlLaunchable: urlLauncher,
+    privacyPolicyUrl: privacyPolicyUrl,
   );
 
   final firstCardListBlocFactory = IntroductionBlocFactory(
@@ -142,6 +149,7 @@ void main() async {
             Provider<BackendVersionCompatibilityCheckBloc>(
               value: backendVersionCompatibilityCheckBloc,
             ),
+            Provider<CommonLinkBloc>(value: commonLinkBloc),
             Provider<MaintenanceCheckBloc>(value: maintenanceCheckBloc),
           ],
           child: Application(
