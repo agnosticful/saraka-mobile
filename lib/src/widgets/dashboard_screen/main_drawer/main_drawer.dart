@@ -63,6 +63,20 @@ class MainDrawer extends StatelessWidget {
                   ),
                   onTap: () => authenticationBloc.signOut(),
                 ),
+                ListTile(
+                  leading: Icon(
+                    Icons.art_track,
+                    color: SarakaColors.lightBlack,
+                  ),
+                  title: Text(
+                    'Articles',
+                    style: TextStyle(
+                      color: SarakaColors.lightBlack,
+                      fontFamily: SarakaFonts.rubik,
+                    ),
+                  ),
+                  // onTap: () => authenticationBloc.signOut(),
+                ),
               ],
             ),
           ),
