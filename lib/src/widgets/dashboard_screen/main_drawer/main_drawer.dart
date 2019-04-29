@@ -75,7 +75,7 @@ class MainDrawer extends StatelessWidget {
                       fontFamily: SarakaFonts.rubik,
                     ),
                   ),
-                  // onTap: () => authenticationBloc.signOut(),
+                  onTap: () => Navigator.of(context).pushNamed('/article'),
                 ),
               ],
             ),

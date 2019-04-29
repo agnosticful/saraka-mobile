@@ -224,6 +224,8 @@ void main() async {
                                     IntroductionScreen(),
                                 dashboardBuilder: (context) =>
                                     DashboardScreen(),
+                                articleBuilder: (context) =>
+                                    ArticleListScreen(),
                                 reviewBuilder: (context, showTutorial) =>
                                     ReviewScreen(
                                       showTutorial: showTutorial,
