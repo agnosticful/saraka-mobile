@@ -8,6 +8,7 @@ class FirebaseAnalyticsLogger
         CardReviewLoggable,
         IntroductionFinishLoggable,
         IntroductionPageChangeLoggable,
+        LoggerUserStateSettable,
         SignInOutLoggable,
         SynthesizeLoggable {
   FirebaseAnalyticsLogger({@required FirebaseAnalytics firebaseAnalytics})
@@ -83,4 +84,8 @@ class FirebaseAnalyticsLogger
           "text": text,
         },
       );
+
+  @override
+  Future<void> setUserState({User user}) =>
+      _firebaseAnalytics.setUserId(user.id);
 }

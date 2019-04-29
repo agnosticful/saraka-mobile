@@ -63,6 +63,7 @@ void main() async {
 
   final authenticationBlocFactory = AuthenticationBlocFactory(
     authenticatable: authentication,
+    loggerUserStateSettable: logger,
     signable: authentication,
     signInOutLoggable: logger,
   );
