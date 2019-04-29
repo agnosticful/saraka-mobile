@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
@@ -47,6 +48,23 @@ class MainDrawer extends StatelessWidget {
                               ),
                             ),
                       ),
+                ListTile(
+                  leading: SizedBox.shrink(),
+                  title: Text(
+                    'Privacy Policy',
+                    style: TextStyle(
+                      color: SarakaColors.lightBlack,
+                      fontFamily: SarakaFonts.rubik,
+                    ),
+                  ),
+                  onTap: () async {
+                    if (await canLaunch(privacyPolicyUrl.toString())) {
+                      await launch(privacyPolicyUrl.toString());
+                    } else {
+                      throw 'Cannot open $privacyPolicyUrl';
+                    }
+                  },
+                ),
                 ListTile(
                   leading: Icon(
                     Feather.getIconData('log-out'),
