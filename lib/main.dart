@@ -10,7 +10,15 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/implementations.dart';
+import './src/implementations/cache_storage.dart';
+import './src/implementations/firebase_analytics_logger.dart';
+import './src/implementations/firebase_authentication.dart';
+import './src/implementations/firebase_external_functions.dart';
+import './src/implementations/firestore_backend_version_repository.dart';
+import './src/implementations/firestore_card_repository.dart';
+import './src/implementations/firestore_maintenance_repository.dart';
+import './src/implementations/firestore_user_repository.dart';
+import './src/implementations/sound_player.dart';
 import 'package:saraka/widgets.dart';
 
 void main() async {
