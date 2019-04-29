@@ -5,16 +5,21 @@ import './commons/authenticatable.dart';
 class AuthenticationBlocFactory {
   AuthenticationBlocFactory({
     @required Authenticatable authenticatable,
+    @required LoggerUserStateSettable loggerUserStateSettable,
     @required Signable signable,
     @required SignInOutLoggable signInOutLoggable,
   })  : assert(authenticatable != null),
+        assert(loggerUserStateSettable != null),
         assert(signable != null),
         assert(signInOutLoggable != null),
         _authenticatable = authenticatable,
+        _loggerUserStateSettable = loggerUserStateSettable,
         _signable = signable,
         _signInOutLoggable = signInOutLoggable;
 
   final Authenticatable _authenticatable;
+
+  final LoggerUserStateSettable _loggerUserStateSettable;
 
   final Signable _signable;
 
@@ -22,6 +27,7 @@ class AuthenticationBlocFactory {
 
   AuthenticationBloc create() => _AuthenticationBloc(
         authenticatable: _authenticatable,
+        loggerUserStateSettable: _loggerUserStateSettable,
         signable: _signable,
         signInOutLoggable: _signInOutLoggable,
       );
@@ -40,14 +46,20 @@ abstract class AuthenticationBloc {
 class _AuthenticationBloc implements AuthenticationBloc {
   _AuthenticationBloc({
     @required Authenticatable authenticatable,
+    @required LoggerUserStateSettable loggerUserStateSettable,
     @required Signable signable,
     @required SignInOutLoggable signInOutLoggable,
   })  : assert(authenticatable != null),
+        assert(loggerUserStateSettable != null),
         assert(signable != null),
         assert(signInOutLoggable != null),
         _authenticatable = authenticatable,
         _signable = signable,
-        _signInOutLoggable = signInOutLoggable;
+        _signInOutLoggable = signInOutLoggable {
+    _authenticatable.user.listen((user) {
+      loggerUserStateSettable.setUserState(user: user);
+    });
+  }
 
   final Authenticatable _authenticatable;
 
@@ -92,4 +104,8 @@ mixin SignInOutLoggable {
   Future<void> logSignIn();
 
   Future<void> logSignOut();
+}
+
+mixin LoggerUserStateSettable {
+  Future<void> setUserState({@required User user});
 }
