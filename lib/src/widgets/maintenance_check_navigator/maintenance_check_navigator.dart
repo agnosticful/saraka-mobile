@@ -6,12 +6,22 @@ import './maintenance_route.dart';
 import './normal_route.dart';
 
 class MaintenanceCheckNavigator extends StatefulWidget {
-  MaintenanceCheckNavigator({Key key, @required this.builder});
+  MaintenanceCheckNavigator({
+    Key key,
+    this.observers = const [],
+    @required this.builder,
+  });
+
+  final List<NavigatorObserver> observers;
 
   final WidgetBuilder builder;
 
   @override
   State<StatefulWidget> createState() => _MaintenanceCheckNavigatorState();
+
+  static String extractRouteName(RouteSettings routeSettings) => const {
+        "/maintenance": "Under Maintenance",
+      }[routeSettings.name];
 }
 
 class _MaintenanceCheckNavigatorState extends State<MaintenanceCheckNavigator> {
@@ -58,6 +68,7 @@ class _MaintenanceCheckNavigatorState extends State<MaintenanceCheckNavigator> {
   @override
   Widget build(BuildContext context) => Navigator(
         key: _navigatorKey,
+        observers: widget.observers,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case "/":
