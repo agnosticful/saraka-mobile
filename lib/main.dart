@@ -32,54 +32,53 @@ void main() async {
 
   await FlutterCrashlytics().initialize();
 
-  Firestore.instance.settings(
-    timestampsInSnapshotsEnabled: true,
-    persistenceEnabled: false,
-  );
-
+  /**
+   * External APIs
+   */
   final firebaseAnalytics = FirebaseAnalytics();
+  final firebaseAuth = FirebaseAuth.instance;
+  final firestore = Firestore.instance
+    ..settings(
+      timestampsInSnapshotsEnabled: true,
+      persistenceEnabled: false,
+    );
+  final googleSignIn = GoogleSignIn();
 
+  /**
+   * Implementations
+   */
   final authentication = FirebaseAuthentication(
-    firebaseAuth: FirebaseAuth.instance,
-    firestore: Firestore.instance,
-    googleSignIn: GoogleSignIn(),
+    firebaseAuth: firebaseAuth,
+    firestore: firestore,
+    googleSignIn: googleSignIn,
   );
-
   final backendVersionRepository = FirestoreBackendVersionRepository(
-    firestore: Firestore.instance,
+    firestore: firestore,
   );
-
   final cacheStorage = CacheStorage();
-
-  final logger = FirebaseAnalyticsLogger(firebaseAnalytics: firebaseAnalytics);
-
-  final cardRepository = FirestoreCardRepository(
-    firestore: Firestore.instance,
-  );
-
-  final maintenanceRepository = FirestoreMaintenanceRepository(
-    firestore: Firestore.instance,
-  );
-
+  final cardRepository = FirestoreCardRepository(firestore: firestore);
   final firebaseExternalFunctions = FirebaseExternalFunctions(
     cloudFunctions: CloudFunctions.instance,
   );
-
+  final logger = FirebaseAnalyticsLogger(firebaseAnalytics: firebaseAnalytics);
+  final maintenanceRepository = FirestoreMaintenanceRepository(
+    firestore: firestore,
+  );
   final userRepository = FirestoreUserRepository(firestore: Firestore.instance);
-
   final soundPlayer = SoundPlayer();
 
+  /**
+   * BLoCs
+   */
   final authenticationBlocFactory = AuthenticationBlocFactory(
     authenticatable: authentication,
     signable: authentication,
     signInOutLoggable: logger,
   );
-
   final backendVersionCompatibilityCheckBlocFactory =
       BackendVersionCompatibilityCheckBlocFactory(
     backendVersionGetable: backendVersionRepository,
   );
-
   final firstCardListBlocFactory = IntroductionBlocFactory(
     authenticatable: authentication,
     cardSubscribable: cardRepository,
@@ -87,51 +86,41 @@ void main() async {
     introductionFinishLoggable: logger,
     introductionPageChangeLoggable: logger,
   );
-
   final maintenanceCheckBlocFactory = MaintenanceCheckBlocFactory(
     maintenanceSubscribable: maintenanceRepository,
   );
-
   final cardAdderBlocFactory = CardAdderBlocFactory(
     authenticatable: authentication,
     cardAddable: firebaseExternalFunctions,
     cardCreateLoggable: logger,
   );
-
   final cardDeleteBlocFactory = CardDeleteBlocFactory(
     authenticatable: authentication,
     cardDeletable: cardRepository,
   );
-
   final cardDetailBlocFactory = CardDetailBlocFactory(
     authenticatable: authentication,
     reviewSubscribable: cardRepository,
   );
-
   final cardReviewBlocFactory = CardReviewBlocFactory(
     authenticatable: authentication,
     cardReviewable: firebaseExternalFunctions,
     cardReviewLoggable: logger,
     inQueueCardSubscribable: cardRepository,
   );
-
   final cardListBlocFactory = CardListBlocFactory(
     authenticatable: authentication,
     cardSubscribable: cardRepository,
   );
-
   final synthesizerBlocFactory = SynthesizerBlocFactory(
     soundFilePlayable: soundPlayer,
     synthesizable: firebaseExternalFunctions,
     synthesizedSoundFileReferable: cacheStorage,
     synthesizeLoggable: logger,
   );
-
   final authenticationBloc = authenticationBlocFactory.create();
-
   final backendVersionCompatibilityCheckBloc =
       backendVersionCompatibilityCheckBlocFactory.create();
-
   final maintenanceCheckBloc = maintenanceCheckBlocFactory.create();
 
   runZoned<Future<Null>>(
