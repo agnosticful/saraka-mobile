@@ -1,7 +1,9 @@
 import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/card_detail_bloc.dart';
+import '../../blocs/card_list_bloc.dart';
+import '../../blocs/synthesizer_bloc.dart';
 import 'package:saraka/widgets.dart';
 
 class CardSliverList extends StatefulWidget {

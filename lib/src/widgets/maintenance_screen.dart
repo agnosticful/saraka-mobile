@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../blocs/maintenance_check_bloc.dart';
 
 class MaintenanceScreen extends StatelessWidget {
   @override

@@ -1,8 +1,8 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/card_detail_bloc.dart';
 
 class ProficiencyLineChart extends StatelessWidget {
   @override

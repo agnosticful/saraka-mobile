@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
+import '../../blocs/card_list_bloc.dart';
+import '../../blocs/card_adder_bloc.dart';
+import '../../blocs/synthesizer_bloc.dart';
 import './add_button.dart';
 import './synthesize_button.dart';
 import './word_input.dart';

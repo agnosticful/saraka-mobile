@@ -3,8 +3,9 @@ import 'package:flutter/material.dart' show InkWell, Material;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/card_review_bloc.dart';
+import '../../blocs/synthesizer_bloc.dart';
 
 const _VERTICAL_PADDING = 16.0;
 const _HORIZONTAL_PADDING = 16.0;

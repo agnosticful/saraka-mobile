@@ -1,37 +1,10 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import './commons/authenticatable.dart';
-
-class AuthenticationBlocFactory {
-  AuthenticationBlocFactory({
-    @required Authenticatable authenticatable,
-    @required LoggerUserStateSettable loggerUserStateSettable,
-    @required Signable signable,
-    @required SignInOutLoggable signInOutLoggable,
-  })  : assert(authenticatable != null),
-        assert(loggerUserStateSettable != null),
-        assert(signable != null),
-        assert(signInOutLoggable != null),
-        _authenticatable = authenticatable,
-        _loggerUserStateSettable = loggerUserStateSettable,
-        _signable = signable,
-        _signInOutLoggable = signInOutLoggable;
-
-  final Authenticatable _authenticatable;
-
-  final LoggerUserStateSettable _loggerUserStateSettable;
-
-  final Signable _signable;
-
-  final SignInOutLoggable _signInOutLoggable;
-
-  AuthenticationBloc create() => _AuthenticationBloc(
-        authenticatable: _authenticatable,
-        loggerUserStateSettable: _loggerUserStateSettable,
-        signable: _signable,
-        signInOutLoggable: _signInOutLoggable,
-      );
-}
+import './authenticatable.dart';
+import './logger_user_state_settable.dart';
+import './sign_in_out_loggable.dart';
+import './signable.dart';
+export './authenticatable.dart' show User;
 
 abstract class AuthenticationBloc {
   ValueObservable<User> get user;
@@ -94,18 +67,33 @@ class _AuthenticationBloc implements AuthenticationBloc {
   }
 }
 
-mixin Signable {
-  Future<void> signIn();
+class AuthenticationBlocFactory {
+  AuthenticationBlocFactory({
+    @required Authenticatable authenticatable,
+    @required LoggerUserStateSettable loggerUserStateSettable,
+    @required Signable signable,
+    @required SignInOutLoggable signInOutLoggable,
+  })  : assert(authenticatable != null),
+        assert(loggerUserStateSettable != null),
+        assert(signable != null),
+        assert(signInOutLoggable != null),
+        _authenticatable = authenticatable,
+        _loggerUserStateSettable = loggerUserStateSettable,
+        _signable = signable,
+        _signInOutLoggable = signInOutLoggable;
 
-  Future<void> signOut();
-}
+  final Authenticatable _authenticatable;
 
-mixin SignInOutLoggable {
-  Future<void> logSignIn();
+  final LoggerUserStateSettable _loggerUserStateSettable;
 
-  Future<void> logSignOut();
-}
+  final Signable _signable;
 
-mixin LoggerUserStateSettable {
-  Future<void> setUserState({@required User user});
+  final SignInOutLoggable _signInOutLoggable;
+
+  AuthenticationBloc create() => _AuthenticationBloc(
+        authenticatable: _authenticatable,
+        loggerUserStateSettable: _loggerUserStateSettable,
+        signable: _signable,
+        signInOutLoggable: _signInOutLoggable,
+      );
 }

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart' show IconButton;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
+import '../../blocs/card_detail_bloc.dart';
 
 class MenuIconButton extends StatelessWidget {
   @override

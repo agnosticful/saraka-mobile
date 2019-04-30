@@ -9,8 +9,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import './src/blocs/authentication_bloc.dart';
+import './src/blocs/backend_version_compatibility_check_bloc.dart';
+import './src/blocs/introduction_bloc.dart';
+import './src/blocs/maintenance_check_bloc.dart';
+import './src/blocs/card_adder_bloc.dart';
+import './src/blocs/card_delete_bloc.dart';
+import './src/blocs/card_detail_bloc.dart';
+import './src/blocs/card_review_bloc.dart';
+import './src/blocs/card_list_bloc.dart';
+import './src/blocs/synthesizer_bloc.dart';
 import './src/implementations/cache_storage.dart';
 import './src/implementations/firebase_analytics_logger.dart';
 import './src/implementations/firebase_authentication.dart';
@@ -79,7 +88,7 @@ void main() async {
   );
   final backendVersionCompatibilityCheckBlocFactory =
       BackendVersionCompatibilityCheckBlocFactory(
-    backendVersionGetable: backendVersionRepository,
+    backendVersionGettable: backendVersionRepository,
   );
   final firstCardListBlocFactory = IntroductionBlocFactory(
     authenticatable: authentication,

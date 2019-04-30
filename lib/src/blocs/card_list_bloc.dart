@@ -1,30 +1,9 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/entities.dart';
-import './commons/authenticatable.dart';
-import './commons/card_subscribable.dart';
-
-export './commons/authenticatable.dart';
-export './commons/card_subscribable.dart';
-
-class CardListBlocFactory {
-  CardListBlocFactory({
-    @required Authenticatable authenticatable,
-    @required CardSubscribable cardSubscribable,
-  })  : assert(authenticatable != null),
-        assert(cardSubscribable != null),
-        _authenticatable = authenticatable,
-        _cardSubscribable = cardSubscribable;
-
-  final Authenticatable _authenticatable;
-
-  final CardSubscribable _cardSubscribable;
-
-  CardListBloc create() => _CardListBloc(
-        authenticatable: _authenticatable,
-        cardSubscribable: _cardSubscribable,
-      );
-}
+import './authenticatable.dart';
+import './card_subscribable.dart';
+export './card_subscribable.dart' show Card;
 
 abstract class CardListBloc {
   ValueObservable<List<Card>> get cards;
@@ -51,4 +30,23 @@ class _CardListBloc implements CardListBloc {
 
   @override
   final BehaviorSubject<List<Card>> cards = BehaviorSubject();
+}
+
+class CardListBlocFactory {
+  CardListBlocFactory({
+    @required Authenticatable authenticatable,
+    @required CardSubscribable cardSubscribable,
+  })  : assert(authenticatable != null),
+        assert(cardSubscribable != null),
+        _authenticatable = authenticatable,
+        _cardSubscribable = cardSubscribable;
+
+  final Authenticatable _authenticatable;
+
+  final CardSubscribable _cardSubscribable;
+
+  CardListBloc create() => _CardListBloc(
+        authenticatable: _authenticatable,
+        cardSubscribable: _cardSubscribable,
+      );
 }

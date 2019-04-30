@@ -2,8 +2,8 @@ import 'package:flutter/material.dart' show IconButton;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/synthesizer_bloc.dart';
 
 class SynthesizeIconButton extends StatelessWidget {
   SynthesizeIconButton({@required this.text, Key key})

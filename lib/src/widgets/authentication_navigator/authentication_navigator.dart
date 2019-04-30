@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/authentication_bloc.dart';
 import './signed_in_route.dart';
 import './signed_out_route.dart';
 import './undecided_route.dart';

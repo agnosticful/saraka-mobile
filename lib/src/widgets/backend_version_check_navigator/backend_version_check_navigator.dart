@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/backend_version_compatibility_check_bloc.dart';
 import './incompatible_route.dart';
 import './normal_route.dart';
 

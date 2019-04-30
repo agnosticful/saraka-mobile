@@ -1,34 +1,9 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart';
-import './commons/authenticatable.dart';
-
-export 'package:saraka/entities.dart' show NewCardText;
-
-class CardAdderBlocFactory {
-  CardAdderBlocFactory({
-    @required Authenticatable authenticatable,
-    @required CardAddable cardAddable,
-    @required CardCreateLoggable cardCreateLoggable,
-  })  : assert(authenticatable != null),
-        assert(cardAddable != null),
-        assert(cardCreateLoggable != null),
-        _authenticatable = authenticatable,
-        _cardAddable = cardAddable,
-        _cardCreateLoggable = cardCreateLoggable;
-
-  final Authenticatable _authenticatable;
-
-  final CardAddable _cardAddable;
-
-  final CardCreateLoggable _cardCreateLoggable;
-
-  CardAdderBloc create() => _CardAdderBloc(
-        authenticatable: _authenticatable,
-        cardAddable: _cardAddable,
-        cardCreateLoggable: _cardCreateLoggable,
-      );
-}
+import './authenticatable.dart';
+import './card_addable.dart';
+import './card_create_loggable.dart';
+export './card_addable.dart' show NewCardText;
 
 abstract class CardAdderBloc {
   ValueObservable<NewCardText> get text;
@@ -130,16 +105,6 @@ enum CardAddingState {
   failed,
 }
 
-mixin CardAddable {
-  Future<void> add({@required User user, @required NewCardText text});
-}
-
-mixin CardCreateLoggable {
-  Future<void> logCardCreateStart();
-
-  Future<void> logCardCreate();
-}
-
 class _NewCardText extends NewCardText {
   _NewCardText(this.text) : assert(text != null);
 
@@ -147,10 +112,27 @@ class _NewCardText extends NewCardText {
   final String text;
 }
 
-class CardDuplicationException implements Exception {
-  CardDuplicationException(this.text);
+class CardAdderBlocFactory {
+  CardAdderBlocFactory({
+    @required Authenticatable authenticatable,
+    @required CardAddable cardAddable,
+    @required CardCreateLoggable cardCreateLoggable,
+  })  : assert(authenticatable != null),
+        assert(cardAddable != null),
+        assert(cardCreateLoggable != null),
+        _authenticatable = authenticatable,
+        _cardAddable = cardAddable,
+        _cardCreateLoggable = cardCreateLoggable;
 
-  final String text;
+  final Authenticatable _authenticatable;
 
-  String toString() => 'CardDuplicationException: `$text` is already existing.';
+  final CardAddable _cardAddable;
+
+  final CardCreateLoggable _cardCreateLoggable;
+
+  CardAdderBloc create() => _CardAdderBloc(
+        authenticatable: _authenticatable,
+        cardAddable: _cardAddable,
+        cardCreateLoggable: _cardCreateLoggable,
+      );
 }

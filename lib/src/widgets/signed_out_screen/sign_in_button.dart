@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
+import '../../blocs/authentication_bloc.dart';
 
 class SignInButton extends StatefulWidget {
   @override
