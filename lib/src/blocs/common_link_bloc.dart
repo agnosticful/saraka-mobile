@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import './url_launchable.dart';
 
 abstract class CommonLinkBloc {
   factory CommonLinkBloc({
@@ -27,17 +28,4 @@ class _CommonLinkBloc implements CommonLinkBloc {
   @override
   Future<void> launchPrivacyPolicy() =>
       urlLaunchable.launchUrl(privacyPolicyUrl);
-}
-
-mixin UrlLaunchable {
-  Future<void> launchUrl(Uri url);
-}
-
-class UrlLaunchFailureException implements Exception {
-  UrlLaunchFailureException(this.url);
-
-  final Uri url;
-
-  String toString() =>
-      'UrlLaunchFailureException: the URL ($url) cannot be opened';
 }

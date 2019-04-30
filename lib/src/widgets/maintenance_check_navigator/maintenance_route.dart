@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:saraka/widgets.dart';
+import '../maintenance_screen.dart';
 
 class MaintenanceRoute extends PageRoute {
   MaintenanceRoute({RouteSettings settings}) : super(settings: settings);

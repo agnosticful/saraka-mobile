@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
-import 'package:saraka/blocs.dart';
+import '../blocs/introduction_finishable.dart';
 
 class FirestoreUserRepository implements IntroductionFinishable {
   FirestoreUserRepository({

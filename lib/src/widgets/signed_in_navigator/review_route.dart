@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/card_review_bloc.dart';
+import '../../blocs/synthesizer_bloc.dart';
 
 class ReviewRoute extends MaterialPageRoute {
   ReviewRoute({@required Widget child, RouteSettings settings})

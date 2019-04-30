@@ -1,6 +1,12 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:meta/meta.dart';
-import 'package:saraka/blocs.dart';
+import '../blocs/card_create_loggable.dart';
+import '../blocs/card_review_loggable.dart';
+import '../blocs/introduction_finish_loggable.dart';
+import '../blocs/introduction_page_change_loggable.dart';
+import '../blocs/logger_user_state_settable.dart';
+import '../blocs/sign_in_out_loggable.dart';
+import '../blocs/synthesize_loggable.dart';
 
 class FirebaseAnalyticsLogger
     implements
@@ -8,6 +14,7 @@ class FirebaseAnalyticsLogger
         CardReviewLoggable,
         IntroductionFinishLoggable,
         IntroductionPageChangeLoggable,
+        LoggerUserStateSettable,
         SignInOutLoggable,
         SynthesizeLoggable {
   FirebaseAnalyticsLogger({@required FirebaseAnalytics firebaseAnalytics})
@@ -83,4 +90,8 @@ class FirebaseAnalyticsLogger
           "text": text,
         },
       );
+
+  @override
+  Future<void> setUserState({User user}) =>
+      _firebaseAnalytics.setUserId(user.id);
 }

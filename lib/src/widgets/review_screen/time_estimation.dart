@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/card_review_bloc.dart';
 
 class TimeEstimation extends StatefulWidget {
   State<TimeEstimation> createState() => _TimeEstimationState();

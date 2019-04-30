@@ -1,5 +1,5 @@
 import 'package:url_launcher/url_launcher.dart';
-import 'package:saraka/blocs.dart';
+import '../blocs/url_launchable.dart';
 
 class UrlLauncher implements UrlLaunchable {
   @override

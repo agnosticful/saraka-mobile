@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart' show Material;
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../blocs/card_delete_bloc.dart';
+import './disappearable_builder.dart';
+import './fancy_popup_dialog.dart';
+import './processable_fancy_button.dart';
 
 Future<void> showCardDeleteConfirmDialog({
   @required context,

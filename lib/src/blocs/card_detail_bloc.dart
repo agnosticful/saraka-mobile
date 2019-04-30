@@ -1,29 +1,11 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart';
-import './commons/authenticatable.dart';
-
-export 'package:saraka/entities.dart' show Review;
-
-class CardDetailBlocFactory {
-  CardDetailBlocFactory({
-    @required Authenticatable authenticatable,
-    @required ReviewSubscribable reviewSubscribable,
-  })  : assert(authenticatable != null),
-        assert(reviewSubscribable != null),
-        _authenticatable = authenticatable,
-        _reviewSubscribable = reviewSubscribable;
-
-  final Authenticatable _authenticatable;
-
-  final ReviewSubscribable _reviewSubscribable;
-
-  CardDetailBloc create(Card card) => _CardDetailBloc(
-        card: card,
-        authenticatable: _authenticatable,
-        reviewSubscribable: _reviewSubscribable,
-      );
-}
+import '../entities/card.dart';
+import '../entities/review.dart';
+import './authenticatable.dart';
+import './review_subscribable.dart';
+export '../entities/card.dart';
+export '../entities/review.dart';
 
 abstract class CardDetailBloc {
   Card get card;
@@ -57,9 +39,22 @@ class _CardDetailBloc implements CardDetailBloc {
       );
 }
 
-mixin ReviewSubscribable {
-  Observable<List<Review>> subscribeReviewsInCard({
-    @required User user,
-    @required Card card,
-  });
+class CardDetailBlocFactory {
+  CardDetailBlocFactory({
+    @required Authenticatable authenticatable,
+    @required ReviewSubscribable reviewSubscribable,
+  })  : assert(authenticatable != null),
+        assert(reviewSubscribable != null),
+        _authenticatable = authenticatable,
+        _reviewSubscribable = reviewSubscribable;
+
+  final Authenticatable _authenticatable;
+
+  final ReviewSubscribable _reviewSubscribable;
+
+  CardDetailBloc create(Card card) => _CardDetailBloc(
+        card: card,
+        authenticatable: _authenticatable,
+        reviewSubscribable: _reviewSubscribable,
+      );
 }

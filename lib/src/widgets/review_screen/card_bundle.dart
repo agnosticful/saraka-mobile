@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/card_review_bloc.dart';
 import './draggable_card.dart';
 
 class CardBundle extends StatefulWidget {

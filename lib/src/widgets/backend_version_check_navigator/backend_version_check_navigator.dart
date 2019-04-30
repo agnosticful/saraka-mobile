@@ -1,17 +1,27 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/backend_version_compatibility_check_bloc.dart';
 import './incompatible_route.dart';
 import './normal_route.dart';
 
 class BackendVersionCheckNavigator extends StatefulWidget {
-  BackendVersionCheckNavigator({Key key, @required this.builder});
+  BackendVersionCheckNavigator({
+    Key key,
+    this.observers = const [],
+    @required this.builder,
+  });
+
+  final List<NavigatorObserver> observers;
 
   final WidgetBuilder builder;
 
   @override
   State<StatefulWidget> createState() => _BackendVersionCheckNavigatorState();
+
+  static String extractRouteName(RouteSettings routeSettings) => const {
+        "/incompatible": "Version Incompatible",
+      }[routeSettings.name];
 }
 
 class _BackendVersionCheckNavigatorState
@@ -59,6 +69,7 @@ class _BackendVersionCheckNavigatorState
   @override
   Widget build(BuildContext context) => Navigator(
         key: _navigatorKey,
+        observers: widget.observers,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case "/":

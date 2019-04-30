@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
-import 'package:saraka/blocs.dart';
+import '../blocs/backend_version_gettable.dart';
 
-class FirestoreBackendVersionRepository implements BackendVersionGetable {
+class FirestoreBackendVersionRepository implements BackendVersionGettable {
   FirestoreBackendVersionRepository({
     @required Firestore firestore,
   })  : assert(firestore != null),

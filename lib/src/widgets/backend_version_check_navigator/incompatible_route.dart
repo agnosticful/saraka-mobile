@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:saraka/widgets.dart';
+import '../backend_version_incompatible_screen.dart';
 
 class IncompatibleRoute extends PageRoute {
   IncompatibleRoute({RouteSettings settings}) : super(settings: settings);

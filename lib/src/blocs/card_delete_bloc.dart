@@ -1,29 +1,8 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart';
-import './commons/authenticatable.dart';
-
-export 'package:saraka/entities.dart' show Review;
-
-class CardDeleteBlocFactory {
-  CardDeleteBlocFactory({
-    @required Authenticatable authenticatable,
-    @required CardDeletable cardDeletable,
-  })  : assert(authenticatable != null),
-        assert(cardDeletable != null),
-        _authenticatable = authenticatable,
-        _cardDeletable = cardDeletable;
-
-  final Authenticatable _authenticatable;
-
-  final CardDeletable _cardDeletable;
-
-  CardDeleteBloc create({@required Card card}) => _CardDeleteBloc(
-        card: card,
-        authenticatable: _authenticatable,
-        cardDeletable: _cardDeletable,
-      );
-}
+import './authenticatable.dart';
+import './card_deletable.dart';
+export './card_deletable.dart' show Card;
 
 abstract class CardDeleteBloc {
   Card get card;
@@ -98,9 +77,22 @@ enum CardDeletionState {
   failed,
 }
 
-mixin CardDeletable {
-  Future<void> deleteCard({
-    @required User user,
-    @required Card card,
-  });
+class CardDeleteBlocFactory {
+  CardDeleteBlocFactory({
+    @required Authenticatable authenticatable,
+    @required CardDeletable cardDeletable,
+  })  : assert(authenticatable != null),
+        assert(cardDeletable != null),
+        _authenticatable = authenticatable,
+        _cardDeletable = cardDeletable;
+
+  final Authenticatable _authenticatable;
+
+  final CardDeletable _cardDeletable;
+
+  CardDeleteBloc create({@required Card card}) => _CardDeleteBloc(
+        card: card,
+        authenticatable: _authenticatable,
+        cardDeletable: _cardDeletable,
+      );
 }
