@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:saraka/blocs.dart';
+import '../entities/card.dart';
 
 class FirestoreCard extends Card {
   FirestoreCard(DocumentSnapshot snapshot)

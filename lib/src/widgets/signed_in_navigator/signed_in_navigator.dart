@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/authentication_bloc.dart';
 import './card_list_route.dart';
 import './dashboard_route.dart';
 import './introduction_route.dart';

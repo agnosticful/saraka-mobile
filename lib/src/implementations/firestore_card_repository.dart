@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/blocs.dart';
+import '../blocs/card_deletable.dart';
+import '../blocs/card_subscribable.dart';
+import '../blocs/in_queue_card_subscribable.dart';
+import '../blocs/review_subscribable.dart';
 import './firestore_card.dart';
 import './firestore_review.dart';
 

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:saraka/blocs.dart';
+import '../entities/review.dart';
+import '../entities/review_certainty.dart';
 
 class FirestoreReview extends Review {
   FirestoreReview(DocumentSnapshot snapshot)

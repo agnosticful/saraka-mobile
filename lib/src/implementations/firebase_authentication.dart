@@ -4,7 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/blocs.dart';
+import '../blocs/authenticatable.dart';
+import '../blocs/signable.dart';
 
 class FirebaseAuthentication implements Authenticatable, Signable {
   FirebaseAuthentication({

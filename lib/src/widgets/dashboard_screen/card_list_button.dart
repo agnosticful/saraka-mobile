@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart' hide Card;
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/card_list_bloc.dart';
 
 class CardListButton extends StatelessWidget {
   @override

@@ -1,49 +1,13 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/entities.dart';
-import './commons/authenticatable.dart';
-import './commons/card_subscribable.dart';
-
-export './commons/authenticatable.dart';
-export './commons/card_subscribable.dart';
-
-class IntroductionBlocFactory {
-  IntroductionBlocFactory({
-    @required Authenticatable authenticatable,
-    @required CardSubscribable cardSubscribable,
-    @required IntroductionFinishable introductionFinishable,
-    @required IntroductionFinishLoggable introductionFinishLoggable,
-    @required IntroductionPageChangeLoggable introductionPageChangeLoggable,
-  })  : assert(authenticatable != null),
-        assert(cardSubscribable != null),
-        assert(introductionFinishable != null),
-        assert(introductionFinishLoggable != null),
-        assert(introductionPageChangeLoggable != null),
-        _authenticatable = authenticatable,
-        _cardSubscribable = cardSubscribable,
-        _introductionFinishable = introductionFinishable,
-        _introductionFinishLoggable = introductionFinishLoggable,
-        _introductionPageChangeLoggable = introductionPageChangeLoggable;
-
-  final Authenticatable _authenticatable;
-
-  final CardSubscribable _cardSubscribable;
-
-  final IntroductionFinishable _introductionFinishable;
-
-  final IntroductionFinishLoggable _introductionFinishLoggable;
-
-  final IntroductionPageChangeLoggable _introductionPageChangeLoggable;
-
-  IntroductionBloc create() => _IntroductionBloc(
-        authenticatable: _authenticatable,
-        cardSubscribable: _cardSubscribable,
-        introductionFinishable: _introductionFinishable,
-        introductionFinishLoggable: _introductionFinishLoggable,
-        introductionPageChangeLoggable: _introductionPageChangeLoggable,
-      );
-}
+import '../entities/card.dart';
+import './authenticatable.dart';
+import './card_subscribable.dart';
+import './introduction_finish_loggable.dart';
+import './introduction_finishable.dart';
+import './introduction_page_change_loggable.dart';
+export '../entities/card.dart';
 
 abstract class IntroductionBloc {
   ValueObservable<List<Card>> get firstCards;
@@ -61,18 +25,18 @@ class _IntroductionBloc implements IntroductionBloc {
   _IntroductionBloc({
     @required Authenticatable authenticatable,
     @required CardSubscribable cardSubscribable,
-    @required IntroductionFinishable introductionFinishable,
     @required IntroductionFinishLoggable introductionFinishLoggable,
+    @required IntroductionFinishable introductionFinishable,
     @required IntroductionPageChangeLoggable introductionPageChangeLoggable,
   })  : assert(authenticatable != null),
         assert(cardSubscribable != null),
-        assert(introductionFinishable != null),
         assert(introductionFinishLoggable != null),
+        assert(introductionFinishable != null),
         assert(introductionPageChangeLoggable != null),
         _authenticatable = authenticatable,
         _cardSubscribable = cardSubscribable,
-        _introductionFinishable = introductionFinishable,
         _introductionFinishLoggable = introductionFinishLoggable,
+        _introductionFinishable = introductionFinishable,
         _introductionPageChangeLoggable = introductionPageChangeLoggable {
     final subscription = _cardSubscribable
         .subscribeCards(user: _authenticatable.user.value)
@@ -92,9 +56,9 @@ class _IntroductionBloc implements IntroductionBloc {
 
   final CardSubscribable _cardSubscribable;
 
-  final IntroductionFinishable _introductionFinishable;
-
   final IntroductionFinishLoggable _introductionFinishLoggable;
+
+  final IntroductionFinishable _introductionFinishable;
 
   final IntroductionPageChangeLoggable _introductionPageChangeLoggable;
 
@@ -123,14 +87,39 @@ class _IntroductionBloc implements IntroductionBloc {
       ]);
 }
 
-mixin IntroductionFinishable {
-  Future<void> finishIntroduction({@required User user});
-}
+class IntroductionBlocFactory {
+  IntroductionBlocFactory({
+    @required Authenticatable authenticatable,
+    @required CardSubscribable cardSubscribable,
+    @required IntroductionFinishLoggable introductionFinishLoggable,
+    @required IntroductionFinishable introductionFinishable,
+    @required IntroductionPageChangeLoggable introductionPageChangeLoggable,
+  })  : assert(authenticatable != null),
+        assert(cardSubscribable != null),
+        assert(introductionFinishLoggable != null),
+        assert(introductionFinishable != null),
+        assert(introductionPageChangeLoggable != null),
+        _authenticatable = authenticatable,
+        _cardSubscribable = cardSubscribable,
+        _introductionFinishLoggable = introductionFinishLoggable,
+        _introductionFinishable = introductionFinishable,
+        _introductionPageChangeLoggable = introductionPageChangeLoggable;
 
-mixin IntroductionFinishLoggable {
-  Future<void> logIntroductionFinish();
-}
+  final Authenticatable _authenticatable;
 
-mixin IntroductionPageChangeLoggable {
-  Future<void> logIntroductionPageChange({@required String pageName});
+  final CardSubscribable _cardSubscribable;
+
+  final IntroductionFinishLoggable _introductionFinishLoggable;
+
+  final IntroductionFinishable _introductionFinishable;
+
+  final IntroductionPageChangeLoggable _introductionPageChangeLoggable;
+
+  IntroductionBloc create() => _IntroductionBloc(
+        authenticatable: _authenticatable,
+        cardSubscribable: _cardSubscribable,
+        introductionFinishable: _introductionFinishable,
+        introductionFinishLoggable: _introductionFinishLoggable,
+        introductionPageChangeLoggable: _introductionPageChangeLoggable,
+      );
 }

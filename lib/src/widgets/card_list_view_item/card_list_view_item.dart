@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart' show Material;
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/card_detail_bloc.dart';
+import '../../blocs/synthesizer_bloc.dart';
 import './proficiency_description.dart';
 import './proficiency_line_chart.dart';
 import './menu_icon_button.dart';

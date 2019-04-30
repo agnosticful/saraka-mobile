@@ -2,8 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/card_adder_bloc.dart';
+import '../../blocs/synthesizer_bloc.dart';
 
 class SynthesizeButton extends StatefulWidget {
   State<SynthesizeButton> createState() => _SynthesizeButtonState();
