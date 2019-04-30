@@ -1,6 +1,10 @@
 import 'package:meta/meta.dart';
-import 'package:saraka/entities.dart' show Card, ReviewCertainty, User;
-export 'package:saraka/entities.dart' show Card, ReviewCertainty, User;
+import '../entities/card.dart';
+import '../entities/review_certainty.dart';
+import '../entities/user.dart';
+export '../entities/card.dart';
+export '../entities/review_certainty.dart';
+export '../entities/user.dart';
 
 mixin CardReviewable {
   Future<void> review({

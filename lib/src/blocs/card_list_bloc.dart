@@ -1,9 +1,9 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart';
+import '../entities/card.dart';
 import './authenticatable.dart';
 import './card_subscribable.dart';
-export './card_subscribable.dart' show Card;
+export '../entities/card.dart';
 
 abstract class CardListBloc {
   ValueObservable<List<Card>> get cards;

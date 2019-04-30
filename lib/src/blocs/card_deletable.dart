@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
-import 'package:saraka/entities.dart' show Card, User;
-export 'package:saraka/entities.dart' show Card, User;
+import '../entities/card.dart';
+import '../entities/user.dart';
+export '../entities/card.dart';
+export '../entities/user.dart';
 
 mixin CardDeletable {
   Future<void> deleteCard({

@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
-import 'package:saraka/entities.dart' show User;
-export 'package:saraka/entities.dart' show User;
+import '../entities/user.dart';
+export '../entities/user.dart';
 
 mixin IntroductionFinishable {
   Future<void> finishIntroduction({@required User user});

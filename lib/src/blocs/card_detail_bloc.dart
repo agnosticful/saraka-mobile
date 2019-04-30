@@ -1,9 +1,11 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart';
+import '../entities/card.dart';
+import '../entities/review.dart';
 import './authenticatable.dart';
 import './review_subscribable.dart';
-export './review_subscribable.dart' show Card, Review;
+export '../entities/card.dart';
+export '../entities/review.dart';
 
 abstract class CardDetailBloc {
   Card get card;

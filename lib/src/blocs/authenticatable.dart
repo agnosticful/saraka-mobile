@@ -1,6 +1,6 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart' show User;
-export 'package:saraka/entities.dart' show User;
+import '../entities/user.dart';
+export '../entities/user.dart';
 
 mixin Authenticatable {
   ValueObservable<User> get user;

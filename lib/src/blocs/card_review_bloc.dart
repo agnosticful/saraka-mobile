@@ -1,12 +1,13 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart';
+import '../entities/card.dart';
+import '../entities/review_certainty.dart';
 import './authenticatable.dart';
 import './card_reviewable.dart';
 import './card_review_loggable.dart';
 import './in_queue_card_subscribable.dart';
-export './card_reviewable.dart' show Card;
-export './in_queue_card_subscribable.dart' show Card;
+export '../entities/card.dart';
+export '../entities/review_certainty.dart';
 
 abstract class CardReviewBloc {
   Observable<List<Card>> get cardsInQueue;

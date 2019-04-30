@@ -1,13 +1,13 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/entities.dart';
+import '../entities/card.dart';
 import './authenticatable.dart';
 import './card_subscribable.dart';
 import './introduction_finish_loggable.dart';
 import './introduction_finishable.dart';
 import './introduction_page_change_loggable.dart';
-export './card_subscribable.dart' show Card;
+export '../entities/card.dart';
 
 abstract class IntroductionBloc {
   ValueObservable<List<Card>> get firstCards;

@@ -1,7 +1,11 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart' show Card, Review, User;
-export 'package:saraka/entities.dart' show Card, Review, User;
+import '../entities/card.dart';
+import '../entities/review.dart';
+import '../entities/user.dart';
+export '../entities/card.dart';
+export '../entities/review.dart';
+export '../entities/user.dart';
 
 mixin ReviewSubscribable {
   Observable<List<Review>> subscribeReviewsInCard({

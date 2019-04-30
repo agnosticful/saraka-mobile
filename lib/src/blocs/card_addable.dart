@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
-import 'package:saraka/entities.dart' show NewCardText, User;
-export 'package:saraka/entities.dart' show NewCardText, User;
+import '../entities/new_card_text.dart';
+import '../entities/user.dart';
+export '../entities/new_card_text.dart';
+export '../entities/user.dart';
 
 mixin CardAddable {
   Future<void> add({@required User user, @required NewCardText text});

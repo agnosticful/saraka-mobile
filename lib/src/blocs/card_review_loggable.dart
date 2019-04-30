@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
-import 'package:saraka/entities.dart' show ReviewCertainty;
-export 'package:saraka/entities.dart' show ReviewCertainty;
+import '../entities/review_certainty.dart';
+export '../entities/review_certainty.dart';
 
 mixin CardReviewLoggable {
   Future<void> logReviewStart({@required int cardLength});
