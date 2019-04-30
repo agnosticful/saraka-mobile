@@ -1,8 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/blocs.dart';
-import 'package:saraka/widgets.dart';
+import '../../blocs/introduction_bloc.dart';
+import '../card_list_view_item.dart';
+import '../disappearable_builder.dart';
+import '../new_card_dialog.dart';
+import '../processable_fancy_button.dart';
 import './add_card_button.dart';
 
 class AddFirstCardPage extends StatefulWidget {

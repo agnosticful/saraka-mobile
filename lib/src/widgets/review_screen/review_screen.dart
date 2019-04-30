@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' show AppBar, IconButton, Scaffold;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../wave_background.dart';
 import './back_button.dart';
 import './card_bundle.dart';
 import './finished.dart';

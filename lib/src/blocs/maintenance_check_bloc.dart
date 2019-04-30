@@ -1,18 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-
-class MaintenanceCheckBlocFactory {
-  MaintenanceCheckBlocFactory({
-    @required MaintenanceSubscribable maintenanceSubscribable,
-  })  : assert(maintenanceSubscribable != null),
-        _maintenanceSubscribable = maintenanceSubscribable;
-
-  final MaintenanceSubscribable _maintenanceSubscribable;
-
-  MaintenanceCheckBloc create() => _MaintenanceCheckBloc(
-        maintenanceSubscribable: _maintenanceSubscribable,
-      );
-}
+import './maintenance_subscribable.dart';
+export './maintenance_subscribable.dart' show Maintenance;
 
 abstract class MaintenanceCheckBloc {
   ValueObservable<Maintenance> get maintenance;
@@ -31,17 +20,15 @@ class _MaintenanceCheckBloc implements MaintenanceCheckBloc {
       _maintenanceSubscribable.subscribeMaintenance();
 }
 
-mixin MaintenanceSubscribable {
-  /// Returns a value observable of [Maintenance]. If the backend is not in maintenance, event value is `null`.
-  ValueObservable<Maintenance> subscribeMaintenance();
-}
+class MaintenanceCheckBlocFactory {
+  MaintenanceCheckBlocFactory({
+    @required MaintenanceSubscribable maintenanceSubscribable,
+  })  : assert(maintenanceSubscribable != null),
+        _maintenanceSubscribable = maintenanceSubscribable;
 
-class Maintenance {
-  Maintenance({@required this.startedAt, @required this.finishedAt})
-      : assert(startedAt != null),
-        assert(finishedAt != null);
+  final MaintenanceSubscribable _maintenanceSubscribable;
 
-  final DateTime startedAt;
-
-  final DateTime finishedAt;
+  MaintenanceCheckBloc create() => _MaintenanceCheckBloc(
+        maintenanceSubscribable: _maintenanceSubscribable,
+      );
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/card_list_bloc.dart';
 
 class CardListRoute extends CupertinoPageRoute {
   CardListRoute({@required Widget child, RouteSettings settings})

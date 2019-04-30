@@ -1,39 +1,13 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart';
-import './commons/authenticatable.dart';
-
-export 'package:saraka/entities.dart' show ReviewCertainty;
-
-class CardReviewBlocFactory {
-  CardReviewBlocFactory({
-    @required Authenticatable authenticatable,
-    @required CardReviewable cardReviewable,
-    @required CardReviewLoggable cardReviewLoggable,
-    @required InQueueCardSubscribable inQueueCardSubscribable,
-  })  : assert(authenticatable != null),
-        assert(cardReviewable != null),
-        assert(inQueueCardSubscribable != null),
-        _authenticatable = authenticatable,
-        _cardReviewable = cardReviewable,
-        _cardReviewLoggable = cardReviewLoggable,
-        _inQueueCardSubscribable = inQueueCardSubscribable;
-
-  final Authenticatable _authenticatable;
-
-  final CardReviewable _cardReviewable;
-
-  final CardReviewLoggable _cardReviewLoggable;
-
-  final InQueueCardSubscribable _inQueueCardSubscribable;
-
-  CardReviewBloc create() => _CardReviewBloc(
-        authenticatable: _authenticatable,
-        cardReviewable: _cardReviewable,
-        cardReviewLoggable: _cardReviewLoggable,
-        inQueueCardSubscribable: _inQueueCardSubscribable,
-      );
-}
+import '../entities/card.dart';
+import '../entities/review_certainty.dart';
+import './authenticatable.dart';
+import './card_reviewable.dart';
+import './card_review_loggable.dart';
+import './in_queue_card_subscribable.dart';
+export '../entities/card.dart';
+export '../entities/review_certainty.dart';
 
 abstract class CardReviewBloc {
   Observable<List<Card>> get cardsInQueue;
@@ -180,50 +154,32 @@ class _CardReviewBloc implements CardReviewBloc {
   }
 }
 
-mixin CardReviewable {
-  Future<void> review({
-    @required Card card,
-    @required ReviewCertainty certainty,
-    @required User user,
-  });
+class CardReviewBlocFactory {
+  CardReviewBlocFactory({
+    @required Authenticatable authenticatable,
+    @required CardReviewable cardReviewable,
+    @required CardReviewLoggable cardReviewLoggable,
+    @required InQueueCardSubscribable inQueueCardSubscribable,
+  })  : assert(authenticatable != null),
+        assert(cardReviewable != null),
+        assert(inQueueCardSubscribable != null),
+        _authenticatable = authenticatable,
+        _cardReviewable = cardReviewable,
+        _cardReviewLoggable = cardReviewLoggable,
+        _inQueueCardSubscribable = inQueueCardSubscribable;
 
-  Future<void> undoReview({
-    @required Card card,
-    @required User user,
-  });
-}
+  final Authenticatable _authenticatable;
 
-mixin InQueueCardSubscribable {
-  Observable<List<Card>> subscribeInQueueCards({@required User user});
-}
+  final CardReviewable _cardReviewable;
 
-mixin CardReviewLoggable {
-  Future<void> logReviewStart({@required int cardLength});
+  final CardReviewLoggable _cardReviewLoggable;
 
-  Future<void> logReviewEnd({
-    @required int cardLength,
-    @required int reviewedCardLength,
-  });
+  final InQueueCardSubscribable _inQueueCardSubscribable;
 
-  Future<void> logCardReview({@required ReviewCertainty certainty});
-
-  Future<void> logCardReviewUndo();
-}
-
-class ReviewDuplicationException implements Exception {
-  ReviewDuplicationException(this.card);
-
-  final Card card;
-
-  String toString() =>
-      'ReviewDuplicationException: `${card.id}` has been just reviewed.';
-}
-
-class ReviewOverundoException implements Exception {
-  ReviewOverundoException(this.card);
-
-  final Card card;
-
-  String toString() =>
-      'ReviewOverundoException: `${card.id}` doesn\'t have review to undo.';
+  CardReviewBloc create() => _CardReviewBloc(
+        authenticatable: _authenticatable,
+        cardReviewable: _cardReviewable,
+        cardReviewLoggable: _cardReviewLoggable,
+        inQueueCardSubscribable: _inQueueCardSubscribable,
+      );
 }

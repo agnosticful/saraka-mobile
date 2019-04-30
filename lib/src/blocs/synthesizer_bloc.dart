@@ -1,37 +1,10 @@
 import 'dart:io' show File;
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-
-class SynthesizerBlocFactory {
-  SynthesizerBlocFactory({
-    @required SoundFilePlayable soundFilePlayable,
-    @required Synthesizable synthesizable,
-    @required SynthesizedSoundFileReferable synthesizedSoundFileReferable,
-    @required SynthesizeLoggable synthesizeLoggable,
-  })  : assert(soundFilePlayable != null),
-        assert(synthesizedSoundFileReferable != null),
-        assert(synthesizable != null),
-        assert(synthesizeLoggable != null),
-        _soundFilePlayable = soundFilePlayable,
-        _synthesizable = synthesizable,
-        _synthesizedSoundFileReferable = synthesizedSoundFileReferable,
-        _synthesizeLoggable = synthesizeLoggable;
-
-  final SoundFilePlayable _soundFilePlayable;
-
-  final Synthesizable _synthesizable;
-
-  final SynthesizedSoundFileReferable _synthesizedSoundFileReferable;
-
-  final SynthesizeLoggable _synthesizeLoggable;
-
-  SynthesizerBloc create() => _SynthesizerBloc(
-        soundFilePlayable: _soundFilePlayable,
-        synthesizable: _synthesizable,
-        synthesizedSoundFileReferable: _synthesizedSoundFileReferable,
-        synthesizeLoggable: _synthesizeLoggable,
-      );
-}
+import './sound_file_playable.dart';
+import './synthesizable.dart';
+import './synthesized_sound_file_referable.dart';
+import './synthesize_loggable.dart';
 
 abstract class SynthesizerBloc {
   Observable<bool> get isCaching;
@@ -101,18 +74,33 @@ class _SynthesizerBloc implements SynthesizerBloc {
   }
 }
 
-mixin SoundFilePlayable {
-  Future<void> play(File file);
-}
+class SynthesizerBlocFactory {
+  SynthesizerBlocFactory({
+    @required SoundFilePlayable soundFilePlayable,
+    @required Synthesizable synthesizable,
+    @required SynthesizedSoundFileReferable synthesizedSoundFileReferable,
+    @required SynthesizeLoggable synthesizeLoggable,
+  })  : assert(soundFilePlayable != null),
+        assert(synthesizedSoundFileReferable != null),
+        assert(synthesizable != null),
+        assert(synthesizeLoggable != null),
+        _soundFilePlayable = soundFilePlayable,
+        _synthesizable = synthesizable,
+        _synthesizedSoundFileReferable = synthesizedSoundFileReferable,
+        _synthesizeLoggable = synthesizeLoggable;
 
-mixin SynthesizedSoundFileReferable {
-  Future<File> referSynthesizedSoundFile(String text);
-}
+  final SoundFilePlayable _soundFilePlayable;
 
-mixin Synthesizable {
-  Future<List<int>> synthesize(String text);
-}
+  final Synthesizable _synthesizable;
 
-mixin SynthesizeLoggable {
-  Future<void> logSynthesize({@required String text});
+  final SynthesizedSoundFileReferable _synthesizedSoundFileReferable;
+
+  final SynthesizeLoggable _synthesizeLoggable;
+
+  SynthesizerBloc create() => _SynthesizerBloc(
+        soundFilePlayable: _soundFilePlayable,
+        synthesizable: _synthesizable,
+        synthesizedSoundFileReferable: _synthesizedSoundFileReferable,
+        synthesizeLoggable: _synthesizeLoggable,
+      );
 }

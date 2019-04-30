@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart' show LinearProgressIndicator;
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/card_review_bloc.dart';
 
 class ProgressIndicator extends StatefulWidget {
   State<ProgressIndicator> createState() => _ProgressIndicatorState();
