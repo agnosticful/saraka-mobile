@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:saraka/constants.dart';
+import './privacy_policy_text.dart';
 import './sign_in_button.dart';
 
 class SignedOutScreen extends StatelessWidget {
@@ -38,7 +39,9 @@ class SignedOutScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 64),
-                  SignInButton()
+                  SignInButton(),
+                  SizedBox(height: 16),
+                  PrivacyPolicyItem(),
                 ],
               ),
             ),

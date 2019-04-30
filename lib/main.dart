@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import './src/blocs/authentication_bloc.dart';
 import './src/blocs/backend_version_compatibility_check_bloc.dart';
+import './src/blocs/common_link_bloc.dart';
 import './src/blocs/introduction_bloc.dart';
 import './src/blocs/maintenance_check_bloc.dart';
 import './src/blocs/card_adder_bloc.dart';
@@ -29,6 +30,7 @@ import './src/implementations/firestore_card_repository.dart';
 import './src/implementations/firestore_maintenance_repository.dart';
 import './src/implementations/firestore_user_repository.dart';
 import './src/implementations/sound_player.dart';
+import './src/implementations/url_launcher.dart';
 import './src/widgets/application.dart';
 import './src/widgets/authentication_navigator.dart';
 import './src/widgets/backend_version_check_navigator.dart';
@@ -86,6 +88,7 @@ void main() async {
   );
   final userRepository = FirestoreUserRepository(firestore: Firestore.instance);
   final soundPlayer = SoundPlayer();
+  final urlLauncher = UrlLauncher();
 
   /**
    * BLoCs
@@ -99,6 +102,10 @@ void main() async {
   final backendVersionCompatibilityCheckBlocFactory =
       BackendVersionCompatibilityCheckBlocFactory(
     backendVersionGettable: backendVersionRepository,
+  );
+  final commonLinkBloc = CommonLinkBloc(
+    urlLaunchable: urlLauncher,
+    privacyPolicyUrl: privacyPolicyUrl,
   );
   final firstCardListBlocFactory = IntroductionBlocFactory(
     authenticatable: authentication,
@@ -160,6 +167,7 @@ void main() async {
             Provider<BackendVersionCompatibilityCheckBloc>(
               value: backendVersionCompatibilityCheckBloc,
             ),
+            Provider<CommonLinkBloc>(value: commonLinkBloc),
             Provider<MaintenanceCheckBloc>(value: maintenanceCheckBloc),
           ],
           child: Application(
