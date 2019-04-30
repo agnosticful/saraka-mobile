@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../processable_fancy_button.dart';
 import '../../blocs/authentication_bloc.dart';
 
 class SignInButton extends StatefulWidget {

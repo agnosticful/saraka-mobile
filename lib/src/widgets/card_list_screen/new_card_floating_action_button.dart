@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../new_card_dialog/new_card_dialog.dart';
 
 class NewCardFloatingActionButton extends StatelessWidget {
   @override

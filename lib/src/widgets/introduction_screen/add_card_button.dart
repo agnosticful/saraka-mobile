@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
 import '../../blocs/introduction_bloc.dart';
+import '../processable_fancy_button.dart';
 
 class AddCardButton extends StatelessWidget {
   AddCardButton({Key key, @required this.onPressed})

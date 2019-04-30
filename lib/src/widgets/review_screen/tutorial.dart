@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../arrow.dart';
 
 class Tutorial extends StatefulWidget {
   Tutorial({Key key, @required this.onDismissed}) : super(key: key);

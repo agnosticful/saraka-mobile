@@ -29,7 +29,17 @@ import './src/implementations/firestore_card_repository.dart';
 import './src/implementations/firestore_maintenance_repository.dart';
 import './src/implementations/firestore_user_repository.dart';
 import './src/implementations/sound_player.dart';
-import 'package:saraka/widgets.dart';
+import './src/widgets/application.dart';
+import './src/widgets/authentication_navigator/authentication_navigator.dart';
+import './src/widgets/backend_version_check_navigator/backend_version_check_navigator.dart';
+import './src/widgets/card_list_screen/card_list_screen.dart';
+import './src/widgets/dashboard_screen/dashboard_screen.dart';
+import './src/widgets/introduction_screen/introduction_screen.dart';
+import './src/widgets/landing_screen.dart';
+import './src/widgets/maintenance_check_navigator/maintenance_check_navigator.dart';
+import './src/widgets/review_screen/review_screen.dart';
+import './src/widgets/signed_in_navigator/signed_in_navigator.dart';
+import './src/widgets/signed_out_screen/signed_out_screen.dart';
 
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../disappearable_builder.dart';
 import './dot_indicator.dart';
 
 class IntroductionSlider extends StatefulWidget {
