@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
-import '../../blocs/authentication_bloc.dart';
+import '../../../blocs/authentication_bloc.dart';
+import './privacy_policy_item.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
@@ -47,6 +48,7 @@ class MainDrawer extends StatelessWidget {
                               ),
                             ),
                       ),
+                PrivacyPolicyItem(),
                 ListTile(
                   leading: Icon(
                     Feather.getIconData('log-out'),
