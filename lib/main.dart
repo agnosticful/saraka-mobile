@@ -157,6 +157,11 @@ void main() async {
       backendVersionCompatibilityCheckBlocFactory.create();
   final maintenanceCheckBloc = maintenanceCheckBlocFactory.create();
 
+  final articleRepository = PrismicIoArticleRepository();
+
+  final articleListBlocFactory =
+      ArticleListBlocFactory(articleGettable: articleRepository);
+
   runZoned<Future<Null>>(
     () async {
       runApp(
@@ -175,6 +180,7 @@ void main() async {
             ),
             Provider<CommonLinkBloc>(value: commonLinkBloc),
             Provider<MaintenanceCheckBloc>(value: maintenanceCheckBloc),
+            Provider<ArticleListBlocFactory>(value: articleListBlocFactory),
           ],
           child: Application(
             title: "Parrot",

@@ -1,9 +1,7 @@
-import 'package:image/image.dart';
-
 abstract class Article {
-  String get article;
+  String get title;
 
-  Image get image;
+  String get image;
 
   String get content;
 }
