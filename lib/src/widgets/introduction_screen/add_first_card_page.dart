@@ -2,9 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import '../../blocs/introduction_bloc.dart';
-import '../card_list_view_item/card_list_view_item.dart';
+import '../card_list_view_item.dart';
 import '../disappearable_builder.dart';
-import '../new_card_dialog/new_card_dialog.dart';
+import '../new_card_dialog.dart';
 import '../processable_fancy_button.dart';
 import './add_card_button.dart';
 

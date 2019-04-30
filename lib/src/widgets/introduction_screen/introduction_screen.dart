@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import '../../blocs/introduction_bloc.dart';
-import '../introduction_slider/introduction_slider.dart';
+import '../introduction_slider.dart';
 import './add_first_card_page.dart';
 import './slide_page.dart';
 

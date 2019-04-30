@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../blocs/card_detail_bloc.dart';
 import '../../blocs/card_list_bloc.dart';
 import '../../blocs/synthesizer_bloc.dart';
-import '../card_list_view_item/card_list_view_item.dart';
+import '../card_list_view_item.dart';
 
 class CardSliverList extends StatefulWidget {
   @override
