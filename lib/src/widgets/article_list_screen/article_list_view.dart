@@ -22,11 +22,10 @@ class _ArticleListView extends State<ArticleListView> {
                               color: Colors.blue,
                               border:
                                   Border.all(width: 1.0, color: Colors.orange)),
-                          child: ArticleListItem({
-                            title: snapshot.data[i].title,
-                            image: snapshot.data[i].image,
-                            content: snapshot.data[i].content
-                          }),
+                          child: ArticleListItem(
+                              title: snapshot.data[i].title,
+                              image: snapshot.data[i].image,
+                              content: snapshot.data[i].content),
                         );
                       }, childCount: snapshot.data.length),
                     )
