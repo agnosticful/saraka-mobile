@@ -15,12 +15,20 @@ class PrismicIoArticleRepository implements ArticleGettable {
     http.get(url).then((resopnce) {
       Map<String, dynamic> jsonData = jsonDecode(resopnce.body);
 
-      if (jsonData['result'].hasData) {
-        final articles = jsonData['result']
-            .map((article) => PrismicIoArticle(article['data']));
+      print("-------------------------------------------------------------");
+      print(jsonData['results'][0]['data']);
+      print("-------------------------------------------------------------");
+      // final articles = jsonData['results']
+      //     .map((article) => PrismicIoArticle(article['data']));
+      // final articles = jsonData['results'].map((article) {
+      jsonData['results'].map((article) {
+        print("-------------------------------------------------------------");
+        print(article);
+        print("-------------------------------------------------------------");
+        // PrismicIoArticle(article['data']);
+      });
 
-        observable.add(articles);
-      }
+      // observable.add(articles);
     });
 
     return observable;
