@@ -16,10 +16,12 @@ class SignedInNavigator extends StatefulWidget {
     @required this.dashboardBuilder,
     @required this.introductionBuilder,
     @required this.reviewBuilder,
+    @required this.articleListBuilder,
   })  : assert(cardListBuilder != null),
         assert(dashboardBuilder != null),
         assert(introductionBuilder != null),
         assert(reviewBuilder != null),
+        assert(articleListBuilder != null),
         super(key: key);
 
   final List<NavigatorObserver> observers;
@@ -32,6 +34,8 @@ class SignedInNavigator extends StatefulWidget {
 
   final WidgetBuilder dashboardBuilder;
 
+  final WidgetBuilder articleListBuilder;
+
   @override
   State<SignedInNavigator> createState() => _SignedInNavigatorState();
 
@@ -40,6 +44,7 @@ class SignedInNavigator extends StatefulWidget {
         "/introduction": "Introduction",
         "/review": "Review",
         "/cards": "Card List",
+        "/articles": "Article List",
       }[routeSettings.name];
 }
 
@@ -152,6 +157,7 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                         case "/articles":
                           return ArticleListRoute(
                             settings: settings,
+                            child: widget.cardListBuilder(context),
                           );
                       }
                     },
