@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' hide Card;
 import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/article_list_bloc.dart';
 
 class ArticleListScreen extends StatelessWidget {
   @override
