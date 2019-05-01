@@ -1,26 +1,28 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/authentication_bloc.dart';
 import './card_list_route.dart';
 import './dashboard_route.dart';
-import './article_list_route.dart';
+import './introduction_route.dart';
 import './review_route.dart';
+import './article_list_route.dart';
 
 class SignedInNavigator extends StatefulWidget {
   SignedInNavigator({
     Key key,
+    this.observers = const [],
     @required this.cardListBuilder,
     @required this.dashboardBuilder,
-    @required this.articleBuilder,
     @required this.introductionBuilder,
     @required this.reviewBuilder,
   })  : assert(cardListBuilder != null),
         assert(dashboardBuilder != null),
-        assert(articleBuilder != null),
         assert(introductionBuilder != null),
         assert(reviewBuilder != null),
         super(key: key);
+
+  final List<NavigatorObserver> observers;
 
   final WidgetBuilder cardListBuilder;
 
@@ -30,10 +32,15 @@ class SignedInNavigator extends StatefulWidget {
 
   final WidgetBuilder dashboardBuilder;
 
-  final WidgetBuilder articleBuilder;
-
   @override
   State<SignedInNavigator> createState() => _SignedInNavigatorState();
+
+  static String extractRouteName(RouteSettings routeSettings) => const {
+        "/": "Dashboard",
+        "/introduction": "Introduction",
+        "/review": "Review",
+        "/cards": "Card List",
+      }[routeSettings.name];
 }
 
 class _SignedInNavigatorState extends State<SignedInNavigator>
@@ -110,18 +117,18 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
               initialData: authenticationBloc.user.value,
               builder: (context, snapshot) => Navigator(
                     key: _navigatorKey,
+                    observers: widget.observers,
                     onGenerateRoute: (settings) {
                       switch (settings.name) {
                         case "/":
                           return DashboardRoute(
                             settings: settings,
-                            normal: widget.dashboardBuilder(context),
-                            introduction: widget.introductionBuilder(context),
+                            child: widget.dashboardBuilder(context),
                           );
-                        case "/article":
-                          return ArticleListRoute(
+                        case "/introduction":
+                          return IntroductionRoute(
                             settings: settings,
-                            normal: widget.articleBuilder(context),
+                            child: widget.introductionBuilder(context),
                           );
                         case "/review":
                           bool showTutorial = false;
@@ -142,9 +149,17 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                             settings: settings,
                             child: widget.cardListBuilder(context),
                           );
+                        case "/articles":
+                          return ArticleListRoute(
+                            settings: settings,
+                          );
                       }
                     },
-                    initialRoute: "/",
+                    initialRoute: snapshot.hasData
+                        ? snapshot.requireData.isIntroductionFinished
+                            ? "/"
+                            : "/introduction"
+                        : "/",
                   ),
             ),
       );
