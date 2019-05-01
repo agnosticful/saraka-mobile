@@ -98,6 +98,7 @@ void main() async {
   final userRepository = FirestoreUserRepository(firestore: Firestore.instance);
   final soundPlayer = SoundPlayer();
   final urlLauncher = UrlLauncher();
+  final articleRepository = PrismicIoArticleRepository();
 
   /**
    * BLoCs
@@ -159,8 +160,6 @@ void main() async {
   final backendVersionCompatibilityCheckBloc =
       backendVersionCompatibilityCheckBlocFactory.create();
   final maintenanceCheckBloc = maintenanceCheckBlocFactory.create();
-
-  final articleRepository = PrismicIoArticleRepository();
 
   final articleListBlocFactory =
       ArticleListBlocFactory(articleGettable: articleRepository);
@@ -233,12 +232,12 @@ void main() async {
                                     IntroductionScreen(),
                                 dashboardBuilder: (context) =>
                                     DashboardScreen(),
-                                articleBuilder: (context) =>
-                                    ArticleListScreen(),
                                 reviewBuilder: (context, showTutorial) =>
                                     ReviewScreen(
                                       showTutorial: showTutorial,
                                     ),
+                                articleListBuilder: (context) =>
+                                    ArticleListScreen(),
                               ),
                           signedOutBuilder: (context) => SignedOutScreen(),
                           undecidedBuilder: (context) => LandingScreen(),
