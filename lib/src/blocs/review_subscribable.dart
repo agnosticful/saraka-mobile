@@ -7,7 +7,7 @@ export '../entities/authentication_session.dart';
 export '../entities/card.dart';
 export '../entities/review.dart';
 
-mixin ReviewSubscribable {
+abstract class ReviewSubscribable {
   Observable<List<Review>> subscribeReviewsInCard({
     @required AuthenticationSession session,
     @required Card card,

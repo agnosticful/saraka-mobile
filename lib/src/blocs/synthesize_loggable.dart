@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
 
-mixin SynthesizeLoggable {
+abstract class SynthesizeLoggable {
   Future<void> logSynthesize({@required String text});
 }

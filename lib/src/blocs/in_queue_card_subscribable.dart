@@ -5,7 +5,7 @@ import '../entities/card.dart';
 export '../entities/authentication_session.dart';
 export '../entities/card.dart';
 
-mixin InQueueCardSubscribable {
+abstract class InQueueCardSubscribable {
   Observable<List<Card>> subscribeInQueueCards(
       {@required AuthenticationSession session});
 }

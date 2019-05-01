@@ -5,7 +5,7 @@ import '../entities/card.dart';
 export '../entities/authentication_session.dart';
 export '../entities/card.dart';
 
-mixin CardSubscribable {
+abstract class CardSubscribable {
   ValueObservable<List<Card>> subscribeCards({
     @required AuthenticationSession session,
   });

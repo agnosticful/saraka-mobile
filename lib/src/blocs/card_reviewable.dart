@@ -6,7 +6,7 @@ export '../entities/authentication_session.dart';
 export '../entities/card.dart';
 export '../entities/review_certainty.dart';
 
-mixin CardReviewable {
+abstract class CardReviewable {
   Future<void> review({
     @required AuthenticationSession session,
     @required Card card,

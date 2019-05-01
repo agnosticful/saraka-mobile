@@ -4,7 +4,7 @@ import '../entities/card.dart';
 export '../entities/authentication_session.dart';
 export '../entities/card.dart';
 
-mixin CardDeletable {
+abstract class CardDeletable {
   Future<void> deleteCard({
     @required Card card,
     @required AuthenticationSession session,

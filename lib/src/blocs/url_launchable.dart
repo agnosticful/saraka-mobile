@@ -1,4 +1,4 @@
-mixin UrlLaunchable {
+abstract class UrlLaunchable {
   Future<void> launchUrl(Uri url);
 }
 
