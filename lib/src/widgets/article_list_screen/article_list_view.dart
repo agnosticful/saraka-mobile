@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/article_list_bloc.dart';
 import 'article_list_item.dart';
 
 class ArticleListView extends StatefulWidget {

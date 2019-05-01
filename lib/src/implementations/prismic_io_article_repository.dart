@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 import '../blocs/article_gettable.dart';
+import '../entities/article.dart';
 import './prismic_io_article.dart';
 
 class PrismicIoArticleRepository implements ArticleGettable {
