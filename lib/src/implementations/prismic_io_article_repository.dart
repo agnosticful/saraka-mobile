@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/blocs.dart';
+import '../blocs/article_gettable.dart';
 import './prismic_io_article.dart';
 
 class PrismicIoArticleRepository implements ArticleGettable {

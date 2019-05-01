@@ -1,9 +1,28 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart';
+import '../entities/article.dart';
 import 'article_gettable.dart';
+export '../entities/article.dart';
 
-export 'article_gettable.dart';
+abstract class ArticleListBloc {
+  ValueObservable<List<Article>> get articles;
+}
+
+class _ArticleListBloc implements ArticleListBloc {
+  _ArticleListBloc({
+    @required ArticleGettable articleGettable,
+  })  : assert(articleGettable != null),
+        _articleGettable = articleGettable {
+    _articleGettable.getArticles().listen((ars) {
+      articles.add(ars);
+    });
+  }
+
+  final ArticleGettable _articleGettable;
+
+  @override
+  final BehaviorSubject<List<Article>> articles = BehaviorSubject();
+}
 
 class ArticleListBlocFactory {
   ArticleListBlocFactory({
@@ -17,16 +36,3 @@ class ArticleListBlocFactory {
         articleGettable: _articleGettable,
       );
 }
-
-abstract class ArticleListBloc {
-  ValueObservable<List<Article>> get articles;
-}
-
-class _ArticleListBloc implements ArticleListBloc {
-  _ArticleListBloc({
-    @required ArticleGettable articleGettable,
-  })  : assert(articleGettable != null),
-        _articleGettable = articleGettable {
-    _articleGettable.getArticles().listen((article) {
-      articles.add(article);
-    });
