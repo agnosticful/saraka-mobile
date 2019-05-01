@@ -1,7 +1,7 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/entities.dart';
+import '../entities/article.dart';
 
-export 'package:saraka/entities.dart';
+export '../entities/article.dart';
 
 mixin ArticleGettable {
   ValueObservable<List<Article>> getArticles();
