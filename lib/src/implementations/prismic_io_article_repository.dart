@@ -18,9 +18,19 @@ class PrismicIoArticleRepository implements ArticleGettable {
       print("-------------------------------------------------------------");
       print(jsonData['results'][0]['data']);
       print("-------------------------------------------------------------");
+      print(jsonData['results'][1]['data']);
+      print("-------------------------------------------------------------");
+      print(jsonData['results'][2]['data']);
+      print("-------------------------------------------------------------");
       // final articles = jsonData['results']
       //     .map((article) => PrismicIoArticle(article['data']));
       // final articles = jsonData['results'].map((article) {
+
+      print("-------------------------------------------------------------");
+      PrismicIoArticle(jsonData['results'][0]['data']);
+      PrismicIoArticle(jsonData['results'][1]['data']);
+      PrismicIoArticle(jsonData['results'][2]['data']);
+      print("-------------------------------------------------------------");
       jsonData['results'].map((article) {
         print("-------------------------------------------------------------");
         print(article);
