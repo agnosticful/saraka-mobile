@@ -1,8 +1,9 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import './authenticatable.dart';
+import '../entities/authentication_session.dart';
 import './card_addable.dart';
 import './card_create_loggable.dart';
+export '../entities/authentication_session.dart';
 export './card_addable.dart' show NewCardText;
 
 abstract class CardAdderBloc {
@@ -23,21 +24,18 @@ abstract class CardAdderBloc {
 
 class _CardAdderBloc implements CardAdderBloc {
   _CardAdderBloc({
-    @required Authenticatable authenticatable,
-    @required CardAddable cardAddable,
-    @required CardCreateLoggable cardCreateLoggable,
-  })  : assert(authenticatable != null),
-        assert(cardAddable != null),
+    @required this.cardAddable,
+    @required this.cardCreateLoggable,
+    @required this.session,
+  })  : assert(cardAddable != null),
         assert(cardCreateLoggable != null),
-        _authenticatable = authenticatable,
-        _cardAddable = cardAddable,
-        _cardCreateLoggable = cardCreateLoggable;
+        assert(session != null);
 
-  final Authenticatable _authenticatable;
+  final CardAddable cardAddable;
 
-  final CardAddable _cardAddable;
+  final CardCreateLoggable cardCreateLoggable;
 
-  final CardCreateLoggable _cardCreateLoggable;
+  final AuthenticationSession session;
 
   final _text = BehaviorSubject<NewCardText>.seeded(_NewCardText(""));
 
@@ -70,12 +68,12 @@ class _CardAdderBloc implements CardAdderBloc {
     _state.add(CardAddingState.processing);
 
     try {
-      await _cardAddable.add(
-        user: _authenticatable.user.value,
+      await cardAddable.add(
+        session: session,
         text: text.value,
       );
 
-      await _cardCreateLoggable.logCardCreate();
+      await cardCreateLoggable.logCardCreate();
     } on CardDuplicationException catch (error) {
       _state.add(CardAddingState.failed);
       _onError.add(error);
@@ -94,7 +92,7 @@ class _CardAdderBloc implements CardAdderBloc {
 
   @override
   void initialize() {
-    _cardCreateLoggable.logCardCreateStart();
+    cardCreateLoggable.logCardCreateStart();
   }
 }
 
@@ -114,24 +112,20 @@ class _NewCardText extends NewCardText {
 
 class CardAdderBlocFactory {
   CardAdderBlocFactory({
-    @required Authenticatable authenticatable,
     @required CardAddable cardAddable,
     @required CardCreateLoggable cardCreateLoggable,
-  })  : assert(authenticatable != null),
-        assert(cardAddable != null),
+  })  : assert(cardAddable != null),
         assert(cardCreateLoggable != null),
-        _authenticatable = authenticatable,
         _cardAddable = cardAddable,
         _cardCreateLoggable = cardCreateLoggable;
-
-  final Authenticatable _authenticatable;
 
   final CardAddable _cardAddable;
 
   final CardCreateLoggable _cardCreateLoggable;
 
-  CardAdderBloc create() => _CardAdderBloc(
-        authenticatable: _authenticatable,
+  CardAdderBloc create({@required AuthenticationSession session}) =>
+      _CardAdderBloc(
+        session: session,
         cardAddable: _cardAddable,
         cardCreateLoggable: _cardCreateLoggable,
       );

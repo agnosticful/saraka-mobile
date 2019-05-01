@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/constants.dart';
 import '../entities/card.dart';
-import './authenticatable.dart';
 import './card_subscribable.dart';
 import './introduction_finish_loggable.dart';
 import './introduction_finishable.dart';
@@ -23,24 +22,18 @@ abstract class IntroductionBloc {
 
 class _IntroductionBloc implements IntroductionBloc {
   _IntroductionBloc({
-    @required Authenticatable authenticatable,
-    @required CardSubscribable cardSubscribable,
-    @required IntroductionFinishLoggable introductionFinishLoggable,
-    @required IntroductionFinishable introductionFinishable,
-    @required IntroductionPageChangeLoggable introductionPageChangeLoggable,
-  })  : assert(authenticatable != null),
+    @required this.session,
+    @required this.cardSubscribable,
+    @required this.introductionFinishLoggable,
+    @required this.introductionFinishable,
+    @required this.introductionPageChangeLoggable,
+  })  : assert(session != null),
         assert(cardSubscribable != null),
         assert(introductionFinishLoggable != null),
         assert(introductionFinishable != null),
-        assert(introductionPageChangeLoggable != null),
-        _authenticatable = authenticatable,
-        _cardSubscribable = cardSubscribable,
-        _introductionFinishLoggable = introductionFinishLoggable,
-        _introductionFinishable = introductionFinishable,
-        _introductionPageChangeLoggable = introductionPageChangeLoggable {
-    final subscription = _cardSubscribable
-        .subscribeCards(user: _authenticatable.user.value)
-        .listen((cards) {
+        assert(introductionPageChangeLoggable != null) {
+    final subscription =
+        cardSubscribable.subscribeCards(session: session).listen((cards) {
       firstCards.add(cards.take(necessaryFirstCardLength).toList());
       isEnoughCardsAdded.add(cards.length >= necessaryFirstCardLength);
     });
@@ -52,15 +45,15 @@ class _IntroductionBloc implements IntroductionBloc {
         () => !isEnoughCardsAdded.hasListener ?? subscription.cancel();
   }
 
-  final Authenticatable _authenticatable;
+  final AuthenticationSession session;
 
-  final CardSubscribable _cardSubscribable;
+  final CardSubscribable cardSubscribable;
 
-  final IntroductionFinishLoggable _introductionFinishLoggable;
+  final IntroductionFinishLoggable introductionFinishLoggable;
 
-  final IntroductionFinishable _introductionFinishable;
+  final IntroductionFinishable introductionFinishable;
 
-  final IntroductionPageChangeLoggable _introductionPageChangeLoggable;
+  final IntroductionPageChangeLoggable introductionPageChangeLoggable;
 
   @override
   final BehaviorSubject<List<Card>> firstCards = BehaviorSubject();
@@ -76,36 +69,30 @@ class _IntroductionBloc implements IntroductionBloc {
   Future<void> logPageChange({
     @required String pageName,
   }) =>
-      _introductionPageChangeLoggable.logIntroductionPageChange(
+      introductionPageChangeLoggable.logIntroductionPageChange(
           pageName: pageName);
 
   @override
   Future<void> finishIntroduction() => Future.wait([
-        _introductionFinishable.finishIntroduction(
-            user: _authenticatable.user.value),
-        _introductionFinishLoggable.logIntroductionFinish(),
+        introductionFinishable.finishIntroduction(session: session),
+        introductionFinishLoggable.logIntroductionFinish(),
       ]);
 }
 
 class IntroductionBlocFactory {
   IntroductionBlocFactory({
-    @required Authenticatable authenticatable,
     @required CardSubscribable cardSubscribable,
     @required IntroductionFinishLoggable introductionFinishLoggable,
     @required IntroductionFinishable introductionFinishable,
     @required IntroductionPageChangeLoggable introductionPageChangeLoggable,
-  })  : assert(authenticatable != null),
-        assert(cardSubscribable != null),
+  })  : assert(cardSubscribable != null),
         assert(introductionFinishLoggable != null),
         assert(introductionFinishable != null),
         assert(introductionPageChangeLoggable != null),
-        _authenticatable = authenticatable,
         _cardSubscribable = cardSubscribable,
         _introductionFinishLoggable = introductionFinishLoggable,
         _introductionFinishable = introductionFinishable,
         _introductionPageChangeLoggable = introductionPageChangeLoggable;
-
-  final Authenticatable _authenticatable;
 
   final CardSubscribable _cardSubscribable;
 
@@ -115,8 +102,8 @@ class IntroductionBlocFactory {
 
   final IntroductionPageChangeLoggable _introductionPageChangeLoggable;
 
-  IntroductionBloc create() => _IntroductionBloc(
-        authenticatable: _authenticatable,
+  IntroductionBloc create({AuthenticationSession session}) => _IntroductionBloc(
+        session: session,
         cardSubscribable: _cardSubscribable,
         introductionFinishable: _introductionFinishable,
         introductionFinishLoggable: _introductionFinishLoggable,

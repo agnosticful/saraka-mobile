@@ -4,20 +4,6 @@ import 'package:saraka/constants.dart';
 import 'package:flutter/foundation.dart';
 import './backend_version_gettable.dart';
 
-class BackendVersionCompatibilityCheckBlocFactory {
-  BackendVersionCompatibilityCheckBlocFactory({
-    @required BackendVersionGettable backendVersionGettable,
-  })  : assert(backendVersionGettable != null),
-        _backendVersionGettable = backendVersionGettable;
-
-  final BackendVersionGettable _backendVersionGettable;
-
-  BackendVersionCompatibilityCheckBloc create() =>
-      _BackendVersionCompatibilityCheckBloc(
-        backendVersionGettable: _backendVersionGettable,
-      );
-}
-
 abstract class BackendVersionCompatibilityCheckBloc {
   ValueObservable<bool> get isCompatibleWithCurrentBackend;
 }
@@ -38,4 +24,18 @@ class _BackendVersionCompatibilityCheckBloc
   @override
   final BehaviorSubject<bool> isCompatibleWithCurrentBackend =
       BehaviorSubject();
+}
+
+class BackendVersionCompatibilityCheckBlocFactory {
+  BackendVersionCompatibilityCheckBlocFactory({
+    @required BackendVersionGettable backendVersionGettable,
+  })  : assert(backendVersionGettable != null),
+        _backendVersionGettable = backendVersionGettable;
+
+  final BackendVersionGettable _backendVersionGettable;
+
+  BackendVersionCompatibilityCheckBloc create() =>
+      _BackendVersionCompatibilityCheckBloc(
+        backendVersionGettable: _backendVersionGettable,
+      );
 }

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import '../../blocs/authentication_bloc.dart';
 import '../../blocs/card_detail_bloc.dart';
 import '../../blocs/card_list_bloc.dart';
 import '../../blocs/synthesizer_bloc.dart';
@@ -14,10 +15,15 @@ class CardSliverList extends StatefulWidget {
 class _CardSliverListState extends State<CardSliverList> {
   @override
   Widget build(BuildContext context) {
-    return Consumer3<CardListBloc, CardDetailBlocFactory,
+    return Consumer4<AuthenticationBloc, CardListBloc, CardDetailBlocFactory,
         SynthesizerBlocFactory>(
-      builder: (context, cardListBloc, cardDetailBlocFactory,
-              synthesizerBlocFactory) =>
+      builder: (
+        context,
+        authenticationBloc,
+        cardListBloc,
+        cardDetailBlocFactory,
+        synthesizerBlocFactory,
+      ) =>
           StreamBuilder<List<Card>>(
             stream: cardListBloc.cards,
             initialData: cardListBloc.cards.value,
@@ -32,7 +38,10 @@ class _CardSliverListState extends State<CardSliverList> {
                                 key: ValueKey(card.id),
                                 providers: [
                                   Provider<CardDetailBloc>(
-                                    value: cardDetailBlocFactory.create(card),
+                                    value: cardDetailBlocFactory.create(
+                                      card: card,
+                                      session: authenticationBloc.session,
+                                    ),
                                   ),
                                   Provider<SynthesizerBloc>(
                                     value: synthesizerBlocFactory.create(),

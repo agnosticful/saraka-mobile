@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' show Material;
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/authentication_bloc.dart';
 import '../../blocs/card_detail_bloc.dart';
 import '../../blocs/synthesizer_bloc.dart';
 import './proficiency_description.dart';
@@ -22,13 +23,21 @@ class CardListViewItem extends StatelessWidget {
 
   final bool showDetail;
 
-  Widget build(BuildContext context) =>
-      Consumer2<CardDetailBlocFactory, SynthesizerBlocFactory>(
-        builder: (context, cardDetailBlocFactory, synthesizerBlocFactory) =>
+  Widget build(BuildContext context) => Consumer3<AuthenticationBloc,
+          CardDetailBlocFactory, SynthesizerBlocFactory>(
+        builder: (
+          context,
+          authenticationBloc,
+          cardDetailBlocFactory,
+          synthesizerBlocFactory,
+        ) =>
             MultiProvider(
               providers: [
                 Provider<CardDetailBloc>(
-                  value: cardDetailBlocFactory.create(card),
+                  value: cardDetailBlocFactory.create(
+                    card: card,
+                    session: authenticationBloc.session,
+                  ),
                 ),
                 Provider<SynthesizerBloc>(
                   value: synthesizerBlocFactory.create(),

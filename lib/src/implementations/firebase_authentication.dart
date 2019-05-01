@@ -3,69 +3,65 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
-import '../blocs/authenticatable.dart';
 import '../blocs/signable.dart';
 
-class FirebaseAuthentication implements Authenticatable, Signable {
+class FirebaseAuthentication implements Signable {
   FirebaseAuthentication({
     @required FirebaseAuth firebaseAuth,
     @required GoogleSignIn googleSignIn,
-    @required Firestore firestore,
   })  : assert(firebaseAuth != null),
         assert(googleSignIn != null),
-        assert(firestore != null),
         _firebaseAuth = firebaseAuth,
-        _firestore = firestore,
-        _googleSignIn = googleSignIn {
-    Observable(_firebaseAuth.onAuthStateChanged).listen((firebaseUser) async {
-      if (firebaseUser == null) {
-        if (_lastUserFragmentSubscription != null) {
-          _lastUserFragmentSubscription.cancel();
+        _googleSignIn = googleSignIn;
+  //  {
+  //   Observable(_firebaseAuth.onAuthStateChanged).listen((firebaseUser) async {
+  //     if (firebaseUser == null) {
+  //       if (_lastUserFragmentSubscription != null) {
+  //         _lastUserFragmentSubscription.cancel();
 
-          _lastUserFragmentSubscription = null;
-        }
+  //         _lastUserFragmentSubscription = null;
+  //       }
 
-        return _user.add(null);
-      }
+  //       return _user.add(null);
+  //     }
 
-      _lastUserFragmentSubscription = _firestore
-          .collection('users')
-          .document(firebaseUser.uid)
-          .snapshots()
-          .listen((snapshot) {
-        if (!snapshot.exists) {
-          return _user.add(null);
-        }
+  //     _lastUserFragmentSubscription = _firestore
+  //         .collection('users')
+  //         .document(firebaseUser.uid)
+  //         .snapshots()
+  //         .listen((snapshot) {
+  //       if (!snapshot.exists) {
+  //         return _user.add(null);
+  //       }
 
-        final userFragment = _FirestoreUserFragment(snapshot);
+  //       final userFragment = _FirestoreUserFragment(snapshot);
 
-        _user.add(_User(
-          id: firebaseUser.uid,
-          name: firebaseUser.displayName,
-          email: firebaseUser.email,
-          imageUrl: Uri.parse(firebaseUser.photoUrl),
-          isIntroductionFinished: userFragment.isIntroductionFinished,
-        ));
-      });
-    });
-  }
+  //       _user.add(_User(
+  //         id: firebaseUser.uid,
+  //         name: firebaseUser.displayName,
+  //         email: firebaseUser.email,
+  //         imageUrl: Uri.parse(firebaseUser.photoUrl),
+  //         isIntroductionFinished: userFragment.isIntroductionFinished,
+  //       ));
+  //     });
+  //   });
+  // }
 
   final FirebaseAuth _firebaseAuth;
 
-  final Firestore _firestore;
-
   final GoogleSignIn _googleSignIn;
 
-  final _user = BehaviorSubject<User>();
+  @override
+  Future<AuthenticationSession> restoreSession() async {
+    final firebaseUser = await _firebaseAuth.currentUser();
 
-  StreamSubscription _lastUserFragmentSubscription;
+    return firebaseUser == null
+        ? null
+        : _FirebaseAuthenticationSession(firebaseUser);
+  }
 
   @override
-  ValueObservable<User> get user => _user;
-
-  @override
-  Future<void> signIn() async {
+  Future<AuthenticationSession> signIn() async {
     final googleUser = await _googleSignIn.signIn();
     final googleAuthentication = await googleUser.authentication;
 
@@ -74,38 +70,33 @@ class FirebaseAuthentication implements Authenticatable, Signable {
       idToken: googleAuthentication.idToken,
     );
 
-    await _firebaseAuth.signInWithCredential(credential);
+    final firebaseUser = await _firebaseAuth.signInWithCredential(credential);
+
+    return _FirebaseAuthenticationSession(firebaseUser);
   }
 
   @override
-  Future<void> signOut() async {
+  Future<void> signOut({AuthenticationSession session}) async {
     await _firebaseAuth.signOut();
     await _googleSignIn.signOut();
   }
 }
 
-class _User extends User {
-  _User({
-    @required this.id,
-    @required this.name,
-    @required this.email,
-    @required this.imageUrl,
-    @required this.isIntroductionFinished,
-  })  : assert(id != null),
-        assert(name != null),
-        assert(email != null),
-        assert(imageUrl != null),
-        assert(isIntroductionFinished != null);
+class _FirebaseAuthenticationSession implements AuthenticationSession {
+  _FirebaseAuthenticationSession(FirebaseUser firebaseUser)
+      : assert(firebaseUser != null),
+        userId = firebaseUser.uid,
+        name = firebaseUser.displayName,
+        email = firebaseUser.email,
+        imageUrl = Uri.parse(firebaseUser.photoUrl);
 
-  final String id;
+  final String userId;
 
   final String name;
 
   final String email;
 
   final Uri imageUrl;
-
-  final bool isIntroductionFinished;
 }
 
 class _FirestoreUserFragment {
