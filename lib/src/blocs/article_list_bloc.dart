@@ -1,9 +1,9 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/entities.dart';
-import 'commons/article_gettable.dart';
+import 'article_gettable.dart';
 
-export 'commons/article_gettable.dart';
+export 'article_gettable.dart';
 
 class ArticleListBlocFactory {
   ArticleListBlocFactory({
