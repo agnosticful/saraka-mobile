@@ -30,10 +30,3 @@ class _ArticleListBloc implements ArticleListBloc {
     _articleGettable.getArticles().listen((article) {
       articles.add(article);
     });
-  }
-
-  final ArticleGettable _articleGettable;
-
-  @override
-  final BehaviorSubject<List<Article>> articles = BehaviorSubject();
-}
