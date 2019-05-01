@@ -157,7 +157,7 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
                         case "/articles":
                           return ArticleListRoute(
                             settings: settings,
-                            child: widget.cardListBuilder(context),
+                            child: widget.articleListBuilder(context),
                           );
                       }
                     },
