@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart' hide Card;
+import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import 'article_list_view.dart';
 
 class ArticleListScreen extends StatelessWidget {
   @override
@@ -11,20 +11,33 @@ class ArticleListScreen extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               WaveBackground(color: SarakaColors.white),
-              Consumer<ArticleListBloc>(
-                builder: (context, articleListBloc) =>
-                    StreamBuilder<List<Article>>(
-                      stream: articleListBloc.articles,
-                      initialData: articleListBloc.articles.value,
-                      builder: (context, snapshot) => snapshot.hasData
-                          ? Container(
-                              child: Text("hello!" + snapshot.data[0].title),
-                            )
-                          : Container(
-                              child: Text("No data"),
-                            ),
+              CustomScrollView(
+                slivers: <Widget>[
+                  SliverAppBar(
+                    floating: true,
+                    elevation: 6,
+                    backgroundColor: SarakaColors.white,
+                    iconTheme: IconThemeData(color: SarakaColors.lightBlack),
+                    centerTitle: true,
+                    title: Text(
+                      'Articles',
+                      style: SarakaTextStyles.appBarTitle.copyWith(
+                        color: SarakaColors.lightBlack,
+                      ),
                     ),
-              ),
+                    leading: Navigator.of(context).canPop()
+                        ? IconButton(
+                            icon: Icon(Feather.getIconData('arrow-left')),
+                            onPressed: () => Navigator.of(context).pop(),
+                          )
+                        : null,
+                  ),
+                  SliverPadding(
+                    padding: EdgeInsets.fromLTRB(16, 16, 16, 80),
+                    sliver: ArticleListView(),
+                  ),
+                ],
+              )
             ],
           ),
         ),
