@@ -18,9 +18,11 @@ class ArticleListScreen extends StatelessWidget {
                       initialData: articleListBloc.articles.value,
                       builder: (context, snapshot) => snapshot.hasData
                           ? Container(
-                              child: Text(snapshot.data[0].title),
+                              child: Text("hello!" + snapshot.data[0].title),
                             )
-                          : Container(),
+                          : Container(
+                              child: Text("No data"),
+                            ),
                     ),
               ),
             ],
