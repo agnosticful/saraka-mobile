@@ -48,21 +48,22 @@ class _ChangeableContent extends State<ChangeableContent> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                InkWell(
-                  borderRadius: BorderRadius.circular(4),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      changeContentFlag ? "See more" : "See less",
-                      style: TextStyle(color: Colors.blue),
-                    ),
+                FlatButton(
+                  shape: SuperellipseShape(
+                    borderRadius: BorderRadius.circular(24),
                   ),
-                  onTap: () {
-                    setState(() {
-                      changeContentFlag = !changeContentFlag;
-                    });
-                  },
-                )
+                  padding: const EdgeInsets.only(
+                    left: 4,
+                    right: 4,
+                  ),
+                  onPressed: () => setState(() {
+                        changeContentFlag = !changeContentFlag;
+                      }),
+                  child: Text(
+                    changeContentFlag ? "See more" : "See less",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ),
               ],
             ),
           ],
