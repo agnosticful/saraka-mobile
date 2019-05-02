@@ -11,8 +11,8 @@ import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
-import './src/blocs/authentication_bloc.dart';
 import './src/blocs/article_list_bloc.dart';
+import './src/blocs/authentication_bloc.dart';
 import './src/blocs/backend_version_compatibility_check_bloc.dart';
 import './src/blocs/card_adder_bloc.dart';
 import './src/blocs/card_delete_bloc.dart';
@@ -157,13 +157,12 @@ void main() async {
     synthesizedSoundFileReferable: cacheStorage,
     synthesizeLoggable: logger,
   );
+  final articleListBlocFactory =
+      ArticleListBlocFactory(articleGettable: articleRepository);
   final authenticationBloc = authenticationBlocFactory.create();
   final backendVersionCompatibilityCheckBloc =
       backendVersionCompatibilityCheckBlocFactory.create();
   final maintenanceCheckBloc = maintenanceCheckBlocFactory.create();
-
-  final articleListBlocFactory =
-      ArticleListBlocFactory(articleGettable: articleRepository);
 
   runZoned<Future<Null>>(
     () async {
