@@ -12,17 +12,17 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import './src/blocs/authentication_bloc.dart';
+import './src/blocs/article_list_bloc.dart';
 import './src/blocs/backend_version_compatibility_check_bloc.dart';
-import './src/blocs/common_link_bloc.dart';
-import './src/blocs/introduction_bloc.dart';
-import './src/blocs/maintenance_check_bloc.dart';
 import './src/blocs/card_adder_bloc.dart';
 import './src/blocs/card_delete_bloc.dart';
 import './src/blocs/card_detail_bloc.dart';
 import './src/blocs/card_review_bloc.dart';
 import './src/blocs/card_list_bloc.dart';
+import './src/blocs/common_link_bloc.dart';
+import './src/blocs/introduction_bloc.dart';
+import './src/blocs/maintenance_check_bloc.dart';
 import './src/blocs/synthesizer_bloc.dart';
-import './src/blocs/article_list_bloc.dart';
 import './src/implementations/cache_storage.dart';
 import './src/implementations/firebase_analytics_logger.dart';
 import './src/implementations/firebase_authentication.dart';
@@ -31,10 +31,11 @@ import './src/implementations/firestore_backend_version_repository.dart';
 import './src/implementations/firestore_card_repository.dart';
 import './src/implementations/firestore_maintenance_repository.dart';
 import './src/implementations/firestore_user_repository.dart';
+import './src/implementations/prismic_io_article_repository.dart';
 import './src/implementations/sound_player.dart';
 import './src/implementations/url_launcher.dart';
-import './src/implementations/prismic_io_article_repository.dart';
 import './src/widgets/application.dart';
+import './src/widgets/article_list_screen.dart';
 import './src/widgets/authentication_navigator.dart';
 import './src/widgets/backend_version_check_navigator.dart';
 import './src/widgets/card_list_screen.dart';
@@ -45,7 +46,6 @@ import './src/widgets/maintenance_check_navigator.dart';
 import './src/widgets/review_screen.dart';
 import './src/widgets/signed_in_navigator.dart';
 import './src/widgets/signed_out_screen.dart';
-import './src/widgets/article_list_screen.dart';
 
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -169,6 +169,7 @@ void main() async {
       runApp(
         MultiProvider(
           providers: [
+            Provider<ArticleListBlocFactory>(value: articleListBlocFactory),
             Provider<CardAdderBlocFactory>(value: cardAdderBlocFactory),
             Provider<CardDeleteBlocFactory>(value: cardDeleteBlocFactory),
             Provider<CardDetailBlocFactory>(value: cardDetailBlocFactory),
@@ -182,7 +183,6 @@ void main() async {
             ),
             Provider<CommonLinkBloc>(value: commonLinkBloc),
             Provider<MaintenanceCheckBloc>(value: maintenanceCheckBloc),
-            Provider<ArticleListBlocFactory>(value: articleListBlocFactory),
           ],
           child: Application(
             title: "Parrot",
