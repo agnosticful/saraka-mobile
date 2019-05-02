@@ -39,17 +39,17 @@ class _ChangeableContent extends State<ChangeableContent> {
         )
       : Column(
           children: <Widget>[
-            new Text(
+            Text(
               flag ? (firstHalf + "...") : (firstHalf + secondHalf),
               style: SarakaTextStyles.body,
             ),
-            new InkWell(
-              child: new Row(
+            InkWell(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  new Text(
+                  Text(
                     flag ? "show more" : "show less",
-                    style: new TextStyle(color: Colors.blue),
+                    style: TextStyle(color: Colors.blue),
                   ),
                 ],
               ),
