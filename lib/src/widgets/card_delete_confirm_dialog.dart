@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' show Material;
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
+import '../blocs/authentication_bloc.dart';
 import '../blocs/card_delete_bloc.dart';
 import './disappearable_builder.dart';
 import './fancy_popup_dialog.dart';
@@ -15,20 +16,24 @@ Future<void> showCardDeleteConfirmDialog({
 
   return showFancyPopupDialog(
     context: context,
-    pageBuilder: (context, _, __) => MultiProvider(
-          providers: [
-            Provider<CardDeleteBloc>(
-              value:
-                  Provider.of<CardDeleteBlocFactory>(context).create(card: card)
-                    ..onComplete.listen((_) {
-                      Navigator.of(context).pop();
-                    })
-                    ..onError.listen((error) {
-                      Navigator.of(context).pop();
-                    }),
-            ),
-          ],
-          child: CardDeleteConfirmDialog(),
+    pageBuilder: (context, _, __) => Consumer<AuthenticationBloc>(
+          builder: (context, authenticationBloc) => MultiProvider(
+                providers: [
+                  Provider<CardDeleteBloc>(
+                    value: Provider.of<CardDeleteBlocFactory>(context).create(
+                      card: card,
+                      session: authenticationBloc.session,
+                    )
+                      ..onComplete.listen((_) {
+                        Navigator.of(context).pop();
+                      })
+                      ..onError.listen((error) {
+                        Navigator.of(context).pop();
+                      }),
+                  ),
+                ],
+                child: CardDeleteConfirmDialog(),
+              ),
         ),
   );
 }

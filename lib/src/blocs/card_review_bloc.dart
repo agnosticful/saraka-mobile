@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import '../entities/card.dart';
 import '../entities/review_certainty.dart';
-import './authenticatable.dart';
 import './card_reviewable.dart';
 import './card_review_loggable.dart';
 import './in_queue_card_subscribable.dart';
@@ -29,25 +28,22 @@ abstract class CardReviewBloc {
 
 class _CardReviewBloc implements CardReviewBloc {
   _CardReviewBloc({
-    @required Authenticatable authenticatable,
-    @required CardReviewable cardReviewable,
-    @required CardReviewLoggable cardReviewLoggable,
-    @required InQueueCardSubscribable inQueueCardSubscribable,
-  })  : assert(authenticatable != null),
-        assert(cardReviewable != null),
+    @required this.cardReviewable,
+    @required this.cardReviewLoggable,
+    @required this.inQueueCardSubscribable,
+    @required this.session,
+  })  : assert(cardReviewable != null),
+        assert(cardReviewLoggable != null),
         assert(inQueueCardSubscribable != null),
-        _authenticatable = authenticatable,
-        _cardReviewable = cardReviewable,
-        _cardReviewLoggable = cardReviewLoggable,
-        _inQueueCardSubscribable = inQueueCardSubscribable;
+        assert(session != null);
 
-  final Authenticatable _authenticatable;
+  final CardReviewable cardReviewable;
 
-  final CardReviewable _cardReviewable;
+  final CardReviewLoggable cardReviewLoggable;
 
-  final CardReviewLoggable _cardReviewLoggable;
+  final InQueueCardSubscribable inQueueCardSubscribable;
 
-  final InQueueCardSubscribable _inQueueCardSubscribable;
+  final AuthenticationSession session;
 
   final BehaviorSubject<List<Card>> _allInQueueCards =
       BehaviorSubject.seeded([]);
@@ -81,17 +77,17 @@ class _CardReviewBloc implements CardReviewBloc {
 
   @override
   void initialize() async {
-    final cards = await _inQueueCardSubscribable
-        .subscribeInQueueCards(user: _authenticatable.user.value)
+    final cards = await inQueueCardSubscribable
+        .subscribeInQueueCards(session: session)
         .first;
 
-    _cardReviewLoggable.logReviewStart(cardLength: cards.length);
+    cardReviewLoggable.logReviewStart(cardLength: cards.length);
 
     _allInQueueCards.add(cards);
 
     finishedRatio.listen((ratio) {
       if (ratio == 1) {
-        _cardReviewLoggable.logReviewEnd(
+        cardReviewLoggable.logReviewEnd(
           cardLength: cards.length,
           reviewedCardLength: _reviewedCards.value.length,
         );
@@ -103,13 +99,13 @@ class _CardReviewBloc implements CardReviewBloc {
   Future<void> reviewedWell(Card card) async {
     _reviewedCards.add(List.from(_reviewedCards.value)..add(card));
 
-    _cardReviewable.review(
+    cardReviewable.review(
       card: card,
       certainty: ReviewCertainty.good,
-      user: _authenticatable.user.value,
+      session: session,
     );
 
-    _cardReviewLoggable.logCardReview(
+    cardReviewLoggable.logCardReview(
       certainty: ReviewCertainty.good,
     );
   }
@@ -118,13 +114,13 @@ class _CardReviewBloc implements CardReviewBloc {
   Future<void> reviewedVaguely(Card card) async {
     _reviewedCards.add(List.from(_reviewedCards.value)..add(card));
 
-    _cardReviewable.review(
+    cardReviewable.review(
       card: card,
       certainty: ReviewCertainty.vague,
-      user: _authenticatable.user.value,
+      session: session,
     );
 
-    _cardReviewLoggable.logCardReview(
+    cardReviewLoggable.logCardReview(
       certainty: ReviewCertainty.vague,
     );
   }
@@ -137,17 +133,17 @@ class _CardReviewBloc implements CardReviewBloc {
 
     _reviewedCards.add(List.from(_reviewedCards.value)..remove(lastCard));
 
-    _cardReviewable.undoReview(
+    cardReviewable.undoReview(
       card: lastCard,
-      user: _authenticatable.user.value,
+      session: session,
     );
 
-    _cardReviewLoggable.logCardReviewUndo();
+    cardReviewLoggable.logCardReviewUndo();
   }
 
   @override
   Future<void> dispose() async {
-    _cardReviewLoggable.logReviewEnd(
+    cardReviewLoggable.logReviewEnd(
       cardLength: _allInQueueCards.value.length,
       reviewedCardLength: _reviewedCards.value.length,
     );
@@ -156,19 +152,15 @@ class _CardReviewBloc implements CardReviewBloc {
 
 class CardReviewBlocFactory {
   CardReviewBlocFactory({
-    @required Authenticatable authenticatable,
     @required CardReviewable cardReviewable,
     @required CardReviewLoggable cardReviewLoggable,
     @required InQueueCardSubscribable inQueueCardSubscribable,
-  })  : assert(authenticatable != null),
-        assert(cardReviewable != null),
+  })  : assert(cardReviewable != null),
+        assert(cardReviewLoggable != null),
         assert(inQueueCardSubscribable != null),
-        _authenticatable = authenticatable,
         _cardReviewable = cardReviewable,
         _cardReviewLoggable = cardReviewLoggable,
         _inQueueCardSubscribable = inQueueCardSubscribable;
-
-  final Authenticatable _authenticatable;
 
   final CardReviewable _cardReviewable;
 
@@ -176,8 +168,9 @@ class CardReviewBlocFactory {
 
   final InQueueCardSubscribable _inQueueCardSubscribable;
 
-  CardReviewBloc create() => _CardReviewBloc(
-        authenticatable: _authenticatable,
+  CardReviewBloc create({@required AuthenticationSession session}) =>
+      _CardReviewBloc(
+        session: session,
         cardReviewable: _cardReviewable,
         cardReviewLoggable: _cardReviewLoggable,
         inQueueCardSubscribable: _inQueueCardSubscribable,

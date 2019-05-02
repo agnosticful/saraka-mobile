@@ -22,12 +22,14 @@ class FirestoreCardRepository
   final Firestore _firestore;
 
   @override
-  ValueObservable<List<Card>> subscribeCards({@required User user}) {
+  ValueObservable<List<Card>> subscribeCards({
+    @required AuthenticationSession session,
+  }) {
     final observable = BehaviorSubject<List<Card>>();
 
     final subscription = _firestore
         .collection('users')
-        .document(user.id)
+        .document(session.userId)
         .collection('cards')
         .orderBy('nextReviewInterval', descending: true)
         .orderBy('text')
@@ -47,12 +49,14 @@ class FirestoreCardRepository
   }
 
   @override
-  ValueObservable<List<Card>> subscribeInQueueCards({@required User user}) {
+  ValueObservable<List<Card>> subscribeInQueueCards({
+    @required AuthenticationSession session,
+  }) {
     final observable = BehaviorSubject<List<Card>>();
 
     final subscription = _firestore
         .collection('users')
-        .document(user.id)
+        .document(session.userId)
         .collection('cards')
         .where('nextReviewScheduledFor', isLessThanOrEqualTo: Timestamp.now())
         .orderBy('nextReviewScheduledFor')
@@ -71,14 +75,14 @@ class FirestoreCardRepository
 
   @override
   Observable<List<Review>> subscribeReviewsInCard({
-    User user,
+    AuthenticationSession session,
     Card card,
   }) {
     final observable = BehaviorSubject<List<Review>>();
 
     final subscription = _firestore
         .collection('users')
-        .document(user.id)
+        .document(session.userId)
         .collection('cards')
         .document(card.id)
         .collection('reviews')
@@ -97,11 +101,15 @@ class FirestoreCardRepository
   }
 
   @override
-  Future<void> deleteCard({User user, Card card}) => Future.wait([
+  Future<void> deleteCard({
+    Card card,
+    AuthenticationSession session,
+  }) =>
+      Future.wait([
         Future.delayed(Duration(milliseconds: 600)),
         _firestore
             .collection('users')
-            .document(user.id)
+            .document(session.userId)
             .collection('cards')
             .document(card.id)
             .delete(),

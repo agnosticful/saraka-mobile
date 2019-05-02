@@ -1,4 +1,4 @@
-mixin BackendVersionGettable {
+abstract class BackendVersionGettable {
   Future<int> getBackendVersion();
 }
 

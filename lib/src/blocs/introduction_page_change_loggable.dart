@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
 
-mixin IntroductionPageChangeLoggable {
+abstract class IntroductionPageChangeLoggable {
   Future<void> logIntroductionPageChange({@required String pageName});
 }

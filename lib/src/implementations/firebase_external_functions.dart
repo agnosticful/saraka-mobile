@@ -15,7 +15,7 @@ class FirebaseExternalFunctions
   final CloudFunctions _cloudFunctions;
 
   @override
-  Future<void> add({User user, NewCardText text}) async {
+  Future<void> add({AuthenticationSession session, NewCardText text}) async {
     try {
       await _cloudFunctions.call(
         functionName: 'createCard',
@@ -33,7 +33,11 @@ class FirebaseExternalFunctions
   }
 
   @override
-  Future<void> review({Card card, ReviewCertainty certainty, User user}) async {
+  Future<void> review({
+    Card card,
+    ReviewCertainty certainty,
+    AuthenticationSession session,
+  }) async {
     try {
       await _cloudFunctions.call(
         functionName: 'logReview',
@@ -50,7 +54,7 @@ class FirebaseExternalFunctions
   }
 
   @override
-  Future<void> undoReview({Card card, User user}) async {
+  Future<void> undoReview({Card card, AuthenticationSession session}) async {
     try {
       await _cloudFunctions.call(
         functionName: 'deleteLastReview',

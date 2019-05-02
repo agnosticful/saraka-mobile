@@ -1,5 +1,5 @@
 import 'dart:io' show File;
 
-mixin SoundFilePlayable {
+abstract class SoundFilePlayable {
   Future<void> play(File file);
 }
