@@ -78,6 +78,8 @@ void main() async {
   /**
    * Implementations
    */
+  final articleRepository =
+      PrismicIoArticleRepository(prismicIoArticleUrl: prismicIoArticleUrl);
   final authentication = FirebaseAuthentication(
     firebaseAuth: firebaseAuth,
     firestore: firestore,
@@ -98,8 +100,6 @@ void main() async {
   final userRepository = FirestoreUserRepository(firestore: Firestore.instance);
   final soundPlayer = SoundPlayer();
   final urlLauncher = UrlLauncher();
-  final articleRepository =
-      PrismicIoArticleRepository(prismicIoArticleUrl: prismicIoArticleUrl);
 
   /**
    * BLoCs
