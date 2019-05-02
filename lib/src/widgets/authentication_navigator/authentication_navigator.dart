@@ -48,7 +48,7 @@ class _AuthenticationNavigatorState extends State<AuthenticationNavigator> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () async {
       final authenticationBloc = Provider.of<AuthenticationBloc>(context);
 
       _subscription = authenticationBloc.user.listen((user) {
@@ -72,6 +72,8 @@ class _AuthenticationNavigatorState extends State<AuthenticationNavigator> {
 
         _previousUser = user;
       });
+
+      authenticationBloc.restoreSession();
     });
   }
 

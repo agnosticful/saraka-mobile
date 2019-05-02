@@ -1,3 +1,3 @@
-mixin IntroductionFinishLoggable {
+abstract class IntroductionFinishLoggable {
   Future<void> logIntroductionFinish();
 }

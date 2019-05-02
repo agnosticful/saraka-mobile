@@ -1,21 +1,21 @@
 import 'package:meta/meta.dart';
+import '../entities/authentication_session.dart';
 import '../entities/card.dart';
 import '../entities/review_certainty.dart';
-import '../entities/user.dart';
+export '../entities/authentication_session.dart';
 export '../entities/card.dart';
 export '../entities/review_certainty.dart';
-export '../entities/user.dart';
 
-mixin CardReviewable {
+abstract class CardReviewable {
   Future<void> review({
+    @required AuthenticationSession session,
     @required Card card,
     @required ReviewCertainty certainty,
-    @required User user,
   });
 
   Future<void> undoReview({
+    @required AuthenticationSession session,
     @required Card card,
-    @required User user,
   });
 }
 

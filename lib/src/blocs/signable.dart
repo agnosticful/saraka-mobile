@@ -1,5 +1,11 @@
-mixin Signable {
-  Future<void> signIn();
+import 'package:meta/meta.dart';
+import '../entities/authentication_session.dart';
+export '../entities/authentication_session.dart';
 
-  Future<void> signOut();
+abstract class Signable {
+  Future<AuthenticationSession> restoreSession();
+
+  Future<AuthenticationSession> signIn();
+
+  Future<void> signOut({@required AuthenticationSession session});
 }

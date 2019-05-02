@@ -9,15 +9,14 @@ abstract class MaintenanceCheckBloc {
 
 class _MaintenanceCheckBloc implements MaintenanceCheckBloc {
   _MaintenanceCheckBloc({
-    @required MaintenanceSubscribable maintenanceSubscribable,
-  })  : assert(maintenanceSubscribable != null),
-        _maintenanceSubscribable = maintenanceSubscribable;
+    @required this.maintenanceSubscribable,
+  }) : assert(maintenanceSubscribable != null);
 
-  final MaintenanceSubscribable _maintenanceSubscribable;
+  final MaintenanceSubscribable maintenanceSubscribable;
 
   @override
   ValueObservable<Maintenance> get maintenance =>
-      _maintenanceSubscribable.subscribeMaintenance();
+      maintenanceSubscribable.subscribeMaintenance();
 }
 
 class MaintenanceCheckBlocFactory {

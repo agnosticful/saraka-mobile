@@ -16,26 +16,22 @@ abstract class SynthesizerBloc {
 
 class _SynthesizerBloc implements SynthesizerBloc {
   _SynthesizerBloc({
-    @required SoundFilePlayable soundFilePlayable,
-    @required Synthesizable synthesizable,
-    @required SynthesizedSoundFileReferable synthesizedSoundFileReferable,
-    @required SynthesizeLoggable synthesizeLoggable,
+    @required this.soundFilePlayable,
+    @required this.synthesizable,
+    @required this.synthesizedSoundFileReferable,
+    @required this.synthesizeLoggable,
   })  : assert(soundFilePlayable != null),
         assert(synthesizable != null),
         assert(synthesizedSoundFileReferable != null),
-        assert(synthesizeLoggable != null),
-        _soundFilePlayable = soundFilePlayable,
-        _synthesizable = synthesizable,
-        _synthesizedSoundFileReferable = synthesizedSoundFileReferable,
-        _synthesizeLoggable = synthesizeLoggable;
+        assert(synthesizeLoggable != null);
 
-  final SoundFilePlayable _soundFilePlayable;
+  final SoundFilePlayable soundFilePlayable;
 
-  final Synthesizable _synthesizable;
+  final Synthesizable synthesizable;
 
-  final SynthesizedSoundFileReferable _synthesizedSoundFileReferable;
+  final SynthesizedSoundFileReferable synthesizedSoundFileReferable;
 
-  final SynthesizeLoggable _synthesizeLoggable;
+  final SynthesizeLoggable synthesizeLoggable;
 
   final _isCaching = PublishSubject();
 
@@ -51,19 +47,19 @@ class _SynthesizerBloc implements SynthesizerBloc {
   void play(String text) async {
     final file = await _cache(text);
 
-    _soundFilePlayable.play(file);
+    soundFilePlayable.play(file);
   }
 
   Future<File> _cache(String text) async {
     final file =
-        await _synthesizedSoundFileReferable.referSynthesizedSoundFile(text);
+        await synthesizedSoundFileReferable.referSynthesizedSoundFile(text);
 
     if (!await file.exists()) {
       _isCaching.add(1);
 
-      final sound = await _synthesizable.synthesize(text);
+      final sound = await synthesizable.synthesize(text);
 
-      _synthesizeLoggable.logSynthesize(text: text);
+      synthesizeLoggable.logSynthesize(text: text);
 
       await file.writeAsBytes(sound);
 

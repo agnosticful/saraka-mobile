@@ -77,7 +77,6 @@ void main() async {
    */
   final authentication = FirebaseAuthentication(
     firebaseAuth: firebaseAuth,
-    firestore: firestore,
     googleSignIn: googleSignIn,
   );
   final backendVersionRepository = FirestoreBackendVersionRepository(
@@ -100,10 +99,10 @@ void main() async {
    * BLoCs
    */
   final authenticationBlocFactory = AuthenticationBlocFactory(
-    authenticatable: authentication,
     loggerUserStateSettable: logger,
     signable: authentication,
     signInOutLoggable: logger,
+    userDataGettable: userRepository,
   );
   final backendVersionCompatibilityCheckBlocFactory =
       BackendVersionCompatibilityCheckBlocFactory(
@@ -114,7 +113,6 @@ void main() async {
     privacyPolicyUrl: privacyPolicyUrl,
   );
   final firstCardListBlocFactory = IntroductionBlocFactory(
-    authenticatable: authentication,
     cardSubscribable: cardRepository,
     introductionFinishable: userRepository,
     introductionFinishLoggable: logger,
@@ -124,26 +122,21 @@ void main() async {
     maintenanceSubscribable: maintenanceRepository,
   );
   final cardAdderBlocFactory = CardAdderBlocFactory(
-    authenticatable: authentication,
     cardAddable: firebaseExternalFunctions,
     cardCreateLoggable: logger,
   );
   final cardDeleteBlocFactory = CardDeleteBlocFactory(
-    authenticatable: authentication,
     cardDeletable: cardRepository,
   );
   final cardDetailBlocFactory = CardDetailBlocFactory(
-    authenticatable: authentication,
     reviewSubscribable: cardRepository,
   );
   final cardReviewBlocFactory = CardReviewBlocFactory(
-    authenticatable: authentication,
     cardReviewable: firebaseExternalFunctions,
     cardReviewLoggable: logger,
     inQueueCardSubscribable: cardRepository,
   );
   final cardListBlocFactory = CardListBlocFactory(
-    authenticatable: authentication,
     cardSubscribable: cardRepository,
   );
   final synthesizerBlocFactory = SynthesizerBlocFactory(
@@ -239,7 +232,7 @@ void main() async {
       );
     },
     onError: (error, stackTrace) async {
-      debugPrint(error);
+      debugPrint('$error');
       debugPrint(stackTrace);
 
       // Whenever an error occurs, call the `reportCrash` function. This will send Dart errors to our dev console or Crashlytics depending on the environment.

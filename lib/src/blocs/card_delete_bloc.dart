@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import './authenticatable.dart';
 import './card_deletable.dart';
 export './card_deletable.dart' show Card;
 
@@ -19,20 +18,18 @@ abstract class CardDeleteBloc {
 class _CardDeleteBloc implements CardDeleteBloc {
   _CardDeleteBloc({
     @required this.card,
-    @required Authenticatable authenticatable,
-    @required CardDeletable cardDeletable,
+    @required this.cardDeletable,
+    @required this.session,
   })  : assert(card != null),
-        assert(authenticatable != null),
         assert(cardDeletable != null),
-        _authenticatable = authenticatable,
-        _cardDeletable = cardDeletable;
+        assert(session != null);
 
   @override
   final Card card;
 
-  final Authenticatable _authenticatable;
+  final CardDeletable cardDeletable;
 
-  final CardDeletable _cardDeletable;
+  final AuthenticationSession session;
 
   final _state =
       BehaviorSubject<CardDeletionState>.seeded(CardDeletionState.initial);
@@ -54,9 +51,9 @@ class _CardDeleteBloc implements CardDeleteBloc {
     _state.add(CardDeletionState.processing);
 
     try {
-      await _cardDeletable.deleteCard(
-        user: _authenticatable.user.value,
+      await cardDeletable.deleteCard(
         card: card,
+        session: session,
       );
     } catch (error) {
       _state.add(CardDeletionState.failed);
@@ -78,21 +75,19 @@ enum CardDeletionState {
 }
 
 class CardDeleteBlocFactory {
-  CardDeleteBlocFactory({
-    @required Authenticatable authenticatable,
-    @required CardDeletable cardDeletable,
-  })  : assert(authenticatable != null),
-        assert(cardDeletable != null),
-        _authenticatable = authenticatable,
+  CardDeleteBlocFactory({@required CardDeletable cardDeletable})
+      : assert(cardDeletable != null),
         _cardDeletable = cardDeletable;
-
-  final Authenticatable _authenticatable;
 
   final CardDeletable _cardDeletable;
 
-  CardDeleteBloc create({@required Card card}) => _CardDeleteBloc(
+  CardDeleteBloc create({
+    @required Card card,
+    @required AuthenticationSession session,
+  }) =>
+      _CardDeleteBloc(
         card: card,
-        authenticatable: _authenticatable,
         cardDeletable: _cardDeletable,
+        session: session,
       );
 }

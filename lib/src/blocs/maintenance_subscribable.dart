@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
-mixin MaintenanceSubscribable {
+abstract class MaintenanceSubscribable {
   /// Returns a value observable of [Maintenance]. If the backend is not in maintenance, event value is `null`.
   ValueObservable<Maintenance> subscribeMaintenance();
 }

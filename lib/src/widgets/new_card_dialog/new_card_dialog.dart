@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/authentication_bloc.dart';
 import '../../blocs/card_list_bloc.dart';
 import '../../blocs/card_adder_bloc.dart';
 import '../../blocs/synthesizer_bloc.dart';
@@ -14,29 +15,40 @@ Future<void> showNewCardDialog({@required context}) {
 
   return showFancyPopupDialog(
     context: context,
-    pageBuilder: (context, _, __) => MultiProvider(
-          providers: [
-            StatefulProvider<CardListBloc>(
-              valueBuilder: (_) =>
-                  Provider.of<CardListBlocFactory>(context).create(),
-            ),
-            StatefulProvider<CardAdderBloc>(
-              valueBuilder: (_) =>
-                  Provider.of<CardAdderBlocFactory>(context).create()
-                    ..initialize()
-                    ..onComplete.listen((_) {
-                      Navigator.of(context).pop();
-                    })
-                    ..onError.listen((error) {
-                      Navigator.of(context).pop();
-                    }),
-            ),
-            StatefulProvider<SynthesizerBloc>(
-              valueBuilder: (_) =>
-                  Provider.of<SynthesizerBlocFactory>(context).create(),
-            ),
-          ],
-          child: _NewCardDialog(),
+    pageBuilder: (context, _, __) => Consumer4<AuthenticationBloc,
+            CardAdderBlocFactory, CardListBlocFactory, SynthesizerBlocFactory>(
+          builder: (
+            context,
+            authenticationBloc,
+            cardAdderBlocFactory,
+            cardListBlocFactory,
+            synthesizerBlocFactory,
+          ) =>
+              MultiProvider(
+                providers: [
+                  StatefulProvider<CardListBloc>(
+                    valueBuilder: (_) => cardListBlocFactory.create(
+                          session: authenticationBloc.session,
+                        ),
+                  ),
+                  StatefulProvider<CardAdderBloc>(
+                    valueBuilder: (_) => cardAdderBlocFactory.create(
+                          session: authenticationBloc.session,
+                        )
+                          ..initialize()
+                          ..onComplete.listen((_) {
+                            Navigator.of(context).pop();
+                          })
+                          ..onError.listen((error) {
+                            Navigator.of(context).pop();
+                          }),
+                  ),
+                  StatefulProvider<SynthesizerBloc>(
+                    valueBuilder: (_) => synthesizerBlocFactory.create(),
+                  ),
+                ],
+                child: _NewCardDialog(),
+              ),
         ),
   );
 }
