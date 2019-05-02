@@ -98,7 +98,8 @@ void main() async {
   final userRepository = FirestoreUserRepository(firestore: Firestore.instance);
   final soundPlayer = SoundPlayer();
   final urlLauncher = UrlLauncher();
-  final articleRepository = PrismicIoArticleRepository();
+  final articleRepository =
+      PrismicIoArticleRepository(prismicIoArticleUrl: prismicIoArticleUrl);
 
   /**
    * BLoCs
