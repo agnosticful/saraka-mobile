@@ -16,10 +16,9 @@ class PrismicIoArticleRepository implements ArticleGettable {
     http.get(url).then((resopnce) {
       Map<String, dynamic> jsonData = jsonDecode(resopnce.body);
 
-      List<Article> articles = [];
-      for (int i = 0; i < jsonData['results'].length; i++) {
-        articles.add(PrismicIoArticle(jsonData['results'][i]['data']));
-      }
+      final articles = (jsonData['results'] as List)
+          .map((result) => PrismicIoArticle(result['data']))
+          .toList();
 
       observable.add(articles);
     });
