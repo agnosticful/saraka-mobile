@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import '../entities/article.dart';
 import 'article_gettable.dart';
+
 export '../entities/article.dart';
 
 abstract class ArticleListBloc {
