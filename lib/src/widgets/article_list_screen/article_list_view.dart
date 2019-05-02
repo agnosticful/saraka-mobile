@@ -17,15 +17,22 @@ class _ArticleListView extends State<ArticleListView> {
               builder: (context, snapshot) => snapshot.hasData
                   ? SliverList(
                       delegate: SliverChildBuilderDelegate((context, i) {
-                        return Material(
-                          shape: SuperellipseShape(
-                              borderRadius: BorderRadius.circular(24)),
-                          color: Color(0xffffffff),
-                          child: ArticleListItem(
-                            title: snapshot.data[i].title,
-                            image: snapshot.data[i].image,
-                            content: snapshot.data[i].content,
-                          ),
+                        return Column(
+                          children: <Widget>[
+                            Material(
+                              shape: SuperellipseShape(
+                                  borderRadius: BorderRadius.circular(24)),
+                              color: Color(0xffffffff),
+                              child: ArticleListItem(
+                                title: snapshot.data[i].title,
+                                image: snapshot.data[i].image,
+                                content: snapshot.data[i].content,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                          ],
                         );
                       }, childCount: snapshot.data.length),
                     )
