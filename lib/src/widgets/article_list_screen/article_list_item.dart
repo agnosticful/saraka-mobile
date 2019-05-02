@@ -20,12 +20,18 @@ class ArticleListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
-          Text(
-            title,
-            style: SarakaTextStyles.heading,
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              title,
+              style: SarakaTextStyles.heading,
+            ),
           ),
-          Image(
-            image: NetworkImage(image),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Image(
+              image: NetworkImage(image),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
