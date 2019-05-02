@@ -22,9 +22,10 @@ class _ArticleListView extends State<ArticleListView> {
                               borderRadius: BorderRadius.circular(24)),
                           color: Color(0xffffffff),
                           child: ArticleListItem(
-                              title: snapshot.data[i].title,
-                              image: snapshot.data[i].image,
-                              content: snapshot.data[i].content),
+                            title: snapshot.data[i].title,
+                            image: snapshot.data[i].image,
+                            content: snapshot.data[i].content,
+                          ),
                         );
                       }, childCount: snapshot.data.length),
                     )
