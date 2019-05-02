@@ -48,7 +48,7 @@ class _ChangeableContent extends State<ChangeableContent> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    flag ? "show more" : "show less",
+                    flag ? "See more" : "See less",
                     style: TextStyle(color: Colors.blue),
                   ),
                 ],
