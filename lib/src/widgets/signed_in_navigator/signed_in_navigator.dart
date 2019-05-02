@@ -2,27 +2,29 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../blocs/authentication_bloc.dart';
+import './article_list_route.dart';
 import './card_list_route.dart';
 import './dashboard_route.dart';
 import './introduction_route.dart';
 import './review_route.dart';
-import './article_list_route.dart';
 
 class SignedInNavigator extends StatefulWidget {
   SignedInNavigator({
     Key key,
     this.observers = const [],
+    @required this.articleListBuilder,
     @required this.cardListBuilder,
     @required this.dashboardBuilder,
     @required this.introductionBuilder,
     @required this.reviewBuilder,
-    @required this.articleListBuilder,
-  })  : assert(cardListBuilder != null),
+  })  : assert(articleListBuilder != null),
+        assert(cardListBuilder != null),
         assert(dashboardBuilder != null),
         assert(introductionBuilder != null),
         assert(reviewBuilder != null),
-        assert(articleListBuilder != null),
         super(key: key);
+
+  final WidgetBuilder articleListBuilder;
 
   final List<NavigatorObserver> observers;
 
@@ -34,17 +36,15 @@ class SignedInNavigator extends StatefulWidget {
 
   final WidgetBuilder dashboardBuilder;
 
-  final WidgetBuilder articleListBuilder;
-
   @override
   State<SignedInNavigator> createState() => _SignedInNavigatorState();
 
   static String extractRouteName(RouteSettings routeSettings) => const {
         "/": "Dashboard",
+        "/articles": "Article List",
+        "/cards": "Card List",
         "/introduction": "Introduction",
         "/review": "Review",
-        "/cards": "Card List",
-        "/articles": "Article List",
       }[routeSettings.name];
 }
 
