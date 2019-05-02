@@ -28,7 +28,7 @@ class ArticleListItem extends StatelessWidget {
             image: NetworkImage(image),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Text(
               content,
               style: SarakaTextStyles.body,
