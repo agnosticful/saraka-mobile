@@ -13,7 +13,7 @@ class _ArticleListBloc implements ArticleListBloc {
     @required ArticleGettable articleGettable,
   })  : assert(articleGettable != null),
         _articleGettable = articleGettable {
-    _articleGettable.getArticles().listen((ars) {
+    _articleGettable.getArticles().then((ars) {
       articles.add(ars);
     });
   }

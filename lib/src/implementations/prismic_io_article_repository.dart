@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 import '../blocs/article_gettable.dart';
 import '../entities/article.dart';
 import './prismic_io_article.dart';
@@ -14,19 +13,15 @@ class PrismicIoArticleRepository implements ArticleGettable {
   final prismicIoArticleUrl;
 
   @override
-  ValueObservable<List<Article>> getArticles() {
-    final observable = BehaviorSubject<List<Article>>();
+  Future<List<Article>> getArticles() async {
+    var resopnce = await http.get(prismicIoArticleUrl);
 
-    http.get(prismicIoArticleUrl).then((resopnce) {
-      Map<String, dynamic> jsonData = jsonDecode(resopnce.body);
+    Map<String, dynamic> jsonData = jsonDecode(resopnce.body);
 
-      final articles = (jsonData['results'] as List)
-          .map((result) => PrismicIoArticle(result['data']))
-          .toList();
+    final articles = (jsonData['results'] as List)
+        .map((result) => PrismicIoArticle(result['data']))
+        .toList();
 
-      observable.add(articles);
-    });
-
-    return observable;
+    return articles;
   }
 }
