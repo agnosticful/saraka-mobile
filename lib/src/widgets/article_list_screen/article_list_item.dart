@@ -20,7 +20,9 @@ class ArticleListItem extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: <Widget>[
           Text(title),
-          Text(image),
+          Image(
+            image: NetworkImage(image),
+          ),
           Text(content),
         ],
       );
