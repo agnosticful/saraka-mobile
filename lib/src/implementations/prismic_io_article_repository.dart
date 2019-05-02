@@ -7,8 +7,7 @@ import '../entities/article.dart';
 import './prismic_io_article.dart';
 
 class PrismicIoArticleRepository implements ArticleGettable {
-  PrismicIoArticleRepository(
-      {@required PrismicIoArticleUrl prismicIoArticleUrl})
+  PrismicIoArticleRepository({@required String prismicIoArticleUrl})
       : assert(prismicIoArticleUrl != null),
         prismicIoArticleUrl = prismicIoArticleUrl;
 
