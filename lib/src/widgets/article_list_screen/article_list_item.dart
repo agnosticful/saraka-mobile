@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
+import '../../../constants.dart';
 
 class ArticleListItem extends StatelessWidget {
   ArticleListItem({
@@ -19,11 +20,17 @@ class ArticleListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
-          Text(title),
+          Text(
+            title,
+            style: SarakaTextStyles.heading,
+          ),
           Image(
             image: NetworkImage(image),
           ),
-          Text(content),
+          Text(
+            content,
+            style: SarakaTextStyles.body,
+          ),
         ],
       );
 }

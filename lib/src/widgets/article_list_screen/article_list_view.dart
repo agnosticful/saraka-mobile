@@ -19,7 +19,7 @@ class _ArticleListView extends State<ArticleListView> {
                       delegate: SliverChildBuilderDelegate((context, i) {
                         return Container(
                           decoration: BoxDecoration(
-                              color: Colors.blue,
+                              color: Color(0xffffffff),
                               border:
                                   Border.all(width: 1.0, color: Colors.orange)),
                           child: ArticleListItem(
