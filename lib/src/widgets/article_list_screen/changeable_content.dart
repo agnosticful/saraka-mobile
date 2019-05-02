@@ -13,34 +13,36 @@ class ChangeableContent extends StatefulWidget {
 }
 
 class _ChangeableContent extends State<ChangeableContent> {
-  String firstHalf;
-  String secondHalf;
+  String firstContent;
+  String restContent;
 
-  bool flag = true;
+  bool changeContentFlag = true;
 
   @override
   void initState() {
     super.initState();
 
     if (widget.content.length > 50) {
-      firstHalf = widget.content.substring(0, 50);
-      secondHalf = widget.content.substring(50, widget.content.length);
+      firstContent = widget.content.substring(0, 50);
+      restContent = widget.content.substring(50, widget.content.length);
     } else {
-      firstHalf = widget.content;
-      secondHalf = "";
+      firstContent = widget.content;
+      restContent = "";
     }
   }
 
   @override
-  Widget build(BuildContext context) => secondHalf.isEmpty
+  Widget build(BuildContext context) => restContent.isEmpty
       ? Text(
-          firstHalf,
+          firstContent,
           style: SarakaTextStyles.body,
         )
       : Column(
           children: <Widget>[
             Text(
-              flag ? (firstHalf + "...") : (firstHalf + secondHalf),
+              changeContentFlag
+                  ? (firstContent + "...")
+                  : (firstContent + restContent),
               style: SarakaTextStyles.body,
             ),
             InkWell(
@@ -48,14 +50,14 @@ class _ChangeableContent extends State<ChangeableContent> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    flag ? "See more" : "See less",
+                    changeContentFlag ? "See more" : "See less",
                     style: TextStyle(color: Colors.blue),
                   ),
                 ],
               ),
               onTap: () {
                 setState(() {
-                  flag = !flag;
+                  changeContentFlag = !changeContentFlag;
                 });
               },
             ),
