@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
-import 'article_list_view.dart';
 import '../wave_background.dart';
+import 'article_list_view.dart';
 
 class ArticleListScreen extends StatelessWidget {
   @override
