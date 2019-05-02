@@ -45,21 +45,25 @@ class _ChangeableContent extends State<ChangeableContent> {
                   : (firstContent + restContent),
               style: SarakaTextStyles.body,
             ),
-            InkWell(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text(
-                    changeContentFlag ? "See more" : "See less",
-                    style: TextStyle(color: Colors.blue),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                InkWell(
+                  borderRadius: BorderRadius.circular(4),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      changeContentFlag ? "See more" : "See less",
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   ),
-                ],
-              ),
-              onTap: () {
-                setState(() {
-                  changeContentFlag = !changeContentFlag;
-                });
-              },
+                  onTap: () {
+                    setState(() {
+                      changeContentFlag = !changeContentFlag;
+                    });
+                  },
+                )
+              ],
             ),
           ],
         );
