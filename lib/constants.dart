@@ -4,10 +4,10 @@ int expectedBackendVersion = 1;
 
 int necessaryFirstCardLength = 3;
 
-final privacyPolicyUrl = Uri.https("saraka.firebaseapp.com", "/privacy-policy");
-
 final prismicIoArticleUrl =
     "https://saraka.cdn.prismic.io/api/v2/documents/search?ref=XMfh-RAAABUjzjv8";
+
+final privacyPolicyUrl = Uri.https("saraka.firebaseapp.com", "/privacy-policy");
 
 abstract class SarakaColors {
   static const white = Color(0xfff0f4f8);
