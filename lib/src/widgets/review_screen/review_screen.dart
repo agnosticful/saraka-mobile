@@ -33,49 +33,51 @@ class _ReviewScreenState extends State<ReviewScreen> {
   Widget build(BuildContext context) => Stack(
         children: [
           WaveBackground(color: SarakaColors.darkBlack),
-          Scaffold(
-            backgroundColor: Color(0x00000000),
-            appBar: AppBar(
-              title: Text(
-                'Review',
-                style: SarakaTextStyles.appBarTitle,
-              ),
-              centerTitle: true,
+          SafeArea(
+            child: Scaffold(
               backgroundColor: Color(0x00000000),
-              elevation: 0,
-              leading: Navigator.of(context).canPop()
-                  ? IconButton(
-                      icon: Icon(Feather.getIconData('x')),
-                      onPressed: () => Navigator.of(context).pop(),
-                    )
-                  : null,
-            ),
-            body: Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          BackButton(),
-                          SizedBox(width: 16),
-                          Expanded(
-                            child: ProgressIndicator(),
-                          ),
-                          SizedBox(width: 16),
-                          TimeEstimation(),
-                        ],
-                      ),
-                    ),
-                  ],
+              appBar: AppBar(
+                title: Text(
+                  'Review',
+                  style: SarakaTextStyles.appBarTitle,
                 ),
-                Finished(),
-                CardBundle(),
-              ],
+                centerTitle: true,
+                backgroundColor: Color(0x00000000),
+                elevation: 0,
+                leading: Navigator.of(context).canPop()
+                    ? IconButton(
+                        icon: Icon(Feather.getIconData('x')),
+                        onPressed: () => Navigator.of(context).pop(),
+                      )
+                    : null,
+              ),
+              body: Stack(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            BackButton(),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: ProgressIndicator(),
+                            ),
+                            SizedBox(width: 16),
+                            TimeEstimation(),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Finished(),
+                  CardBundle(),
+                ],
+              ),
             ),
           ),
         ]..addAll(_isTutorialShown
