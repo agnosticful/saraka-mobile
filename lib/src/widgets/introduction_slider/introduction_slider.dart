@@ -30,11 +30,11 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
         _pageCount = pageCount;
   final controller = PageController();
 
+  final _pageCount;
+
   String _previousPageName;
 
   String _currentPageName;
-
-  int _pageCount;
 
   @override
   void initState() {
