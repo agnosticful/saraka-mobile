@@ -13,43 +13,45 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
         children: [
           WaveBackground(color: SarakaColors.white),
-          Scaffold(
-            resizeToAvoidBottomPadding: false,
-            backgroundColor: Color(0x00000000),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: StartLearningFloatingActionButton(),
-            appBar: AppBar(),
-            drawer: MainDrawer(),
-            body: Column(
-              children: [
-                Expanded(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) => Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  minWidth: 280,
-                                  minHeight: 280,
-                                  maxWidth: 280,
-                                  maxHeight: 280,
+          SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomPadding: false,
+              backgroundColor: Color(0x00000000),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
+              floatingActionButton: StartLearningFloatingActionButton(),
+              appBar: AppBar(),
+              drawer: MainDrawer(),
+              body: Column(
+                children: [
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minWidth: 280,
+                                    minHeight: 280,
+                                    maxWidth: 280,
+                                    maxHeight: 280,
+                                  ),
+                                  child: Summary(),
                                 ),
-                                child: Summary(),
-                              ),
-                              SizedBox(height: 16),
-                              ProficientCardPredictionText(),
-                            ],
+                                SizedBox(height: 16),
+                                ProficientCardPredictionText(),
+                              ],
+                            ),
                           ),
-                        ),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 80),
-                  child: ReadyCardLengthText(),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 80),
+                    child: ReadyCardLengthText(),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
