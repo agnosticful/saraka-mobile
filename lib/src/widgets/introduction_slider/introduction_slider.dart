@@ -20,21 +20,15 @@ class IntroductionSlider extends StatefulWidget {
   final List<String> pageNames;
 
   @override
-  _IntroductionSliderState createState() =>
-      _IntroductionSliderState(pageCount: pageNames.length);
+  _IntroductionSliderState createState() => _IntroductionSliderState();
 }
 
 class _IntroductionSliderState extends State<IntroductionSlider> {
-  _IntroductionSliderState({@required int pageCount})
-      : assert(pageCount != null),
-        _pageCount = pageCount;
   final controller = PageController();
 
   String _previousPageName;
 
   String _currentPageName;
-
-  int _pageCount;
 
   @override
   void initState() {
@@ -67,7 +61,6 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
             controller: controller,
             itemBuilder: (context, index) =>
                 widget.pageBuilder(context, widget.pageNames[index]),
-            itemCount: _pageCount,
           ),
           Align(
             alignment: Alignment.bottomCenter,
