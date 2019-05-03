@@ -46,6 +46,12 @@ class _CardBundleState extends State<CardBundle> {
               ));
             }
 
-            return Stack(children: children);
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                // TODO: use this constraints in a future change
+
+                return Stack(children: children);
+              },
+            );
           });
 }
