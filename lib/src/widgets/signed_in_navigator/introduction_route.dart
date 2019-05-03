@@ -8,14 +8,14 @@ class IntroductionRoute extends CupertinoPageRoute {
       : super(
           builder: (BuildContext context) =>
               Consumer2<AuthenticationBloc, IntroductionBlocFactory>(
-                builder: (context, authenticationBloc, cardListBlocFactory) =>
-                    StatefulProvider(
-                      valueBuilder: (_) =>
-                          Provider.of<IntroductionBlocFactory>(context).create(
-                            session: authenticationBloc.session,
-                          ),
-                      child: child,
-                    ),
+                builder:
+                    (context, authenticationBloc, introductionBlocFactory) =>
+                        StatefulProvider(
+                          valueBuilder: (_) => introductionBlocFactory.create(
+                                session: authenticationBloc.session,
+                              ),
+                          child: child,
+                        ),
               ),
           settings: settings,
         );
