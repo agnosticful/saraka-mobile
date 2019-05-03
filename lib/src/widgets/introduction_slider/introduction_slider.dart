@@ -61,6 +61,7 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
             controller: controller,
             itemBuilder: (context, index) =>
                 widget.pageBuilder(context, widget.pageNames[index]),
+            itemCount: 5,
           ),
           Align(
             alignment: Alignment.bottomCenter,
