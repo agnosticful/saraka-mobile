@@ -61,6 +61,10 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
             controller: controller,
             itemBuilder: (context, index) =>
                 widget.pageBuilder(context, widget.pageNames[index]),
+<<<<<<< HEAD
+=======
+            itemCount: 5,
+>>>>>>> parent of 60d116e... change pageCount from variable.
           ),
           Align(
             alignment: Alignment.bottomCenter,
