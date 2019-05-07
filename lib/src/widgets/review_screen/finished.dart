@@ -23,8 +23,8 @@ class _FinishedState extends State<Finished> {
     Future.delayed(Duration.zero, () {
       final cardReviewBloc = Provider.of<CardReviewBloc>(context);
 
-      _subscription = cardReviewBloc.cardsInQueue.listen((cards) {
-        if (cards.length == 0) {
+      _subscription = cardReviewBloc.isFinished.listen((isFinished) {
+        if (isFinished) {
           _controls.play("main");
         }
       });

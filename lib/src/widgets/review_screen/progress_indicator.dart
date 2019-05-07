@@ -9,38 +9,28 @@ class ProgressIndicator extends StatefulWidget {
 }
 
 class _ProgressIndicatorState extends State<ProgressIndicator> {
-  CardReviewBloc _cardReviewingBloc;
-
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(Duration.zero, () async {
-      final cardReviewingBloc = Provider.of<CardReviewBloc>(context);
-
-      setState(() {
-        _cardReviewingBloc = cardReviewingBloc;
-      });
-    });
   }
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        height: 2,
-        child: _cardReviewingBloc == null
-            ? LinearProgressIndicator(
-                value: 0,
-                backgroundColor: SarakaColors.darkGray,
-                valueColor: AlwaysStoppedAnimation(SarakaColors.lightRed),
-              )
-            : StreamBuilder<double>(
-                stream: _cardReviewingBloc.finishedRatio,
+  Widget build(BuildContext context) => Consumer<CardReviewBloc>(
+        builder: (context, cardReviewBloc) => SizedBox(
+              height: 2,
+              child: StreamBuilder<double>(
+                stream: cardReviewBloc.finishedCardRatio,
                 initialData: 0,
-                builder: (context, snapshot) => LinearProgressIndicator(
-                      value: snapshot.requireData,
-                      backgroundColor: SarakaColors.darkGray,
-                      valueColor: AlwaysStoppedAnimation(SarakaColors.lightRed),
-                    ),
+                builder: (context, snapshot) {
+                  print(snapshot.requireData);
+
+                  return LinearProgressIndicator(
+                    value: snapshot.requireData,
+                    backgroundColor: SarakaColors.darkGray,
+                    valueColor: AlwaysStoppedAnimation(SarakaColors.lightRed),
+                  );
+                },
               ),
+            ),
       );
 }

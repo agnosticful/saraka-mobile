@@ -9,13 +9,36 @@ export '../entities/card.dart';
 export '../entities/review_certainty.dart';
 
 abstract class CardReviewBloc {
-  Observable<List<Card>> get cardsInQueue;
+  ValueObservable<bool> isInitialized;
 
-  Observable<double> get finishedRatio;
+  List<Card> get cards;
 
-  Observable<bool> get canUndo;
+  ValueObservable<int> get finishedCardLength;
 
-  void initialize();
+  ValueObservable<int> get remainingCardLength =>
+      ValueConnectableObservable.seeded(
+        finishedCardLength.map((length) => cards.length - length),
+        cards.length - finishedCardLength.value,
+      ).autoConnect();
+
+  ValueObservable<double> get finishedCardRatio =>
+      ValueConnectableObservable.seeded(
+        finishedCardLength.map(
+            (length) => length == 0 ? 0.0 : length.toDouble() / cards.length),
+        finishedCardLength.value == 0
+            ? 0.0
+            : finishedCardLength.value.toDouble() / cards.length,
+      ).autoConnect();
+
+  ValueObservable<bool> get isFinished => ValueConnectableObservable.seeded(
+        finishedCardLength.map((length) => length == cards.length),
+        finishedCardLength.value == cards.length,
+      ).autoConnect();
+
+  ValueObservable<bool> get canUndo => ValueConnectableObservable.seeded(
+        finishedCardLength.map((length) => length >= 1),
+        finishedCardLength.value >= 1,
+      ).autoConnect();
 
   void reviewedWell(Card card);
 
@@ -23,10 +46,12 @@ abstract class CardReviewBloc {
 
   void undo();
 
+  void initialize();
+
   void dispose();
 }
 
-class _CardReviewBloc implements CardReviewBloc {
+class _CardReviewBloc extends CardReviewBloc {
   _CardReviewBloc({
     @required this.cardReviewable,
     @required this.cardReviewLoggable,
@@ -45,59 +70,28 @@ class _CardReviewBloc implements CardReviewBloc {
 
   final AuthenticationSession session;
 
-  final BehaviorSubject<List<Card>> _allInQueueCards =
-      BehaviorSubject.seeded([]);
-
-  final BehaviorSubject<List<Card>> _reviewedCards = BehaviorSubject.seeded([]);
+  final _isInitialized = BehaviorSubject.seeded(false);
 
   @override
-  Observable<List<Card>> get cardsInQueue => Observable.combineLatest2(
-        _allInQueueCards,
-        _reviewedCards,
-        (allCards, reviewedCards) =>
-            allCards.where((card) => !reviewedCards.contains(card)).toList(),
-      );
+  ValueObservable<bool> get isInitialized => _isInitialized;
+
+  List<Card> _cards = [];
 
   @override
-  Observable<double> get finishedRatio => Observable.combineLatest2(
-        _allInQueueCards,
-        _reviewedCards,
-        (allCards, reviewedCards) {
-          final numberOfAllCards = allCards.length;
+  List<Card> get cards => _cards;
 
-          return numberOfAllCards == 0
-              ? 0
-              : reviewedCards.length / numberOfAllCards;
-        },
-      );
+  final _finishedCards = BehaviorSubject<List<Card>>.seeded([]);
 
   @override
-  Observable<bool> get canUndo =>
-      _reviewedCards.map((reviewedCards) => reviewedCards.length > 0);
-
-  @override
-  void initialize() async {
-    final cards = await inQueueCardSubscribable
-        .subscribeInQueueCards(session: session)
-        .first;
-
-    cardReviewLoggable.logReviewStart(cardLength: cards.length);
-
-    _allInQueueCards.add(cards);
-
-    finishedRatio.listen((ratio) {
-      if (ratio == 1) {
-        cardReviewLoggable.logReviewEnd(
-          cardLength: cards.length,
-          reviewedCardLength: _reviewedCards.value.length,
-        );
-      }
-    });
-  }
+  ValueObservable<int> get finishedCardLength =>
+      ValueConnectableObservable.seeded(
+              _finishedCards.map((cards) => cards.length),
+              _finishedCards.value.length)
+          .autoConnect();
 
   @override
   Future<void> reviewedWell(Card card) async {
-    _reviewedCards.add(List.from(_reviewedCards.value)..add(card));
+    _finishedCards.add(_finishedCards.value..add(card));
 
     cardReviewable.review(
       card: card,
@@ -112,7 +106,7 @@ class _CardReviewBloc implements CardReviewBloc {
 
   @override
   Future<void> reviewedVaguely(Card card) async {
-    _reviewedCards.add(List.from(_reviewedCards.value)..add(card));
+    _finishedCards.add(_finishedCards.value..add(card));
 
     cardReviewable.review(
       card: card,
@@ -127,14 +121,14 @@ class _CardReviewBloc implements CardReviewBloc {
 
   @override
   void undo() async {
-    assert(_reviewedCards.value.length >= 1);
+    assert(canUndo.value);
 
-    final lastCard = _reviewedCards.value.last;
+    final card = _finishedCards.value.last;
 
-    _reviewedCards.add(List.from(_reviewedCards.value)..remove(lastCard));
+    _finishedCards.add(_finishedCards.value..remove(card));
 
     cardReviewable.undoReview(
-      card: lastCard,
+      card: card,
       session: session,
     );
 
@@ -142,11 +136,25 @@ class _CardReviewBloc implements CardReviewBloc {
   }
 
   @override
+  void initialize() async {
+    _cards = await inQueueCardSubscribable
+        .subscribeInQueueCards(session: session)
+        .first;
+
+    cardReviewLoggable.logReviewStart(cardLength: cards.length);
+
+    _isInitialized.add(true);
+  }
+
+  @override
   Future<void> dispose() async {
     cardReviewLoggable.logReviewEnd(
-      cardLength: _allInQueueCards.value.length,
-      reviewedCardLength: _reviewedCards.value.length,
+      cardLength: cards.length,
+      reviewedCardLength: _finishedCards.value.length,
     );
+
+    _isInitialized.close();
+    _finishedCards.close();
   }
 }
 
