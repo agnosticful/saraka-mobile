@@ -98,7 +98,7 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
                   DisappearableBuilder(
                     isDisappeared: _currentPageName == widget.pageNames.first,
                     child: FlatButton(
-                      shape: SuperellipseShape(
+                      shape: ContinuousRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),
                       padding:
@@ -116,7 +116,7 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
                   DisappearableBuilder(
                     isDisappeared: _currentPageName == widget.pageNames.last,
                     child: FlatButton(
-                      shape: SuperellipseShape(
+                      shape: ContinuousRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),
                       padding:

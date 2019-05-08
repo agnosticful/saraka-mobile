@@ -58,7 +58,7 @@ class _NewCardDialog extends StatelessWidget {
   Widget build(BuildContext context) => WillPopScope(
         onWillPop: () => _onWillPop(context),
         child: Material(
-          shape: SuperellipseShape(
+          shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
           clipBehavior: Clip.antiAlias,

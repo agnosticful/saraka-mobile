@@ -96,7 +96,8 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
       animation: _disabledStateAnimation,
       child: widget.child,
       builder: (context, child) => RaisedButton(
-            shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+            shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(24)),
             onPressed: widget.isDisabled ? () {} : widget.onPressed,
             color: ColorTween(begin: widget.color, end: SarakaColors.darkWhite)
                 .animate(_disabledStateAnimation)
