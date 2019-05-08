@@ -18,7 +18,7 @@ class StackedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 4,
-      shape: SuperellipseShape(
+      shape: ContinuousRectangleBorder(
         borderRadius: BorderRadius.circular(24),
       ),
       clipBehavior: Clip.antiAlias,

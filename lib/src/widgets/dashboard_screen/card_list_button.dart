@@ -12,7 +12,7 @@ class CardListButton extends StatelessWidget {
             stream: cardListBloc.cards,
             initialData: cardListBloc.cards.value,
             builder: (context, snapshot) => FlatButton(
-                  shape: SuperellipseShape(
+                  shape: ContinuousRectangleBorder(
                     side: BorderSide(
                       color: SarakaColors.lightGray,
                       width: 1,

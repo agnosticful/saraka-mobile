@@ -44,8 +44,8 @@ class CardDeleteConfirmDialog extends StatelessWidget {
         onWillPop: () => _onWillPop(context),
         child: Consumer<CardDeleteBloc>(
           builder: (context, cardDeleteBloc) => Material(
-                shape:
-                    SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+                shape: ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.circular(24)),
                 clipBehavior: Clip.antiAlias,
                 color: SarakaColors.white,
                 elevation: 6,

@@ -44,8 +44,8 @@ class CardListViewItem extends StatelessWidget {
                 ),
               ],
               child: Material(
-                shape:
-                    SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+                shape: ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.circular(24)),
                 elevation: 6,
                 shadowColor: SarakaColors.darkGray.withOpacity(0.25),
                 color: Color(0xffffffff),
