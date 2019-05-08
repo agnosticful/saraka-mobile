@@ -1,0 +1,4 @@
+enum SwipeOutDirection {
+  left,
+  right,
+}
