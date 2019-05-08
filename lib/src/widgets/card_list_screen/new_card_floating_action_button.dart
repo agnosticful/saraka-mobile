@@ -13,7 +13,8 @@ class NewCardFloatingActionButton extends StatelessWidget {
           'New Card',
           style: SarakaTextStyles.buttonLabel,
         ),
-        shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+        shape:
+            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(24)),
         onPressed: () => _onPressed(context),
       );
 

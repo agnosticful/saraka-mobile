@@ -12,7 +12,8 @@ class StartLearningFloatingActionButton extends StatelessWidget {
           'Start learning',
           style: SarakaTextStyles.buttonLabel,
         ),
-        shape: SuperellipseShape(borderRadius: BorderRadius.circular(24)),
+        shape:
+            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(24)),
         onPressed: () => Navigator.of(context).pushNamed('/review'),
       );
 }
