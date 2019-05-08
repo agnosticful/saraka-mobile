@@ -26,12 +26,11 @@ class _TimeEstimationState extends State<TimeEstimation> {
   @override
   Widget build(BuildContext context) => _cardReviewingBloc == null
       ? Text("")
-      : StreamBuilder<Iterable<Card>>(
-          stream: _cardReviewingBloc.cardsInQueue,
-          initialData: Iterable.empty(),
+      : StreamBuilder<int>(
+          stream: _cardReviewingBloc.remainingCardLength,
+          initialData: _cardReviewingBloc.remainingCardLength.value,
           builder: (context, snapshot) => _TimeEstimationText(
-                duration:
-                    Duration(milliseconds: snapshot.requireData.length * 7500),
+                duration: Duration(milliseconds: snapshot.requireData * 7500),
               ),
         );
 }

@@ -4,13 +4,20 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import '../../blocs/card_review_bloc.dart';
+import '../swipable_card_stack.dart';
 
 class BackButton extends StatelessWidget {
+  BackButton({Key key, @required this.controller})
+      : assert(controller != null),
+        super(key: key);
+
+  final SwipableCardStackController controller;
+
   @override
   Widget build(BuildContext context) => Consumer<CardReviewBloc>(
         builder: (context, cardReviewBloc) => StreamBuilder(
               stream: cardReviewBloc.canUndo,
-              initialData: false,
+              initialData: cardReviewBloc.canUndo.value,
               builder: (context, snapshot) => IconButton(
                     icon: Icon(Feather.getIconData('corner-up-left')),
                     color: SarakaColors.white,
@@ -22,8 +29,8 @@ class BackButton extends StatelessWidget {
       );
 
   void _onPressed(BuildContext context) {
-    final cardReviewBloc = Provider.of<CardReviewBloc>(context);
+    Provider.of<CardReviewBloc>(context).undo();
 
-    cardReviewBloc.undo();
+    controller.previous();
   }
 }
