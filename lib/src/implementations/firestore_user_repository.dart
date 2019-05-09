@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+import '../blocs/midway_introduction_finishable.dart';
 import '../blocs/introduction_finishable.dart';
 import '../blocs/user_data_gettable.dart';
 
 class FirestoreUserRepository
-    implements IntroductionFinishable, UserDataGettable {
+    implements
+        MidwayIntroductionFinishable,
+        IntroductionFinishable,
+        UserDataGettable {
   FirestoreUserRepository({
     @required Firestore firestore,
   })  : assert(firestore != null),
@@ -21,6 +25,12 @@ class FirestoreUserRepository
 
   @override
   Future<void> finishIntroduction({AuthenticationSession session}) =>
+      _firestore.collection('users').document(session.userId).updateData({
+        "isIntroductionFinished": true,
+      });
+
+  @override
+  Future<void> finishMidwayIntroduction({AuthenticationSession session}) =>
       _firestore.collection('users').document(session.userId).updateData({
         "isIntroductionFinished": true,
       });
