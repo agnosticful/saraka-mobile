@@ -16,6 +16,7 @@ import './src/blocs/backend_version_compatibility_check_bloc.dart';
 import './src/blocs/common_link_bloc.dart';
 import './src/blocs/introduction_bloc.dart';
 import './src/blocs/maintenance_check_bloc.dart';
+import './src/blocs/midway_introduction_bloc.dart';
 import './src/blocs/card_adder_bloc.dart';
 import './src/blocs/card_delete_bloc.dart';
 import './src/blocs/card_detail_bloc.dart';
@@ -121,6 +122,9 @@ void main() async {
   final maintenanceCheckBlocFactory = MaintenanceCheckBlocFactory(
     maintenanceSubscribable: maintenanceRepository,
   );
+  final midwayIntroductionBlocFactory = MidwayIntroductionBlocFactory(
+    midwayIntroductionFinishable: userRepository,
+  );
   final cardAdderBlocFactory = CardAdderBlocFactory(
     cardAddable: firebaseExternalFunctions,
     cardCreateLoggable: logger,
@@ -161,6 +165,8 @@ void main() async {
             Provider<CardReviewBlocFactory>(value: cardReviewBlocFactory),
             Provider<CardListBlocFactory>(value: cardListBlocFactory),
             Provider<IntroductionBlocFactory>(value: firstCardListBlocFactory),
+            Provider<MidwayIntroductionBlocFactory>(
+                value: midwayIntroductionBlocFactory),
             Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
             Provider<AuthenticationBloc>(value: authenticationBloc),
             Provider<BackendVersionCompatibilityCheckBloc>(
