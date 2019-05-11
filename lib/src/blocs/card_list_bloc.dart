@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import '../entities/authentication_session.dart';
