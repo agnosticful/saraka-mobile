@@ -5,7 +5,7 @@ import './app_bar.dart';
 import './main_drawer/main_drawer.dart';
 import './proficient_card_prediction_text.dart';
 import './ready_card_length_text.dart';
-import './start_learning_floating_action_button.dart';
+import './review_floating_action_button.dart';
 import './summary.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class DashboardScreen extends StatelessWidget {
               backgroundColor: Color(0x00000000),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,
-              floatingActionButton: StartLearningFloatingActionButton(),
+              floatingActionButton: ReviewFloatingActionButton(),
               appBar: AppBar(),
               drawer: MainDrawer(),
               body: Column(

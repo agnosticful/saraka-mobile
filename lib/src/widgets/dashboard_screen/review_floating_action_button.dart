@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
 
-class StartLearningFloatingActionButton extends StatelessWidget {
+class ReviewFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FloatingActionButton.extended(
         backgroundColor: SarakaColors.lightRed,
