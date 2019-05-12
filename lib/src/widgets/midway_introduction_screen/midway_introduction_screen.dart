@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:saraka/src/blocs/authentication_bloc.dart';
 import '../../../constants.dart';
 import '../../blocs/midway_introduction_bloc.dart';
 import '../fancy_popup_dialog.dart';
@@ -69,22 +71,22 @@ class MidwayIntroductionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 64.0,
-        left: 16.0,
-        bottom: 32.0,
-        right: 16.0,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: SarakaColors.white,
-          borderRadius: BorderRadius.circular(24),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 25,
+          horizontal: 15,
         ),
-        child: InstructionPage(
-          color: SarakaColors.white,
-          image: Image.asset(_image),
-          content: _content,
+        child: Container(
+          decoration: BoxDecoration(
+            color: SarakaColors.white,
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: InstructionPage(
+            color: SarakaColors.white,
+            image: Image.asset(_image),
+            content: _content,
+          ),
         ),
       ),
     );
