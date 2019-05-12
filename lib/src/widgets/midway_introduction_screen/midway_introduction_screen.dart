@@ -1,27 +1,92 @@
 import 'package:flutter/material.dart';
+import '../../../constants.dart';
+import '../../blocs/midway_introduction_bloc.dart';
+import '../fancy_popup_dialog.dart';
 import './instruction_page.dart';
 
-class MidwayIntroductionScreen extends StatelessWidget {
-  MidwayIntroductionScreen({@required String pageName})
-      : assert(pageName != null),
-        _pageName = pageName;
+Future<void> showCardDeleteConfirmDialog({
+  @required context,
+}) {
+  assert(context != null);
 
-  final String _pageName;
+  String image;
+  String content;
+  String introName = "";
+
+  switch (introName) {
+    case "phraseIntro":
+      image = "assets/images/introduction2.png";
+      content =
+          "Parrot learn the progress of your fluency from your swipe and reflect the review interval";
+      break;
+
+    case "test2":
+      image = "assets/images/introduction2.png";
+      content =
+          "Parrot recomment you to add not only word but also phrases. Parrot use AI for speaking natively. Let's add [Can I please order a double double.].";
+      break;
+
+    case "test3":
+      image = "assets/images/introduction2.png";
+      content =
+          "You will study phrases using psychological study unconciously. Parrot provide you to review best timing for you.";
+      break;
+
+    case "test4":
+      image = "assets/images/introduction2.png";
+      content = "";
+      break;
+
+    case "test5":
+      image = "assets/images/introduction2.png";
+      content = "";
+      break;
+
+    default:
+      image = "assets/images/parrot.png";
+      content = "Opps, something is going wrong.";
+  }
+
+  return showFancyPopupDialog(
+    context: context,
+    pageBuilder: (context, _, __) => MidwayIntroductionScreen(
+          image: image,
+          content: content,
+        ),
+  );
+}
+
+class MidwayIntroductionScreen extends StatelessWidget {
+  MidwayIntroductionScreen({@required String image, @required String content})
+      : assert(image != null),
+        assert(content != null),
+        _image = image,
+        _content = content;
+
+  final String _image;
+
+  final String _content;
 
   @override
-  Widget build(BuildContext context) => Dialog(
-        backgroundColor: Colors.blue,
-        shape:
-            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        child: InstructionPage(
-          color: Colors.white,
-          image: Image.asset(
-            "assets/images/introduction2.png",
-            width: MediaQuery.of(context).size.width * 0.75,
-            height: MediaQuery.of(context).size.width * 0.75,
-          ),
-          content:
-              "Parrot speaks those phrases using AI. Listen and repeat up aloud.",
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 64.0,
+        left: 16.0,
+        bottom: 32.0,
+        right: 16.0,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: SarakaColors.white,
+          borderRadius: BorderRadius.circular(24),
         ),
-      );
+        child: InstructionPage(
+          color: SarakaColors.white,
+          image: Image.asset(_image),
+          content: _content,
+        ),
+      ),
+    );
+  }
 }
