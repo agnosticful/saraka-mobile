@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:saraka/src/blocs/authentication_bloc.dart';
 import '../../../constants.dart';
-import '../../blocs/midway_introduction_bloc.dart';
 import '../fancy_popup_dialog.dart';
 import './instruction_page.dart';
 
