@@ -4,7 +4,7 @@ import '../../blocs/midway_introduction_bloc.dart';
 import '../fancy_popup_dialog.dart';
 import './instruction_page.dart';
 
-Future<void> showCardDeleteConfirmDialog({
+Future<void> showMidwayIntroductionDialog({
   @required context,
 }) {
   assert(context != null);
