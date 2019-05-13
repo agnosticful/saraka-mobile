@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:saraka/src/blocs/authentication_bloc.dart';
+import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../fancy_popup_dialog.dart';
 import './instruction_page.dart';
@@ -7,6 +9,12 @@ Future<void> showMidwayIntroductionDialog({
   @required context,
 }) {
   assert(context != null);
+
+  final authenticationBloc = Provider.of<AuthenticationBloc>(context);
+
+  if (authenticationBloc.user.value.isIntroductionFinished) {
+    return null;
+  }
 
   String image;
   String content;
