@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:saraka/constants.dart';
 import 'package:flutter/foundation.dart';
-import './backend_version_gettable.dart';
+import '../behaviors/backend_version_gettable.dart';
 
 abstract class BackendVersionCompatibilityCheckBloc {
   ValueObservable<bool> get isCompatibleWithCurrentBackend;

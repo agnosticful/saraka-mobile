@@ -3,7 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import '../entities/authentication_session.dart';
 import '../entities/card.dart';
 import '../entities/review.dart';
-import './review_subscribable.dart';
+import '../behaviors/review_subscribable.dart';
 export '../entities/card.dart';
 export '../entities/review.dart';
 

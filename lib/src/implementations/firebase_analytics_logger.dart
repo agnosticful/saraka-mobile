@@ -1,12 +1,12 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:meta/meta.dart';
-import '../blocs/card_create_loggable.dart';
-import '../blocs/card_review_loggable.dart';
-import '../blocs/introduction_finish_loggable.dart';
-import '../blocs/introduction_page_change_loggable.dart';
-import '../blocs/logger_user_state_settable.dart';
-import '../blocs/sign_in_out_loggable.dart';
-import '../blocs/synthesize_loggable.dart';
+import '../behaviors/card_create_loggable.dart';
+import '../behaviors/card_review_loggable.dart';
+import '../behaviors/introduction_finish_loggable.dart';
+import '../behaviors/introduction_page_change_loggable.dart';
+import '../behaviors/logger_user_state_settable.dart';
+import '../behaviors/sign_in_out_loggable.dart';
+import '../behaviors/synthesize_loggable.dart';
 
 class FirebaseAnalyticsLogger
     implements

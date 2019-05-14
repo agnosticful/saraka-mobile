@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import './card_deletable.dart';
-export './card_deletable.dart' show Card;
+import '../behaviors/card_deletable.dart';
+export '../behaviors/card_deletable.dart' show Card;
 
 abstract class CardDeleteBloc {
   Card get card;

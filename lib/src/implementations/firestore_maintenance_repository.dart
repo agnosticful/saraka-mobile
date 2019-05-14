@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import '../blocs/maintenance_subscribable.dart';
+import '../behaviors/maintenance_subscribable.dart';
 
 class FirestoreMaintenanceRepository implements MaintenanceSubscribable {
   FirestoreMaintenanceRepository({

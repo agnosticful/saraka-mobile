@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
-import '../blocs/backend_version_gettable.dart';
+import '../behaviors/backend_version_gettable.dart';
 
 class FirestoreBackendVersionRepository implements BackendVersionGettable {
   FirestoreBackendVersionRepository({

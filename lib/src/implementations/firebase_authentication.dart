@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
-import '../blocs/signable.dart';
+import '../behaviors/signable.dart';
 
 class FirebaseAuthentication implements Signable {
   FirebaseAuthentication({

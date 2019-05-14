@@ -1,9 +1,9 @@
 import 'dart:convert' show base64;
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:meta/meta.dart';
-import '../blocs/card_creatable.dart';
-import '../blocs/card_reviewable.dart';
-import '../blocs/synthesizable.dart';
+import '../behaviors/card_creatable.dart';
+import '../behaviors/card_reviewable.dart';
+import '../behaviors/synthesizable.dart';
 
 class FirebaseExternalFunctions
     implements CardCreatable, CardReviewable, Synthesizable {

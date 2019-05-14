@@ -1,10 +1,10 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import '../entities/user.dart';
-import './logger_user_state_settable.dart';
-import './sign_in_out_loggable.dart';
-import './signable.dart';
-import './user_data_gettable.dart';
+import '../behaviors/logger_user_state_settable.dart';
+import '../behaviors/sign_in_out_loggable.dart';
+import '../behaviors/signable.dart';
+import '../behaviors/user_data_gettable.dart';
 export '../entities/user.dart';
 
 abstract class AuthenticationBloc {
