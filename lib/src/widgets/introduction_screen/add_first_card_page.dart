@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import '../../blocs/introduction_bloc.dart';
+import '../../entities/card.dart';
 import '../card_list_view_item.dart';
 import '../disappearable_builder.dart';
 import '../new_card_dialog.dart';

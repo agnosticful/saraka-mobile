@@ -7,6 +7,8 @@ import '../behaviors/introduction_page_change_loggable.dart';
 import '../behaviors/logger_user_state_settable.dart';
 import '../behaviors/sign_in_out_loggable.dart';
 import '../behaviors/synthesize_loggable.dart';
+import '../entities/review_certainty.dart';
+import '../entities/user.dart';
 
 class FirebaseAnalyticsLogger
     implements

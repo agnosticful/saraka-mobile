@@ -5,6 +5,9 @@ import '../behaviors/card_deletable.dart';
 import '../behaviors/card_subscribable.dart';
 import '../behaviors/in_queue_card_subscribable.dart';
 import '../behaviors/review_subscribable.dart';
+import '../entities/authentication_session.dart';
+import '../entities/card.dart';
+import '../entities/review.dart';
 import './firestore_card.dart';
 import './firestore_review.dart';
 

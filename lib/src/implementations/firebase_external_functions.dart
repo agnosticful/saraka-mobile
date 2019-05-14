@@ -4,6 +4,10 @@ import 'package:meta/meta.dart';
 import '../behaviors/card_creatable.dart';
 import '../behaviors/card_reviewable.dart';
 import '../behaviors/synthesizable.dart';
+import '../entities/authentication_session.dart';
+import '../entities/card.dart';
+import '../entities/new_card_text.dart';
+import '../entities/review_certainty.dart';
 
 class FirebaseExternalFunctions
     implements CardCreatable, CardReviewable, Synthesizable {

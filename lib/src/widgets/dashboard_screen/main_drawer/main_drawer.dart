@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import '../../../blocs/authentication_bloc.dart';
+import '../../../entities/user.dart';
 import './privacy_policy_item.dart';
 
 class MainDrawer extends StatelessWidget {

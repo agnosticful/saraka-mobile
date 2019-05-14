@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import '../behaviors/maintenance_subscribable.dart';
-export '../behaviors/maintenance_subscribable.dart' show Maintenance;
+import '../entities/maintenance.dart';
 
 abstract class MaintenanceCheckBloc {
   ValueObservable<Maintenance> get maintenance;
