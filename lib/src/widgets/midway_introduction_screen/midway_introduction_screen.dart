@@ -21,32 +21,27 @@ Future<void> showMidwayIntroductionDialog({
   String introName = "";
 
   switch (introName) {
-    case "phraseIntro":
+    case "review_repetition":
       image = "assets/images/introduction2.png";
-      content =
-          "Parrot learn the progress of your fluency from your swipe and reflect the review interval";
+      content = "Your memory of phrases will follow along the chart.";
       break;
 
-    case "test2":
+    case "add_card":
       image = "assets/images/introduction2.png";
       content =
           "Parrot recomment you to add not only word but also phrases. Parrot use AI for speaking natively. Let's add [Can I please order a double double.].";
       break;
 
-    case "test3":
+    case "psychological_study":
       image = "assets/images/introduction2.png";
       content =
           "You will study phrases using psychological study unconciously. Parrot provide you to review best timing for you.";
       break;
 
-    case "test4":
+    case "swipe_meaning":
       image = "assets/images/introduction2.png";
-      content = "";
-      break;
-
-    case "test5":
-      image = "assets/images/introduction2.png";
-      content = "";
+      content =
+          "Parrot learn the progress of your fluency from your swipe and reflect the review interval";
       break;
 
     default:
