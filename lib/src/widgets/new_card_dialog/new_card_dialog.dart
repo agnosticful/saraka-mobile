@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import '../../blocs/authentication_bloc.dart';
 import '../../blocs/card_list_bloc.dart';
-import '../../blocs/card_adder_bloc.dart';
+import '../../blocs/card_create_bloc.dart';
 import '../../blocs/synthesizer_bloc.dart';
 import '../fancy_popup_dialog.dart';
 import './add_button.dart';
@@ -16,11 +16,11 @@ Future<void> showNewCardDialog({@required context}) {
   return showFancyPopupDialog(
     context: context,
     pageBuilder: (context, _, __) => Consumer4<AuthenticationBloc,
-            CardAdderBlocFactory, CardListBlocFactory, SynthesizerBlocFactory>(
+            CardCreateBlocFactory, CardListBlocFactory, SynthesizerBlocFactory>(
           builder: (
             context,
             authenticationBloc,
-            cardAdderBlocFactory,
+            cardCreateBlocFactory,
             cardListBlocFactory,
             synthesizerBlocFactory,
           ) =>
@@ -31,8 +31,8 @@ Future<void> showNewCardDialog({@required context}) {
                           session: authenticationBloc.session,
                         ),
                   ),
-                  StatefulProvider<CardAdderBloc>(
-                    valueBuilder: (_) => cardAdderBlocFactory.create(
+                  StatefulProvider<CardCreateBloc>(
+                    valueBuilder: (_) => cardCreateBlocFactory.create(
                           session: authenticationBloc.session,
                         )
                           ..initialize()
@@ -91,8 +91,8 @@ class _NewCardDialog extends StatelessWidget {
       );
 
   Future<bool> _onWillPop(BuildContext context) async {
-    final cardAdderBloc = Provider.of<CardAdderBloc>(context);
+    final cardCreateBloc = Provider.of<CardCreateBloc>(context);
 
-    return cardAdderBloc.state.value == CardAddingState.initial;
+    return cardCreateBloc.state.value == CardAddingState.initial;
   }
 }

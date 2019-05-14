@@ -1,19 +1,19 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
+import '../../blocs/card_create_bloc.dart';
 import '../processable_fancy_button.dart';
-import '../../blocs/card_adder_bloc.dart';
 
 class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<CardAdderBloc>(
-      builder: (context, cardAdderBloc) => StreamBuilder<CardAddingState>(
-            stream: cardAdderBloc.state,
-            initialData: cardAdderBloc.state.value,
+    return Consumer<CardCreateBloc>(
+      builder: (context, cardCreateBloc) => StreamBuilder<CardAddingState>(
+            stream: cardCreateBloc.state,
+            initialData: cardCreateBloc.state.value,
             builder: (context, stateSnapshot) => StreamBuilder<NewCardText>(
-                  stream: cardAdderBloc.text,
-                  initialData: cardAdderBloc.text.value,
+                  stream: cardCreateBloc.text,
+                  initialData: cardCreateBloc.text.value,
                   builder: (context, textSnapshot) => ProcessableFancyButton(
                         color: SarakaColors.darkRed,
                         isProcessing: stateSnapshot.requireData ==
@@ -28,8 +28,8 @@ class AddButton extends StatelessWidget {
   }
 
   void _onPressed(BuildContext context) {
-    final cardAdderBloc = Provider.of<CardAdderBloc>(context);
+    final cardCreateBloc = Provider.of<CardCreateBloc>(context);
 
-    cardAdderBloc.save();
+    cardCreateBloc.save();
   }
 }

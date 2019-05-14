@@ -1,12 +1,12 @@
 import 'dart:convert' show base64;
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:meta/meta.dart';
-import '../blocs/card_addable.dart';
+import '../blocs/card_creatable.dart';
 import '../blocs/card_reviewable.dart';
 import '../blocs/synthesizable.dart';
 
 class FirebaseExternalFunctions
-    implements CardAddable, CardReviewable, Synthesizable {
+    implements CardCreatable, CardReviewable, Synthesizable {
   FirebaseExternalFunctions({
     @required CloudFunctions cloudFunctions,
   })  : assert(cloudFunctions != null),

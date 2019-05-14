@@ -4,7 +4,7 @@ import '../entities/new_card_text.dart';
 export '../entities/authentication_session.dart';
 export '../entities/new_card_text.dart';
 
-abstract class CardAddable {
+abstract class CardCreatable {
   Future<void> add({
     @required AuthenticationSession session,
     @required NewCardText text,
