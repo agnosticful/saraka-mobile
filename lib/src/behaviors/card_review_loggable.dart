@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
 import '../entities/review_certainty.dart';
-export '../entities/review_certainty.dart';
 
 abstract class CardReviewLoggable {
   Future<void> logReviewStart({@required int cardLength});

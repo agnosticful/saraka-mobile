@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../blocs/maintenance_check_bloc.dart';
+import '../../entities/maintenance.dart';
 import './maintenance_route.dart';
 import './normal_route.dart';
 

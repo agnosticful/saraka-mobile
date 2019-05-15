@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import '../../blocs/card_list_bloc.dart';
+import '../../entities/card.dart';
 import './card_list_button.dart';
 import './card_proficiency_donut_chart.dart';
 

@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
-import '../blocs/introduction_finishable.dart';
-import '../blocs/user_data_gettable.dart';
+import '../behaviors/introduction_finishable.dart';
+import '../behaviors/user_data_gettable.dart';
+import '../entities/authentication_session.dart';
 
 class FirestoreUserRepository
     implements IntroductionFinishable, UserDataGettable {

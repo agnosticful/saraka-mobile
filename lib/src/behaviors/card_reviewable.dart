@@ -2,9 +2,6 @@ import 'package:meta/meta.dart';
 import '../entities/authentication_session.dart';
 import '../entities/card.dart';
 import '../entities/review_certainty.dart';
-export '../entities/authentication_session.dart';
-export '../entities/card.dart';
-export '../entities/review_certainty.dart';
 
 abstract class CardReviewable {
   Future<void> review({

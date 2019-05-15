@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import '../../blocs/introduction_bloc.dart';
+import '../../entities/card.dart';
 import '../processable_fancy_button.dart';
 
 class AddCardButton extends StatelessWidget {

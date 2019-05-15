@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import '../../blocs/card_create_bloc.dart';
+import '../../entities/new_card_text.dart';
 import '../processable_fancy_button.dart';
 
 class AddButton extends StatelessWidget {
