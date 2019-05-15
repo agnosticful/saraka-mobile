@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
-import '../../blocs/card_adder_bloc.dart';
+import '../../blocs/card_create_bloc.dart';
 import '../../blocs/synthesizer_bloc.dart';
 
 class SynthesizeButton extends StatefulWidget {
@@ -20,10 +20,10 @@ class _SynthesizeButtonState extends State<SynthesizeButton> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      final cardAdderBloc = Provider.of<CardAdderBloc>(context);
+      final cardCreateBloc = Provider.of<CardCreateBloc>(context);
       final synthesizerBloc = Provider.of<SynthesizerBloc>(context);
 
-      _subscription = cardAdderBloc.text
+      _subscription = cardCreateBloc.text
           .debounce(Duration(milliseconds: 500))
           .listen((text) {
         if (text.isValid) {
@@ -31,7 +31,7 @@ class _SynthesizeButtonState extends State<SynthesizeButton> {
         }
       });
 
-      cardAdderBloc.text.listen((text) {
+      cardCreateBloc.text.listen((text) {
         setState(() {
           _text = text.isValid ? text.text : null;
         });
