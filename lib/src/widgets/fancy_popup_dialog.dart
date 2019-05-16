@@ -1,26 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:saraka/constants.dart';
 
-Future<T> showFancyPopupDialog<T>({
-  @required BuildContext context,
-  @required RoutePageBuilder pageBuilder,
-}) {
-  assert(context != null);
-  assert(pageBuilder != null);
-
-  return Navigator.of(context)
-      .push<T>(_FancyPopupDialogRoute<T>(pageBuilder: pageBuilder));
-}
-
-class _FancyPopupDialogRoute<T> extends PopupRoute<T> {
-  _FancyPopupDialogRoute({
-    @required RoutePageBuilder pageBuilder,
-    RouteSettings settings,
-  })  : assert(pageBuilder != null),
-        _pageBuilder = pageBuilder,
-        super(settings: settings);
-
-  final RoutePageBuilder _pageBuilder;
+abstract class FancyPopupDialogRoute<T> extends PopupRoute<T> {
+  FancyPopupDialogRoute({RouteSettings settings}) : super(settings: settings);
 
   @override
   final bool barrierDismissible = true;
@@ -35,18 +17,12 @@ class _FancyPopupDialogRoute<T> extends PopupRoute<T> {
   final Duration transitionDuration = const Duration(milliseconds: 300);
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
-    return Semantics(
-      child: _pageBuilder(context, animation, secondaryAnimation),
-      scopesRoute: true,
-      explicitChildNodes: true,
-    );
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-          Animation<double> secondaryAnimation, Widget child) =>
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) =>
       Container(
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,

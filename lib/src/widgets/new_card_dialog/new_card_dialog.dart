@@ -1,59 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
-import '../../blocs/authentication_bloc.dart';
-import '../../blocs/card_list_bloc.dart';
 import '../../blocs/card_create_bloc.dart';
-import '../../blocs/synthesizer_bloc.dart';
-import '../fancy_popup_dialog.dart';
 import './add_button.dart';
 import './synthesize_button.dart';
 import './word_input.dart';
 
-Future<void> showNewCardDialog({@required context}) {
-  assert(context != null);
-
-  return showFancyPopupDialog(
-    context: context,
-    pageBuilder: (context, _, __) => Consumer4<AuthenticationBloc,
-            CardCreateBlocFactory, CardListBlocFactory, SynthesizerBlocFactory>(
-          builder: (
-            context,
-            authenticationBloc,
-            cardCreateBlocFactory,
-            cardListBlocFactory,
-            synthesizerBlocFactory,
-          ) =>
-              MultiProvider(
-                providers: [
-                  StatefulProvider<CardListBloc>(
-                    valueBuilder: (_) => cardListBlocFactory.create(
-                          session: authenticationBloc.session,
-                        ),
-                  ),
-                  StatefulProvider<CardCreateBloc>(
-                    valueBuilder: (_) => cardCreateBlocFactory.create(
-                          session: authenticationBloc.session,
-                        )
-                          ..initialize()
-                          ..onComplete.listen((_) {
-                            Navigator.of(context).pop();
-                          })
-                          ..onError.listen((error) {
-                            Navigator.of(context).pop();
-                          }),
-                  ),
-                  StatefulProvider<SynthesizerBloc>(
-                    valueBuilder: (_) => synthesizerBlocFactory.create(),
-                  ),
-                ],
-                child: _NewCardDialog(),
-              ),
-        ),
-  );
-}
-
-class _NewCardDialog extends StatelessWidget {
+@immutable
+class NewCardDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) => WillPopScope(
         onWillPop: () => _onWillPop(context),

@@ -5,7 +5,7 @@ import '../../blocs/introduction_bloc.dart';
 import '../../entities/card.dart';
 import '../card_list_view_item.dart';
 import '../disappearable_builder.dart';
-import '../new_card_dialog.dart';
+import '../new_card_dialog_route.dart';
 import '../processable_fancy_button.dart';
 import './add_card_button.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' as material;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
-import '../new_card_dialog.dart';
+import '../new_card_dialog_route.dart';
 
 class AppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -34,7 +34,8 @@ class AppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         material.IconButton(
           icon: Icon(Feather.getIconData('plus')),
-          onPressed: () => showNewCardDialog(context: context),
+          onPressed: () async =>
+              print(await showNewCardDialog(context: context)),
         ),
       ],
     );
