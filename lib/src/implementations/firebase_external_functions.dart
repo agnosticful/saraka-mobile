@@ -14,19 +14,27 @@ class FirebaseExternalFunctions
   FirebaseExternalFunctions({
     @required CloudFunctions cloudFunctions,
   })  : assert(cloudFunctions != null),
-        _cloudFunctions = cloudFunctions;
+        _createCardFunction =
+            cloudFunctions.getHttpsCallable(functionName: 'createCard'),
+        _logReviewFunction =
+            cloudFunctions.getHttpsCallable(functionName: 'logReview'),
+        _deleteLastReviewFunction =
+            cloudFunctions.getHttpsCallable(functionName: 'deleteLastReview'),
+        _synthesizeFunction =
+            cloudFunctions.getHttpsCallable(functionName: 'synthesize');
 
-  final CloudFunctions _cloudFunctions;
+  final HttpsCallable _createCardFunction;
+
+  final HttpsCallable _logReviewFunction;
+
+  final HttpsCallable _deleteLastReviewFunction;
+
+  final HttpsCallable _synthesizeFunction;
 
   @override
   Future<void> add({AuthenticationSession session, NewCardText text}) async {
     try {
-      await _cloudFunctions.getHttpsCallable(
-        functionName: 'createCard',
-        parameters: {
-          "text": text.text,
-        },
-      )();
+      await _createCardFunction({"text": text.text});
     } on CloudFunctionsException catch (error) {
       if (error.code == "ALREADY_EXISTS") {
         throw CardDuplicationException(text.text);
@@ -43,13 +51,10 @@ class FirebaseExternalFunctions
     AuthenticationSession session,
   }) async {
     try {
-      await _cloudFunctions.getHttpsCallable(
-        functionName: 'logReview',
-        parameters: {
-          "cardId": card.id,
-          "certainty": certainty.toString(),
-        },
-      )();
+      await _logReviewFunction({
+        "cardId": card.id,
+        "certainty": certainty.toString(),
+      });
     } on CloudFunctionsException catch (error) {
       if (error.code == "FAILED_PRECONDITION") {
         throw ReviewDuplicationException(card);
@@ -60,12 +65,7 @@ class FirebaseExternalFunctions
   @override
   Future<void> undoReview({Card card, AuthenticationSession session}) async {
     try {
-      await _cloudFunctions.getHttpsCallable(
-        functionName: 'deleteLastReview',
-        parameters: {
-          "cardId": card.id,
-        },
-      )();
+      await _deleteLastReviewFunction({"cardId": card.id});
     } on CloudFunctionsException catch (error) {
       if (error.code == "FAILED_PRECONDITION") {
         throw ReviewOverundoException(card);
@@ -75,12 +75,9 @@ class FirebaseExternalFunctions
 
   @override
   Future<List<int>> synthesize(String text) async {
-    final result = await _cloudFunctions.getHttpsCallable(
-      functionName: 'synthesize',
-      parameters: {
-        "text": text,
-      },
-    )();
+    final result = await _synthesizeFunction({
+      "text": text,
+    });
 
     return base64.decode(result.data);
   }
