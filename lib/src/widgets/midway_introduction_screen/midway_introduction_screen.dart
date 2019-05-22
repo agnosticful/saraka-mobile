@@ -12,7 +12,7 @@ Future<void> showMidwayIntroductionDialog({
 
   final authenticationBloc = Provider.of<AuthenticationBloc>(context);
 
-  if (authenticationBloc.user.value.isIntroductionFinished) {
+  if (authenticationBloc.user.value.isMidwayIntroductionFinished) {
     return null;
   }
 

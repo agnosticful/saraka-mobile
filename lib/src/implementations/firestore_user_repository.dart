@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import '../blocs/midway_introduction_finishable.dart';
 import '../blocs/introduction_finishable.dart';
@@ -30,10 +31,14 @@ class FirestoreUserRepository
       });
 
   @override
-  Future<void> finishMidwayIntroduction({AuthenticationSession session}) =>
-      _firestore.collection('users').document(session.userId).updateData({
-        "isIntroductionFinished": true,
-      });
+  Future<void> finishMidwayIntroduction(
+      {AuthenticationSession session, String introName}) {
+    return _firestore.collection('users').document(session.userId).updateData({
+      "midwayIntroduction": {
+        introName: DateTime.now()
+      },
+    });
+  }
 }
 
 class _FirestoreUserData implements UserData {
