@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import '../blocs/midway_introduction_finishable.dart';
-import '../blocs/introduction_finishable.dart';
-import '../blocs/user_data_gettable.dart';
+import '../behaviors/introduction_finishable.dart';
+import '../behaviors/user_data_gettable.dart';
+import '../entities/authentication_session.dart';
 
 class FirestoreUserRepository
-    implements
-        MidwayIntroductionFinishable,
-        IntroductionFinishable,
-        UserDataGettable {
+    implements IntroductionFinishable, UserDataGettable {
   FirestoreUserRepository({
     @required Firestore firestore,
   })  : assert(firestore != null),
@@ -34,9 +31,7 @@ class FirestoreUserRepository
   Future<void> finishMidwayIntroduction(
       {AuthenticationSession session, String introName}) {
     return _firestore.collection('users').document(session.userId).updateData({
-      "midwayIntroduction": {
-        introName: DateTime.now()
-      },
+      "midwayIntroduction": {introName: DateTime.now()},
     });
   }
 }

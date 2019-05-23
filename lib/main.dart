@@ -16,8 +16,7 @@ import './src/blocs/backend_version_compatibility_check_bloc.dart';
 import './src/blocs/common_link_bloc.dart';
 import './src/blocs/introduction_bloc.dart';
 import './src/blocs/maintenance_check_bloc.dart';
-import './src/blocs/midway_introduction_bloc.dart';
-import './src/blocs/card_adder_bloc.dart';
+import './src/blocs/card_create_bloc.dart';
 import './src/blocs/card_delete_bloc.dart';
 import './src/blocs/card_detail_bloc.dart';
 import './src/blocs/card_review_bloc.dart';
@@ -122,11 +121,16 @@ void main() async {
   final maintenanceCheckBlocFactory = MaintenanceCheckBlocFactory(
     maintenanceSubscribable: maintenanceRepository,
   );
+<<<<<<< HEAD
   final midwayIntroductionBlocFactory = MidwayIntroductionBlocFactory(
     midwayIntroductionFinishable: userRepository,
   );
   final cardAdderBlocFactory = CardAdderBlocFactory(
     cardAddable: firebaseExternalFunctions,
+=======
+  final cardCreateBlocFactory = CardCreateBlocFactory(
+    cardCreatable: firebaseExternalFunctions,
+>>>>>>> v0.0.3
     cardCreateLoggable: logger,
   );
   final cardDeleteBlocFactory = CardDeleteBlocFactory(
@@ -159,14 +163,17 @@ void main() async {
       runApp(
         MultiProvider(
           providers: [
-            Provider<CardAdderBlocFactory>(value: cardAdderBlocFactory),
+            Provider<CardCreateBlocFactory>(value: cardCreateBlocFactory),
             Provider<CardDeleteBlocFactory>(value: cardDeleteBlocFactory),
             Provider<CardDetailBlocFactory>(value: cardDetailBlocFactory),
             Provider<CardReviewBlocFactory>(value: cardReviewBlocFactory),
             Provider<CardListBlocFactory>(value: cardListBlocFactory),
             Provider<IntroductionBlocFactory>(value: firstCardListBlocFactory),
+<<<<<<< HEAD
             Provider<MidwayIntroductionBlocFactory>(
                 value: midwayIntroductionBlocFactory),
+=======
+>>>>>>> v0.0.3
             Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
             Provider<AuthenticationBloc>(value: authenticationBloc),
             Provider<BackendVersionCompatibilityCheckBloc>(

@@ -2,42 +2,11 @@ import 'package:flutter/material.dart' show Material;
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
-import '../blocs/authentication_bloc.dart';
 import '../blocs/card_delete_bloc.dart';
 import './disappearable_builder.dart';
-import './fancy_popup_dialog.dart';
 import './processable_fancy_button.dart';
 
-Future<void> showCardDeleteConfirmDialog({
-  @required context,
-  @required Card card,
-}) {
-  assert(context != null);
-
-  return showFancyPopupDialog(
-    context: context,
-    pageBuilder: (context, _, __) => Consumer<AuthenticationBloc>(
-          builder: (context, authenticationBloc) => MultiProvider(
-                providers: [
-                  Provider<CardDeleteBloc>(
-                    value: Provider.of<CardDeleteBlocFactory>(context).create(
-                      card: card,
-                      session: authenticationBloc.session,
-                    )
-                      ..onComplete.listen((_) {
-                        Navigator.of(context).pop();
-                      })
-                      ..onError.listen((error) {
-                        Navigator.of(context).pop();
-                      }),
-                  ),
-                ],
-                child: CardDeleteConfirmDialog(),
-              ),
-        ),
-  );
-}
-
+@immutable
 class CardDeleteConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) => WillPopScope(

@@ -5,6 +5,7 @@ import '../../blocs/authentication_bloc.dart';
 import '../../blocs/card_detail_bloc.dart';
 import '../../blocs/card_list_bloc.dart';
 import '../../blocs/synthesizer_bloc.dart';
+import '../../entities/card.dart';
 import '../card_list_view_item.dart';
 
 class CardSliverList extends StatefulWidget {

@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
-import '../blocs/signable.dart';
+import '../behaviors/signable.dart';
+import '../entities/authentication_session.dart';
 
 class FirebaseAuthentication implements Signable {
   FirebaseAuthentication({
@@ -13,39 +13,6 @@ class FirebaseAuthentication implements Signable {
         assert(googleSignIn != null),
         _firebaseAuth = firebaseAuth,
         _googleSignIn = googleSignIn;
-  //  {
-  //   Observable(_firebaseAuth.onAuthStateChanged).listen((firebaseUser) async {
-  //     if (firebaseUser == null) {
-  //       if (_lastUserFragmentSubscription != null) {
-  //         _lastUserFragmentSubscription.cancel();
-
-  //         _lastUserFragmentSubscription = null;
-  //       }
-
-  //       return _user.add(null);
-  //     }
-
-  //     _lastUserFragmentSubscription = _firestore
-  //         .collection('users')
-  //         .document(firebaseUser.uid)
-  //         .snapshots()
-  //         .listen((snapshot) {
-  //       if (!snapshot.exists) {
-  //         return _user.add(null);
-  //       }
-
-  //       final userFragment = _FirestoreUserFragment(snapshot);
-
-  //       _user.add(_User(
-  //         id: firebaseUser.uid,
-  //         name: firebaseUser.displayName,
-  //         email: firebaseUser.email,
-  //         imageUrl: Uri.parse(firebaseUser.photoUrl),
-  //         isIntroductionFinished: userFragment.isIntroductionFinished,
-  //       ));
-  //     });
-  //   });
-  // }
 
   final FirebaseAuth _firebaseAuth;
 
@@ -97,12 +64,4 @@ class _FirebaseAuthenticationSession implements AuthenticationSession {
   final String email;
 
   final Uri imageUrl;
-}
-
-class _FirestoreUserFragment {
-  _FirestoreUserFragment(DocumentSnapshot snapshot)
-      : assert(snapshot != null),
-        isIntroductionFinished = snapshot.data['isIntroductionFinished'];
-
-  final bool isIntroductionFinished;
 }

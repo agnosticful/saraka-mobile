@@ -5,6 +5,7 @@ import 'package:saraka/constants.dart';
 import '../../blocs/authentication_bloc.dart';
 import '../../blocs/card_detail_bloc.dart';
 import '../../blocs/synthesizer_bloc.dart';
+import '../../entities/card.dart';
 import './proficiency_description.dart';
 import './proficiency_line_chart.dart';
 import './menu_icon_button.dart';

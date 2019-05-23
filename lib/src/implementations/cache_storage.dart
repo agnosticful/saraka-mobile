@@ -3,7 +3,7 @@ import 'dart:io' show File;
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-import '../blocs/synthesized_sound_file_referable.dart';
+import '../behaviors/synthesized_sound_file_referable.dart';
 
 class CacheStorage implements SynthesizedSoundFileReferable {
   @override

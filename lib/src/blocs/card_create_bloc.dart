@@ -1,12 +1,11 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
+import '../behaviors/card_creatable.dart';
+import '../behaviors/card_create_loggable.dart';
 import '../entities/authentication_session.dart';
-import './card_addable.dart';
-import './card_create_loggable.dart';
-export '../entities/authentication_session.dart';
-export './card_addable.dart' show NewCardText;
+import '../entities/new_card_text.dart';
 
-abstract class CardAdderBloc {
+abstract class CardCreateBloc {
   ValueObservable<NewCardText> get text;
 
   ValueObservable<CardAddingState> get state;
@@ -22,16 +21,16 @@ abstract class CardAdderBloc {
   void initialize();
 }
 
-class _CardAdderBloc implements CardAdderBloc {
-  _CardAdderBloc({
-    @required this.cardAddable,
+class _CardCreateBloc implements CardCreateBloc {
+  _CardCreateBloc({
+    @required this.cardCreatable,
     @required this.cardCreateLoggable,
     @required this.session,
-  })  : assert(cardAddable != null),
+  })  : assert(cardCreatable != null),
         assert(cardCreateLoggable != null),
         assert(session != null);
 
-  final CardAddable cardAddable;
+  final CardCreatable cardCreatable;
 
   final CardCreateLoggable cardCreateLoggable;
 
@@ -68,7 +67,7 @@ class _CardAdderBloc implements CardAdderBloc {
     _state.add(CardAddingState.processing);
 
     try {
-      await cardAddable.add(
+      await cardCreatable.add(
         session: session,
         text: text.value,
       );
@@ -110,23 +109,23 @@ class _NewCardText extends NewCardText {
   final String text;
 }
 
-class CardAdderBlocFactory {
-  CardAdderBlocFactory({
-    @required CardAddable cardAddable,
+class CardCreateBlocFactory {
+  CardCreateBlocFactory({
+    @required CardCreatable cardCreatable,
     @required CardCreateLoggable cardCreateLoggable,
-  })  : assert(cardAddable != null),
+  })  : assert(cardCreatable != null),
         assert(cardCreateLoggable != null),
-        _cardAddable = cardAddable,
+        _cardCreatable = cardCreatable,
         _cardCreateLoggable = cardCreateLoggable;
 
-  final CardAddable _cardAddable;
+  final CardCreatable _cardCreatable;
 
   final CardCreateLoggable _cardCreateLoggable;
 
-  CardAdderBloc create({@required AuthenticationSession session}) =>
-      _CardAdderBloc(
+  CardCreateBloc create({@required AuthenticationSession session}) =>
+      _CardCreateBloc(
         session: session,
-        cardAddable: _cardAddable,
+        cardCreatable: _cardCreatable,
         cardCreateLoggable: _cardCreateLoggable,
       );
 }

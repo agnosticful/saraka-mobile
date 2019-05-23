@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
-import '../../blocs/card_adder_bloc.dart';
+import '../../blocs/card_create_bloc.dart';
 
 class WordInput extends StatefulWidget {
   @override
@@ -19,10 +19,10 @@ class _WordInputState extends State<WordInput> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      final cardAdderBloc = Provider.of<CardAdderBloc>(context);
+      final cardCreateBloc = Provider.of<CardCreateBloc>(context);
 
       _listener = () {
-        cardAdderBloc.setText(_controller.value.text);
+        cardCreateBloc.setText(_controller.value.text);
       };
 
       _controller.addListener(_listener);
@@ -38,10 +38,10 @@ class _WordInputState extends State<WordInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CardAdderBloc>(
-      builder: (context, cardAdderBloc) => StreamBuilder<CardAddingState>(
-            stream: cardAdderBloc.state,
-            initialData: cardAdderBloc.state.value,
+    return Consumer<CardCreateBloc>(
+      builder: (context, cardCreateBloc) => StreamBuilder<CardAddingState>(
+            stream: cardCreateBloc.state,
+            initialData: cardCreateBloc.state.value,
             builder: (context, snapshot) => TextField(
                   controller: _controller,
                   cursorColor: SarakaColors.lightRed,

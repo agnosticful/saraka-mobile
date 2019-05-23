@@ -5,7 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import '../../blocs/card_detail_bloc.dart';
-import '../card_delete_confirm_dialog.dart';
+import '../card_delete_confirm_dialog_route.dart';
 
 class MenuIconButton extends StatelessWidget {
   @override
@@ -51,7 +51,7 @@ class MenuIconButton extends StatelessWidget {
     if (selectedItem != null) {
       final card = Provider.of<CardDetailBloc>(context).card;
 
-      showCardDeleteConfirmDialog(
+      await showCardDeleteConfirmDialog(
         context: context,
         card: card,
       );

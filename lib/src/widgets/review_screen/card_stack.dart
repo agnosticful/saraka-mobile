@@ -61,9 +61,6 @@ class _CardStackState extends State<CardStack> {
           stream: cardReviewBloc.isInitialized,
           initialData: cardReviewBloc.isInitialized.value,
           builder: (context, snapshot) {
-            print(snapshot.requireData);
-            print(cardReviewBloc.cards);
-
             return snapshot.requireData
                 ? SwipableCardStack(
                     controller: widget.controller,
@@ -76,8 +73,10 @@ class _CardStackState extends State<CardStack> {
                             .reviewedVaguely(cardReviewBloc.cards[index]);
                       }
                     },
-                    itemBuilder: (context, i, swipingRate) =>
-                        StackedCard(card: cardReviewBloc.cards[i]),
+                    itemBuilder: (context, i, swipingRate) => StackedCard(
+                          card: cardReviewBloc.cards[i],
+                          swipingRate: swipingRate,
+                        ),
                     itemLength: cardReviewBloc.cards.length,
                     visibleItemLength: 3,
                   )

@@ -12,9 +12,9 @@ Future<void> showMidwayIntroductionDialog({
 
   final authenticationBloc = Provider.of<AuthenticationBloc>(context);
 
-  if (authenticationBloc.user.value.isMidwayIntroductionFinished) {
-    return null;
-  }
+  // if (authenticationBloc.user.value.isMidwayIntroductionFinished) {
+  //   return null;
+  // }
 
   String image;
   String content;

@@ -1,6 +1,6 @@
 import 'dart:io' show File;
 import 'package:audioplayers/audioplayers.dart';
-import '../blocs/sound_file_playable.dart';
+import '../behaviors/sound_file_playable.dart';
 
 class SoundPlayer implements SoundFilePlayable {
   final _audioPlayer = AudioPlayer();
