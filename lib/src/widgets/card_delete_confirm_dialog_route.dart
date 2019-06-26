@@ -27,20 +27,20 @@ class CardDeleteConfirmDialogRoute extends FancyPopupDialogRoute<bool> {
   Widget buildPage(BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation) =>
       Consumer2<AuthenticationBloc, CardDeleteBlocFactory>(
-        builder: (context, authenticationBloc, cardDeleteBlocFactory) =>
+        builder: (context, authenticationBloc, cardDeleteBlocFactory, _) =>
             MultiProvider(
               providers: [
                 Provider<CardDeleteBloc>(
-                  value: cardDeleteBlocFactory.create(
-                    card: _card,
-                    session: authenticationBloc.session,
-                  )
-                    ..onComplete.listen((_) {
-                      Navigator.of(context).pop(true);
-                    })
-                    ..onError.listen((error) {
-                      Navigator.of(context).pop(null);
-                    }),
+                  builder: (context) => cardDeleteBlocFactory.create(
+                        card: _card,
+                        session: authenticationBloc.session,
+                      )
+                        ..onComplete.listen((_) {
+                          Navigator.of(context).pop(true);
+                        })
+                        ..onError.listen((error) {
+                          Navigator.of(context).pop(null);
+                        }),
                 ),
               ],
               child: CardDeleteConfirmDialog(),

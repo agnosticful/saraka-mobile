@@ -15,7 +15,7 @@ class SynthesizeIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<SynthesizerBloc>(
-      builder: (context, synthesizerBloc) => IconButton(
+      builder: (context, synthesizerBloc, _) => IconButton(
             icon: Icon(Feather.getIconData('volume-2')),
             iconSize: 24,
             color: SarakaColors.darkGray,

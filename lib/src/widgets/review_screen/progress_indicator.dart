@@ -16,7 +16,7 @@ class _ProgressIndicatorState extends State<ProgressIndicator> {
 
   @override
   Widget build(BuildContext context) => Consumer<CardReviewBloc>(
-        builder: (context, cardReviewBloc) => SizedBox(
+        builder: (context, cardReviewBloc, _) => SizedBox(
               height: 2,
               child: StreamBuilder<double>(
                 stream: cardReviewBloc.finishedCardRatio,

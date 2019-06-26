@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "183263712868",
+    "firebase_url": "https://saraka.firebaseio.com",
+    "project_id": "saraka",
+    "storage_bucket": "saraka.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183263712868:android:a9f78daed440a3e2",
+        "android_client_info": {
+          "package_name": "app.axross.saraka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "183263712868-bgs1fqghi8g1dec3bb2c4bm4699ue2ng.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.axross.saraka",
+            "certificate_hash": "380e4e8ad243e10de72a8a6a2948f433aa1eb1de"
+          }
+        },
+        {
+          "client_id": "183263712868-i92cbo500rf259pefmefhf35l20e3hu9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.axross.saraka",
+            "certificate_hash": "56f0dae0274043b11da33e12fd5119655923d82b"
+          }
+        },
+        {
+          "client_id": "183263712868-ukapk4v3jd4umgg0v9r00fka9qmi72nf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYmatKqpybnLKfnD2IYZXWK7qA8VUNN24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "183263712868-ukapk4v3jd4umgg0v9r00fka9qmi72nf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "183263712868-fu4r4crqmff8htpmjobgm6mcsbonmu1q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.axross.saraka"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

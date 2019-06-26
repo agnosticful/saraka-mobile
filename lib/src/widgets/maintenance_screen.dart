@@ -30,7 +30,7 @@ class MaintenanceScreen extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Consumer<MaintenanceCheckBloc>(
-                builder: (context, maintenanceCheckBloc) => StreamBuilder(
+                builder: (context, maintenanceCheckBloc, _) => StreamBuilder(
                       stream: maintenanceCheckBloc.maintenance,
                       builder: (context, snapshot) => snapshot.hasData
                           ? Text(

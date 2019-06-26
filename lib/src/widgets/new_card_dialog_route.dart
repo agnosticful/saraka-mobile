@@ -30,16 +30,17 @@ class NewCardDialogRoute extends FancyPopupDialogRoute<bool> {
           cardCreateBlocFactory,
           cardListBlocFactory,
           synthesizerBlocFactory,
+          _,
         ) =>
             MultiProvider(
               providers: [
-                StatefulProvider<CardListBloc>(
-                  valueBuilder: (_) => cardListBlocFactory.create(
+                Provider<CardListBloc>(
+                  builder: (_) => cardListBlocFactory.create(
                         session: authenticationBloc.session,
                       ),
                 ),
-                StatefulProvider<CardCreateBloc>(
-                  valueBuilder: (_) => cardCreateBlocFactory.create(
+                Provider<CardCreateBloc>(
+                  builder: (_) => cardCreateBlocFactory.create(
                         session: authenticationBloc.session,
                       )
                         ..initialize()
@@ -50,8 +51,8 @@ class NewCardDialogRoute extends FancyPopupDialogRoute<bool> {
                           Navigator.of(context).pop(null);
                         }),
                 ),
-                StatefulProvider<SynthesizerBloc>(
-                  valueBuilder: (_) => synthesizerBlocFactory.create(),
+                Provider<SynthesizerBloc>(
+                  builder: (_) => synthesizerBlocFactory.create(),
                 ),
               ],
               child: NewCardDialog(),

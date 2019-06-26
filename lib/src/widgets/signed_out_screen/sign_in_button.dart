@@ -12,7 +12,7 @@ class SignInButton extends StatefulWidget {
 class _SignInButtonState extends State<SignInButton> {
   @override
   Widget build(BuildContext context) => Consumer<AuthenticationBloc>(
-        builder: (context, authenticationBloc) => StreamBuilder<bool>(
+        builder: (context, authenticationBloc, _) => StreamBuilder<bool>(
               stream: authenticationBloc.isSigningIn,
               initialData: authenticationBloc.isSigningIn.value,
               builder: (context, snapshot) => ProcessableFancyButton(

@@ -8,13 +8,14 @@ class DashboardRoute extends CupertinoPageRoute {
       : super(
           builder: (BuildContext context) =>
               Consumer2<AuthenticationBloc, CardListBlocFactory>(
-                builder: (context, authenticationBloc, cardListBlocFactory) =>
-                    StatefulProvider(
-                      valueBuilder: (_) => cardListBlocFactory.create(
-                            session: authenticationBloc.session,
-                          ),
-                      child: child,
-                    ),
+                builder:
+                    (context, authenticationBloc, cardListBlocFactory, _) =>
+                        Provider(
+                          builder: (_) => cardListBlocFactory.create(
+                                session: authenticationBloc.session,
+                              ),
+                          child: child,
+                        ),
               ),
           settings: settings,
         );

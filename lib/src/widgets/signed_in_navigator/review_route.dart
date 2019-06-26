@@ -14,16 +14,17 @@ class ReviewRoute extends MaterialPageRoute {
                   authenticationBloc,
                   cardReviewBlocFactory,
                   synthesizerBlocFactory,
+                  _,
                 ) =>
                     MultiProvider(
                       providers: [
-                        StatefulProvider<CardReviewBloc>(
-                          valueBuilder: (_) => cardReviewBlocFactory.create(
+                        Provider<CardReviewBloc>(
+                          builder: (_) => cardReviewBlocFactory.create(
                                 session: authenticationBloc.session,
                               )..initialize(),
                         ),
-                        StatefulProvider<SynthesizerBloc>(
-                          valueBuilder: (_) => synthesizerBlocFactory.create(),
+                        Provider<SynthesizerBloc>(
+                          builder: (_) => synthesizerBlocFactory.create(),
                         ),
                       ],
                       child: child,

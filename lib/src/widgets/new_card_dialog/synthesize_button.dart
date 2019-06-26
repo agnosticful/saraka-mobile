@@ -24,7 +24,7 @@ class _SynthesizeButtonState extends State<SynthesizeButton> {
       final synthesizerBloc = Provider.of<SynthesizerBloc>(context);
 
       _subscription = cardCreateBloc.text
-          .debounce(Duration(milliseconds: 500))
+          .debounceTime(const Duration(milliseconds: 500))
           .listen((text) {
         if (text.isValid) {
           synthesizerBloc.cacheInAdvance(text.text);
@@ -48,7 +48,7 @@ class _SynthesizeButtonState extends State<SynthesizeButton> {
 
   @override
   Widget build(BuildContext context) => Consumer<SynthesizerBloc>(
-        builder: (context, synthesizerBloc) => StreamBuilder<bool>(
+        builder: (context, synthesizerBloc, _) => StreamBuilder<bool>(
               stream: synthesizerBloc.isCaching,
               initialData: false,
               builder: (context, snapshot) {

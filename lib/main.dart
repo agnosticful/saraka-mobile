@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
@@ -58,8 +57,6 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  await FlutterCrashlytics().initialize();
-
   /**
    * External APIs
    */
@@ -71,6 +68,8 @@ void main() async {
       persistenceEnabled: false,
     );
   final googleSignIn = GoogleSignIn();
+
+  print((await firestore.app.options));
 
   /**
    * Implementations
@@ -150,98 +149,90 @@ void main() async {
       backendVersionCompatibilityCheckBlocFactory.create();
   final maintenanceCheckBloc = maintenanceCheckBlocFactory.create();
 
-  runZoned<Future<Null>>(
-    () async {
-      runApp(
-        MultiProvider(
-          providers: [
-            Provider<CardCreateBlocFactory>(value: cardCreateBlocFactory),
-            Provider<CardDeleteBlocFactory>(value: cardDeleteBlocFactory),
-            Provider<CardDetailBlocFactory>(value: cardDetailBlocFactory),
-            Provider<CardReviewBlocFactory>(value: cardReviewBlocFactory),
-            Provider<CardListBlocFactory>(value: cardListBlocFactory),
-            Provider<IntroductionBlocFactory>(value: firstCardListBlocFactory),
-            Provider<SynthesizerBlocFactory>(value: synthesizerBlocFactory),
-            Provider<AuthenticationBloc>(value: authenticationBloc),
-            Provider<BackendVersionCompatibilityCheckBloc>(
-              value: backendVersionCompatibilityCheckBloc,
-            ),
-            Provider<CommonLinkBloc>(value: commonLinkBloc),
-            Provider<MaintenanceCheckBloc>(value: maintenanceCheckBloc),
-          ],
-          child: Application(
-            title: "Parrot",
-            color: SarakaColors.lightRed,
-            child: BackendVersionCheckNavigator(
-              observers: [
-                FirebaseAnalyticsObserver(
-                  analytics: firebaseAnalytics,
-                  nameExtractor: (routeSettings) =>
-                      BackendVersionCheckNavigator.extractRouteName(
-                        routeSettings,
-                      ),
-                ),
-              ],
-              builder: (context) => MaintenanceCheckNavigator(
-                    observers: [
-                      FirebaseAnalyticsObserver(
-                        analytics: firebaseAnalytics,
-                        nameExtractor: (routeSettings) =>
-                            MaintenanceCheckNavigator.extractRouteName(
-                              routeSettings,
-                            ),
-                      ),
-                    ],
-                    builder: (context) => AuthenticationNavigator(
-                          observers: [
-                            FirebaseAnalyticsObserver(
-                              analytics: firebaseAnalytics,
-                              nameExtractor: (routeSettings) =>
-                                  AuthenticationNavigator.extractRouteName(
-                                    routeSettings,
-                                  ),
-                            ),
-                          ],
-                          signedInBuilder: (context) => SignedInNavigator(
-                                observers: [
-                                  FirebaseAnalyticsObserver(
-                                    analytics: firebaseAnalytics,
-                                    nameExtractor: (routeSettings) =>
-                                        SignedInNavigator.extractRouteName(
-                                          routeSettings,
-                                        ),
-                                  ),
-                                ],
-                                cardListBuilder: (context) => CardListScreen(),
-                                introductionBuilder: (context) =>
-                                    IntroductionScreen(),
-                                dashboardBuilder: (context) =>
-                                    DashboardScreen(),
-                                reviewBuilder: (context, showTutorial) =>
-                                    ReviewScreen(
-                                      showTutorial: showTutorial,
-                                    ),
-                              ),
-                          signedOutBuilder: (context) => SignedOutScreen(),
-                          undecidedBuilder: (context) => LandingScreen(),
-                        ),
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<CardCreateBlocFactory>(
+            builder: (context) => cardCreateBlocFactory),
+        Provider<CardDeleteBlocFactory>(
+            builder: (context) => cardDeleteBlocFactory),
+        Provider<CardDetailBlocFactory>(
+            builder: (context) => cardDetailBlocFactory),
+        Provider<CardReviewBlocFactory>(
+            builder: (context) => cardReviewBlocFactory),
+        Provider<CardListBlocFactory>(
+            builder: (context) => cardListBlocFactory),
+        Provider<IntroductionBlocFactory>(
+            builder: (context) => firstCardListBlocFactory),
+        Provider<SynthesizerBlocFactory>(
+            builder: (context) => synthesizerBlocFactory),
+        Provider<AuthenticationBloc>(builder: (context) => authenticationBloc),
+        Provider<BackendVersionCompatibilityCheckBloc>(
+          builder: (context) => backendVersionCompatibilityCheckBloc,
+        ),
+        Provider<CommonLinkBloc>(builder: (context) => commonLinkBloc),
+        Provider<MaintenanceCheckBloc>(
+            builder: (context) => maintenanceCheckBloc),
+      ],
+      child: Application(
+        title: "Parrot",
+        color: SarakaColors.lightRed,
+        child: BackendVersionCheckNavigator(
+          observers: [
+            FirebaseAnalyticsObserver(
+              analytics: firebaseAnalytics,
+              nameExtractor: (routeSettings) =>
+                  BackendVersionCheckNavigator.extractRouteName(
+                    routeSettings,
                   ),
             ),
-          ),
+          ],
+          builder: (context) => MaintenanceCheckNavigator(
+                observers: [
+                  FirebaseAnalyticsObserver(
+                    analytics: firebaseAnalytics,
+                    nameExtractor: (routeSettings) =>
+                        MaintenanceCheckNavigator.extractRouteName(
+                          routeSettings,
+                        ),
+                  ),
+                ],
+                builder: (context) => AuthenticationNavigator(
+                      observers: [
+                        FirebaseAnalyticsObserver(
+                          analytics: firebaseAnalytics,
+                          nameExtractor: (routeSettings) =>
+                              AuthenticationNavigator.extractRouteName(
+                                routeSettings,
+                              ),
+                        ),
+                      ],
+                      signedInBuilder: (context) => SignedInNavigator(
+                            observers: [
+                              FirebaseAnalyticsObserver(
+                                analytics: firebaseAnalytics,
+                                nameExtractor: (routeSettings) =>
+                                    SignedInNavigator.extractRouteName(
+                                      routeSettings,
+                                    ),
+                              ),
+                            ],
+                            cardListBuilder: (context) => CardListScreen(),
+                            introductionBuilder: (context) =>
+                                IntroductionScreen(),
+                            dashboardBuilder: (context) => DashboardScreen(),
+                            reviewBuilder: (context, showTutorial) =>
+                                ReviewScreen(
+                                  showTutorial: showTutorial,
+                                ),
+                          ),
+                      signedOutBuilder: (context) => SignedOutScreen(),
+                      undecidedBuilder: (context) => LandingScreen(),
+                    ),
+              ),
         ),
-      );
-    },
-    onError: (error, stackTrace) async {
-      debugPrint('$error');
-      debugPrint(stackTrace);
-
-      // Whenever an error occurs, call the `reportCrash` function. This will send Dart errors to our dev console or Crashlytics depending on the environment.
-      await FlutterCrashlytics().reportCrash(
-        error,
-        stackTrace,
-        forceCrash: false,
-      );
-    },
+      ),
+    ),
   );
 }
 

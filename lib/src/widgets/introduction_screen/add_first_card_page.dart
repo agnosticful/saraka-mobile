@@ -57,7 +57,7 @@ class _AddFirstCardPageState extends State<AddFirstCardPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<IntroductionBloc>(
-      builder: (context, firstCardListBloc) => Container(
+      builder: (context, firstCardListBloc, _) => Container(
             padding: EdgeInsets.fromLTRB(16, 64, 16, 48),
             decoration: BoxDecoration(
               color: SarakaColors.white,

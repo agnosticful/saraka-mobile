@@ -15,7 +15,7 @@ class BackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<CardReviewBloc>(
-        builder: (context, cardReviewBloc) => StreamBuilder(
+        builder: (context, cardReviewBloc, _) => StreamBuilder(
               stream: cardReviewBloc.canUndo,
               initialData: cardReviewBloc.canUndo.value,
               builder: (context, snapshot) => IconButton(
