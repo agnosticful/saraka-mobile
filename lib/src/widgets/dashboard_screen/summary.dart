@@ -10,7 +10,7 @@ import './card_proficiency_donut_chart.dart';
 class Summary extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Consumer<CardListBloc>(
-        builder: (context, cardListBloc) => StreamBuilder<List<Card>>(
+        builder: (context, cardListBloc, _) => StreamBuilder<List<Card>>(
               stream: cardListBloc.cards.map((iter) => iter.toList()),
               initialData: [],
               builder: (context, snapshot) => AspectRatio(

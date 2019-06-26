@@ -10,7 +10,7 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthenticationBloc>(
-      builder: (context, authenticationBloc) => Drawer(
+      builder: (context, authenticationBloc, _) => Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
               children: [

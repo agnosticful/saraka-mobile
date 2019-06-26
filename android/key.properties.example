@@ -1,4 +1,0 @@
-storePassword=xxxxx
-keyPassword=xxxxx
-keyAlias=key
-storeFile=../key.jks

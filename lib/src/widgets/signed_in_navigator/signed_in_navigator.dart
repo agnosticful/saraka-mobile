@@ -112,7 +112,7 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
 
   @override
   Widget build(BuildContext context) => Consumer<AuthenticationBloc>(
-        builder: (context, authenticationBloc) => StreamBuilder<User>(
+        builder: (context, authenticationBloc, _) => StreamBuilder<User>(
               stream: authenticationBloc.user,
               initialData: authenticationBloc.user.value,
               builder: (context, snapshot) => Navigator(

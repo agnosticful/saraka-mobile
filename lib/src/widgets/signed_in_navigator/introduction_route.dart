@@ -9,9 +9,9 @@ class IntroductionRoute extends CupertinoPageRoute {
           builder: (BuildContext context) =>
               Consumer2<AuthenticationBloc, IntroductionBlocFactory>(
                 builder:
-                    (context, authenticationBloc, introductionBlocFactory) =>
-                        StatefulProvider(
-                          valueBuilder: (_) => introductionBlocFactory.create(
+                    (context, authenticationBloc, introductionBlocFactory, _) =>
+                        Provider(
+                          builder: (_) => introductionBlocFactory.create(
                                 session: authenticationBloc.session,
                               ),
                           child: child,

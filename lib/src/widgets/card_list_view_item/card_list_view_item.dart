@@ -31,17 +31,18 @@ class CardListViewItem extends StatelessWidget {
           authenticationBloc,
           cardDetailBlocFactory,
           synthesizerBlocFactory,
+          _,
         ) =>
             MultiProvider(
               providers: [
                 Provider<CardDetailBloc>(
-                  value: cardDetailBlocFactory.create(
-                    card: card,
-                    session: authenticationBloc.session,
-                  ),
+                  builder: (_) => cardDetailBlocFactory.create(
+                        card: card,
+                        session: authenticationBloc.session,
+                      ),
                 ),
                 Provider<SynthesizerBloc>(
-                  value: synthesizerBlocFactory.create(),
+                  builder: (_) => synthesizerBlocFactory.create(),
                 ),
               ],
               child: Material(

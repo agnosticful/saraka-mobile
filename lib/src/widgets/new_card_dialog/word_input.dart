@@ -39,7 +39,7 @@ class _WordInputState extends State<WordInput> {
   @override
   Widget build(BuildContext context) {
     return Consumer<CardCreateBloc>(
-      builder: (context, cardCreateBloc) => StreamBuilder<CardAddingState>(
+      builder: (context, cardCreateBloc, _) => StreamBuilder<CardAddingState>(
             stream: cardCreateBloc.state,
             initialData: cardCreateBloc.state.value,
             builder: (context, snapshot) => TextField(

@@ -9,7 +9,7 @@ class CardListButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<CardListBloc>(
-      builder: (context, cardListBloc) => StreamBuilder<List<Card>>(
+      builder: (context, cardListBloc, _) => StreamBuilder<List<Card>>(
             stream: cardListBloc.cards,
             initialData: cardListBloc.cards.value,
             builder: (context, snapshot) => FlatButton(

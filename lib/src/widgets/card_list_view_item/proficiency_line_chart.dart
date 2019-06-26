@@ -9,7 +9,7 @@ class ProficiencyLineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<CardDetailBloc>(
-      builder: (context, cardDetailBloc) => SizedBox(
+      builder: (context, cardDetailBloc, _) => SizedBox(
             child: StreamBuilder<List<Review>>(
               stream: cardDetailBloc.reviews,
               builder: (context, snapshot) => charts.LineChart(

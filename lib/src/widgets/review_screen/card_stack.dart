@@ -57,7 +57,7 @@ class _CardStackState extends State<CardStack> {
   @override
   Widget build(BuildContext context) {
     return Consumer<CardReviewBloc>(
-      builder: (context, cardReviewBloc) => StreamBuilder(
+      builder: (context, cardReviewBloc, _) => StreamBuilder(
           stream: cardReviewBloc.isInitialized,
           initialData: cardReviewBloc.isInitialized.value,
           builder: (context, snapshot) {

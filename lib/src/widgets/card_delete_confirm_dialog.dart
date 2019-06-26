@@ -12,7 +12,7 @@ class CardDeleteConfirmDialog extends StatelessWidget {
   Widget build(BuildContext context) => WillPopScope(
         onWillPop: () => _onWillPop(context),
         child: Consumer<CardDeleteBloc>(
-          builder: (context, cardDeleteBloc) => Material(
+          builder: (context, cardDeleteBloc, _) => Material(
                 shape: ContinuousRectangleBorder(
                     borderRadius: BorderRadius.circular(24)),
                 clipBehavior: Clip.antiAlias,

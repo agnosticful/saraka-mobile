@@ -24,6 +24,7 @@ class _CardSliverListState extends State<CardSliverList> {
         cardListBloc,
         cardDetailBlocFactory,
         synthesizerBlocFactory,
+        _,
       ) =>
           StreamBuilder<List<Card>>(
             stream: cardListBloc.cards,
@@ -39,13 +40,15 @@ class _CardSliverListState extends State<CardSliverList> {
                                 key: ValueKey(card.id),
                                 providers: [
                                   Provider<CardDetailBloc>(
-                                    value: cardDetailBlocFactory.create(
-                                      card: card,
-                                      session: authenticationBloc.session,
-                                    ),
+                                    builder: (_) =>
+                                        cardDetailBlocFactory.create(
+                                          card: card,
+                                          session: authenticationBloc.session,
+                                        ),
                                   ),
                                   Provider<SynthesizerBloc>(
-                                    value: synthesizerBlocFactory.create(),
+                                    builder: (_) =>
+                                        synthesizerBlocFactory.create(),
                                   ),
                                 ],
                                 child: CardListViewItem(
