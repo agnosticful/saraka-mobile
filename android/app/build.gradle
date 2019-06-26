@@ -24,8 +24,11 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
-apply from: './release.gradle', to: android
-apply from: './debug.gradle', to: android
+apply from: rootProject.file('./app/debug.gradle'), to: android
+
+if (rootProject.file('./app/release.gradle').exists()) {
+    apply from: rootProject.file('./app/release.gradle'), to: android
+}
 
 android {
     compileSdkVersion 28
@@ -36,10 +39,10 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            debuggable false
         }
+
         debug {
-            signingConfig signingConfigs.debug
         }
     }
 

@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -44,14 +42,6 @@ import './src/widgets/signed_in_navigator.dart';
 import './src/widgets/signed_out_screen.dart';
 
 void main() async {
-  FlutterError.onError = (FlutterErrorDetails details) {
-    if (buildMode == _BuildMode.debug) {
-      FlutterError.dumpErrorToConsole(details);
-    } else {
-      Zone.current.handleUncaughtError(details.exception, details.stack);
-    }
-  };
-
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -68,8 +58,6 @@ void main() async {
       persistenceEnabled: false,
     );
   final googleSignIn = GoogleSignIn();
-
-  print((await firestore.app.options));
 
   /**
    * Implementations
@@ -234,28 +222,4 @@ void main() async {
       ),
     ),
   );
-}
-
-_BuildMode buildMode = (() {
-  if (const bool.fromEnvironment('dart.vm.product')) {
-    return _BuildMode.release;
-  }
-
-  var result = _BuildMode.profile;
-
-  // assert functions will run only on debug mode.
-  assert(() {
-    result = _BuildMode.debug;
-
-    return true;
-  }());
-
-  // if neither of above, it's on profile mode
-  return result;
-}());
-
-enum _BuildMode {
-  release,
-  profile,
-  debug,
 }
