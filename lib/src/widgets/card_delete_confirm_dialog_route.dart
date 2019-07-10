@@ -33,7 +33,7 @@ class CardDeleteConfirmDialogRoute extends FancyPopupDialogRoute<bool> {
                 Provider<CardDeleteBloc>(
                   builder: (context) => cardDeleteBlocFactory.create(
                         card: _card,
-                        session: authenticationBloc.session,
+                        session: authenticationBloc.session.value,
                       )
                         ..onComplete.listen((_) {
                           Navigator.of(context).pop(true);
