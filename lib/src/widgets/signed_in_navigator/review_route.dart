@@ -20,7 +20,7 @@ class ReviewRoute extends MaterialPageRoute {
                       providers: [
                         Provider<CardReviewBloc>(
                           builder: (_) => cardReviewBlocFactory.create(
-                                session: authenticationBloc.session,
+                                session: authenticationBloc.session.value,
                               )..initialize(),
                         ),
                         Provider<SynthesizerBloc>(

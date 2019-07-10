@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../blocs/authentication_bloc.dart';
-import '../../entities/user.dart';
 import './card_list_route.dart';
 import './dashboard_route.dart';
 import './introduction_route.dart';
@@ -112,51 +111,42 @@ class _SignedInNavigatorState extends State<SignedInNavigator>
 
   @override
   Widget build(BuildContext context) => Consumer<AuthenticationBloc>(
-        builder: (context, authenticationBloc, _) => StreamBuilder<User>(
-              stream: authenticationBloc.user,
-              initialData: authenticationBloc.user.value,
-              builder: (context, snapshot) => Navigator(
-                    key: _navigatorKey,
-                    observers: widget.observers,
-                    onGenerateRoute: (settings) {
-                      switch (settings.name) {
-                        case "/":
-                          return DashboardRoute(
-                            settings: settings,
-                            child: widget.dashboardBuilder(context),
-                          );
-                        case "/introduction":
-                          return IntroductionRoute(
-                            settings: settings,
-                            child: widget.introductionBuilder(context),
-                          );
-                        case "/review":
-                          bool showTutorial = false;
+        builder: (context, authenticationBloc, _) => Navigator(
+              key: _navigatorKey,
+              observers: widget.observers,
+              onGenerateRoute: (settings) {
+                switch (settings.name) {
+                  case "/":
+                    return DashboardRoute(
+                      settings: settings,
+                      child: widget.dashboardBuilder(context),
+                    );
+                  case "/introduction":
+                    return IntroductionRoute(
+                      settings: settings,
+                      child: widget.introductionBuilder(context),
+                    );
+                  case "/review":
+                    bool showTutorial = false;
 
-                          if (settings.arguments != null) {
-                            assert(settings.arguments is Map<String, bool>);
+                    if (settings.arguments != null) {
+                      assert(settings.arguments is Map<String, bool>);
 
-                            showTutorial = (settings.arguments
-                                as Map<String, bool>)["showTutorial"];
-                          }
+                      showTutorial = (settings.arguments
+                          as Map<String, bool>)["showTutorial"];
+                    }
 
-                          return ReviewRoute(
-                            settings: settings,
-                            child: widget.reviewBuilder(context, showTutorial),
-                          );
-                        case "/cards":
-                          return CardListRoute(
-                            settings: settings,
-                            child: widget.cardListBuilder(context),
-                          );
-                      }
-                    },
-                    initialRoute: snapshot.hasData
-                        ? snapshot.requireData.isIntroductionFinished
-                            ? "/"
-                            : "/introduction"
-                        : "/",
-                  ),
+                    return ReviewRoute(
+                      settings: settings,
+                      child: widget.reviewBuilder(context, showTutorial),
+                    );
+                  case "/cards":
+                    return CardListRoute(
+                      settings: settings,
+                      child: widget.cardListBuilder(context),
+                    );
+                }
+              },
             ),
       );
 }

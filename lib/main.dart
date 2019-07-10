@@ -9,10 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/constants.dart';
 import './src/blocs/authentication_bloc.dart';
-import './src/blocs/backend_version_compatibility_check_bloc.dart';
 import './src/blocs/common_link_bloc.dart';
-import './src/blocs/introduction_bloc.dart';
-import './src/blocs/maintenance_check_bloc.dart';
 import './src/blocs/card_create_bloc.dart';
 import './src/blocs/card_delete_bloc.dart';
 import './src/blocs/card_detail_bloc.dart';
@@ -23,20 +20,15 @@ import './src/implementations/cache_storage.dart';
 import './src/implementations/firebase_analytics_logger.dart';
 import './src/implementations/firebase_authentication.dart';
 import './src/implementations/firebase_external_functions.dart';
-import './src/implementations/firestore_backend_version_repository.dart';
 import './src/implementations/firestore_card_repository.dart';
-import './src/implementations/firestore_maintenance_repository.dart';
-import './src/implementations/firestore_user_repository.dart';
 import './src/implementations/sound_player.dart';
 import './src/implementations/url_launcher.dart';
 import './src/widgets/application.dart';
 import './src/widgets/authentication_navigator.dart';
-import './src/widgets/backend_version_check_navigator.dart';
 import './src/widgets/card_list_screen.dart';
 import './src/widgets/dashboard_screen.dart';
 import './src/widgets/introduction_screen.dart';
 import './src/widgets/landing_screen.dart';
-import './src/widgets/maintenance_check_navigator.dart';
 import './src/widgets/review_screen.dart';
 import './src/widgets/signed_in_navigator.dart';
 import './src/widgets/signed_out_screen.dart';
@@ -55,7 +47,7 @@ void main() async {
   final firestore = Firestore.instance
     ..settings(
       timestampsInSnapshotsEnabled: true,
-      persistenceEnabled: false,
+      // persistenceEnabled: false,
     );
   final googleSignIn = GoogleSignIn();
 
@@ -66,19 +58,12 @@ void main() async {
     firebaseAuth: firebaseAuth,
     googleSignIn: googleSignIn,
   );
-  final backendVersionRepository = FirestoreBackendVersionRepository(
-    firestore: firestore,
-  );
   final cacheStorage = CacheStorage();
   final cardRepository = FirestoreCardRepository(firestore: firestore);
   final firebaseExternalFunctions = FirebaseExternalFunctions(
     cloudFunctions: CloudFunctions.instance,
   );
   final logger = FirebaseAnalyticsLogger(firebaseAnalytics: firebaseAnalytics);
-  final maintenanceRepository = FirestoreMaintenanceRepository(
-    firestore: firestore,
-  );
-  final userRepository = FirestoreUserRepository(firestore: Firestore.instance);
   final soundPlayer = SoundPlayer();
   final urlLauncher = UrlLauncher();
 
@@ -89,24 +74,10 @@ void main() async {
     loggerUserStateSettable: logger,
     signable: authentication,
     signInOutLoggable: logger,
-    userDataGettable: userRepository,
-  );
-  final backendVersionCompatibilityCheckBlocFactory =
-      BackendVersionCompatibilityCheckBlocFactory(
-    backendVersionGettable: backendVersionRepository,
   );
   final commonLinkBloc = CommonLinkBloc(
     urlLaunchable: urlLauncher,
     privacyPolicyUrl: privacyPolicyUrl,
-  );
-  final firstCardListBlocFactory = IntroductionBlocFactory(
-    cardSubscribable: cardRepository,
-    introductionFinishable: userRepository,
-    introductionFinishLoggable: logger,
-    introductionPageChangeLoggable: logger,
-  );
-  final maintenanceCheckBlocFactory = MaintenanceCheckBlocFactory(
-    maintenanceSubscribable: maintenanceRepository,
   );
   final cardCreateBlocFactory = CardCreateBlocFactory(
     cardCreatable: firebaseExternalFunctions,
@@ -133,9 +104,6 @@ void main() async {
     synthesizeLoggable: logger,
   );
   final authenticationBloc = authenticationBlocFactory.create();
-  final backendVersionCompatibilityCheckBloc =
-      backendVersionCompatibilityCheckBlocFactory.create();
-  final maintenanceCheckBloc = maintenanceCheckBlocFactory.create();
 
   runApp(
     MultiProvider(
@@ -150,74 +118,43 @@ void main() async {
             builder: (context) => cardReviewBlocFactory),
         Provider<CardListBlocFactory>(
             builder: (context) => cardListBlocFactory),
-        Provider<IntroductionBlocFactory>(
-            builder: (context) => firstCardListBlocFactory),
         Provider<SynthesizerBlocFactory>(
             builder: (context) => synthesizerBlocFactory),
         Provider<AuthenticationBloc>(builder: (context) => authenticationBloc),
-        Provider<BackendVersionCompatibilityCheckBloc>(
-          builder: (context) => backendVersionCompatibilityCheckBloc,
-        ),
         Provider<CommonLinkBloc>(builder: (context) => commonLinkBloc),
-        Provider<MaintenanceCheckBloc>(
-            builder: (context) => maintenanceCheckBloc),
       ],
       child: Application(
         title: "Parrot",
         color: SarakaColors.lightRed,
-        child: BackendVersionCheckNavigator(
+        child: AuthenticationNavigator(
           observers: [
             FirebaseAnalyticsObserver(
               analytics: firebaseAnalytics,
               nameExtractor: (routeSettings) =>
-                  BackendVersionCheckNavigator.extractRouteName(
+                  AuthenticationNavigator.extractRouteName(
                     routeSettings,
                   ),
             ),
           ],
-          builder: (context) => MaintenanceCheckNavigator(
+          signedInBuilder: (context) => SignedInNavigator(
                 observers: [
                   FirebaseAnalyticsObserver(
                     analytics: firebaseAnalytics,
                     nameExtractor: (routeSettings) =>
-                        MaintenanceCheckNavigator.extractRouteName(
+                        SignedInNavigator.extractRouteName(
                           routeSettings,
                         ),
                   ),
                 ],
-                builder: (context) => AuthenticationNavigator(
-                      observers: [
-                        FirebaseAnalyticsObserver(
-                          analytics: firebaseAnalytics,
-                          nameExtractor: (routeSettings) =>
-                              AuthenticationNavigator.extractRouteName(
-                                routeSettings,
-                              ),
-                        ),
-                      ],
-                      signedInBuilder: (context) => SignedInNavigator(
-                            observers: [
-                              FirebaseAnalyticsObserver(
-                                analytics: firebaseAnalytics,
-                                nameExtractor: (routeSettings) =>
-                                    SignedInNavigator.extractRouteName(
-                                      routeSettings,
-                                    ),
-                              ),
-                            ],
-                            cardListBuilder: (context) => CardListScreen(),
-                            introductionBuilder: (context) =>
-                                IntroductionScreen(),
-                            dashboardBuilder: (context) => DashboardScreen(),
-                            reviewBuilder: (context, showTutorial) =>
-                                ReviewScreen(
-                                  showTutorial: showTutorial,
-                                ),
-                          ),
-                      signedOutBuilder: (context) => SignedOutScreen(),
-                      undecidedBuilder: (context) => LandingScreen(),
+                cardListBuilder: (context) => CardListScreen(),
+                introductionBuilder: (context) => IntroductionScreen(),
+                dashboardBuilder: (context) => DashboardScreen(),
+                reviewBuilder: (context, showTutorial) => ReviewScreen(
+                      showTutorial: showTutorial,
                     ),
               ),
+          signedOutBuilder: (context) => SignedOutScreen(),
+          undecidedBuilder: (context) => LandingScreen(),
         ),
       ),
     ),

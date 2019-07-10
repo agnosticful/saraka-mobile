@@ -12,7 +12,7 @@ class CardListRoute extends CupertinoPageRoute {
                     (context, authenticationBloc, cardListBlocFactory, _) =>
                         Provider(
                           builder: (_) => cardListBlocFactory.create(
-                                session: authenticationBloc.session,
+                                session: authenticationBloc.session.value,
                               ),
                           child: child,
                         ),

@@ -3,14 +3,10 @@ import 'package:rxdart/rxdart.dart';
 import '../behaviors/logger_user_state_settable.dart';
 import '../behaviors/sign_in_out_loggable.dart';
 import '../behaviors/signable.dart';
-import '../behaviors/user_data_gettable.dart';
 import '../entities/authentication_session.dart';
-import '../entities/user.dart';
 
 abstract class AuthenticationBloc {
-  AuthenticationSession get session;
-
-  ValueObservable<User> get user;
+  ValueObservable<AuthenticationSession> get session;
 
   ValueObservable<bool> get isSigningIn;
 
@@ -26,11 +22,9 @@ class _AuthenticationBloc implements AuthenticationBloc {
     @required this.loggerUserStateSettable,
     @required this.signable,
     @required this.signInOutLoggable,
-    @required this.userDataGettable,
   })  : assert(loggerUserStateSettable != null),
         assert(signable != null),
-        assert(signInOutLoggable != null),
-        assert(userDataGettable != null);
+        assert(signInOutLoggable != null);
 
   final LoggerUserStateSettable loggerUserStateSettable;
 
@@ -38,13 +32,9 @@ class _AuthenticationBloc implements AuthenticationBloc {
 
   final SignInOutLoggable signInOutLoggable;
 
-  final UserDataGettable userDataGettable;
-
   @override
-  AuthenticationSession session;
-
-  @override
-  final BehaviorSubject<User> user = BehaviorSubject();
+  final BehaviorSubject<AuthenticationSession> session =
+      BehaviorSubject.seeded(null);
 
   @override
   final BehaviorSubject<bool> isSigningIn = BehaviorSubject.seeded(false);
@@ -53,29 +43,15 @@ class _AuthenticationBloc implements AuthenticationBloc {
   void restoreSession() async {
     isSigningIn.add(true);
 
-    session = await signable.restoreSession();
+    final _session = await signable.restoreSession();
 
-    if (session == null) {
-      user.add(null);
+    if (_session != null) {
+      session.add(_session);
 
-      isSigningIn.add(false);
-    } else {
-      final userData = await userDataGettable.getUserData(session: session);
-      final u = _User(
-        id: session.userId,
-        name: session.name,
-        email: session.email,
-        imageUrl: session.imageUrl,
-        isIntroductionFinished: userData.isIntroductionFinished,
-      );
-
-      user.add(u);
-
-      loggerUserStateSettable.setUserState(user: u);
       signInOutLoggable.logSignIn();
-
-      isSigningIn.add(false);
     }
+
+    isSigningIn.add(false);
   }
 
   @override
@@ -83,20 +59,8 @@ class _AuthenticationBloc implements AuthenticationBloc {
     isSigningIn.add(true);
 
     try {
-      session = await signable.signIn();
+      session.add(await signable.signIn());
 
-      final userData = await userDataGettable.getUserData(session: session);
-      final u = _User(
-        id: session.userId,
-        name: session.name,
-        email: session.email,
-        imageUrl: session.imageUrl,
-        isIntroductionFinished: userData.isIntroductionFinished,
-      );
-
-      user.add(u);
-
-      loggerUserStateSettable.setUserState(user: u);
       signInOutLoggable.logSignIn();
     } finally {
       isSigningIn.add(false);
@@ -105,40 +69,14 @@ class _AuthenticationBloc implements AuthenticationBloc {
 
   @override
   void signOut() async {
-    assert(session != null);
+    assert(session.value != null);
 
-    user.add(null);
-
-    signable.signOut(session: session);
+    signable.signOut(session: session.value);
 
     signInOutLoggable.logSignOut();
 
-    session = null;
+    session.add(null);
   }
-}
-
-class _User extends User {
-  _User({
-    @required this.id,
-    @required this.name,
-    @required this.email,
-    @required this.imageUrl,
-    @required this.isIntroductionFinished,
-  })  : assert(id != null),
-        assert(name != null),
-        assert(email != null),
-        assert(imageUrl != null),
-        assert(isIntroductionFinished != null);
-
-  final String id;
-
-  final String name;
-
-  final String email;
-
-  final Uri imageUrl;
-
-  final bool isIntroductionFinished;
 }
 
 class AuthenticationBlocFactory {
@@ -146,15 +84,12 @@ class AuthenticationBlocFactory {
     @required LoggerUserStateSettable loggerUserStateSettable,
     @required Signable signable,
     @required SignInOutLoggable signInOutLoggable,
-    @required UserDataGettable userDataGettable,
   })  : assert(loggerUserStateSettable != null),
         assert(signable != null),
         assert(signInOutLoggable != null),
-        assert(userDataGettable != null),
         _loggerUserStateSettable = loggerUserStateSettable,
         _signable = signable,
-        _signInOutLoggable = signInOutLoggable,
-        _userDataGettable = userDataGettable;
+        _signInOutLoggable = signInOutLoggable;
 
   final LoggerUserStateSettable _loggerUserStateSettable;
 
@@ -162,12 +97,9 @@ class AuthenticationBlocFactory {
 
   final SignInOutLoggable _signInOutLoggable;
 
-  final UserDataGettable _userDataGettable;
-
   AuthenticationBloc create() => _AuthenticationBloc(
         loggerUserStateSettable: _loggerUserStateSettable,
         signable: _signable,
         signInOutLoggable: _signInOutLoggable,
-        userDataGettable: _userDataGettable,
       );
 }

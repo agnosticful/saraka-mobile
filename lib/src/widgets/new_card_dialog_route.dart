@@ -36,12 +36,12 @@ class NewCardDialogRoute extends FancyPopupDialogRoute<bool> {
               providers: [
                 Provider<CardListBloc>(
                   builder: (_) => cardListBlocFactory.create(
-                        session: authenticationBloc.session,
+                        session: authenticationBloc.session.value,
                       ),
                 ),
                 Provider<CardCreateBloc>(
                   builder: (_) => cardCreateBlocFactory.create(
-                        session: authenticationBloc.session,
+                        session: authenticationBloc.session.value,
                       )
                         ..initialize()
                         ..onComplete.listen((_) {

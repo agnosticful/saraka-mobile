@@ -43,7 +43,8 @@ class _CardSliverListState extends State<CardSliverList> {
                                     builder: (_) =>
                                         cardDetailBlocFactory.create(
                                           card: card,
-                                          session: authenticationBloc.session,
+                                          session:
+                                              authenticationBloc.session.value,
                                         ),
                                   ),
                                   Provider<SynthesizerBloc>(

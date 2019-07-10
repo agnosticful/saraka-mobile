@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../blocs/authentication_bloc.dart';
-import '../../entities/user.dart';
 import './signed_in_route.dart';
 import './signed_out_route.dart';
 import './undecided_route.dart';
@@ -41,10 +40,6 @@ class _AuthenticationNavigatorState extends State<AuthenticationNavigator> {
 
   StreamSubscription _subscription;
 
-  bool isInitialized = false;
-
-  User _previousUser;
-
   @override
   void initState() {
     super.initState();
@@ -52,26 +47,14 @@ class _AuthenticationNavigatorState extends State<AuthenticationNavigator> {
     Future.delayed(Duration.zero, () async {
       final authenticationBloc = Provider.of<AuthenticationBloc>(context);
 
-      _subscription = authenticationBloc.user.listen((user) {
-        if (isInitialized == false) {
-          if (user == null) {
-            _navigatorKey.currentState
-                .pushNamedAndRemoveUntil('/signed_out', (_) => false);
-          } else {
-            _navigatorKey.currentState
-                .pushNamedAndRemoveUntil('/signed_in', (_) => false);
-          }
-
-          isInitialized = true;
-        } else if (_previousUser == null && user != null) {
-          _navigatorKey.currentState
-              .pushNamedAndRemoveUntil('/signed_in', (_) => false);
-        } else if (_previousUser != null && user == null) {
+      _subscription = authenticationBloc.session.listen((session) {
+        if (session == null) {
           _navigatorKey.currentState
               .pushNamedAndRemoveUntil('/signed_out', (_) => false);
+        } else {
+          _navigatorKey.currentState
+              .pushNamedAndRemoveUntil('/signed_in', (_) => false);
         }
-
-        _previousUser = user;
       });
 
       authenticationBloc.restoreSession();

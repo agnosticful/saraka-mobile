@@ -12,7 +12,7 @@ class IntroductionRoute extends CupertinoPageRoute {
                     (context, authenticationBloc, introductionBlocFactory, _) =>
                         Provider(
                           builder: (_) => introductionBlocFactory.create(
-                                session: authenticationBloc.session,
+                                session: authenticationBloc.session.value,
                               ),
                           child: child,
                         ),
