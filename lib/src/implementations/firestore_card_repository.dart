@@ -20,7 +20,7 @@ class FirestoreCardRepository
   final Firestore _firestore;
 
   @override
-  ValueObservable<List<Card>> subscribeCards({
+  ValueObservable<List<Card>> subscribeAllCards({
     @required AuthenticationSession session,
   }) {
     final observable = BehaviorSubject<List<Card>>();

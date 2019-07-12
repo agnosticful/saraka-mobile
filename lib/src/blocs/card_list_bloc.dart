@@ -5,6 +5,10 @@ import 'package:saraka/entities.dart';
 
 abstract class CardListBloc {
   ValueObservable<List<Card>> get cards;
+
+  // ValueObservable<List<Card>> get cardsReady;
+
+  // ValueObservable<List<Card>> get cardsUpcoming;
 }
 
 class _CardListBloc implements CardListBloc {
@@ -20,7 +24,15 @@ class _CardListBloc implements CardListBloc {
 
   @override
   BehaviorSubject<List<Card>> get cards =>
-      cardSubscribable.subscribeCards(session: session);
+      cardSubscribable.subscribeAllCards(session: session);
+
+  // @override
+  // ValueObservable<List<Card>> get cardsReady =>
+  //     cardSubscribable.subscribeReadyCards(session: session);
+
+  // @override
+  // ValueObservable<List<Card>> get cardsUpcoming =>
+  //     cardSubscribable.subscribeUpcomingCards(session: session);
 }
 
 class CardListBlocFactory {

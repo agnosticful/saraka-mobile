@@ -30,12 +30,6 @@ class AppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Color(0x00000000),
       elevation: 0,
       iconTheme: IconThemeData(color: SarakaColors.lightBlack),
-      actions: [
-        material.IconButton(
-          icon: Icon(Feather.getIconData('plus')),
-          onPressed: () => Navigator.of(context).pushNamed("/cards:new"),
-        ),
-      ],
     );
   }
 }
