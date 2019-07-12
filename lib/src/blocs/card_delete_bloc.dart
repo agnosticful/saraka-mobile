@@ -1,8 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import '../behaviors/card_deletable.dart';
-import '../entities/authentication_session.dart';
-import '../entities/card.dart';
+import 'package:saraka/behaviors.dart';
+import 'package:saraka/entities.dart';
 
 abstract class CardDeleteBloc {
   Card get card;

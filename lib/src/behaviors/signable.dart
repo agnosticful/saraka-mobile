@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import '../entities/authentication_session.dart';
+import 'package:saraka/entities.dart';
 
 abstract class Signable {
   Future<AuthenticationSession> restoreSession();

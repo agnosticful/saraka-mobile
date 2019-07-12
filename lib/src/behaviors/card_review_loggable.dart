@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import '../entities/review_certainty.dart';
+import 'package:saraka/entities.dart';
 
 abstract class CardReviewLoggable {
   Future<void> logReviewStart({@required int cardLength});

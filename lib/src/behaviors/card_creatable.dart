@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
-import '../entities/authentication_session.dart';
-import '../entities/new_card_text.dart';
+import 'package:saraka/entities.dart';
 
 abstract class CardCreatable {
   Future<void> add({

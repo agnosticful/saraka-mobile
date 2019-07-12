@@ -1,9 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import '../behaviors/logger_user_state_settable.dart';
-import '../behaviors/sign_in_out_loggable.dart';
-import '../behaviors/signable.dart';
-import '../entities/authentication_session.dart';
+import 'package:saraka/behaviors.dart';
+import 'package:saraka/entities.dart';
 
 abstract class AuthenticationBloc {
   ValueObservable<AuthenticationSession> get session;
@@ -19,14 +17,10 @@ abstract class AuthenticationBloc {
 
 class _AuthenticationBloc implements AuthenticationBloc {
   _AuthenticationBloc({
-    @required this.loggerUserStateSettable,
     @required this.signable,
     @required this.signInOutLoggable,
-  })  : assert(loggerUserStateSettable != null),
-        assert(signable != null),
+  })  : assert(signable != null),
         assert(signInOutLoggable != null);
-
-  final LoggerUserStateSettable loggerUserStateSettable;
 
   final Signable signable;
 
@@ -81,24 +75,18 @@ class _AuthenticationBloc implements AuthenticationBloc {
 
 class AuthenticationBlocFactory {
   AuthenticationBlocFactory({
-    @required LoggerUserStateSettable loggerUserStateSettable,
     @required Signable signable,
     @required SignInOutLoggable signInOutLoggable,
-  })  : assert(loggerUserStateSettable != null),
-        assert(signable != null),
+  })  : assert(signable != null),
         assert(signInOutLoggable != null),
-        _loggerUserStateSettable = loggerUserStateSettable,
         _signable = signable,
         _signInOutLoggable = signInOutLoggable;
-
-  final LoggerUserStateSettable _loggerUserStateSettable;
 
   final Signable _signable;
 
   final SignInOutLoggable _signInOutLoggable;
 
   AuthenticationBloc create() => _AuthenticationBloc(
-        loggerUserStateSettable: _loggerUserStateSettable,
         signable: _signable,
         signInOutLoggable: _signInOutLoggable,
       );
