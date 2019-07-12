@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
-import '../behaviors/signable.dart';
-import '../entities/authentication_session.dart';
+import 'package:saraka/behaviors.dart';
+import 'package:saraka/entities.dart';
 
 class FirebaseAuthentication implements Signable {
   FirebaseAuthentication({
@@ -52,16 +52,7 @@ class FirebaseAuthentication implements Signable {
 class _FirebaseAuthenticationSession implements AuthenticationSession {
   _FirebaseAuthenticationSession(FirebaseUser firebaseUser)
       : assert(firebaseUser != null),
-        userId = firebaseUser.uid,
-        name = firebaseUser.displayName,
-        email = firebaseUser.email,
-        imageUrl = Uri.parse(firebaseUser.photoUrl);
+        userId = firebaseUser.uid;
 
   final String userId;
-
-  final String name;
-
-  final String email;
-
-  final Uri imageUrl;
 }

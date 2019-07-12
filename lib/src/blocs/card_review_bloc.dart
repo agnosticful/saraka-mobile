@@ -1,11 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import '../behaviors/card_reviewable.dart';
-import '../behaviors/card_review_loggable.dart';
-import '../behaviors/in_queue_card_subscribable.dart';
-import '../entities/authentication_session.dart';
-import '../entities/card.dart';
-import '../entities/review_certainty.dart';
+import 'package:saraka/behaviors.dart';
+import 'package:saraka/entities.dart';
 
 abstract class CardReviewBloc {
   ValueObservable<bool> isInitialized;

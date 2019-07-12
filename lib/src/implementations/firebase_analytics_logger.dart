@@ -1,22 +1,12 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:meta/meta.dart';
-import '../behaviors/card_create_loggable.dart';
-import '../behaviors/card_review_loggable.dart';
-import '../behaviors/introduction_finish_loggable.dart';
-import '../behaviors/introduction_page_change_loggable.dart';
-import '../behaviors/logger_user_state_settable.dart';
-import '../behaviors/sign_in_out_loggable.dart';
-import '../behaviors/synthesize_loggable.dart';
-import '../entities/review_certainty.dart';
-import '../entities/user.dart';
+import 'package:saraka/behaviors.dart';
+import 'package:saraka/entities.dart';
 
 class FirebaseAnalyticsLogger
     implements
         CardCreateLoggable,
         CardReviewLoggable,
-        IntroductionFinishLoggable,
-        IntroductionPageChangeLoggable,
-        LoggerUserStateSettable,
         SignInOutLoggable,
         SynthesizeLoggable {
   FirebaseAnalyticsLogger({@required FirebaseAnalytics firebaseAnalytics})
@@ -45,17 +35,6 @@ class FirebaseAnalyticsLogger
   @override
   Future<void> logCardReviewUndo() =>
       _firebaseAnalytics.logEvent(name: 'card_review_undo');
-
-  @override
-  Future<void> logIntroductionFinish() =>
-      _firebaseAnalytics.logEvent(name: 'introduction_finish');
-
-  @override
-  Future<void> logIntroductionPageChange({@required String pageName}) =>
-      _firebaseAnalytics.logEvent(
-        name: "introduction_page_change",
-        parameters: {"page": pageName},
-      );
 
   @override
   Future<void> logSignIn() => _firebaseAnalytics.logLogin();
@@ -92,8 +71,4 @@ class FirebaseAnalyticsLogger
           "text": text,
         },
       );
-
-  @override
-  Future<void> setUserState({User user}) =>
-      _firebaseAnalytics.setUserId(user.id);
 }

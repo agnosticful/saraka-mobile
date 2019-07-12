@@ -1,10 +1,7 @@
 import 'dart:io' show File;
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import '../behaviors/sound_file_playable.dart';
-import '../behaviors/synthesizable.dart';
-import '../behaviors/synthesized_sound_file_referable.dart';
-import '../behaviors/synthesize_loggable.dart';
+import 'package:saraka/behaviors.dart';
 
 abstract class SynthesizerBloc {
   Observable<bool> get isCaching;

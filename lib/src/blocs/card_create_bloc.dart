@@ -1,9 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import '../behaviors/card_creatable.dart';
-import '../behaviors/card_create_loggable.dart';
-import '../entities/authentication_session.dart';
-import '../entities/new_card_text.dart';
+import 'package:saraka/behaviors.dart';
+import 'package:saraka/entities.dart';
 
 abstract class CardCreateBloc {
   ValueObservable<NewCardText> get text;

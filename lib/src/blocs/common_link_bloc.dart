@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import '../behaviors/url_launchable.dart';
+import 'package:saraka/behaviors.dart';
 
 abstract class CommonLinkBloc {
   factory CommonLinkBloc({

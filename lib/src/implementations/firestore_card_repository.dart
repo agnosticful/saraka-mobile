@@ -1,13 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import '../behaviors/card_deletable.dart';
-import '../behaviors/card_subscribable.dart';
-import '../behaviors/in_queue_card_subscribable.dart';
-import '../behaviors/review_subscribable.dart';
-import '../entities/authentication_session.dart';
-import '../entities/card.dart';
-import '../entities/review.dart';
+import 'package:saraka/behaviors.dart';
+import 'package:saraka/entities.dart';
 import './firestore_card.dart';
 import './firestore_review.dart';
 

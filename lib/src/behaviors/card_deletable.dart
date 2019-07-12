@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
-import '../entities/authentication_session.dart';
-import '../entities/card.dart';
+import 'package:saraka/entities.dart';
 
 abstract class CardDeletable {
   Future<void> deleteCard({
