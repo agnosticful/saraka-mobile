@@ -3,7 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:saraka/entities.dart';
 
 abstract class CardSubscribable {
-  ValueObservable<List<Card>> subscribeCards({
+  ValueObservable<List<Card>> subscribeAllCards({
     @required AuthenticationSession session,
   });
 }

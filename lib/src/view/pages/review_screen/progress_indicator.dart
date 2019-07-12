@@ -21,15 +21,11 @@ class _ProgressIndicatorState extends State<ProgressIndicator> {
               child: StreamBuilder<double>(
                 stream: cardReviewBloc.finishedCardRatio,
                 initialData: 0,
-                builder: (context, snapshot) {
-                  print(snapshot.requireData);
-
-                  return LinearProgressIndicator(
-                    value: snapshot.requireData,
-                    backgroundColor: SarakaColors.darkGray,
-                    valueColor: AlwaysStoppedAnimation(SarakaColors.lightRed),
-                  );
-                },
+                builder: (context, snapshot) => LinearProgressIndicator(
+                      value: snapshot.requireData,
+                      backgroundColor: SarakaColors.darkGray,
+                      valueColor: AlwaysStoppedAnimation(SarakaColors.lightRed),
+                    ),
               ),
             ),
       );
