@@ -35,8 +35,8 @@ class StackedCard extends StatelessWidget {
           ),
           clipBehavior: Clip.antiAlias,
           color: Color.lerp(
-            SarakaColors.white,
-            _swipingRate >= 0 ? SarakaColors.lightGreen : SarakaColors.lightRed,
+            SarakaColor.white,
+            _swipingRate >= 0 ? SarakaColor.lightGreen : SarakaColor.lightRed,
             math.min(_swipingRate.abs() * 1.333, 1),
           ),
           child: InkWell(
@@ -53,7 +53,7 @@ class StackedCard extends StatelessWidget {
                             ? Feather.getIconData("check")
                             : Feather.getIconData("x"),
                         size: 96,
-                        color: SarakaColors.white,
+                        color: SarakaColor.white,
                       ),
                     ),
                   ),
@@ -65,14 +65,14 @@ class StackedCard extends StatelessWidget {
                         children: [
                           Icon(
                             Feather.getIconData('volume-2'),
-                            color: SarakaColors.darkWhite,
+                            color: SarakaColor.darkWhite,
                             size: 96,
                           ),
                           SizedBox(height: 16),
                           Text(
                             "Tap to play again",
-                            style: SarakaTextStyles.body
-                                .copyWith(color: SarakaColors.darkWhite),
+                            style: SarakaTextStyle.body
+                                .copyWith(color: SarakaColor.darkWhite),
                           ),
                         ],
                       ),

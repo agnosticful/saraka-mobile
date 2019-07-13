@@ -2,11 +2,9 @@ import 'package:flutter/painting.dart';
 
 int expectedBackendVersion = 1;
 
-int necessaryFirstCardLength = 3;
-
 final privacyPolicyUrl = Uri.https("saraka.firebaseapp.com", "/privacy-policy");
 
-abstract class SarakaColors {
+abstract class SarakaColor {
   static const white = Color(0xfff0f4f8);
   static const darkWhite = Color(0xffe1e8ef);
   static const lightGray = Color(0xffc8d6e5);
@@ -25,27 +23,51 @@ abstract class SarakaColors {
   static const darkBlue = Color(0xff2e86de);
 }
 
-abstract class SarakaFonts {
+abstract class SarakaFontFamily {
   static const rubik = 'Rubik';
 }
 
-abstract class SarakaTextStyles {
-  static const _base = TextStyle(
-    fontFamily: SarakaFonts.rubik,
-  );
-  static final body = _base.copyWith(
-    fontWeight: FontWeight.w400,
+abstract class SarakaFontWeight {
+  static const regular = FontWeight.w400;
+  static const bold = FontWeight.w600;
+  static const light = FontWeight.w300;
+}
+
+abstract class SarakaTextStyle {
+  static const body = TextStyle(
+    fontFamily: SarakaFontFamily.rubik,
+    fontWeight: SarakaFontWeight.regular,
     fontSize: 16,
-    color: SarakaColors.darkGray,
+    color: SarakaColor.darkBlack,
   );
-  static final multilineBody = body.apply(heightFactor: 1.25);
-  static final body2 = body.apply(fontSizeFactor: .8125);
-  static final multilineBody2 = body2.apply(heightFactor: 1.25);
-  static final heading = _base.copyWith(
-    fontWeight: FontWeight.w500,
+
+  static const heading = TextStyle(
+    fontFamily: SarakaFontFamily.rubik,
+    fontWeight: SarakaFontWeight.regular,
     fontSize: 18,
-    color: SarakaColors.lightBlack,
+    color: SarakaColor.darkBlack,
   );
-  static final appBarTitle = _base.copyWith();
-  static final buttonLabel = _base.copyWith(fontWeight: FontWeight.w500);
+
+  static const body2 = TextStyle(
+    fontFamily: SarakaFontFamily.rubik,
+    fontWeight: SarakaFontWeight.regular,
+    fontSize: 13,
+    color: SarakaColor.darkBlack,
+  );
+
+  static const multilineBody = TextStyle(
+    fontFamily: SarakaFontFamily.rubik,
+    fontWeight: SarakaFontWeight.regular,
+    fontSize: 16,
+    height: 1.25,
+    color: SarakaColor.darkBlack,
+  );
+
+  static const multilineBody2 = TextStyle(
+    fontFamily: SarakaFontFamily.rubik,
+    fontWeight: SarakaFontWeight.regular,
+    fontSize: 13,
+    height: 1.25,
+    color: SarakaColor.darkBlack,
+  );
 }

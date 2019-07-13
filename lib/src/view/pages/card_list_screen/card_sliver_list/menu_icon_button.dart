@@ -13,7 +13,7 @@ class MenuIconButton extends StatelessWidget {
     return IconButton(
       icon: Icon(
         Feather.getIconData('more-vertical'),
-        color: SarakaColors.darkGray,
+        color: SarakaColor.darkGray,
       ),
       onPressed: () => onPressed(context),
     );
@@ -34,15 +34,11 @@ class MenuIconButton extends StatelessWidget {
         Offset.zero & overlay.size,
       ),
       items: [
-        const PopupMenuItem(
+        PopupMenuItem(
           value: "",
           child: Text(
             "Delete",
-            style: TextStyle(
-              color: SarakaColors.lightRed,
-              fontFamily: SarakaFonts.rubik,
-              fontWeight: FontWeight.w500,
-            ),
+            style: SarakaTextStyle.body,
           ),
         ),
       ],

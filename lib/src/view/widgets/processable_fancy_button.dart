@@ -99,7 +99,7 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(24)),
             onPressed: widget.isDisabled ? () {} : widget.onPressed,
-            color: ColorTween(begin: widget.color, end: SarakaColors.darkWhite)
+            color: ColorTween(begin: widget.color, end: SarakaColor.darkWhite)
                 .animate(_disabledStateAnimation)
                 .value,
             elevation: Tween(begin: 6.0, end: 0.0)
@@ -117,10 +117,10 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
                       scale: Tween(begin: 1.0, end: 0.0)
                           .animate(_processingStateAnimation),
                       child: DefaultTextStyle(
-                        style: SarakaTextStyles.buttonLabel.apply(
+                        style: SarakaTextStyle.body.copyWith(
                           color: ColorTween(
                             begin: computeTextColor(widget.color),
-                            end: SarakaColors.darkGray,
+                            end: SarakaColor.darkGray,
                           ).animate(_disabledStateAnimation).value,
                         ),
                         child: child,
@@ -137,7 +137,7 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
                         child: CircularProgressIndicator(
                           strokeWidth: 2.5,
                           valueColor:
-                              const AlwaysStoppedAnimation(SarakaColors.white),
+                              const AlwaysStoppedAnimation(SarakaColor.white),
                         ),
                       ),
                     ),
@@ -153,6 +153,6 @@ class _ProcessableFancyButtonState extends State<ProcessableFancyButton>
       (backgroundColor.computeLuminance() + 0.05) *
                   (backgroundColor.computeLuminance() + 0.05) >
               0.3
-          ? SarakaColors.darkBlack
-          : SarakaColors.white;
+          ? SarakaColor.darkBlack
+          : SarakaColor.white;
 }

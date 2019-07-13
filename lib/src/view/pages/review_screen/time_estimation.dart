@@ -51,6 +51,6 @@ class _TimeEstimationText extends StatelessWidget {
             ? "in ${_duration.inMinutes} mins"
             : "in < 1 mins";
 
-    return Text(text, style: SarakaTextStyles.body);
+    return Text(text, style: SarakaTextStyle.body);
   }
 }

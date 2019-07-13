@@ -18,14 +18,11 @@ class MainDrawer extends StatelessWidget {
                 ListTile(
                   leading: Icon(
                     Feather.getIconData('log-out'),
-                    color: SarakaColors.lightBlack,
+                    color: SarakaColor.lightBlack,
                   ),
                   title: Text(
                     'Log out',
-                    style: TextStyle(
-                      color: SarakaColors.lightBlack,
-                      fontFamily: SarakaFonts.rubik,
-                    ),
+                    style: SarakaTextStyle.body,
                   ),
                   onTap: () => authenticationBloc.signOut(),
                 ),

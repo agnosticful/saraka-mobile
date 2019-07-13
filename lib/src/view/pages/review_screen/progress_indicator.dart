@@ -23,8 +23,8 @@ class _ProgressIndicatorState extends State<ProgressIndicator> {
                 initialData: 0,
                 builder: (context, snapshot) => LinearProgressIndicator(
                       value: snapshot.requireData,
-                      backgroundColor: SarakaColors.darkGray,
-                      valueColor: AlwaysStoppedAnimation(SarakaColors.lightRed),
+                      backgroundColor: SarakaColor.darkGray,
+                      valueColor: AlwaysStoppedAnimation(SarakaColor.lightRed),
                     ),
               ),
             ),

@@ -8,7 +8,7 @@ class PrivacyPolicyItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => TappableText(
         "Privacy Policy",
-        style: SarakaTextStyles.body,
+        style: SarakaTextStyle.body,
         onTap: () => Provider.of<CommonLinkBloc>(context).launchPrivacyPolicy(),
       );
 }

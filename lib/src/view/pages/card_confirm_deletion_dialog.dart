@@ -13,9 +13,10 @@ class CardConfirmDeletionDialog extends StatelessWidget {
         child: Consumer<CardDeleteBloc>(
           builder: (context, cardDeleteBloc, _) => Material(
                 shape: ContinuousRectangleBorder(
-                    borderRadius: BorderRadius.circular(24)),
+                  borderRadius: BorderRadius.circular(24),
+                ),
                 clipBehavior: Clip.antiAlias,
-                color: SarakaColors.white,
+                color: SarakaColor.white,
                 elevation: 6,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(24, 24, 16, 16),
@@ -27,7 +28,7 @@ class CardConfirmDeletionDialog extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 8),
                         child: Text(
                           'Delete the card?',
-                          style: SarakaTextStyles.heading,
+                          style: SarakaTextStyle.heading,
                         ),
                       ),
                       SizedBox(height: 16),
@@ -35,7 +36,7 @@ class CardConfirmDeletionDialog extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 8),
                         child: Text(
                           '"${cardDeleteBloc.card.text}" will be no longer in your flashcards and review progress will be deleted.',
-                          style: SarakaTextStyles.multilineBody,
+                          style: SarakaTextStyle.multilineBody,
                         ),
                       ),
                       SizedBox(height: 24),
@@ -51,7 +52,7 @@ class CardConfirmDeletionDialog extends StatelessWidget {
                                       CardDeletionState.processing,
                                   curve: Curves.easeInOutCirc,
                                   child: ProcessableFancyButton(
-                                    color: SarakaColors.white,
+                                    color: SarakaColor.white,
                                     onPressed: snapshot.requireData ==
                                             CardDeletionState.processing
                                         ? () {}
@@ -63,7 +64,7 @@ class CardConfirmDeletionDialog extends StatelessWidget {
                                 ),
                                 SizedBox(width: 16),
                                 ProcessableFancyButton(
-                                  color: SarakaColors.darkRed,
+                                  color: SarakaColor.darkRed,
                                   isProcessing: snapshot.requireData ==
                                       CardDeletionState.processing,
                                   onPressed: () => cardDeleteBloc.delete(),

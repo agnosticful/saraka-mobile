@@ -16,7 +16,7 @@ class CardCreateDialog extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
           ),
           clipBehavior: Clip.antiAlias,
-          color: SarakaColors.white,
+          color: SarakaColor.white,
           elevation: 6,
           child: Column(
             mainAxisSize: MainAxisSize.min,

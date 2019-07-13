@@ -35,14 +35,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) => Stack(
         children: [
-          WaveBackground(color: SarakaColors.darkBlack),
+          WaveBackground(color: SarakaColor.darkBlack),
           SafeArea(
             child: Scaffold(
               backgroundColor: Color(0x00000000),
               appBar: AppBar(
                 title: Text(
                   'Review',
-                  style: SarakaTextStyles.appBarTitle,
+                  style: SarakaTextStyle.heading.copyWith(
+                    fontSize: 20,
+                    color: SarakaColor.white,
+                  ),
                 ),
                 centerTitle: true,
                 backgroundColor: Color(0x00000000),

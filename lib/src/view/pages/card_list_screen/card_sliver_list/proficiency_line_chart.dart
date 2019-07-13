@@ -19,9 +19,9 @@ class ProficiencyLineChart extends StatelessWidget {
                         domainFn: (_, i) => i,
                         measureFn: (review, _) => review.proficiency * 100,
                         colorFn: (_, i) => charts.Color(
-                              r: SarakaColors.lightRed.red,
-                              g: SarakaColors.lightRed.green,
-                              b: SarakaColors.lightRed.blue,
+                              r: SarakaColor.lightRed.red,
+                              g: SarakaColor.lightRed.green,
+                              b: SarakaColor.lightRed.blue,
                               a: 31,
                             ),
                         data: snapshot.hasData

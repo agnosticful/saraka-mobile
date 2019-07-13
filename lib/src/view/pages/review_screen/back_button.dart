@@ -20,8 +20,8 @@ class BackButton extends StatelessWidget {
               initialData: cardReviewBloc.canUndo.value,
               builder: (context, snapshot) => IconButton(
                     icon: Icon(Feather.getIconData('corner-up-left')),
-                    color: SarakaColors.white,
-                    disabledColor: SarakaColors.darkGray,
+                    color: SarakaColor.white,
+                    disabledColor: SarakaColor.darkGray,
                     onPressed:
                         snapshot.requireData ? () => _onPressed(context) : null,
                   ),

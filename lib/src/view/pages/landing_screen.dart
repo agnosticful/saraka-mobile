@@ -6,7 +6,7 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: SarakaColors.white,
+        color: SarakaColor.white,
       ),
       child: LayoutBuilder(
         builder: (context, constraints) => Center(
@@ -22,18 +22,18 @@ class LandingScreen extends StatelessWidget {
                   SizedBox(height: 32),
                   Text(
                     "Parrot",
-                    style: SarakaTextStyles.heading.copyWith(
+                    style: SarakaTextStyle.heading.copyWith(
                       fontSize: 32,
                       fontWeight: FontWeight.w300,
-                      color: SarakaColors.lightRed,
+                      color: SarakaColor.lightRed,
                     ),
                   ),
                   SizedBox(height: 8),
                   Text(
                     "Not study, just be used.",
-                    style: SarakaTextStyles.body.copyWith(
+                    style: SarakaTextStyle.body.copyWith(
                       fontSize: 16,
-                      color: SarakaColors.lightRed,
+                      color: SarakaColor.lightRed,
                     ),
                   ),
                   SizedBox(height: 64.0 + 48),

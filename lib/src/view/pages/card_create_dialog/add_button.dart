@@ -16,7 +16,7 @@ class AddButton extends StatelessWidget {
                   stream: cardCreateBloc.text,
                   initialData: cardCreateBloc.text.value,
                   builder: (context, textSnapshot) => ProcessableFancyButton(
-                        color: SarakaColors.darkRed,
+                        color: SarakaColor.darkRed,
                         isProcessing: stateSnapshot.requireData ==
                             CardAddingState.processing,
                         isDisabled: !textSnapshot.requireData.isValid,

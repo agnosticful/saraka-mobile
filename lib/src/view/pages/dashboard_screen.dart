@@ -11,7 +11,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Stack(
         children: [
-          WaveBackground(color: SarakaColors.white),
+          WaveBackground(color: SarakaColor.white),
           SafeArea(
             child: Scaffold(
               resizeToAvoidBottomPadding: false,

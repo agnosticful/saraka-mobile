@@ -14,7 +14,7 @@ class WaveBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     final isColorDark = this.color.computeLuminance() < 0.5;
     final interpolateTargetColor =
-        isColorDark ? SarakaColors.white : SarakaColors.darkBlack;
+        isColorDark ? SarakaColor.white : SarakaColor.darkBlack;
     final color1 = isColorDark
         ? Color.lerp(this.color, interpolateTargetColor, .25)
         : this.color;

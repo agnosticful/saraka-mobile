@@ -59,7 +59,7 @@ class _TutorialState extends State<Tutorial> with TickerProviderStateMixin {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
-                color: SarakaColors.darkBlack.withOpacity(0.8),
+                color: SarakaColor.darkBlack.withOpacity(0.8),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -77,15 +77,15 @@ class _TutorialState extends State<Tutorial> with TickerProviderStateMixin {
                                 Text(
                                   "Swipe to right\nwhen you're sure",
                                   textAlign: TextAlign.right,
-                                  style: SarakaTextStyles.body.copyWith(
-                                    color: SarakaColors.white,
+                                  style: SarakaTextStyle.body.copyWith(
+                                    color: SarakaColor.white,
                                   ),
                                 ),
                                 SizedBox(height: 8),
                                 SizedBox(
                                   height: 16,
                                   child: Arrow(
-                                    color: SarakaColors.white,
+                                    color: SarakaColor.white,
                                     strokeWidth: 2,
                                   ),
                                 ),
@@ -107,7 +107,7 @@ class _TutorialState extends State<Tutorial> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: 16,
                                   child: Arrow(
-                                    color: SarakaColors.white,
+                                    color: SarakaColor.white,
                                     strokeWidth: 2,
                                     direction: ArrowDirection.rightToLeft,
                                   ),
@@ -116,8 +116,8 @@ class _TutorialState extends State<Tutorial> with TickerProviderStateMixin {
                                 Text(
                                   "Swipe to left\nto study again later",
                                   textAlign: TextAlign.left,
-                                  style: SarakaTextStyles.body.copyWith(
-                                    color: SarakaColors.white,
+                                  style: SarakaTextStyle.body.copyWith(
+                                    color: SarakaColor.white,
                                   ),
                                 ),
                               ],
