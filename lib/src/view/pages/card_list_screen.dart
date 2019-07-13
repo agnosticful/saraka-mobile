@@ -9,7 +9,7 @@ class CardListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Stack(
         children: [
-          WaveBackground(color: SarakaColors.white),
+          WaveBackground(color: SarakaColor.white),
           SafeArea(
             child: Scaffold(
               backgroundColor: const Color(0x00000000),
@@ -22,14 +22,12 @@ class CardListScreen extends StatelessWidget {
                     SliverAppBar(
                       floating: true,
                       elevation: 6,
-                      backgroundColor: SarakaColors.white,
-                      iconTheme: IconThemeData(color: SarakaColors.lightBlack),
+                      backgroundColor: SarakaColor.white,
+                      iconTheme: IconThemeData(color: SarakaColor.lightBlack),
                       centerTitle: true,
                       title: Text(
                         'Cards',
-                        style: SarakaTextStyles.appBarTitle.copyWith(
-                          color: SarakaColors.lightBlack,
-                        ),
+                        style: SarakaTextStyle.heading.copyWith(fontSize: 20),
                       ),
                       leading: Navigator.of(context).canPop()
                           ? IconButton(

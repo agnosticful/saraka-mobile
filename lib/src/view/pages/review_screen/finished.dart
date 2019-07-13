@@ -59,21 +59,13 @@ class _FinishedState extends State<Finished> {
             ),
             Text(
               "Well Done!",
-              style: TextStyle(
-                color: SarakaColors.darkWhite,
-                fontSize: 24,
-                fontFamily: SarakaFonts.rubik,
-                fontWeight: FontWeight.w500,
-              ),
+              style: SarakaTextStyle.heading.copyWith(fontSize: 24),
             ),
             SizedBox(height: 8),
             Text(
               "You finished all cards to do.\nSee you later!",
-              style: TextStyle(
-                color: SarakaColors.lightGray,
-                fontSize: 16,
-                fontFamily: SarakaFonts.rubik,
-              ),
+              style:
+                  SarakaTextStyle.body.copyWith(color: SarakaColor.lightGray),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 96),

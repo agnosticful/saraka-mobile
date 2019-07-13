@@ -15,12 +15,12 @@ class ProficiencyDescription extends StatelessWidget {
       children: [
         Text(
           "Proficiency",
-          style: SarakaTextStyles.body2.apply(fontWeightDelta: 1),
+          style: SarakaTextStyle.body2,
         ),
         SizedBox(height: 4),
         Text(
           "${(proficiency * 100).toStringAsFixed(2)}%",
-          style: SarakaTextStyles.body2,
+          style: SarakaTextStyle.body2,
         ),
       ],
     );

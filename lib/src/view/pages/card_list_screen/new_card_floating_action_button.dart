@@ -5,12 +5,12 @@ import 'package:saraka/constants.dart';
 class NewCardFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FloatingActionButton.extended(
-        backgroundColor: SarakaColors.lightRed,
-        foregroundColor: SarakaColors.white,
+        backgroundColor: SarakaColor.lightRed,
+        foregroundColor: SarakaColor.white,
         icon: Icon(Feather.getIconData('plus')),
         label: Text(
           'New Card',
-          style: SarakaTextStyles.buttonLabel,
+          style: SarakaTextStyle.body.copyWith(color: SarakaColor.white),
         ),
         shape:
             ContinuousRectangleBorder(borderRadius: BorderRadius.circular(24)),

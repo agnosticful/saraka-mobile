@@ -44,18 +44,18 @@ class _WordInputState extends State<WordInput> {
             initialData: cardCreateBloc.state.value,
             builder: (context, snapshot) => TextField(
                   controller: _controller,
-                  cursorColor: SarakaColors.lightRed,
+                  cursorColor: SarakaColor.lightRed,
                   autofocus: true,
                   enabled: snapshot.requireData == CardAddingState.initial,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(16),
                     hintText: "e.g. get used to",
-                    hintStyle: SarakaTextStyles.heading.apply(
-                      color: SarakaColors.lightGray,
+                    hintStyle: SarakaTextStyle.heading.apply(
+                      color: SarakaColor.lightGray,
                     ),
                     border: InputBorder.none,
                   ),
-                  style: SarakaTextStyles.heading,
+                  style: SarakaTextStyle.heading,
                 ),
           ),
     );

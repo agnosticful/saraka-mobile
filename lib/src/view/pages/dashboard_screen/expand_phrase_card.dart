@@ -7,7 +7,8 @@ import 'package:saraka/widgets.dart';
 class ExpandPhraseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
-        elevation: 4,
+        elevation: 16,
+        shadowColor: SarakaColor.lightBlack.withOpacity(0.1),
         color: Color(0xffffffff),
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(24),
@@ -33,9 +34,7 @@ class ExpandPhraseCard extends StatelessWidget {
                       children: [
                         Text(
                           "Expand your phrases",
-                          style: SarakaTextStyles.body.apply(
-                            color: SarakaColors.darkBlack,
-                          ),
+                          style: SarakaTextStyle.heading,
                         ),
                         SizedBox(height: 16),
                         Column(
@@ -48,13 +47,13 @@ class ExpandPhraseCard extends StatelessWidget {
                                   height: 4,
                                   decoration: ShapeDecoration(
                                     shape: CircleBorder(),
-                                    color: SarakaColors.darkGray,
+                                    color: SarakaColor.darkGray,
                                   ),
                                 ),
                                 SizedBox(width: 8),
                                 Text(
                                   "Phrases you heard today",
-                                  style: SarakaTextStyles.body2,
+                                  style: SarakaTextStyle.body2,
                                 ),
                               ],
                             ),
@@ -66,13 +65,13 @@ class ExpandPhraseCard extends StatelessWidget {
                                   height: 4,
                                   decoration: ShapeDecoration(
                                     shape: CircleBorder(),
-                                    color: SarakaColors.darkGray,
+                                    color: SarakaColor.darkGray,
                                   ),
                                 ),
                                 SizedBox(width: 8),
                                 Text(
                                   "Phrases related on your job or major",
-                                  style: SarakaTextStyles.body2,
+                                  style: SarakaTextStyle.body2,
                                 ),
                               ],
                             ),
@@ -84,13 +83,13 @@ class ExpandPhraseCard extends StatelessWidget {
                                   height: 4,
                                   decoration: ShapeDecoration(
                                     shape: CircleBorder(),
-                                    color: SarakaColors.darkGray,
+                                    color: SarakaColor.darkGray,
                                   ),
                                 ),
                                 SizedBox(width: 8),
                                 Text(
                                   "Useful phrases at cafe or restaurants",
-                                  style: SarakaTextStyles.body2,
+                                  style: SarakaTextStyle.body2,
                                 )
                               ],
                             ),
@@ -106,8 +105,8 @@ class ExpandPhraseCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ProcessableFancyButton(
+                    color: SarakaColor.lightRed,
                     child: Text("Add New"),
-                    color: SarakaColors.lightRed,
                     onPressed: () =>
                         Navigator.of(context).pushNamed("/cards:new"),
                   ),

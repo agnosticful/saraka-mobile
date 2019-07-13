@@ -11,7 +11,7 @@ abstract class FancyPopupDialogRoute<T> extends PopupRoute<T> {
   final String barrierLabel = 'Close';
 
   @override
-  final Color barrierColor = SarakaColors.darkBlack.withOpacity(0.666);
+  final Color barrierColor = SarakaColor.darkBlack.withOpacity(0.666);
 
   @override
   final Duration transitionDuration = const Duration(milliseconds: 300);

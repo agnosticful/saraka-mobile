@@ -16,7 +16,7 @@ class _SignInButtonState extends State<SignInButton> {
               stream: authenticationBloc.isSigningIn,
               initialData: authenticationBloc.isSigningIn.value,
               builder: (context, snapshot) => ProcessableFancyButton(
-                    color: SarakaColors.lightRed,
+                    color: SarakaColor.lightRed,
                     isProcessing: snapshot.requireData,
                     onPressed: () => _onPressed(context),
                     child: Text('Start with Google Account'),

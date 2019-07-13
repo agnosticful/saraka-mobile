@@ -5,7 +5,7 @@ class TappableText extends StatelessWidget {
   TappableText(this.text, {Key key, @required this.onTap, TextStyle style})
       : assert(text != null),
         assert(onTap != null),
-        style = (style ?? SarakaTextStyles.body)
+        style = (style ?? SarakaTextStyle.body)
             .copyWith(decoration: TextDecoration.underline),
         super(key: key);
 

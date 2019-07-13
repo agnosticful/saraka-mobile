@@ -10,12 +10,12 @@ class WaveBackground extends StatelessWidget {
       config: CustomConfig(
         gradients: [
           [
-            SarakaColors.lightGray.withOpacity(0.125),
-            SarakaColors.darkGray.withOpacity(0.125)
+            SarakaColor.lightGray.withOpacity(0.125),
+            SarakaColor.darkGray.withOpacity(0.125)
           ],
           [
-            SarakaColors.lightGray.withOpacity(0.25),
-            SarakaColors.darkGray.withOpacity(0.25)
+            SarakaColor.lightGray.withOpacity(0.25),
+            SarakaColor.darkGray.withOpacity(0.25)
           ],
         ],
         durations: [19440, 6000],
@@ -23,7 +23,7 @@ class WaveBackground extends StatelessWidget {
         gradientBegin: Alignment.bottomLeft,
         gradientEnd: Alignment.topRight,
       ),
-      backgroundColor: SarakaColors.white,
+      backgroundColor: SarakaColor.white,
       size: Size.infinite,
       waveAmplitude: 0,
     );

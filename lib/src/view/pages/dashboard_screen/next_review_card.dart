@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart' hide Card;
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/entities.dart';
 import 'package:saraka/widgets.dart';
 
 class NextReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
-        elevation: 4,
+        elevation: 16,
+        shadowColor: SarakaColor.lightBlack.withOpacity(0.1),
         color: Color(0xffffffff),
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(24),
@@ -35,14 +33,12 @@ class NextReviewCard extends StatelessWidget {
                       children: [
                         Text(
                           "Come here 16 hours later",
-                          style: SarakaTextStyles.body.apply(
-                            color: SarakaColors.darkBlack,
-                          ),
+                          style: SarakaTextStyle.heading,
                         ),
                         SizedBox(height: 16),
                         Text(
                           "You'll review 17 phrases (3 mins taken)",
-                          style: SarakaTextStyles.body2,
+                          style: SarakaTextStyle.body2,
                         ),
                       ],
                     ),
@@ -55,7 +51,7 @@ class NextReviewCard extends StatelessWidget {
                 children: [
                   ProcessableFancyButton(
                     child: Text("Review Phrases"),
-                    color: SarakaColors.lightRed,
+                    color: SarakaColor.lightRed,
                     onPressed: () => Navigator.of(context).pushNamed("/review"),
                   ),
                 ],

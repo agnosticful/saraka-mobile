@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart' show Material;
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart' hide Card;
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
@@ -46,8 +45,8 @@ class CardSliverListItem extends StatelessWidget {
               child: Material(
                 shape: ContinuousRectangleBorder(
                     borderRadius: BorderRadius.circular(24)),
-                elevation: 6,
-                shadowColor: SarakaColors.darkGray.withOpacity(0.25),
+                elevation: 16,
+                shadowColor: SarakaColor.lightBlack.withOpacity(0.1),
                 color: Color(0xffffffff),
                 child: Stack(
                   alignment: Alignment.bottomLeft,
@@ -74,7 +73,8 @@ class CardSliverListItem extends StatelessWidget {
                                 child: Text(
                                   card.text,
                                   overflow: TextOverflow.ellipsis,
-                                  style: SarakaTextStyles.heading,
+                                  style: SarakaTextStyle.heading
+                                      .apply(fontWeightDelta: 1),
                                   textAlign: TextAlign.left,
                                 ),
                               ),

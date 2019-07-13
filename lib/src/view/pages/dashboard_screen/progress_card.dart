@@ -8,7 +8,8 @@ import 'package:saraka/widgets.dart';
 class ProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
-        elevation: 4,
+        elevation: 16,
+        shadowColor: SarakaColor.lightBlack.withOpacity(0.1),
         color: Color(0xffffffff),
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(24),
@@ -18,6 +19,7 @@ class ProgressCard extends StatelessWidget {
           child: Column(
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
                     "assets/images/score-board.png",
@@ -33,9 +35,7 @@ class ProgressCard extends StatelessWidget {
                         children: [
                           Text(
                             "Phrases you mastered",
-                            style: SarakaTextStyles.body.apply(
-                              color: SarakaColors.darkBlack,
-                            ),
+                            style: SarakaTextStyle.heading,
                           ),
                           SizedBox(height: 8),
                           Stack(
@@ -43,13 +43,13 @@ class ProgressCard extends StatelessWidget {
                             children: [
                               Container(
                                 height: 4,
-                                color: SarakaColors.lightGray,
+                                color: SarakaColor.lightGray,
                               ),
                               FractionallySizedBox(
                                 widthFactor: 0.2,
                                 child: Container(
                                   height: 4,
-                                  color: SarakaColors.lightRed,
+                                  color: SarakaColor.lightRed,
                                 ),
                               ),
                             ],
@@ -57,14 +57,12 @@ class ProgressCard extends StatelessWidget {
                           SizedBox(height: 8),
                           Text(
                             "24 phrases",
-                            style: SarakaTextStyles.body2,
+                            style: SarakaTextStyle.body2,
                           ),
                           SizedBox(height: 24),
                           Text(
                             "Phrases you'll master soon",
-                            style: SarakaTextStyles.body.apply(
-                              color: SarakaColors.darkBlack,
-                            ),
+                            style: SarakaTextStyle.heading,
                           ),
                           SizedBox(height: 8),
                           Stack(
@@ -72,13 +70,13 @@ class ProgressCard extends StatelessWidget {
                             children: [
                               Container(
                                 height: 4,
-                                color: SarakaColors.lightGray,
+                                color: SarakaColor.lightGray,
                               ),
                               FractionallySizedBox(
                                 widthFactor: 0.2,
                                 child: Container(
                                   height: 4,
-                                  color: SarakaColors.darkGray,
+                                  color: SarakaColor.darkGray,
                                 ),
                               ),
                               LayoutBuilder(
@@ -90,7 +88,7 @@ class ProgressCard extends StatelessWidget {
                                         widthFactor: 0.1,
                                         child: Container(
                                           height: 4,
-                                          color: SarakaColors.lightRed,
+                                          color: SarakaColor.lightRed,
                                         ),
                                       ),
                                     ),
@@ -100,7 +98,7 @@ class ProgressCard extends StatelessWidget {
                           SizedBox(height: 8),
                           Text(
                             "24 → 30 phrases",
-                            style: SarakaTextStyles.body2,
+                            style: SarakaTextStyle.body2,
                           ),
                         ],
                       ),
@@ -119,7 +117,7 @@ class ProgressCard extends StatelessWidget {
                           builder: (context, snapshot) =>
                               ProcessableFancyButton(
                                 isProcessing: !snapshot.hasData,
-                                color: SarakaColors.darkWhite,
+                                color: SarakaColor.white,
                                 onPressed: () =>
                                     Navigator.of(context).pushNamed("/cards"),
                                 child: snapshot.hasData

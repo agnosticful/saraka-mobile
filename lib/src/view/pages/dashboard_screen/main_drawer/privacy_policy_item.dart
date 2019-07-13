@@ -9,10 +9,7 @@ class PrivacyPolicyItem extends StatelessWidget {
         leading: SizedBox.shrink(),
         title: Text(
           'Privacy Policy',
-          style: TextStyle(
-            color: SarakaColors.lightBlack,
-            fontFamily: SarakaFonts.rubik,
-          ),
+          style: SarakaTextStyle.body,
         ),
         onTap: () => Provider.of<CommonLinkBloc>(context).launchPrivacyPolicy(),
       );

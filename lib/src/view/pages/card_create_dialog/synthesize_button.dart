@@ -54,7 +54,7 @@ class _SynthesizeButtonState extends State<SynthesizeButton> {
                 if (_text == null) {
                   return IconButton(
                     icon: Icon(Feather.getIconData('volume-2')),
-                    color: SarakaColors.lightGray,
+                    color: SarakaColor.lightGray,
                     onPressed: null,
                   );
                 }
@@ -67,7 +67,7 @@ class _SynthesizeButtonState extends State<SynthesizeButton> {
                         size: Size.square(20),
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation<Color>(
-                              SarakaColors.lightRed),
+                              SarakaColor.lightRed),
                           strokeWidth: 2,
                         ),
                       ),
@@ -77,7 +77,7 @@ class _SynthesizeButtonState extends State<SynthesizeButton> {
 
                 return IconButton(
                   icon: Icon(Feather.getIconData('volume-2')),
-                  color: SarakaColors.lightRed,
+                  color: SarakaColor.lightRed,
                   onPressed: () => _onSoundPressed(context),
                 );
               },

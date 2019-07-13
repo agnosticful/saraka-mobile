@@ -111,7 +111,7 @@ void main() async {
       ],
       child: Application(
         title: "Parrot",
-        color: SarakaColors.lightRed,
+        color: SarakaColor.lightRed,
         child: SarakaNavigator(
           observers: [
             FirebaseAnalyticsObserver(

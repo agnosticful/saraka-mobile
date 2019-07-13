@@ -20,16 +20,14 @@ class AppBar extends StatelessWidget implements PreferredSizeWidget {
           SizedBox(width: 4),
           Text(
             'Parrot',
-            style: SarakaTextStyles.appBarTitle.copyWith(
-              color: SarakaColors.lightBlack,
-            ),
+            style: SarakaTextStyle.heading.copyWith(fontSize: 20),
           ),
         ],
       ),
       centerTitle: true,
       backgroundColor: Color(0x00000000),
       elevation: 0,
-      iconTheme: IconThemeData(color: SarakaColors.lightBlack),
+      iconTheme: IconThemeData(color: SarakaColor.lightBlack),
     );
   }
 }

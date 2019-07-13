@@ -32,12 +32,12 @@ class NextReviewDateDescription extends StatelessWidget {
       children: [
         Text(
           "Next Review",
-          style: SarakaTextStyles.body2.apply(fontWeightDelta: 1),
+          style: SarakaTextStyle.body2,
         ),
         SizedBox(height: 4),
         Text(
           when,
-          style: SarakaTextStyles.body2,
+          style: SarakaTextStyle.body2,
         ),
       ],
     );

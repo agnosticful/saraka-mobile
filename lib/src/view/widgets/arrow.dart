@@ -4,7 +4,7 @@ import 'package:saraka/constants.dart';
 class Arrow extends StatelessWidget {
   Arrow({
     Key key,
-    this.color = SarakaColors.darkBlack,
+    this.color = SarakaColor.darkBlack,
     this.strokeWidth = 1.0,
     this.direction = ArrowDirection.leftToRight,
   }) : super(key: key);
