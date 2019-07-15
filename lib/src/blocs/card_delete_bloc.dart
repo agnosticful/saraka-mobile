@@ -1,18 +1,11 @@
 import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:saraka/behaviors.dart';
 import 'package:saraka/entities.dart';
 
 abstract class CardDeleteBloc {
   Card get card;
 
-  ValueObservable<CardDeletionState> get state;
-
-  Observable<void> get onComplete;
-
-  Observable<Exception> get onError;
-
-  void delete();
+  Future<void> delete();
 }
 
 class _CardDeleteBloc implements CardDeleteBloc {
@@ -31,47 +24,11 @@ class _CardDeleteBloc implements CardDeleteBloc {
 
   final AuthenticationSession session;
 
-  final _state =
-      BehaviorSubject<CardDeletionState>.seeded(CardDeletionState.initial);
-
-  ValueObservable<CardDeletionState> get state => _state;
-
-  final _onComplete = BehaviorSubject<void>();
-
   @override
-  Observable<void> get onComplete => _onComplete;
-
-  final _onError = BehaviorSubject<Exception>();
-
-  @override
-  Observable<Exception> get onError => _onError;
-
-  @override
-  void delete() async {
-    _state.add(CardDeletionState.processing);
-
-    try {
-      await cardDeletable.deleteCard(
+  Future<void> delete() => cardDeletable.deleteCard(
         card: card,
         session: session,
       );
-    } catch (error) {
-      _state.add(CardDeletionState.failed);
-      _onError.add(error);
-
-      return;
-    }
-
-    _state.add(CardDeletionState.completed);
-    _onComplete.add(null);
-  }
-}
-
-enum CardDeletionState {
-  initial,
-  processing,
-  completed,
-  failed,
 }
 
 class CardDeleteBlocFactory {
