@@ -38,13 +38,13 @@ abstract class SarakaTextStyle {
     fontFamily: SarakaFontFamily.rubik,
     fontWeight: SarakaFontWeight.regular,
     fontSize: 16,
-    color: SarakaColor.darkBlack,
+    color: SarakaColor.lightBlack,
   );
 
   static const heading = TextStyle(
     fontFamily: SarakaFontFamily.rubik,
     fontWeight: SarakaFontWeight.regular,
-    fontSize: 18,
+    fontSize: 20,
     color: SarakaColor.darkBlack,
   );
 
@@ -52,7 +52,7 @@ abstract class SarakaTextStyle {
     fontFamily: SarakaFontFamily.rubik,
     fontWeight: SarakaFontWeight.regular,
     fontSize: 13,
-    color: SarakaColor.darkBlack,
+    color: SarakaColor.darkGray,
   );
 
   static const multilineBody = TextStyle(
@@ -60,7 +60,7 @@ abstract class SarakaTextStyle {
     fontWeight: SarakaFontWeight.regular,
     fontSize: 16,
     height: 1.25,
-    color: SarakaColor.darkBlack,
+    color: SarakaColor.lightBlack,
   );
 
   static const multilineBody2 = TextStyle(
@@ -68,6 +68,6 @@ abstract class SarakaTextStyle {
     fontWeight: SarakaFontWeight.regular,
     fontSize: 13,
     height: 1.25,
-    color: SarakaColor.darkBlack,
+    color: SarakaColor.darkGray,
   );
 }

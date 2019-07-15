@@ -20,7 +20,7 @@ class AppBar extends StatelessWidget implements PreferredSizeWidget {
           SizedBox(width: 4),
           Text(
             'Parrot',
-            style: SarakaTextStyle.heading.copyWith(fontSize: 20),
+            style: SarakaTextStyle.heading,
           ),
         ],
       ),

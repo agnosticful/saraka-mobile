@@ -43,7 +43,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 title: Text(
                   'Review',
                   style: SarakaTextStyle.heading.copyWith(
-                    fontSize: 20,
                     color: SarakaColor.white,
                   ),
                 ),
