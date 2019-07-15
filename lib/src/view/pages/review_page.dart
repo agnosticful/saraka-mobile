@@ -3,23 +3,23 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
-import './review_screen/back_button.dart';
-import './review_screen/card_stack.dart';
-import './review_screen/finished.dart';
-import './review_screen/progress_indicator.dart';
-import './review_screen/time_estimation.dart';
-import './review_screen/tutorial.dart';
+import './review_page/back_button.dart';
+import './review_page/card_stack.dart';
+import './review_page/finished.dart';
+import './review_page/progress_indicator.dart';
+import './review_page/time_estimation.dart';
+import './review_page/tutorial.dart';
 
-class ReviewScreen extends StatefulWidget {
-  ReviewScreen({Key key, this.showTutorial = false}) : super(key: key);
+class ReviewPage extends StatefulWidget {
+  ReviewPage({Key key, this.showTutorial = false}) : super(key: key);
 
   final bool showTutorial;
 
   @override
-  State<ReviewScreen> createState() => _ReviewScreenState();
+  State<ReviewPage> createState() => _ReviewPageState();
 }
 
-class _ReviewScreenState extends State<ReviewScreen> {
+class _ReviewPageState extends State<ReviewPage> {
   bool _isTutorialShown;
 
   SwipableCardStackController _swipableCardStackController;
