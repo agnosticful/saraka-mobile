@@ -31,104 +31,101 @@ class CardSliverListItem extends StatelessWidget {
           _,
         ) =>
             MultiProvider(
-              providers: [
-                Provider<CardDetailBloc>(
-                  builder: (_) => cardDetailBlocFactory.create(
-                        card: card,
-                        session: authenticationBloc.session.value,
-                      ),
+          providers: [
+            Provider<CardDetailBloc>(
+              builder: (_) => cardDetailBlocFactory.create(
+                card: card,
+                session: authenticationBloc.session.value,
+              ),
+            ),
+            Provider<SynthesizerBloc>(
+              builder: (_) => synthesizerBlocFactory.create(),
+            ),
+          ],
+          child: Material(
+            shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(24)),
+            elevation: 16,
+            shadowColor: SarakaColor.lightBlack.withOpacity(0.1),
+            color: Color(0xffffffff),
+            child: Stack(
+              alignment: Alignment.bottomLeft,
+              children: [
+                Positioned.fill(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 64, bottom: 24),
+                    child: ProficiencyLineChart(),
+                  ),
                 ),
-                Provider<SynthesizerBloc>(
-                  builder: (_) => synthesizerBlocFactory.create(),
-                ),
-              ],
-              child: Material(
-                shape: ContinuousRectangleBorder(
-                    borderRadius: BorderRadius.circular(24)),
-                elevation: 16,
-                shadowColor: SarakaColor.lightBlack.withOpacity(0.1),
-                color: Color(0xffffffff),
-                child: Stack(
-                  alignment: Alignment.bottomLeft,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Positioned.fill(
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 64, bottom: 24),
-                        child: ProficiencyLineChart(),
-                      ),
-                    ),
-                    Column(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 16,
-                                  left: 16,
-                                  right: 8,
-                                ),
-                                child: Text(
-                                  card.text,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: SarakaTextStyle.heading
-                                      .apply(fontWeightDelta: 1),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 16,
+                              left: 16,
+                              right: 8,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 4, right: 4),
-                              child: MenuIconButton(),
+                            child: Text(
+                              card.text,
+                              overflow: TextOverflow.ellipsis,
+                              style: SarakaTextStyle.heading,
+                              textAlign: TextAlign.left,
                             ),
-                          ],
+                          ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                            top: 8,
-                            bottom: 8,
-                            left: 8,
-                            right: 24,
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              SynthesizeIconButton(text: card.text),
-                            ]..addAll(showDetail
-                                ? [
-                                    Expanded(child: Container()),
-                                    SizedBox(
-                                      width: 96,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 8),
-                                        child: NextReviewDateDescription(
-                                          nextReviewScheduledAt:
-                                              card.nextReviewScheduledAt,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 16),
-                                    SizedBox(
-                                      width: 80,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 8),
-                                        child: ProficiencyDescription(
-                                            proficiency: card.proficiency),
-                                      ),
-                                    ),
-                                  ]
-                                : []),
-                          ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 4, right: 4),
+                          child: MenuIconButton(),
                         ),
                       ],
                     ),
+                    Container(
+                      padding: const EdgeInsets.only(
+                        top: 8,
+                        bottom: 8,
+                        left: 8,
+                        right: 24,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          SynthesizeIconButton(text: card.text),
+                        ]..addAll(showDetail
+                            ? [
+                                Expanded(child: Container()),
+                                SizedBox(
+                                  width: 96,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: NextReviewDateDescription(
+                                      nextReviewScheduledAt:
+                                          card.nextReviewScheduledAt,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                SizedBox(
+                                  width: 80,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: ProficiencyDescription(
+                                        proficiency: card.proficiency),
+                                  ),
+                                ),
+                              ]
+                            : []),
+                      ),
+                    ),
                   ],
                 ),
-              ),
+              ],
             ),
+          ),
+        ),
       );
 }

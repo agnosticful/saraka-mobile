@@ -27,7 +27,7 @@ class CardListScreen extends StatelessWidget {
                       centerTitle: true,
                       title: Text(
                         'Cards',
-                        style: SarakaTextStyle.heading.copyWith(fontSize: 20),
+                        style: SarakaTextStyle.heading,
                       ),
                       leading: Navigator.of(context).canPop()
                           ? IconButton(
