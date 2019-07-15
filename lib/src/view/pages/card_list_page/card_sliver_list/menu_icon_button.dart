@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart' show PopupMenuItem, showMenu;
-import 'package:flutter/material.dart' show IconButton;
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart' hide Card;
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/src/view/routes/card_confirm_deletion_route.dart';
+import 'package:saraka/route_arguments.dart';
+import 'package:saraka/widgets.dart';
 
 class MenuIconButton extends StatelessWidget {
   @override
@@ -15,11 +14,11 @@ class MenuIconButton extends StatelessWidget {
         Feather.getIconData('more-vertical'),
         color: SarakaColor.darkGray,
       ),
-      onPressed: () => onPressed(context),
+      onPressed: () => _onPressed(context),
     );
   }
 
-  void onPressed(BuildContext context) async {
+  void _onPressed(BuildContext context) async {
     final RenderBox self = context.findRenderObject();
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
 
@@ -27,9 +26,14 @@ class MenuIconButton extends StatelessWidget {
       context: context,
       position: RelativeRect.fromRect(
         Rect.fromPoints(
-          self.localToGlobal(Offset.zero, ancestor: overlay),
-          self.localToGlobal(self.size.bottomRight(Offset.zero),
-              ancestor: overlay),
+          self.localToGlobal(
+            Offset.zero,
+            ancestor: overlay,
+          ),
+          self.localToGlobal(
+            self.size.bottomRight(Offset.zero),
+            ancestor: overlay,
+          ),
         ),
         Offset.zero & overlay.size,
       ),
@@ -45,11 +49,30 @@ class MenuIconButton extends StatelessWidget {
     );
 
     if (selectedItem != null) {
-      final card = Provider.of<CardDetailBloc>(context).card;
+      _onDeleteSelected(context);
+    }
+  }
 
-      Navigator.of(context).pushNamed(
-        "/cards:confirmDeletion",
-        arguments: CardConfirmDeletionRouteArguments(card: card),
+  _onDeleteSelected(BuildContext context) async {
+    final cardDeleteBloc = Provider.of<CardDeleteBloc>(context);
+    final card = cardDeleteBloc.card;
+
+    final result = await Navigator.of(context).pushNamed(
+      "/cards:confirmDeletion",
+      arguments: CardConfirmDeletionRouteArguments(card: card),
+    );
+
+    if (result) {
+      final scaffold = Scaffold.of(context);
+
+      scaffold.showSnackBar(
+        FancySnackBar(content: Text("Deleting \"${card.text}\"...")),
+      );
+
+      await cardDeleteBloc.delete();
+
+      scaffold.showSnackBar(
+        FancySnackBar(content: Text("\"${card.text}\" has been deleted!")),
       );
     }
   }
