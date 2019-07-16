@@ -128,13 +128,11 @@ class ExpandPhraseCard extends StatelessWidget {
     final text = await Navigator.of(context).pushNamed("/cards:new");
 
     if (text != null) {
-      final controller = Scaffold.of(context).showSnackBar(FancySnackBar(
+      Scaffold.of(context).showSnackBar(FancySnackBar(
         content: Text("Adding \"$text\"..."),
       ));
 
       await cardCreateBloc.create(text);
-
-      controller.close();
 
       Scaffold.of(context).showSnackBar(FancySnackBar(
         content: Text("\"$text\" has been added!"),
