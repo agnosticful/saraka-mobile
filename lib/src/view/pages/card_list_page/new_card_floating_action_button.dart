@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import 'package:saraka/widgets.dart';
 
 class NewCardFloatingActionButton extends StatelessWidget {
   @override
@@ -17,6 +20,29 @@ class NewCardFloatingActionButton extends StatelessWidget {
         onPressed: () => _onPressed(context),
       );
 
-  void _onPressed(BuildContext context) =>
-      Navigator.of(context).pushNamed("/cards:new");
+  void _onPressed(BuildContext context) async {
+    final authenticationBloc = Provider.of<AuthenticationBloc>(context);
+    final cardCreateBlocFactory = Provider.of<CardCreateBlocFactory>(context);
+    final cardCreateBloc = cardCreateBlocFactory.create(
+      session: authenticationBloc.session.value,
+    )..initialize();
+
+    final text = await Navigator.of(context).pushNamed("/cards:new");
+
+    if (text != null) {
+      final controller = Scaffold.of(context).showSnackBar(FancySnackBar(
+        content: Text("Adding \"$text\"..."),
+      ));
+
+      await cardCreateBloc.create(text);
+
+      controller.close();
+
+      Scaffold.of(context).showSnackBar(FancySnackBar(
+        content: Text("\"$text\" has been added!"),
+      ));
+    }
+
+    cardCreateBloc.dispose();
+  }
 }

@@ -4,13 +4,10 @@ import 'package:meta/meta.dart';
 import 'package:saraka/behaviors.dart';
 import 'package:saraka/entities.dart';
 
-class FirebaseExternalFunctions
-    implements CardCreatable, CardReviewable, Synthesizable {
+class FirebaseExternalFunctions implements CardReviewable, Synthesizable {
   FirebaseExternalFunctions({
     @required CloudFunctions cloudFunctions,
   })  : assert(cloudFunctions != null),
-        _createCardFunction =
-            cloudFunctions.getHttpsCallable(functionName: 'createCard'),
         _logReviewFunction =
             cloudFunctions.getHttpsCallable(functionName: 'logReview'),
         _deleteLastReviewFunction =
@@ -18,26 +15,11 @@ class FirebaseExternalFunctions
         _synthesizeFunction =
             cloudFunctions.getHttpsCallable(functionName: 'synthesize');
 
-  final HttpsCallable _createCardFunction;
-
   final HttpsCallable _logReviewFunction;
 
   final HttpsCallable _deleteLastReviewFunction;
 
   final HttpsCallable _synthesizeFunction;
-
-  @override
-  Future<void> add({AuthenticationSession session, NewCardText text}) async {
-    try {
-      await _createCardFunction({"text": text.text});
-    } on CloudFunctionsException catch (error) {
-      if (error.code == "ALREADY_EXISTS") {
-        throw CardDuplicationException(text.text);
-      }
-
-      rethrow;
-    }
-  }
 
   @override
   Future<void> review({

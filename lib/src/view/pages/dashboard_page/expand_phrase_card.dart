@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart' show Material;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 import 'package:saraka/widgets.dart';
 
@@ -107,8 +109,7 @@ class ExpandPhraseCard extends StatelessWidget {
                   ProcessableFancyButton(
                     color: SarakaColor.lightRed,
                     child: Text("Add New"),
-                    onPressed: () =>
-                        Navigator.of(context).pushNamed("/cards:new"),
+                    onPressed: () => _onCardAddButtonPressed(context),
                   ),
                 ],
               ),
@@ -116,4 +117,30 @@ class ExpandPhraseCard extends StatelessWidget {
           ),
         ),
       );
+
+  _onCardAddButtonPressed(BuildContext context) async {
+    final authenticationBloc = Provider.of<AuthenticationBloc>(context);
+    final cardCreateBlocFactory = Provider.of<CardCreateBlocFactory>(context);
+    final cardCreateBloc = cardCreateBlocFactory.create(
+      session: authenticationBloc.session.value,
+    )..initialize();
+
+    final text = await Navigator.of(context).pushNamed("/cards:new");
+
+    if (text != null) {
+      final controller = Scaffold.of(context).showSnackBar(FancySnackBar(
+        content: Text("Adding \"$text\"..."),
+      ));
+
+      await cardCreateBloc.create(text);
+
+      controller.close();
+
+      Scaffold.of(context).showSnackBar(FancySnackBar(
+        content: Text("\"$text\" has been added!"),
+      ));
+    }
+
+    cardCreateBloc.dispose();
+  }
 }
