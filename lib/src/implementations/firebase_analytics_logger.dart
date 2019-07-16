@@ -4,24 +4,12 @@ import 'package:saraka/behaviors.dart';
 import 'package:saraka/entities.dart';
 
 class FirebaseAnalyticsLogger
-    implements
-        CardCreateLoggable,
-        CardReviewLoggable,
-        SignInOutLoggable,
-        SynthesizeLoggable {
+    implements CardReviewLoggable, SignInOutLoggable, SynthesizeLoggable {
   FirebaseAnalyticsLogger({@required FirebaseAnalytics firebaseAnalytics})
       : assert(firebaseAnalytics != null),
         _firebaseAnalytics = firebaseAnalytics;
 
   final FirebaseAnalytics _firebaseAnalytics;
-
-  @override
-  Future<void> logCardCreate({@required String text}) =>
-      _firebaseAnalytics.logEvent(name: 'card_create');
-
-  @override
-  Future<void> logCardCreateStart() =>
-      _firebaseAnalytics.logEvent(name: 'card_create_start');
 
   @override
   Future<void> logCardReview({ReviewCertainty certainty}) =>

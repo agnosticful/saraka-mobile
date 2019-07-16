@@ -1,5 +1,3 @@
-export "./src/behaviors/card_creatable.dart";
-export "./src/behaviors/card_create_loggable.dart";
 export "./src/behaviors/card_deletable.dart";
 export "./src/behaviors/card_review_loggable.dart";
 export "./src/behaviors/card_reviewable.dart";

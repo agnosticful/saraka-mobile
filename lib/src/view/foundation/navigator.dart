@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:saraka/blocs.dart';
 import '../routes/card_confirm_deletion_route.dart';
-import '../routes/card_create_route.dart';
 import '../routes/card_list_route.dart';
 import '../routes/dashboard_route.dart';
+import '../routes/new_card_route.dart';
 import '../routes/review_route.dart';
 
 class SarakaNavigator extends StatefulWidget {
@@ -107,7 +107,7 @@ class _SarakaNavigatorState extends State<SarakaNavigator>
               case "/cards":
                 return CardListRoute(settings: settings);
               case "/cards:new":
-                return CardCreateRoute(settings: settings);
+                return NewCardRoute(settings: settings);
               case "/cards:confirmDeletion":
                 return CardConfirmDeletionRoute(settings: settings);
             }
