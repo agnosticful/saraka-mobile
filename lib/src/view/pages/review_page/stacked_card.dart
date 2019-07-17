@@ -1,10 +1,8 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart' hide Card;
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/entities.dart';
+import '../../../entities/card.dart';
 
 @immutable
 class StackedCard extends StatelessWidget {
@@ -88,6 +86,8 @@ class StackedCard extends StatelessWidget {
   }
 
   void _onTap(BuildContext context) {
-    Provider.of<SynthesizerBloc>(context).play(_card.text);
+    // Provider.of<SynthesizerBloc>(context).play(_card.text);
+
+    print(_card);
   }
 }

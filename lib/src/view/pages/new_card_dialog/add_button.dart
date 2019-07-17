@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../../../blocs/new_card_edit_bloc.dart';
+import '../../widgets/processable_fancy_button.dart';
 
 class AddButton extends StatelessWidget {
   @override

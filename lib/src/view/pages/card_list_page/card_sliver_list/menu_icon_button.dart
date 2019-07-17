@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart' hide Card;
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/route_arguments.dart';
-import 'package:saraka/widgets.dart';
+import '../../../../blocs/card_delete_bloc.dart';
+import '../../../routes/card_confirm_deletion_route.dart';
+import '../../../widgets/fancy_snack_bar.dart';
 
 class MenuIconButton extends StatelessWidget {
   @override

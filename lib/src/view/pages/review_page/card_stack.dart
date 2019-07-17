@@ -1,8 +1,8 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:saraka/blocs.dart';
-import 'package:saraka/widgets.dart';
 import './stacked_card.dart';
+import '../../../blocs/card_review_bloc.dart';
+import '../../widgets/swipable_card_stack/swipable_card_stack.dart';
 
 class CardStack extends StatefulWidget {
   CardStack({Key key, @required this.controller})
@@ -27,14 +27,14 @@ class _CardStackState extends State<CardStack> {
     Future.delayed(Duration.zero, () {
       _previousPosition = widget.controller.position;
 
-      final cardReviewBloc = Provider.of<CardReviewBloc>(context);
-      final synthesizerBloc = Provider.of<SynthesizerBloc>(context);
+      // final cardReviewBloc = Provider.of<CardReviewBloc>(context);
+      // final synthesizerBloc = Provider.of<SynthesizerBloc>(context);
 
       _listener = () {
         if (widget.controller.position != _previousPosition) {
-          final card = cardReviewBloc.cards[widget.controller.position];
+          // final card = cardReviewBloc.cards[widget.controller.position];
 
-          synthesizerBloc.play(card.text);
+          // synthesizerBloc.play(card.text);
         }
 
         _previousPosition = widget.controller.position;
@@ -42,7 +42,7 @@ class _CardStackState extends State<CardStack> {
 
       widget.controller.addListener(_listener);
 
-      synthesizerBloc.play(cardReviewBloc.cards[0].text);
+      // synthesizerBloc.play(cardReviewBloc.cards[0].text);
     });
   }
 
@@ -73,9 +73,9 @@ class _CardStackState extends State<CardStack> {
                       }
                     },
                     itemBuilder: (context, i, swipingRate) => StackedCard(
-                          card: cardReviewBloc.cards[i],
-                          swipingRate: swipingRate,
-                        ),
+                      card: cardReviewBloc.cards[i],
+                      swipingRate: swipingRate,
+                    ),
                     itemLength: cardReviewBloc.cards.length,
                     visibleItemLength: 3,
                   )

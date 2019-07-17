@@ -2,9 +2,11 @@ import 'package:flutter/material.dart' show Material;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../../../blocs/authentication_bloc.dart';
+import '../../../bloc_factories/card_create_bloc_factory.dart';
+import '../../widgets/fancy_snack_bar.dart';
+import '../../widgets/processable_fancy_button.dart';
 
 class ExpandPhraseCard extends StatelessWidget {
   @override

@@ -6,7 +6,7 @@ import 'package:crypto/crypto.dart' show sha256;
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-import '../blocs/new_card_edit_bloc.dart';
+import '../bloc_factories/new_card_edit_bloc_factory.dart';
 
 class TextSpeechService implements TextSpeechable {
   TextSpeechService({
@@ -25,14 +25,18 @@ class TextSpeechService implements TextSpeechable {
   Future<void> speech(String text) async {
     final file = await _referSpeechFile(text);
 
-    print(file);
-
     assert(await file.exists());
 
     await _audioPlayer.play(file.path, isLocal: true);
   }
 
-  Future<void> loadSoundDataInAdvance(String text) async {
+  Future<bool> isPreloaded(String text) async {
+    final file = await _referSpeechFile(text);
+
+    return await file.exists();
+  }
+
+  Future<void> preload(String text) async {
     final file = await _referSpeechFile(text);
 
     if (await file.exists()) {
@@ -66,8 +70,6 @@ class TextSpeechService implements TextSpeechable {
 
       rethrow;
     }
-
-    print(result);
 
     return base64.decode(result.data);
   }

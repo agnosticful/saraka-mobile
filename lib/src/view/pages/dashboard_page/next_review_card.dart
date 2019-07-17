@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide Card;
 import 'package:flutter/widgets.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../../widgets/processable_fancy_button.dart';
 
 class NextReviewCard extends StatelessWidget {
   @override

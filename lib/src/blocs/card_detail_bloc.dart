@@ -1,53 +1,20 @@
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/behaviors.dart';
-import 'package:saraka/entities.dart';
+import '../entities/card.dart';
+import '../entities/review.dart';
+
+export '../entities/card.dart';
+export '../entities/review.dart';
 
 abstract class CardDetailBloc {
   Card get card;
 
   ValueObservable<List<Review>> get reviews;
-}
 
-class _CardDetailBloc implements CardDetailBloc {
-  _CardDetailBloc({
-    @required this.card,
-    @required this.reviewSubscribable,
-    @required this.session,
-  })  : assert(card != null),
-        assert(session != null),
-        assert(reviewSubscribable != null);
+  ValueObservable<bool> get isSpeechSoundLoaded;
 
-  @override
-  final Card card;
+  void speech();
 
-  final ReviewSubscribable reviewSubscribable;
+  void initialize();
 
-  final AuthenticationSession session;
-
-  @override
-  ValueObservable<List<Review>> get reviews =>
-      reviewSubscribable.subscribeReviewsInCard(
-        session: session,
-        card: card,
-      );
-}
-
-class CardDetailBlocFactory {
-  CardDetailBlocFactory({
-    @required ReviewSubscribable reviewSubscribable,
-  })  : assert(reviewSubscribable != null),
-        _reviewSubscribable = reviewSubscribable;
-
-  final ReviewSubscribable _reviewSubscribable;
-
-  CardDetailBloc create({
-    @required Card card,
-    @required AuthenticationSession session,
-  }) =>
-      _CardDetailBloc(
-        card: card,
-        reviewSubscribable: _reviewSubscribable,
-        session: session,
-      );
+  void dispose();
 }

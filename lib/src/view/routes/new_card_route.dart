@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/authentication_bloc.dart';
+import '../../blocs/new_card_edit_bloc.dart';
+import '../../bloc_factories/new_card_edit_bloc_factory.dart';
 import '../foundation/fancy_popup_dialog_route.dart';
 import '../pages/new_card_dialog.dart';
 

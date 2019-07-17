@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart' hide AppBar, Card;
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
 import './dashboard_page/app_bar.dart';
 import './dashboard_page/main_drawer/main_drawer.dart';
 import './dashboard_page/next_review_card.dart';
 import './dashboard_page/expand_phrase_card.dart';
 import './dashboard_page/progress_card.dart';
+import '../widgets/wave_background.dart';
 
 class DashboardPage extends StatelessWidget {
   @override

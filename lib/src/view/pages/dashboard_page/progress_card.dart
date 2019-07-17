@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart' hide Card;
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/entities.dart';
-import 'package:saraka/widgets.dart';
+import '../../../blocs/card_list_bloc.dart';
+import '../../widgets/processable_fancy_button.dart';
 
 class ProgressCard extends StatelessWidget {
   @override
@@ -81,17 +80,17 @@ class ProgressCard extends StatelessWidget {
                               ),
                               LayoutBuilder(
                                 builder: (context, constraints) => Padding(
-                                      padding: EdgeInsets.only(
-                                        left: constraints.maxWidth * 0.2,
-                                      ),
-                                      child: FractionallySizedBox(
-                                        widthFactor: 0.1,
-                                        child: Container(
-                                          height: 4,
-                                          color: SarakaColor.lightRed,
-                                        ),
-                                      ),
+                                  padding: EdgeInsets.only(
+                                    left: constraints.maxWidth * 0.2,
+                                  ),
+                                  child: FractionallySizedBox(
+                                    widthFactor: 0.1,
+                                    child: Container(
+                                      height: 4,
+                                      color: SarakaColor.lightRed,
                                     ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -112,20 +111,18 @@ class ProgressCard extends StatelessWidget {
                   Consumer<CardListBloc>(
                     builder: (context, cardListBloc, _) =>
                         StreamBuilder<List<Card>>(
-                          stream: cardListBloc.cards,
-                          initialData: cardListBloc.cards.value,
-                          builder: (context, snapshot) =>
-                              ProcessableFancyButton(
-                                isProcessing: !snapshot.hasData,
-                                color: SarakaColor.white,
-                                onPressed: () =>
-                                    Navigator.of(context).pushNamed("/cards"),
-                                child: snapshot.hasData
-                                    ? Text(
-                                        "Explore (${snapshot.requireData.length})")
-                                    : Text("Explore"),
-                              ),
-                        ),
+                      stream: cardListBloc.cards,
+                      initialData: cardListBloc.cards.value,
+                      builder: (context, snapshot) => ProcessableFancyButton(
+                        isProcessing: !snapshot.hasData,
+                        color: SarakaColor.white,
+                        onPressed: () =>
+                            Navigator.of(context).pushNamed("/cards"),
+                        child: snapshot.hasData
+                            ? Text("Explore (${snapshot.requireData.length})")
+                            : Text("Explore"),
+                      ),
+                    ),
                   ),
                 ],
               ),

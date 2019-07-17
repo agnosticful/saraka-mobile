@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../../widgets/arrow.dart';
 
 class Tutorial extends StatefulWidget {
   Tutorial({Key key, @required this.onDismissed}) : super(key: key);
@@ -67,63 +67,63 @@ class _TutorialState extends State<Tutorial> with TickerProviderStateMixin {
                   SizedBox(height: 144),
                   LayoutBuilder(
                     builder: (context, constraints) => Align(
-                          alignment: Alignment.topRight,
-                          child: Container(
-                            width: math.min(constraints.maxWidth * 0.5, 192),
-                            padding: EdgeInsets.only(right: 32),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "Swipe to right\nwhen you're sure",
-                                  textAlign: TextAlign.right,
-                                  style: SarakaTextStyle.body.copyWith(
-                                    color: SarakaColor.white,
-                                  ),
-                                ),
-                                SizedBox(height: 8),
-                                SizedBox(
-                                  height: 16,
-                                  child: Arrow(
-                                    color: SarakaColor.white,
-                                    strokeWidth: 2,
-                                  ),
-                                ),
-                              ],
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        width: math.min(constraints.maxWidth * 0.5, 192),
+                        padding: EdgeInsets.only(right: 32),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Swipe to right\nwhen you're sure",
+                              textAlign: TextAlign.right,
+                              style: SarakaTextStyle.body.copyWith(
+                                color: SarakaColor.white,
+                              ),
                             ),
-                          ),
+                            SizedBox(height: 8),
+                            SizedBox(
+                              height: 16,
+                              child: Arrow(
+                                color: SarakaColor.white,
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                    ),
                   ),
                   Expanded(child: Container()),
                   LayoutBuilder(
                     builder: (context, constraints) => Align(
-                          alignment: Alignment.topLeft,
-                          child: Container(
-                            width: math.min(constraints.maxWidth * 0.5, 192),
-                            padding: EdgeInsets.only(left: 32),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                SizedBox(
-                                  height: 16,
-                                  child: Arrow(
-                                    color: SarakaColor.white,
-                                    strokeWidth: 2,
-                                    direction: ArrowDirection.rightToLeft,
-                                  ),
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  "Swipe to left\nto study again later",
-                                  textAlign: TextAlign.left,
-                                  style: SarakaTextStyle.body.copyWith(
-                                    color: SarakaColor.white,
-                                  ),
-                                ),
-                              ],
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        width: math.min(constraints.maxWidth * 0.5, 192),
+                        padding: EdgeInsets.only(left: 32),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: 16,
+                              child: Arrow(
+                                color: SarakaColor.white,
+                                strokeWidth: 2,
+                                direction: ArrowDirection.rightToLeft,
+                              ),
                             ),
-                          ),
+                            SizedBox(height: 8),
+                            Text(
+                              "Swipe to left\nto study again later",
+                              textAlign: TextAlign.left,
+                              style: SarakaTextStyle.body.copyWith(
+                                color: SarakaColor.white,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                    ),
                   ),
                   SizedBox(height: 128),
                 ],
