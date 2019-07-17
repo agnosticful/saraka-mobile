@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
 import 'package:tuple/tuple.dart';
+import '../../../blocs/new_card_edit_bloc.dart';
 
 class SynthesizeButton extends StatelessWidget {
   @override
@@ -13,12 +13,12 @@ class SynthesizeButton extends StatelessWidget {
             StreamBuilder<Tuple2<bool, bool>>(
           stream: Observable.combineLatest2(
             newCardEditBloc.isTextValid,
-            newCardEditBloc.isSpeechSoundCached,
+            newCardEditBloc.isSpeechSoundLoaded,
             (a, b) => Tuple2(a, b),
           ),
           initialData: Tuple2(
             newCardEditBloc.isTextValid.value,
-            newCardEditBloc.isSpeechSoundCached.value,
+            newCardEditBloc.isSpeechSoundLoaded.value,
           ),
           builder: (context, snapshot) {
             if (!snapshot.hasData || !snapshot.requireData.item1) {

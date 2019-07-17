@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide Card;
 import 'package:saraka/constants.dart';
-import 'package:saraka/entities.dart';
-import 'package:saraka/widgets.dart';
+import '../widgets/processable_fancy_button.dart';
+import '../../entities/card.dart';
 
 @immutable
 class CardConfirmDeletionDialog extends StatelessWidget {

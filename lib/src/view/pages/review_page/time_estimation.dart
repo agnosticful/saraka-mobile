@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../../blocs/card_review_bloc.dart';
 
 class TimeEstimation extends StatefulWidget {
   State<TimeEstimation> createState() => _TimeEstimationState();
@@ -30,8 +30,8 @@ class _TimeEstimationState extends State<TimeEstimation> {
           stream: _cardReviewingBloc.remainingCardLength,
           initialData: _cardReviewingBloc.remainingCardLength.value,
           builder: (context, snapshot) => _TimeEstimationText(
-                duration: Duration(milliseconds: snapshot.requireData * 7500),
-              ),
+            duration: Duration(milliseconds: snapshot.requireData * 7500),
+          ),
         );
 }
 

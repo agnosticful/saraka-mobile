@@ -1,15 +1,15 @@
 import 'package:url_launcher/url_launcher.dart';
-import 'package:saraka/behaviors.dart';
+import '../bloc_factories/common_link_bloc_factory.dart';
 
-class UrlLauncher implements UrlLaunchable {
+class UrlOpenService implements UrlOpenable {
   @override
-  Future<void> launchUrl(Uri url) async {
+  Future<void> openUrl(Uri url) async {
     final urlString = url.toString();
 
     if (await canLaunch(urlString)) {
       await launch(urlString);
     } else {
-      throw UrlLaunchFailureException(url);
+      throw UrlOpenFailureException(url);
     }
   }
 }

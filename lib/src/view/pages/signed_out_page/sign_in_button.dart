@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../../../blocs/authentication_bloc.dart';
+import '../../widgets/processable_fancy_button.dart';
 
 class SignInButton extends StatefulWidget {
   @override
@@ -13,15 +13,15 @@ class _SignInButtonState extends State<SignInButton> {
   @override
   Widget build(BuildContext context) => Consumer<AuthenticationBloc>(
         builder: (context, authenticationBloc, _) => StreamBuilder<bool>(
-              stream: authenticationBloc.isSigningIn,
-              initialData: authenticationBloc.isSigningIn.value,
-              builder: (context, snapshot) => ProcessableFancyButton(
-                    color: SarakaColor.lightRed,
-                    isProcessing: snapshot.requireData,
-                    onPressed: () => _onPressed(context),
-                    child: Text('Start with Google Account'),
-                  ),
-            ),
+          stream: authenticationBloc.isSigningIn,
+          initialData: authenticationBloc.isSigningIn.value,
+          builder: (context, snapshot) => ProcessableFancyButton(
+            color: SarakaColor.lightRed,
+            isProcessing: snapshot.requireData,
+            onPressed: () => _onPressed(context),
+            child: Text('Start with Google Account'),
+          ),
+        ),
       );
 
   void _onPressed(BuildContext context) {

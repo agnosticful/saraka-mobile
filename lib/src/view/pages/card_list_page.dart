@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
 import './card_list_page/card_sliver_list/card_sliver_list.dart';
 import './card_list_page/new_card_floating_action_button.dart';
+import '../widgets/wave_background.dart';
 
 class CardListPage extends StatelessWidget {
   @override

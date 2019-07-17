@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../../blocs/new_card_edit_bloc.dart';
 
 class WordInput extends StatefulWidget {
   @override

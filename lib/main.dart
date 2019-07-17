@@ -8,29 +8,37 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import './src/implementations/cache_storage.dart';
-import './src/implementations/firebase_analytics_logger.dart';
-import './src/implementations/firebase_authentication.dart';
-import './src/implementations/firebase_external_functions.dart';
-import './src/implementations/firestore_card_repository.dart';
-import './src/implementations/sound_player.dart' as oldSoundPlayerModule;
-import './src/implementations/url_launcher.dart';
-import './src/services/card_create_service.dart';
+import './src/blocs/authentication_bloc.dart';
+import './src/blocs/common_link_bloc.dart';
+import './src/bloc_factories/authentication_bloc_factory.dart';
+import './src/bloc_factories/card_create_bloc_factory.dart';
+import './src/bloc_factories/card_delete_bloc_factory.dart';
+import './src/bloc_factories/card_detail_bloc_factory.dart';
+import './src/bloc_factories/card_list_bloc_factory.dart';
+import './src/bloc_factories/card_review_bloc_factory.dart';
+import './src/bloc_factories/common_link_bloc_factory.dart';
+import './src/bloc_factories/new_card_edit_bloc_factory.dart';
+import './src/services/card_command_service.dart';
+import './src/services/card_query_service.dart';
+import './src/services/firebase_authentication.dart';
+import './src/services/review_command_service.dart';
+import './src/services/review_query_service.dart';
 import './src/services/text_speech_service.dart';
+import './src/services/url_open_service.dart';
 import './src/view/foundation/application.dart';
 import './src/view/foundation/navigator.dart';
 
 void main() async {
+  // force screen orientation only portrait
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
-  /**
-   * External APIs
-   */
+  //
+  // external APIs
+  //
   final firebaseAnalytics = FirebaseAnalytics();
   final firebaseAuth = FirebaseAuth.instance;
   final firestore = Firestore.instance
@@ -40,69 +48,64 @@ void main() async {
     );
   final googleSignIn = GoogleSignIn();
 
-  /**
-   * Implementations
-   */
-  final authentication = FirebaseAuthentication(
+  //
+  // services
+  //
+  final firebaseAuthentication = FirebaseAuthentication(
     firebaseAuth: firebaseAuth,
     googleSignIn: googleSignIn,
   );
-  final cacheStorage = CacheStorage();
-  final cardRepository = FirestoreCardRepository(firestore: firestore);
-  final firebaseExternalFunctions = FirebaseExternalFunctions(
+  final cardCommandService = CardCommandService(
     cloudFunctions: CloudFunctions.instance,
+    firestore: firestore,
   );
-  final logger = FirebaseAnalyticsLogger(firebaseAnalytics: firebaseAnalytics);
-  final oldSoundPlayer = oldSoundPlayerModule.SoundPlayer();
-  final urlLauncher = UrlLauncher();
-
-  /**
-   * services
-   */
-  final cardCreateService =
-      CardCreateService(cloudFunctions: CloudFunctions.instance);
+  final cardQueryService = CardQueryService(
+    firestore: firestore,
+  );
+  final reviewCommandService =
+      ReviewCommandService(cloudFunctions: CloudFunctions.instance);
+  final reviewQueryService = ReviewQueryService(firestore: firestore);
   final textSpeechService = TextSpeechService(
     audioPlayer: AudioPlayer(mode: PlayerMode.LOW_LATENCY),
     cloudFunctions: CloudFunctions.instance,
   );
+  final urlOpenService = UrlOpenService();
 
-  /**
-   * BLoCs
-   */
+  //
+  // bloc factories
+  //
   final authenticationBlocFactory = AuthenticationBlocFactory(
-    signable: authentication,
-    signInOutLoggable: logger,
-  );
-  final commonLinkBloc = CommonLinkBloc(
-    urlLaunchable: urlLauncher,
-    privacyPolicyUrl: privacyPolicyUrl,
+    signable: firebaseAuthentication,
   );
   final cardCreateBlocFactory = CardCreateBlocFactory(
-    cardCreatable: cardCreateService,
+    cardCreatable: cardCommandService,
   );
   final cardDeleteBlocFactory = CardDeleteBlocFactory(
-    cardDeletable: cardRepository,
+    cardDeletable: cardCommandService,
   );
   final cardDetailBlocFactory = CardDetailBlocFactory(
-    reviewSubscribable: cardRepository,
-  );
-  final cardReviewBlocFactory = CardReviewBlocFactory(
-    cardReviewable: firebaseExternalFunctions,
-    cardReviewLoggable: logger,
-    inQueueCardSubscribable: cardRepository,
+    cardReviewListable: reviewQueryService,
+    textSpeechable: textSpeechService,
   );
   final cardListBlocFactory = CardListBlocFactory(
-    cardSubscribable: cardRepository,
+    cardListable: cardQueryService,
+  );
+  final cardReviewBlocFactory = CardReviewBlocFactory(
+    cardReviewable: reviewCommandService,
+    inQueueCardListable: cardQueryService,
+  );
+  final commonLinkBlocFactory = CommonLinkBlocFactory(
+    urlOpenable: urlOpenService,
+    privacyPolicyUrl: privacyPolicyUrl,
   );
   final newCardEditBlocFactory =
       NewCardEditBlocFactory(textSpeechable: textSpeechService);
-  final synthesizerBlocFactory = SynthesizerBlocFactory(
-    soundFilePlayable: oldSoundPlayer,
-    synthesizable: firebaseExternalFunctions,
-    synthesizedSoundFileReferable: cacheStorage,
-    synthesizeLoggable: logger,
-  );
+
+  //
+  // global blocs
+  //
   final authenticationBloc = authenticationBlocFactory.create();
+  final commonLinkBloc = commonLinkBlocFactory.create();
 
   runApp(
     MultiProvider(
@@ -110,15 +113,20 @@ void main() async {
         Provider<CardCreateBlocFactory>(builder: (_) => cardCreateBlocFactory),
         Provider<CardDeleteBlocFactory>(builder: (_) => cardDeleteBlocFactory),
         Provider<CardDetailBlocFactory>(builder: (_) => cardDetailBlocFactory),
-        Provider<CardReviewBlocFactory>(builder: (_) => cardReviewBlocFactory),
         Provider<CardListBlocFactory>(builder: (_) => cardListBlocFactory),
+        Provider<CardReviewBlocFactory>(builder: (_) => cardReviewBlocFactory),
         Provider<NewCardEditBlocFactory>(
             builder: (_) => newCardEditBlocFactory),
-        Provider<SynthesizerBlocFactory>(
-            builder: (_) => synthesizerBlocFactory),
         Provider<AuthenticationBloc>(
-            builder: (context) => authenticationBloc..restoreSession()),
-        Provider<CommonLinkBloc>(builder: (context) => commonLinkBloc),
+          builder: (_) => authenticationBloc
+            ..initialize()
+            ..restoreSession(),
+          dispose: (_, authenticationBloc) => authenticationBloc.dispose(),
+        ),
+        Provider<CommonLinkBloc>(
+          builder: (_) => commonLinkBloc..initialize(),
+          dispose: (_, commonLinkBloc) => commonLinkBloc.dispose(),
+        ),
       ],
       child: Application(
         title: "Parrot",

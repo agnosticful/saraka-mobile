@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/authentication_bloc.dart';
+import '../../blocs/card_list_bloc.dart';
+import '../../bloc_factories/card_list_bloc_factory.dart';
 import '../pages/card_list_page.dart';
 import '../pages/signed_out_page.dart';
 
@@ -19,10 +21,11 @@ class CardListRoute extends MaterialPageRoute {
               stream: authenticationBloc.session,
               initialData: authenticationBloc.session.value,
               builder: (context, sessionSnapshot) => sessionSnapshot.hasData
-                  ? Provider(
+                  ? Provider<CardListBloc>(
                       builder: (_) => cardListBlocFactory.create(
                         session: authenticationBloc.session.value,
-                      ),
+                      )..initialize(),
+                      dispose: (_, cardListBloc) => cardListBloc.dispose(),
                       child: CardListPage(),
                     )
                   : SignedOutPage(),

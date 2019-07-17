@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
+import '../../blocs/authentication_bloc.dart';
 import '../routes/card_confirm_deletion_route.dart';
 import '../routes/card_list_route.dart';
 import '../routes/dashboard_route.dart';
@@ -110,6 +110,8 @@ class _SarakaNavigatorState extends State<SarakaNavigator>
                 return NewCardRoute(settings: settings);
               case "/cards:confirmDeletion":
                 return CardConfirmDeletionRoute(settings: settings);
+              default:
+                throw Error();
             }
           },
         ),

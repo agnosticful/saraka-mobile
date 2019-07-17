@@ -1,7 +1,8 @@
+import 'package:meta/meta.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
-import 'package:saraka/route_arguments.dart';
+import '../../blocs/authentication_bloc.dart';
+import '../../entities/card.dart';
 import '../foundation/fancy_popup_dialog_route.dart';
 import '../pages/card_confirm_deletion_dialog.dart';
 
@@ -27,4 +28,11 @@ class CardConfirmDeletionRoute extends FancyPopupDialogRoute<bool> {
               : Container(),
         ),
       );
+}
+
+class CardConfirmDeletionRouteArguments {
+  CardConfirmDeletionRouteArguments({@required this.card})
+      : assert(card != null);
+
+  final Card card;
 }

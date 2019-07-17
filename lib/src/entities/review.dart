@@ -1,5 +1,7 @@
 import './review_certainty.dart';
 
+export './review_certainty.dart';
+
 abstract class Review {
   DateTime get reviewedAt;
 

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
-import 'package:saraka/widgets.dart';
+import '../../../blocs/authentication_bloc.dart';
+import '../../../bloc_factories/card_create_bloc_factory.dart';
+import '../../widgets/fancy_snack_bar.dart';
 
 class NewCardFloatingActionButton extends StatelessWidget {
   @override

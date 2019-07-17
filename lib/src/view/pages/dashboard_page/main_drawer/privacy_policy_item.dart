@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:saraka/blocs.dart';
 import 'package:saraka/constants.dart';
+import '../../../../blocs/common_link_bloc.dart';
 
 class PrivacyPolicyItem extends StatelessWidget {
   @override
@@ -11,6 +11,6 @@ class PrivacyPolicyItem extends StatelessWidget {
           'Privacy Policy',
           style: SarakaTextStyle.body,
         ),
-        onTap: () => Provider.of<CommonLinkBloc>(context).launchPrivacyPolicy(),
+        onTap: () => Provider.of<CommonLinkBloc>(context).openPrivacyPolicy(),
       );
 }
